@@ -23,7 +23,7 @@ public partial class DevAutoplay : Node
     private const string Flag = "--autoplay=";
     private const double MaxSeconds = 120;
 
-    private readonly Bot[] _bots =
+    private readonly AutoplayBot[] _bots =
     {
         new(0, Key.W, Key.A, Key.S, Key.D, Key.J, Key.K, Key.L, Key.Backspace, Key.I, Key.Q, Key.E, Key.Tab, isFox: false),
         new(1, Key.Up, Key.Left, Key.Down, Key.Right, Key.Period, Key.Slash, Key.Comma, Key.Delete, Key.M, Key.Semicolon, Key.Apostrophe, Key.Enter, isFox: true),
@@ -63,7 +63,11 @@ public partial class DevAutoplay : Node
         {
             if (arg.StartsWith(Flag))
             {
-                parent.AddChild(new DevAutoplay { _folder = arg[Flag.Length..], ProcessPhysicsPriority = -20 });
+                // Dungeons get their own script; the test room gets this one.
+                var folder = arg[Flag.Length..];
+                parent.AddChild(Dungeons.Dungeon.Find(parent) is not null
+                    ? DevDungeonAutoplay.Create(folder)
+                    : new DevAutoplay { _folder = folder, ProcessPhysicsPriority = -20 });
             }
         }
     }
@@ -336,85 +340,5 @@ public partial class DevAutoplay : Node
         var path = $"{_folder}/shot_{_shotNumber++:00}.png";
         await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
         GetViewport().GetTexture().GetImage().SavePng(path);
-    }
-
-    private sealed class Bot
-    {
-        private bool _attackHeld;
-
-        public Bot(int slot, Key up, Key left, Key down, Key right, Key primary, Key secondary, Key special, Key leave,
-            Key item, Key previous, Key next, Key menu, bool isFox)
-        {
-            Item = item;
-            Previous = previous;
-            Next = next;
-            Menu = menu;
-            Slot = slot;
-            Up = up;
-            Left = left;
-            Down = down;
-            Right = right;
-            Primary = primary;
-            Secondary = secondary;
-            Special = special;
-            Leave = leave;
-            IsFox = isFox;
-        }
-
-        public int Slot { get; }
-        public Key Up { get; }
-        public Key Left { get; }
-        public Key Down { get; }
-        public Key Right { get; }
-        public Key Primary { get; }
-        public Key Secondary { get; }
-        public Key Special { get; }
-        public Key Leave { get; }
-        public Key Item { get; }
-        public Key Previous { get; }
-        public Key Next { get; }
-        public Key Menu { get; }
-        public bool IsFox { get; }
-
-        public Key[] AllKeys => new[] { Up, Left, Down, Right, Primary, Secondary, Special, Leave, Item, Previous, Next, Menu };
-
-        public void Steer(Hero hero, Vector2 target, HashSet<Key> wanted)
-        {
-            var offset = target - hero.HurtCenter;
-            if (offset.X > 6) wanted.Add(Right);
-            if (offset.X < -6) wanted.Add(Left);
-            if (offset.Y > 6) wanted.Add(Down);
-            if (offset.Y < -6) wanted.Add(Up);
-        }
-
-        /// <summary>
-        /// Walk to the nearest hostile deer, turn to face it, attack every other frame.
-        /// The lizard punches up close; the fox lobs bombs from a few steps away and bites if a deer gets close.
-        /// </summary>
-        public void Fight(Hero hero, List<Deer> deer, HashSet<Key> wanted)
-        {
-            var target = deer.Where(d => d.IsHostile).OrderBy(d => d.GlobalPosition.DistanceTo(hero.GlobalPosition)).FirstOrDefault();
-            if (target is null || hero.IsDown)
-            {
-                return;
-            }
-
-            var distance = target.HurtCenter.DistanceTo(hero.HurtCenter);
-            Key? attack = IsFox
-                ? distance < 20 ? Primary : distance is >= 34 and <= 58 ? Secondary : null
-                : distance <= 20 ? Primary : null;
-
-            if (attack is null || _attackHeld)
-            {
-                // Walk closer (or, on alternate frames, tap toward the deer to face it).
-                Steer(hero, target.HurtCenter, wanted);
-                _attackHeld = false;
-            }
-            else
-            {
-                wanted.Add(attack.Value);
-                _attackHeld = true;
-            }
-        }
     }
 }

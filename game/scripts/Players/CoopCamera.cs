@@ -59,9 +59,25 @@ public partial class CoopCamera : Camera2D
         _shake = Mathf.MoveToward(_shake, 0, 12f * (float)delta);
         Offset = new Vector2(_rng.RandfRange(-1, 1), _rng.RandfRange(-1, 1)) * _shake;
 
-        // The widest view the players are allowed to stretch: the min-zoom view around the players.
+        UpdateAllowedRect();
+    }
+
+    /// <summary>The widest view the players are allowed to stretch: the min-zoom view around the players.</summary>
+    private void UpdateAllowedRect()
+    {
         var maxView = ViewSize(MinZoom);
         AllowedRect = new Rect2(_targetCenter - maxView / 2, maxView).Grow(-10f);
+    }
+
+    /// <summary>Jump straight to where the camera wants to be (after moving to another room).</summary>
+    public void Snap()
+    {
+        var (center, zoom) = Target();
+        Zoom = Vector2.One * zoom;
+        Position = center;
+        _targetCenter = center;
+        UpdateAllowedRect();
+        ResetPhysicsInterpolation();
     }
 
     /// <summary>Shake the screen by up to <paramref name="pixels"/> (e.g. 3 for a bomb).</summary>

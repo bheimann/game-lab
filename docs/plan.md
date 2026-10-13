@@ -79,12 +79,16 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 
 **Done when:** one player can change their gear mid-fight while the other keeps fighting.
 
-## M5: First dungeon
-- 🛠 Moving between rooms, doors, keys, and switches.
-- 🛠 A puzzle that needs both lizards' powers.
-- 🛠 A small boss.
-- 🦎 Draw the dungeon map on paper first, then build it in the editor.
-- 🦎 Design the boss (a different animal, e.g. a giant beetle).
+## M5: First dungeon ✅
+- ✅ 🛠 Moving between rooms (the whole team goes through together), doors (open, locked, opening when the
+  room is cleared or when levers are on), keys (shared by the team), levers, chests, pits and a bridge.
+- ✅ 🛠 A puzzle that needs both characters' powers: the lizard's tongue reaches a lever across a pit, and the
+  fox's bombs break the rocks in front of the other lever.
+- ✅ 🛠 A small boss: the **Giant Beetle**. It charges, gets dizzy when it hits a wall, and has a shell that only
+  dizzy hits get through. It has more health with more players.
+- ✅ 🛠 The first dungeon, "The Old Burrow": 5 rooms, from the entrance to the boss.
+- 🦎 Draw the dungeon map on paper first, then build it in the editor. (A first version is built; redesign it as you like!)
+- 🦎 Design the boss (a different animal, e.g. a giant beetle). (A first beetle is in; change its moves, look and name.)
 
 **Done when:** you can play from the start of the dungeon to beating the boss, together.
 

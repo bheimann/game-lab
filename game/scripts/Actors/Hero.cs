@@ -3,6 +3,7 @@ using System.Linq;
 using Godot;
 using LizardWizard.Abilities;
 using LizardWizard.Combat;
+using LizardWizard.Dungeons;
 using LizardWizard.Effects;
 using LizardWizard.Items;
 using LizardWizard.Players;
@@ -158,6 +159,7 @@ public partial class Hero : CharacterBody2D, IHittable
         AddToGroup(Group);
         Health = new Health(MaxHealth);
         MotionMode = MotionModeEnum.Floating;
+        CollisionMask |= Pit.PitLayer; // can't walk over pits
         _abilities = GetChildren().OfType<Ability>().ToArray();
         Herbs = StartingHerbs;
         _menu = RingMenu.Create(this, BuildMenu);
@@ -243,6 +245,28 @@ public partial class Hero : CharacterBody2D, IHittable
         Armor = armor;
         Health.SetMax(MaxHealth + (armor?.ExtraHealth ?? 0));
         FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), armor?.Name ?? "No armor", Colors.White, 1f, 8f);
+    }
+
+    public void AddHerbs(int count)
+    {
+        Herbs += count;
+    }
+
+    /// <summary>Come into a new room (through a door) at <paramref name="position"/>, facing <paramref name="facing"/>.</summary>
+    public void ArriveAt(Vector2 position, Vector2 facing)
+    {
+        GlobalPosition = position;
+        _spawnPoint = position;
+        _knockback = Vector2.Zero;
+        Facing = facing;
+        ResetPhysicsInterpolation();
+    }
+
+    /// <summary>Is there nothing solid (walls, rocks) between these two points? Pits don't count.</summary>
+    public bool ClearPath(Vector2 from, Vector2 to)
+    {
+        var query = PhysicsRayQueryParameters2D.Create(from, to, collisionMask: 1);
+        return GetWorld2D().DirectSpaceState.IntersectRay(query).Count == 0;
     }
 
     /// <summary>Eat a healing herb, if there's one left and it would help.</summary>
@@ -366,9 +390,10 @@ public partial class Hero : CharacterBody2D, IHittable
         tween.TweenProperty(Sprite, "offset", _spriteOffset, 0.12f);
     }
 
-    /// <summary>Enemies that can currently be hit.</summary>
+    /// <summary>Things this hero's attacks can hit right now: enemies, plus levers and the like.</summary>
     public IHittable[] EnemyTargets() =>
-        GetTree().GetNodesInGroup(Enemies.Group).OfType<IHittable>().Where(t => t.CanBeHit).ToArray();
+        GetTree().GetNodesInGroup(Enemies.Group).Concat(GetTree().GetNodesInGroup(LeverSwitch.Group))
+            .OfType<IHittable>().Where(t => t.CanBeHit).ToArray();
 
     private void GoDown()
     {
@@ -381,9 +406,9 @@ public partial class Hero : CharacterBody2D, IHittable
 
     private void GetBackUp()
     {
-        // Get back up next to a teammate who's still standing, or at the start if nobody is.
+        // Get back up next to a teammate who's still standing, or where the team came into the room.
         var buddy = GetTree().GetNodesInGroup(Group).OfType<Hero>().FirstOrDefault(h => h != this && !h.IsDown);
-        GlobalPosition = buddy?.GlobalPosition ?? _spawnPoint;
+        GlobalPosition = buddy?.GlobalPosition ?? Dungeon.Find(this)?.RespawnPoint ?? _spawnPoint;
         Health.Refill();
         _down = false;
         _knockback = Vector2.Zero;

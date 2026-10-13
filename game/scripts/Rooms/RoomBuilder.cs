@@ -40,6 +40,18 @@ public partial class RoomBuilder : Node2D
     /// <summary>Floor height in 8px tiles, between the top and bottom walls.</summary>
     [Export] public int InteriorHeight { get; set; } = 12;
 
+    /// <summary>Wall thickness at the top and bottom, in tiles.</summary>
+    public static int TopWallTiles => TopRows.Length;
+
+    public static int BottomWallTiles => BottomRows.Length;
+
+    public int Columns => InteriorWidth + 2;
+
+    public int Rows => TopRows.Length + InteriorHeight + BottomRows.Length;
+
+    /// <summary>The Tiny Dungeon sheet this room's tiles come from (doors cut pieces out of it too).</summary>
+    public Texture2D Sheet => GD.Load<Texture2D>($"res://assets/third_party/tiny_dungeon/Tilesets/Room/Room_{Color.ToString().ToLowerInvariant()}.png");
+
     public Vector2 SizeInPixels =>
         new((InteriorWidth + 2) * TileSize, (TopRows.Length + InteriorHeight + BottomRows.Length) * TileSize);
 
@@ -56,6 +68,16 @@ public partial class RoomBuilder : Node2D
             Build(floor, walls);
         }
     }
+
+    /// <summary>Remove the wall tile at <paramref name="cell"/> (for a doorway) and put floor there.</summary>
+    public void Carve(Vector2I cell)
+    {
+        GetNode<TileMapLayer>("Walls").EraseCell(cell);
+        GetNode<TileMapLayer>("Floor").SetCell(cell, (int)Color, FloorTile(cell));
+    }
+
+    private static Vector2I FloorTile(Vector2I cell) =>
+        FloorCell + new Vector2I(Mathf.PosMod(cell.X - 1, 2), Mathf.PosMod(cell.Y, 2));
 
     public void Build(TileMapLayer floor, TileMapLayer walls)
     {
@@ -88,7 +110,7 @@ public partial class RoomBuilder : Node2D
                 var insideWalls = x > 0 && x < columns - 1 && y >= 2 && y < rows - 1;
                 if (insideWalls)
                 {
-                    floor.SetCell(new Vector2I(x, y), sourceId, FloorCell + new Vector2I((x - 1) % 2, y % 2));
+                    floor.SetCell(new Vector2I(x, y), sourceId, FloorTile(new Vector2I(x, y)));
                 }
             }
         }
