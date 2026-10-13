@@ -12,9 +12,12 @@ Inspired by: Cat Quest 2/3 (feel, simple RPG), Secret of Mana (real-time menus, 
 Zelda / Four Swords (dungeons, puzzles, co-op).
 
 ## Story
-- A **deer with bad intentions** is turning the kingdoms against the lizards. He's the **final boss**.
-- The deer and bugs you fight **aren't bad**. They've been **deceived**, and the villain convinces more
+- **Mossimus Maximus**, a deer with bad intentions, is turning the kingdoms against the lizards.
+  He's the **final boss**.
+- The deer and bugs you fight **aren't bad**. They've been **deceived**, and Mossimus convinces more
   animals to join him as the game goes on.
+- **Beating a deceived animal breaks the trick.** It falls **asleep** until the area is clear
+  (no enemies left awake), then wakes up and **thanks the heroes**.
 - Other animals are **friendly**: they run shops and give quests.
 
 ## Rules we've decided
@@ -33,7 +36,7 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 | Kingdom | Types | Possible area |
 |---|---|---|
 | 🦎 **Lizard** | Chameleon, … (the players' home) | ? |
-| 🦌 **Deer** | White-tailed deer, reindeer | Forest; reindeer in the snow |
+| 🦌 **Deer** | White-tailed deer, reindeer, moose | Forest; reindeer in the snow |
 | 🦊 **Fox** | Red fox, arctic fox | Woods/hills; arctic foxes in the snow |
 | 🦚 **Bird** | Peacocks | ? |
 | 🪲 **Bug** | Beetles | ? |
@@ -41,6 +44,12 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 - Some kingdoms have a few types of their animal, and a type can live somewhere different from
   the rest of its kingdom (e.g. **a snow area with arctic foxes and reindeer**).
 - The "Possible area" column is Claude's guess. The designer decides.
+- **Place names include the animal that lives there.** Decided: **Scarab Desert** (beetles).
+  Claude's suggestions for the rest:
+  - *Deer:* Antlerwood Forest, Hoofhollow
+  - *Fox:* Foxglove Hills, Frosttail Tundra (arctic foxes and reindeer)
+  - *Bird:* Plume Peaks, Peacock Palace
+  - *Lizard:* Scalebrook, Tailspin Swamp
 
 ## Combat numbers (starting values, to be tuned)
 | | Damage | Health |
@@ -54,7 +63,7 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 | Character | Kingdom | Main power | Status |
 |---|---|---|---|
 | **Chameleon** | Lizard | Camouflage (see below) | **First** |
-| **Fox** | Fox | Comes as a Weapon Master, Gun Master or Bomb Master (see below) | **Second** |
+| **Arctic fox** | Fox | Changes mastery by getting painted (see below) | **Second** |
 | Gecko | Lizard | Climbs walls | Idea |
 | Frilled lizard | Lizard | Frill flare that scares or stuns enemies | Idea |
 | Komodo dragon | Lizard | Tank with a poison bite | Idea |
@@ -70,26 +79,30 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
   - *Fire armor:* changing colour also gives **fire resistance**.
   - *Shadow armor:* the chameleon stays **invisible even while moving**.
 
-### Fox
-Comes in three versions:
-- **Weapon Master:** close-up fighting with swords, spears, etc.
-- **Gun Master:** shoots from a distance.
-- **Bomb Master:** throws bombs that hit groups of enemies and break walls (Tiny Dungeon has bomb art).
+### Arctic fox
+**One fox that changes masteries.** To switch, the fox goes to a **village to get painted**, and the paint
+decides which skills it has. The paint also changes how the fox looks, so each mastery is easy to spot.
+
+| Mastery | What it does | How you get it |
+|---|---|---|
+| **Bomb Master** | Throws bombs that hit groups of enemies and break walls (Tiny Dungeon has bomb art) | **Starting mastery** |
+| **Weapon Master** | Close-up fighting with swords, spears, etc. | Learned from the **moose** (Deer kingdom) |
+| **Gun Master** | Shoots from a distance | Learned from the **peacocks** |
+| **Element Master** | Fire, ice, lightning and arcane damage | ? |
+| **Wand Master** | Casts spells with a wand | ? |
 
 ## Enemies
 - **Regular enemies are animals, starting with deer.** Deer are about twice as tall as a lizard,
   so even ordinary enemies feel big. Our deer art only faces sideways; we flip it to face
   left or right and use it for walking up and down too.
 - **Bosses are different animals**, e.g. a giant beetle from the bug kingdom.
-  The **final boss is the villain deer**.
+  The **final boss is Mossimus Maximus**.
 - There isn't much free animal pixel art, so expect to draw some of these ourselves.
   The Tiny Dungeon pack's slimes, bats, rats and skeletons can fill gaps.
 
 ## Questions for the designer
-- **The fox's three versions:** are they three different characters to pick from, or one fox who can switch
-  between them (e.g. by changing gear)?
-- When you beat a deceived animal, does it get hurt, or does it **snap out of the trick** and run away
-  (or even become a friend)? Since they're not bad, the second could be fun.
-- Does the villain deer have a name?
-- Where is the lizard kingdom? (desert, jungle, swamp, volcano?)
-- Where do the peacocks and beetles live?
+- Who teaches the fox the **Element Master** and **Wand Master** masteries?
+- Is there one painting village, or one in each kingdom?
+- Where do the lizards and the peacocks live? (Check the place name suggestions above.)
+- What's the difference between **Element Master** and **Wand Master**? Maybe the Element Master
+  uses fire, ice, lightning and arcane up close, and the Wand Master casts them from far away?
