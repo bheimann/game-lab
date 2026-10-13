@@ -92,7 +92,7 @@ decides which skills it has. The paint also changes how the fox looks, so each m
 | Mastery | What it does | How you get it |
 |---|---|---|
 | **Bomb Master** | Throws bombs that hit groups of enemies and break walls (Tiny Dungeon has bomb art) | **Starting mastery** |
-| **Weapon Master** | Close-up fighting with swords, spears, etc. | Learned from the **moose** (Deer kingdom) ⚠️ see questions |
+| **Weapon Master** | Close-up fighting with swords, spears, etc. | Learned from the **reindeer** (Deer kingdom) |
 | **Gun Master** | Shoots from a distance | Learned from the **peacocks** |
 | **Element Master** | **Spells** of fire, ice, lightning and arcane | Learned from the **moose** |
 | **Wand Master** | A **ranged wand**; the **right stick** changes its element (fire, ice, lightning, arcane) | Learned from the **bugs** |
@@ -115,7 +115,6 @@ decides which skills it has. The paint also changes how the fox looks, so each m
   - **The king's kids**, a prince or princess setting out to save the kingdom
   - **The king himself**
   - **Ordinary lizards** who become heroes (they start weak and earn titles as they go)
-- **Moose:** do they teach **both** Weapon Master and Element Master, or did Weapon Master move somewhere else?
 - **Chameleon classes:** what can the chameleon get painted into? (e.g. Ninja for stealth, Brawler for punches, Tongue Master?)
 - **Combos:** which element orders make which combos?
 - Where do the deer, fox and bug kings live?
