@@ -10,7 +10,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 ---
 
 ## M0: Setup
-- 🛠 Download the Godot .NET build and unzip it to `C:\Dev\tools\godot` (no installer).
+- ✅ 🛠 Download the Godot .NET build (4.7.2) and unzip it to `C:\Dev\tools\Godot\Godot_v4.7.2-stable_mono_win64\` (no installer).
 - ✅ 🛠 Create the Godot project in `game/`, with a `.gitignore` for `.godot/`, and get a test scene running.
 - ✅ 🛠 Check that C# builds and runs (`dotnet build`, plus a headless run). Still to do: press ▶ in the editor and see the window.
 - 🦎 Choose a pixel-art pack (start with Kenney's free 16×16 packs, e.g. *Tiny Dungeon*;
