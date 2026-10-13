@@ -11,7 +11,7 @@ namespace LizardWizard.Util;
 /// Dev helper: run with <c>-- --autoplay=&lt;folder&gt;</c> and two bots play the room by pressing the real
 /// keyboard keys (P1 on WASD as the lizard, P2 on the arrows as the arctic fox). Script:
 /// 1. both join and pick characters, 2. P1 gets spotted by a deer then stands still (camouflage test),
-/// 3. P1 changes colour twice, 4. fight until every deer has said thanks (P1 punches, P2 throws bombs),
+/// 3. P1 changes colour twice, 3b. P2 gets spotted then leaves (deer must forget them) and rejoins, 4. fight until every deer has said thanks (P1 punches, P2 throws bombs),
 /// 5. walk to opposite sides to test the camera, 6. P2 holds Delete to leave.
 /// Logs what happens and saves a screenshot every 2 seconds into the folder.
 /// </summary>
@@ -35,12 +35,15 @@ public partial class DevAutoplay : Node
     private Phase _phase = Phase.Join;
     private double _phaseStart;
     private double _spottedAt = -1;
+    private double _ditchSpottedAt = -1;
 
     private enum Phase
     {
         Join,
         Camouflage,
         Colour,
+        Ditch,
+        Rejoin,
         Fight,
         Spread,
         Leave,
@@ -103,6 +106,34 @@ public partial class DevAutoplay : Node
                 PressAt(wanted, _bots[0].Special, inPhase, 0.2, 0.9);
                 break;
 
+            case Phase.Ditch:
+                // P2 walks at a deer until it's chased, then holds Delete to drop out.
+                if (manager.Players[1] is { } fox)
+                {
+                    if (_ditchSpottedAt < 0 && deer.Any(d => d.IsTargeting(fox)))
+                    {
+                        _ditchSpottedAt = _time;
+                        GD.Print($"[autoplay {_time:0.0}s] a deer is chasing P2 - P2 leaves now");
+                    }
+
+                    if (_ditchSpottedAt < 0)
+                    {
+                        var nearest = deer.OrderBy(d => d.GlobalPosition.DistanceTo(fox.GlobalPosition)).First();
+                        _bots[1].Steer(fox, nearest.HurtCenter, wanted);
+                    }
+                    else
+                    {
+                        wanted.Add(_bots[1].Leave);
+                    }
+                }
+
+                break;
+
+            case Phase.Rejoin:
+                // The slot remembers the last pick (fox), so join and confirm.
+                PressAt(wanted, _bots[1].Primary, inPhase, 0.2, 0.6);
+                break;
+
             case Phase.Fight:
                 foreach (var bot in _bots)
                 {
@@ -155,7 +186,10 @@ public partial class DevAutoplay : Node
             Phase.Join when inPhase > 2 => Phase.Camouflage,
             Phase.Camouflage when _spottedAt >= 0 && _time - _spottedAt > 2.5 => Phase.Colour,
             Phase.Camouflage when inPhase > 12 => Phase.Colour,
-            Phase.Colour when inPhase > 1.5 => Phase.Fight,
+            Phase.Colour when inPhase > 1.5 => Phase.Ditch,
+            Phase.Ditch when manager.Slots[1].IsFree && inPhase > 0.5 && _ditchSpottedAt >= 0 && _time - _ditchSpottedAt > 1.6 => Phase.Rejoin,
+            Phase.Ditch when inPhase > 12 => Phase.Rejoin,
+            Phase.Rejoin when inPhase > 1.5 => Phase.Fight,
             Phase.Fight when deer.All(d => d.CurrentMood == Deer.Mood.Thankful) && inPhase > 2 => Phase.Spread,
             Phase.Spread when inPhase > 3 => Phase.Leave,
             Phase.Leave when inPhase > 2 => Phase.Done,
@@ -181,6 +215,12 @@ public partial class DevAutoplay : Node
         if (_phase == Phase.Colour && lizard?.Abilities.OfType<ColorChangeAbility>().FirstOrDefault() is { } colour)
         {
             GD.Print($"[autoplay {_time:0.0}s] colour test: P1 now resists {colour.Resists?.ToString() ?? "nothing"}");
+        }
+
+        if (_phase == Phase.Ditch)
+        {
+            var lost = deer.Count(d => d.CurrentMood == Deer.Mood.Chasing && !manager.Players.Any(p => p is not null && d.IsTargeting(p)));
+            GD.Print($"[autoplay {_time:0.0}s] leave test: P2 left={manager.Slots[1].IsFree}, deer still chasing a player who left={lost}");
         }
 
         TakeShot();

@@ -141,7 +141,7 @@ public partial class PlayerManager : Node
     public void Leave(int index)
     {
         var slot = _slots[index];
-        slot.Hero?.QueueFree();
+        slot.Hero?.LeaveGame();
         slot.Hero = null;
         slot.Input = null;
         GD.Print($"P{index + 1} left");

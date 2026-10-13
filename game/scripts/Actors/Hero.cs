@@ -22,6 +22,7 @@ public partial class Hero : CharacterBody2D, IHittable
 
     private Ability[] _abilities = System.Array.Empty<Ability>();
     private bool _down;
+    private bool _left;
     private float _downTime;
     private float _invulnerable;
     private Vector2 _knockback;
@@ -83,10 +84,13 @@ public partial class Hero : CharacterBody2D, IHittable
 
     public bool IsDown => _down;
 
+    /// <summary>False once the player has left (the hero is about to be removed).</summary>
+    public bool IsInGame => !_left && IsInsideTree();
+
     public bool CanStartAbility => !IsDown && !_abilities.Any(a => a.IsActive);
 
     /// <summary>Whether enemies can see this hero (camouflage hides it).</summary>
-    public bool IsVisibleToEnemies => !IsDown && !_abilities.Any(a => a.HidesHero);
+    public bool IsVisibleToEnemies => IsInGame && !IsDown && !_abilities.Any(a => a.HidesHero);
 
     /// <summary>"In a fight": an enemy can see this hero and is targeting it.</summary>
     public bool IsInFight => GetTree().GetNodesInGroup(Enemies.Group).OfType<IEnemy>().Any(e => e.IsTargeting(this));
@@ -112,6 +116,14 @@ public partial class Hero : CharacterBody2D, IHittable
         Controls = input;
         _spawnPoint = spawnPoint;
         Position = spawnPoint;
+    }
+
+    /// <summary>The player dropped out: stop being a target right away, then remove the hero.</summary>
+    public void LeaveGame()
+    {
+        _left = true;
+        RemoveFromGroup(Group);
+        QueueFree();
     }
 
     public override void _Ready()

@@ -198,6 +198,12 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
 
     private Vector2 Chase(float dt)
     {
+        if (_target is not null && (!IsInstanceValid(_target) || !_target.IsInGame))
+        {
+            // The player dropped out of the game: forget them and go back to wandering.
+            _target = null;
+        }
+
         if (_target is null || !_target.IsVisibleToEnemies || _target.GlobalPosition.DistanceTo(GlobalPosition) > LoseSightRange)
         {
             if (_target is not null && !_target.IsDown && !_target.IsVisibleToEnemies)
@@ -306,5 +312,5 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
     }
 
     private Hero[] Lizards() =>
-        GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(l => !l.IsDown).ToArray();
+        GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(l => l.IsInGame && !l.IsDown).ToArray();
 }
