@@ -13,3 +13,12 @@
 
 The C# project is `game/LizardWizard.csproj`, which targets .NET 8. It can also be opened in Visual Studio or Rider using `game/LizardWizard.sln`.
 If you upgrade Godot, change the `Godot.NET.Sdk/4.7.2` version in the `.csproj` to the new editor version.
+
+## Credits
+- **Design:** the designer (6th grade) and dad
+- **Dungeon art:** *Tiny Dungeon Pack* by **Vryell**, palette *Rosy 42* by **@PineTreePizza**
+- **Deer art:** [*Deer Pixel Art*](https://mattar-productions.itch.io/deer-pixel-art) by **Ali Mattar (Mattar Productions)**
+- **Chameleon sprite:** pixelled by Claude from a Grok-generated reference
+
+Full details and licenses: [game/assets/third_party/CREDITS.md](game/assets/third_party/CREDITS.md).
+The game will also get an in-game credits screen (milestone M6).
