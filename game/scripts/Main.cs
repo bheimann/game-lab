@@ -24,11 +24,12 @@ public partial class Main : Node2D
         var size = room.SizeInPixels;
         GetNode<Camera2D>("Camera").Position = size / 2;
 
-        // Stand-in chameleon: the Tiny Dungeon hero tinted green until we have a real lizard sprite.
-        var frames = SpriteSheet.Frames("idle", $"{TinyDungeon}/Character/Char_one/Idle/Char_idle_down.png", 16, 8);
-        SpriteSheet.AddStrip(frames, "walk", $"{TinyDungeon}/Character/Char_one/Walk/Char_walk_down.png", 16, 10);
-        AddAnimated("Chameleon", frames, "idle", new Vector2(size.X / 2, size.Y / 2 + 8))
-            .Modulate = new Color(0.55f, 1f, 0.45f);
+        // Hand-drawn chameleon (art-source/chameleon/chameleon_front.txt). One frame for now.
+        AddAnimated(
+            "Chameleon",
+            SpriteSheet.Frames("idle", "res://assets/sprites/chameleon/chameleon_front.png", 16, 1),
+            "idle",
+            new Vector2(size.X / 2, size.Y / 2 + 8));
 
         _deerMinX = 40;
         _deerMaxX = size.X - 40;

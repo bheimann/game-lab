@@ -6,3 +6,8 @@ This repo is private because these files can't be redistributed. Replace them be
 |---|---|---|
 | `tiny_dungeon/` | *Tiny Dungeon Pack* by **Vryell** (itch.io, bought). Palette: *Rosy 42* by @PineTreePizza | No license file came with the pack. Credit is appreciated. |
 | `deer/` | Unknown (TODO: record where these came from) | Unknown |
+
+## Our own art
+- `assets/sprites/chameleon/`: drawn by Claude as ASCII grids (`art-source/chameleon/*.txt`), based on
+  the reference pictures in `art-source/chameleon/` (TODO: record where those came from).
+  Re-render with `python tools/ascii_sprite.py <txt> <png>`.

@@ -1,0 +1,66 @@
+"""Render hand-drawn ASCII pixel art to PNG strips.
+
+Each frame is a block of text rows (all the same width); frames are separated by a blank line.
+The frames are laid out left to right in one PNG, ready for SpriteSheet.cs.
+
+usage: python tools/ascii_sprite.py <input.txt> <output.png>
+
+Colours (Tiny Dungeon palette):
+  .  transparent      o  outline (navy)    W  white
+  L  light green      B  bright green      M  mid green      D  dark green
+  Y  yellow           R  red / pink        P  pupil (navy)
+"""
+import struct
+import sys
+import zlib
+
+COLOURS = {
+    ".": (0, 0, 0, 0),
+    "o": (20, 24, 46, 255),
+    "P": (20, 24, 46, 255),
+    "W": (245, 255, 232, 255),
+    "L": (200, 212, 93, 255),
+    "B": (99, 171, 63, 255),
+    "M": (59, 125, 79, 255),
+    "D": (47, 87, 83, 255),
+    "Y": (240, 181, 65, 255),
+    "R": (255, 82, 119, 255),
+}
+
+
+def read_frames(path):
+    frames, current = [], []
+    for line in open(path, encoding="utf-8"):
+        line = line.rstrip("\n")
+        if line.startswith("#"):
+            continue
+        if line.strip() == "":
+            if current:
+                frames.append(current)
+                current = []
+            continue
+        current.append(line)
+    if current:
+        frames.append(current)
+    w, h = len(frames[0][0]), len(frames[0])
+    for i, f in enumerate(frames):
+        assert len(f) == h and all(len(r) == w for r in f), f"frame {i} is not {w}x{h}"
+    return frames, w, h
+
+
+def write_png(path, rows):
+    h, w = len(rows), len(rows[0])
+    raw = b"".join(b"\x00" + bytes(c for p in row for c in p) for row in rows)
+
+    def chunk(t, d):
+        return struct.pack(">I", len(d)) + t + d + struct.pack(">I", zlib.crc32(t + d) & 0xFFFFFFFF)
+
+    with open(path, "wb") as f:
+        f.write(b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 6, 0, 0, 0))
+                + chunk(b"IDAT", zlib.compress(raw)) + chunk(b"IEND", b""))
+
+
+frames, w, h = read_frames(sys.argv[1])
+rows = [[COLOURS[f[y][x]] for f in frames for x in range(w)] for y in range(h)]
+write_png(sys.argv[2], rows)
+print(f"wrote {sys.argv[2]}: {len(frames)} frame(s) of {w}x{h}")
