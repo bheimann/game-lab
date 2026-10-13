@@ -10,7 +10,7 @@ using LizardWizard.Util;
 namespace LizardWizard.Actors;
 
 /// <summary>
-/// A player character (lizard, arctic fox, ...): walking, health, getting knocked out and back up,
+/// A player character (lizard, fox, ...): walking, health, getting knocked out and back up,
 /// the player marker, and directional animations. What it can *do* comes from its child
 /// <see cref="Ability"/> nodes, so each character is a scene: Hero + abilities.
 /// </summary>

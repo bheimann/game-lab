@@ -52,7 +52,7 @@ public partial class PlayerManager : Node
     public static readonly CharacterOption[] Characters =
     {
         new("Lizard", "res://scenes/actors/lizard.tscn"),
-        new("Arctic Fox", "res://scenes/actors/arctic_fox.tscn"),
+        new("Fox", "res://scenes/actors/fox.tscn"),
     };
 
     private readonly Dictionary<InputDevice, PlayerInput> _devices = new();
