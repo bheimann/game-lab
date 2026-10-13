@@ -19,6 +19,7 @@ public partial class Pit : Node2D
 
     private StaticBody2D _body = null!;
     private NinePatchRect _patch = null!;
+    private Node2D _planks = null!;
     private float _bridge = -1f; // 0..1 while the bridge slides out
 
     /// <summary>Size in pixels; the node's position is the top-left corner.</summary>
@@ -65,6 +66,11 @@ public partial class Pit : Node2D
         };
         AddChild(_patch);
 
+        // The bridge is drawn by its own child, added after the pit picture so it shows on top of it.
+        _planks = new Node2D();
+        _planks.Draw += DrawBridge;
+        AddChild(_planks);
+
         _body = new StaticBody2D { CollisionLayer = PitLayer, CollisionMask = 0 };
         _body.AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = Size - new Vector2(4, 4) }, Position = Size / 2 });
         AddChild(_body);
@@ -82,11 +88,11 @@ public partial class Pit : Node2D
         if (_bridge is >= 0 and < 1)
         {
             _bridge = Mathf.Min(1f, _bridge + (float)delta * 2f);
-            QueueRedraw();
+            _planks.QueueRedraw();
         }
     }
 
-    public override void _Draw()
+    private void DrawBridge()
     {
         if (_bridge < 0)
         {
@@ -98,13 +104,13 @@ public partial class Pit : Node2D
         var top = Size.Y - length;
         var wood = new Color(0.62f, 0.4f, 0.27f);
         var dark = new Color(0.36f, 0.2f, 0.17f);
-        DrawRect(new Rect2(2, top, Size.X - 4, length), wood);
+        _planks.DrawRect(new Rect2(2, top, Size.X - 4, length), wood);
         for (var y = Size.Y - 4; y > top; y -= 4)
         {
-            DrawLine(new Vector2(2, y), new Vector2(Size.X - 2, y), dark);
+            _planks.DrawLine(new Vector2(2, y), new Vector2(Size.X - 2, y), dark);
         }
 
-        DrawRect(new Rect2(1, top, 2, length), dark);
-        DrawRect(new Rect2(Size.X - 3, top, 2, length), dark);
+        _planks.DrawRect(new Rect2(1, top, 2, length), dark);
+        _planks.DrawRect(new Rect2(Size.X - 3, top, 2, length), dark);
     }
 }
