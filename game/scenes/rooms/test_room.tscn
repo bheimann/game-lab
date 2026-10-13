@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_game"]
 [ext_resource type="Script" path="res://scripts/Rooms/RoomBuilder.cs" id="2_room"]
@@ -6,16 +6,18 @@
 [ext_resource type="Script" path="res://scripts/Util/StripSprite.cs" id="4_strip"]
 [ext_resource type="Texture2D" path="res://assets/third_party/tiny_dungeon/Misc/Torch.png" id="5_torch"]
 [ext_resource type="Texture2D" path="res://assets/third_party/tiny_dungeon/Misc/Chest.png" id="6_chest"]
-[ext_resource type="PackedScene" path="res://scenes/actors/lizard.tscn" id="7_lizard"]
+[ext_resource type="Script" path="res://scripts/Players/PlayerManager.cs" id="7_players"]
 [ext_resource type="PackedScene" path="res://scenes/actors/deer.tscn" id="8_deer"]
 [ext_resource type="Script" path="res://scripts/UI/HeartBar.cs" id="9_hearts"]
+[ext_resource type="Script" path="res://scripts/Players/CoopCamera.cs" id="10_camera"]
 
 [node name="TestRoom" type="Node2D"]
 script = ExtResource("1_game")
 
 [node name="Room" type="Node2D" parent="."]
 script = ExtResource("2_room")
-InteriorHeight = 14
+InteriorWidth = 64
+InteriorHeight = 30
 
 [node name="Floor" type="TileMapLayer" parent="Room"]
 tile_set = ExtResource("3_tiles")
@@ -23,14 +25,26 @@ tile_set = ExtResource("3_tiles")
 [node name="Walls" type="TileMapLayer" parent="Room"]
 tile_set = ExtResource("3_tiles")
 
-[node name="TorchLeft" type="AnimatedSprite2D" parent="."]
-position = Vector2(48, 22)
+[node name="Torch1" type="AnimatedSprite2D" parent="."]
+position = Vector2(64, 22)
 script = ExtResource("4_strip")
 Strip = ExtResource("5_torch")
 FrameWidth = 8
 
-[node name="TorchRight" type="AnimatedSprite2D" parent="."]
-position = Vector2(224, 22)
+[node name="Torch2" type="AnimatedSprite2D" parent="."]
+position = Vector2(200, 22)
+script = ExtResource("4_strip")
+Strip = ExtResource("5_torch")
+FrameWidth = 8
+
+[node name="Torch3" type="AnimatedSprite2D" parent="."]
+position = Vector2(328, 22)
+script = ExtResource("4_strip")
+Strip = ExtResource("5_torch")
+FrameWidth = 8
+
+[node name="Torch4" type="AnimatedSprite2D" parent="."]
+position = Vector2(464, 22)
 script = ExtResource("4_strip")
 Strip = ExtResource("5_torch")
 FrameWidth = 8
@@ -39,44 +53,103 @@ FrameWidth = 8
 y_sort_enabled = true
 
 [node name="Chest" type="AnimatedSprite2D" parent="Actors"]
-position = Vector2(136, 40)
+position = Vector2(264, 44)
 offset = Vector2(0, -8)
 script = ExtResource("4_strip")
 Strip = ExtResource("6_chest")
 Loop = false
 PlayOnStart = false
 
-[node name="Lizard" parent="Actors" instance=ExtResource("7_lizard")]
-position = Vector2(136, 112)
-
 [node name="Deer1" parent="Actors" instance=ExtResource("8_deer")]
-position = Vector2(48, 64)
+position = Vector2(64, 72)
 
 [node name="Deer2" parent="Actors" instance=ExtResource("8_deer")]
-position = Vector2(224, 60)
+position = Vector2(200, 84)
 
 [node name="Deer3" parent="Actors" instance=ExtResource("8_deer")]
-position = Vector2(240, 136)
+position = Vector2(470, 72)
 
-[node name="Camera" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+[node name="Deer4" parent="Actors" instance=ExtResource("8_deer")]
+position = Vector2(80, 236)
+
+[node name="Deer5" parent="Actors" instance=ExtResource("8_deer")]
+position = Vector2(300, 250)
+
+[node name="Deer6" parent="Actors" instance=ExtResource("8_deer")]
+position = Vector2(470, 240)
+
+[node name="PlayerManager" type="Node" parent="." node_paths=PackedStringArray("ActorsParent")]
+script = ExtResource("7_players")
+ActorsParent = NodePath("../Actors")
+
+[node name="Spawns" type="Node" parent="PlayerManager"]
+
+[node name="P1" type="Marker2D" parent="PlayerManager/Spawns"]
+position = Vector2(248, 152)
+
+[node name="P2" type="Marker2D" parent="PlayerManager/Spawns"]
+position = Vector2(280, 152)
+
+[node name="P3" type="Marker2D" parent="PlayerManager/Spawns"]
+position = Vector2(248, 180)
+
+[node name="P4" type="Marker2D" parent="PlayerManager/Spawns"]
+position = Vector2(280, 180)
+
+[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("Room")]
+script = ExtResource("10_camera")
+Room = NodePath("../Room")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="Hearts" type="Control" parent="HUD"]
+[node name="P1" type="Control" parent="HUD"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 8.0
-offset_top = 8.0
-offset_right = 208.0
-offset_bottom = 24.0
+offset_top = 6.0
+offset_right = 308.0
+offset_bottom = 22.0
 script = ExtResource("9_hearts")
 
-[node name="Help" type="Label" parent="HUD"]
-offset_left = 232.0
+[node name="P2" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 332.0
 offset_top = 6.0
 offset_right = 632.0
 offset_bottom = 22.0
-theme_override_font_sizes/font_size = 10
-horizontal_alignment = 2
-text = "Move: WASD / stick    Punch: J or Space / A    Tongue: K / X"
+script = ExtResource("9_hearts")
+PlayerIndex = 1
+AlignRight = true
+
+[node name="P3" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 338.0
+offset_right = 308.0
+offset_bottom = 354.0
+script = ExtResource("9_hearts")
+PlayerIndex = 2
+
+[node name="P4" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 332.0
+offset_top = 338.0
+offset_right = 632.0
+offset_bottom = 354.0
+script = ExtResource("9_hearts")
+PlayerIndex = 3
+AlignRight = true
+
+[node name="StartPrompt" type="Label" parent="HUD"]
+offset_top = 150.0
+offset_right = 640.0
+offset_bottom = 210.0
+theme_override_colors/font_outline_color = Color(0.08, 0.09, 0.18, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Lizard Wizard
+Press A on a controller, or J / . on the keyboard, to join"
+horizontal_alignment = 1

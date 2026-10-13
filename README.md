@@ -12,16 +12,21 @@
 3. Press **▶** (F5).
 
 ### Controls
-| | Keyboard | Controller |
-|---|---|---|
-| Move | WASD or arrows | Left stick or d-pad |
-| Punch | J or Space | A (bottom button) |
-| Tongue | K | X (left button) |
+Up to 4 players. Each controller is a player, and the keyboard can be two players (left and right halves).
+Press punch or tongue to join; hold the leave button for a second to drop out.
+
+| | Keyboard (left) | Keyboard (right) | Controller |
+|---|---|---|---|
+| Move | WASD | Arrows | Left stick or d-pad |
+| Punch | J, Space or F | . or Numpad 1 | A (bottom button) |
+| Tongue | K or G | / or Numpad 2 | X (left button) |
+| Leave | hold Backspace | hold Delete | hold Back |
 
 ### Dev helpers
 - `Godot_console.exe --path game -- --screenshot=out.png` saves a screenshot after half a second and quits.
-- `Godot_console.exe --path game -- --autoplay=<folder>` lets a bot play the test room: it presses the real keys,
-  logs everything, saves a screenshot every 2 seconds, and quits when every deer has said thanks.
+- `Godot_console.exe --path game -- --autoplay=<folder>` lets two bots play the test room by pressing the real keys
+  (P1 on WASD, P2 on the arrows): they join, clear the room, walk apart to test the camera, then P2 leaves.
+  It logs everything and saves a screenshot every 2 seconds.
 
 The C# project is `game/LizardWizard.csproj`, which targets .NET 8. It can also be opened in Visual Studio or Rider using `game/LizardWizard.sln`.
 If you upgrade Godot, change the `Godot.NET.Sdk/4.7.2` version in the `.csproj` to the new editor version.

@@ -2,20 +2,53 @@ using Godot;
 
 namespace LizardWizard.Players;
 
+public enum InputDeviceKind
+{
+    /// <summary>WASD to move, J / Space / F to punch, K / G for the tongue, hold Backspace to leave.</summary>
+    KeyboardLeft,
+
+    /// <summary>Arrows to move, Period / Numpad 1 to punch, Slash / Numpad 2 for the tongue, hold Delete to leave.</summary>
+    KeyboardRight,
+
+    /// <summary>Left stick / d-pad to move, A to punch, X for the tongue, hold Back to leave.</summary>
+    Gamepad,
+}
+
+/// <summary>One thing a player can hold: half the keyboard or one controller.</summary>
+public readonly record struct InputDevice(InputDeviceKind Kind, int Joypad = -1)
+{
+    public static InputDevice KeyboardLeft => new(InputDeviceKind.KeyboardLeft);
+
+    public static InputDevice KeyboardRight => new(InputDeviceKind.KeyboardRight);
+
+    public static InputDevice Gamepad(int joypad) => new(InputDeviceKind.Gamepad, joypad);
+
+    public override string ToString() => Kind switch
+    {
+        InputDeviceKind.KeyboardLeft => "keyboard (WASD)",
+        InputDeviceKind.KeyboardRight => "keyboard (arrows)",
+        _ => $"controller {Joypad + 1}",
+    };
+}
+
 /// <summary>
-/// Reads one player's controls, polled once per physics frame with <see cref="Update"/>.
-/// M1: the keyboard and every gamepad all drive player 1. M2 gives each device its own player.
+/// Reads one device's controls. <see cref="PlayerManager"/> calls <see cref="Update"/> once per physics
+/// frame for every device, before the lizards move, so "pressed" means "pressed this frame".
 /// </summary>
-/// <remarks>
-/// Keyboard: WASD / arrows to move, J or Space to punch, K to use the tongue.
-/// Gamepad: left stick / d-pad to move, A (bottom) to punch, X (left) to use the tongue.
-/// </remarks>
 public sealed class PlayerInput
 {
     private const float StickDeadzone = 0.25f;
 
     private bool _punchWasHeld;
     private bool _tongueWasHeld;
+    private bool _startWasHeld;
+
+    public PlayerInput(InputDevice device)
+    {
+        Device = device;
+    }
+
+    public InputDevice Device { get; }
 
     /// <summary>Movement direction, length 0..1 (sticks can be partly pushed).</summary>
     public Vector2 Move { get; private set; }
@@ -24,48 +57,71 @@ public sealed class PlayerInput
 
     public bool TonguePressed { get; private set; }
 
-    public void Update()
-    {
-        var move = KeyboardMove();
-        var punchHeld = Input.IsPhysicalKeyPressed(Key.J) || Input.IsPhysicalKeyPressed(Key.Space);
-        var tongueHeld = Input.IsPhysicalKeyPressed(Key.K);
+    /// <summary>Any of the buttons that join the game: punch, tongue or Start.</summary>
+    public bool JoinPressed { get; private set; }
 
-        foreach (var device in Input.GetConnectedJoypads())
+    /// <summary>How long the leave button (Back / Backspace / Delete) has been held, in seconds.</summary>
+    public double LeaveHeldSeconds { get; private set; }
+
+    public void Update(double delta)
+    {
+        bool punch, tongue, start, leave;
+        Vector2 move;
+
+        switch (Device.Kind)
         {
-            move += GamepadMove(device);
-            punchHeld |= Input.IsJoyButtonPressed(device, JoyButton.A);
-            tongueHeld |= Input.IsJoyButtonPressed(device, JoyButton.X);
+            case InputDeviceKind.KeyboardLeft:
+                move = Keys(Key.W, Key.A, Key.S, Key.D);
+                punch = Down(Key.J) || Down(Key.Space) || Down(Key.F);
+                tongue = Down(Key.K) || Down(Key.G);
+                start = false;
+                leave = Down(Key.Backspace);
+                break;
+
+            case InputDeviceKind.KeyboardRight:
+                move = Keys(Key.Up, Key.Left, Key.Down, Key.Right);
+                punch = Down(Key.Period) || Down(Key.Kp1);
+                tongue = Down(Key.Slash) || Down(Key.Kp2);
+                start = Down(Key.Enter) || Down(Key.KpEnter);
+                leave = Down(Key.Delete);
+                break;
+
+            default:
+                var pad = Device.Joypad;
+                move = GamepadMove(pad);
+                punch = Input.IsJoyButtonPressed(pad, JoyButton.A);
+                tongue = Input.IsJoyButtonPressed(pad, JoyButton.X);
+                start = Input.IsJoyButtonPressed(pad, JoyButton.Start);
+                leave = Input.IsJoyButtonPressed(pad, JoyButton.Back);
+                break;
         }
 
         Move = move.LimitLength(1f);
-        PunchPressed = punchHeld && !_punchWasHeld;
-        TonguePressed = tongueHeld && !_tongueWasHeld;
-        _punchWasHeld = punchHeld;
-        _tongueWasHeld = tongueHeld;
+        PunchPressed = punch && !_punchWasHeld;
+        TonguePressed = tongue && !_tongueWasHeld;
+        JoinPressed = PunchPressed || TonguePressed || (start && !_startWasHeld);
+        LeaveHeldSeconds = leave ? LeaveHeldSeconds + delta : 0;
+
+        _punchWasHeld = punch;
+        _tongueWasHeld = tongue;
+        _startWasHeld = start;
     }
 
-    private static Vector2 KeyboardMove()
-    {
-        var x = Axis(Key.A, Key.Left, Key.D, Key.Right);
-        var y = Axis(Key.W, Key.Up, Key.S, Key.Down);
-        return new Vector2(x, y).Normalized();
+    private static bool Down(Key key) => Input.IsPhysicalKeyPressed(key);
 
-        static float Axis(Key neg1, Key neg2, Key pos1, Key pos2) =>
-            (Input.IsPhysicalKeyPressed(pos1) || Input.IsPhysicalKeyPressed(pos2) ? 1 : 0)
-            - (Input.IsPhysicalKeyPressed(neg1) || Input.IsPhysicalKeyPressed(neg2) ? 1 : 0);
-    }
+    private static Vector2 Keys(Key up, Key left, Key down, Key right) =>
+        new Vector2((Down(right) ? 1 : 0) - (Down(left) ? 1 : 0), (Down(down) ? 1 : 0) - (Down(up) ? 1 : 0)).Normalized();
 
-    private static Vector2 GamepadMove(int device)
+    private static Vector2 GamepadMove(int pad)
     {
-        var stick = new Vector2(Input.GetJoyAxis(device, JoyAxis.LeftX), Input.GetJoyAxis(device, JoyAxis.LeftY));
+        var stick = new Vector2(Input.GetJoyAxis(pad, JoyAxis.LeftX), Input.GetJoyAxis(pad, JoyAxis.LeftY));
         if (stick.Length() >= StickDeadzone)
         {
             return stick;
         }
 
-        var dpad = new Vector2(
-            (Input.IsJoyButtonPressed(device, JoyButton.DpadRight) ? 1 : 0) - (Input.IsJoyButtonPressed(device, JoyButton.DpadLeft) ? 1 : 0),
-            (Input.IsJoyButtonPressed(device, JoyButton.DpadDown) ? 1 : 0) - (Input.IsJoyButtonPressed(device, JoyButton.DpadUp) ? 1 : 0));
-        return dpad.Normalized();
+        return new Vector2(
+            (Input.IsJoyButtonPressed(pad, JoyButton.DpadRight) ? 1 : 0) - (Input.IsJoyButtonPressed(pad, JoyButton.DpadLeft) ? 1 : 0),
+            (Input.IsJoyButtonPressed(pad, JoyButton.DpadDown) ? 1 : 0) - (Input.IsJoyButtonPressed(pad, JoyButton.DpadUp) ? 1 : 0)).Normalized();
     }
 }
