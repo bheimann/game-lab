@@ -66,13 +66,16 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 
 **Done when:** the chameleon and the fox feel different to play.
 
-## M4: The menu that doesn't pause
-- 🛠 A ring menu for each player (like Secret of Mana's) that opens next to that player's lizard.
-- 🛠 Switch powers and items while the game keeps running.
-- 🛠 Equipment slots (one or two to start). Armor changes how camouflage works (e.g. fire resistance, or invisible while moving).
+## M4: The menu that doesn't pause ✅
+- ✅ 🛠 A ring menu for each player (like Secret of Mana's) that opens around that player's hero:
+  Start / Tab / Enter. Rings: colours or bombs, armor, items.
+- ✅ 🛠 Switch powers and items while the game keeps running. While your menu is open you can walk but not attack.
+- ✅ 🛠 One armor slot. Armor changes how powers work: **shadow cloak** (stay hidden while walking),
+  **ember scales** (resist fire while hidden), **bomb vest** (one more bomb), **sturdy vest** (+2 hearts).
 - ✅ 🦎 Decide what happens to your lizard while your menu is open: it slows down only if you're in a fight.
-- 🛠 Quick buttons for common actions, so you rarely need the menu mid-fight.
-- 🦎 Design 3–4 items or equipment pieces.
+- ✅ 🛠 Quick buttons: LB / RB (Q / E, ; / ') pick the bomb type or colour, B (I, M) eats a healing herb.
+- ✅ 🛠 Fox bomb types: bomb, smoke, sticky, time, remote, proximity.
+- 🦎 Design more items and armor, and say which bomb types are there from the start and which are found or bought.
 
 **Done when:** one player can change their gear mid-fight while the other keeps fighting.
 

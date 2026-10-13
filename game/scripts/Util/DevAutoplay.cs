@@ -3,6 +3,7 @@ using System.Linq;
 using Godot;
 using LizardWizard.Abilities;
 using LizardWizard.Actors;
+using LizardWizard.Effects;
 using LizardWizard.Players;
 
 namespace LizardWizard.Util;
@@ -11,7 +12,9 @@ namespace LizardWizard.Util;
 /// Dev helper: run with <c>-- --autoplay=&lt;folder&gt;</c> and two bots play the room by pressing the real
 /// keyboard keys (P1 on WASD as the lizard, P2 on the arrows as the fox). Script:
 /// 1. both join and pick characters, 2. P1 gets spotted by a deer then stands still (camouflage test),
-/// 3. P1 changes colour twice, 3b. P2 gets spotted then leaves (deer must forget them) and rejoins, 4. fight until every deer has said thanks (P1 punches, P2 throws bombs),
+/// 3. P1 changes colour twice, 3b. P2 gets spotted then leaves (deer must forget them) and rejoins,
+/// 3c. P1 gets into a fight, opens the ring menu and puts on armor while P2 keeps fighting and switches to proximity bombs, 4. fight
+/// (P2 switches bomb type every few seconds, P1 eats a herb) until every deer has said thanks (P1 punches, P2 throws bombs),
 /// 5. walk to opposite sides to test the camera, 6. P2 holds Delete to leave.
 /// Logs what happens and saves a screenshot every 2 seconds into the folder.
 /// </summary>
@@ -22,8 +25,8 @@ public partial class DevAutoplay : Node
 
     private readonly Bot[] _bots =
     {
-        new(0, Key.W, Key.A, Key.S, Key.D, Key.J, Key.K, Key.L, Key.Backspace, isFox: false),
-        new(1, Key.Up, Key.Left, Key.Down, Key.Right, Key.Period, Key.Slash, Key.Comma, Key.Delete, isFox: true),
+        new(0, Key.W, Key.A, Key.S, Key.D, Key.J, Key.K, Key.L, Key.Backspace, Key.I, Key.Q, Key.E, Key.Tab, isFox: false),
+        new(1, Key.Up, Key.Left, Key.Down, Key.Right, Key.Period, Key.Slash, Key.Comma, Key.Delete, Key.M, Key.Semicolon, Key.Apostrophe, Key.Enter, isFox: true),
     };
 
     private readonly HashSet<Key> _held = new();
@@ -36,6 +39,9 @@ public partial class DevAutoplay : Node
     private double _phaseStart;
     private double _spottedAt = -1;
     private double _ditchSpottedAt = -1;
+    private double _gearSpottedAt = -1;
+    private readonly HashSet<ulong> _bombsSeen = new();
+    private readonly Dictionary<BombKind, int> _bombsThrown = new();
 
     private enum Phase
     {
@@ -44,6 +50,7 @@ public partial class DevAutoplay : Node
         Colour,
         Ditch,
         Rejoin,
+        Gear,
         Fight,
         Spread,
         Leave,
@@ -134,6 +141,48 @@ public partial class DevAutoplay : Node
                 PressAt(wanted, _bots[1].Primary, inPhase, 0.2, 0.6);
                 break;
 
+            case Phase.Gear when lizard is not null:
+                // P1 walks at a deer until it's chased, then (still being chased) opens the menu, walks a bit,
+                // goes to the Armor ring, picks the next piece (shadow cloak) and closes the menu by picking.
+                if (_gearSpottedAt < 0 && deer.Any(d => d.IsTargeting(lizard)))
+                {
+                    _gearSpottedAt = _time;
+                    GD.Print($"[autoplay {_time:0.0}s] a deer is chasing P1 - opening the menu");
+                }
+
+                if (_gearSpottedAt < 0)
+                {
+                    var nearest = deer.Where(d => d.IsHostile).OrderBy(d => d.GlobalPosition.DistanceTo(lizard.GlobalPosition)).First();
+                    _bots[0].Steer(lizard, nearest.HurtCenter, wanted);
+                }
+                else
+                {
+                    var since = _time - _gearSpottedAt;
+                    PressAt(wanted, _bots[0].Menu, since, 0.1);
+                    PressAt(wanted, _bots[0].Special, since, 0.5);
+                    PressAt(wanted, _bots[0].Next, since, 0.8);
+                    PressAt(wanted, _bots[0].Primary, since, 1.2);
+                    if (since is > 0.3 and < 1.0)
+                    {
+                        wanted.Add(_bots[0].Left);
+                    }
+
+                    if (since is > 0.75 and < 0.77)
+                    {
+                        GD.Print($"[autoplay {_time:0.0}s] menu test: P1 menu open={lizard.IsMenuOpen}, in a fight={lizard.IsInFight}, walking speed={lizard.Velocity.Length():0} (normal {lizard.Speed:0})");
+                        TakeShot();
+                    }
+                }
+
+                if (manager.Players[1] is { } bomber && _gearSpottedAt >= 0)
+                {
+                    // Waits until P1 is being chased (otherwise its bombs may put every deer to sleep first).
+                    _bots[1].Fight(bomber, deer, wanted);
+                    PressAt(wanted, _bots[1].Previous, _time - _gearSpottedAt, 0.3);
+                }
+
+                break;
+
             case Phase.Fight:
                 foreach (var bot in _bots)
                 {
@@ -143,6 +192,13 @@ public partial class DevAutoplay : Node
                     }
                 }
 
+                // P2 tries every bomb type; P1 eats a herb.
+                if (inPhase % 2 is > 1.7 and < 1.82)
+                {
+                    wanted.Add(_bots[1].Next);
+                }
+
+                PressAt(wanted, _bots[0].Item, inPhase, 1.0);
                 break;
 
             case Phase.Spread:
@@ -153,6 +209,14 @@ public partial class DevAutoplay : Node
             case Phase.Leave:
                 wanted.Add(_bots[1].Leave);
                 break;
+        }
+
+        foreach (var bomb in manager.ActorsParent?.GetChildren().OfType<Bomb>() ?? Enumerable.Empty<Bomb>())
+        {
+            if (_bombsSeen.Add(bomb.GetInstanceId()))
+            {
+                _bombsThrown[bomb.Kind] = _bombsThrown.GetValueOrDefault(bomb.Kind) + 1;
+            }
         }
 
         foreach (var key in _bots.SelectMany(b => b.AllKeys).Distinct())
@@ -189,7 +253,9 @@ public partial class DevAutoplay : Node
             Phase.Colour when inPhase > 1.5 => Phase.Ditch,
             Phase.Ditch when manager.Slots[1].IsFree && inPhase > 0.5 && _ditchSpottedAt >= 0 && _time - _ditchSpottedAt > 1.6 => Phase.Rejoin,
             Phase.Ditch when inPhase > 12 => Phase.Rejoin,
-            Phase.Rejoin when inPhase > 1.5 => Phase.Fight,
+            Phase.Rejoin when inPhase > 1.5 => Phase.Gear,
+            Phase.Gear when _gearSpottedAt >= 0 && _time - _gearSpottedAt > 1.6 => Phase.Fight,
+            Phase.Gear when inPhase > 12 => Phase.Fight,
             Phase.Fight when deer.All(d => d.CurrentMood == Deer.Mood.Thankful) && inPhase > 2 => Phase.Spread,
             Phase.Spread when inPhase > 3 => Phase.Leave,
             Phase.Leave when inPhase > 2 => Phase.Done,
@@ -215,6 +281,18 @@ public partial class DevAutoplay : Node
         if (_phase == Phase.Colour && lizard?.Abilities.OfType<ColorChangeAbility>().FirstOrDefault() is { } colour)
         {
             GD.Print($"[autoplay {_time:0.0}s] colour test: P1 now resists {colour.Resists?.ToString() ?? "nothing"}");
+        }
+
+        if (_phase == Phase.Gear && lizard is not null)
+        {
+            var bomber = manager.Players[1]?.Abilities.OfType<BombAbility>().FirstOrDefault();
+            GD.Print($"[autoplay {_time:0.0}s] gear test: P1 menu open={lizard.IsMenuOpen}, armor={lizard.Armor?.Name ?? "none"}; P2 bomb={bomber?.Kind.ToString() ?? "?"}");
+        }
+
+        if (_phase == Phase.Fight)
+        {
+            var thrown = string.Join(", ", _bombsThrown.Select(kv => $"{kv.Key}x{kv.Value}"));
+            GD.Print($"[autoplay {_time:0.0}s] fight test: bombs thrown: {thrown}; P1 herbs left={lizard?.Herbs}");
         }
 
         if (_phase == Phase.Ditch)
@@ -264,8 +342,13 @@ public partial class DevAutoplay : Node
     {
         private bool _attackHeld;
 
-        public Bot(int slot, Key up, Key left, Key down, Key right, Key primary, Key secondary, Key special, Key leave, bool isFox)
+        public Bot(int slot, Key up, Key left, Key down, Key right, Key primary, Key secondary, Key special, Key leave,
+            Key item, Key previous, Key next, Key menu, bool isFox)
         {
+            Item = item;
+            Previous = previous;
+            Next = next;
+            Menu = menu;
             Slot = slot;
             Up = up;
             Left = left;
@@ -287,9 +370,13 @@ public partial class DevAutoplay : Node
         public Key Secondary { get; }
         public Key Special { get; }
         public Key Leave { get; }
+        public Key Item { get; }
+        public Key Previous { get; }
+        public Key Next { get; }
+        public Key Menu { get; }
         public bool IsFox { get; }
 
-        public Key[] AllKeys => new[] { Up, Left, Down, Right, Primary, Secondary, Special, Leave };
+        public Key[] AllKeys => new[] { Up, Left, Down, Right, Primary, Secondary, Special, Leave, Item, Previous, Next, Menu };
 
         public void Steer(Hero hero, Vector2 target, HashSet<Key> wanted)
         {

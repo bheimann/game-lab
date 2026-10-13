@@ -4,7 +4,9 @@ using Godot;
 using LizardWizard.Abilities;
 using LizardWizard.Combat;
 using LizardWizard.Effects;
+using LizardWizard.Items;
 using LizardWizard.Players;
+using LizardWizard.UI;
 using LizardWizard.Util;
 
 namespace LizardWizard.Actors;
@@ -13,12 +15,14 @@ namespace LizardWizard.Actors;
 /// A player character (lizard, fox, ...): walking, health, getting knocked out and back up,
 /// the player marker, and directional animations. What it can *do* comes from its child
 /// <see cref="Ability"/> nodes, so each character is a scene: Hero + abilities.
+/// Each hero has its own ring menu (gear, bombs, colours, items) that doesn't pause the game.
 /// </summary>
 public partial class Hero : CharacterBody2D, IHittable
 {
     public const string Group = "players";
 
     private const double WalkFps = 8;
+    private const string HerbIcon = "res://assets/sprites/icons/herb.png";
 
     private Ability[] _abilities = System.Array.Empty<Ability>();
     private bool _down;
@@ -28,6 +32,7 @@ public partial class Hero : CharacterBody2D, IHittable
     private Vector2 _knockback;
     private Vector2 _spawnPoint;
     private Vector2 _spriteOffset;
+    private RingMenu? _menu;
 
     [Export] public string DisplayName { get; set; } = "Hero";
 
@@ -43,6 +48,14 @@ public partial class Hero : CharacterBody2D, IHittable
     [Export] public float Speed { get; set; } = 70f;
 
     [Export] public int MaxHealth { get; set; } = 20;
+
+    /// <summary>Healing herbs the hero starts with (B / I / M eats one).</summary>
+    [Export] public int StartingHerbs { get; set; } = 3;
+
+    [Export] public int HerbHealing { get; set; } = 6;
+
+    /// <summary>Walking speed while the menu is open and an enemy is after you (1 = no slowdown).</summary>
+    [Export] public float MenuFightSpeedFactor { get; set; } = 0.5f;
 
     /// <summary>How long the hero can't be hurt again after being hit.</summary>
     [Export] public float InvulnerableSeconds { get; set; } = 1f;
@@ -84,13 +97,27 @@ public partial class Hero : CharacterBody2D, IHittable
 
     public bool IsDown => _down;
 
+    /// <summary>Counts attacks and hits taken; camouflage watches it to know when to break.</summary>
+    public int ActionCount { get; private set; }
+
+    /// <summary>What's in the armor slot (null = nothing).</summary>
+    public Armor? Armor { get; private set; }
+
+    public int Herbs { get; private set; }
+
+    public bool IsMenuOpen => _menu?.IsOpen == true;
+
+    /// <summary>What LB / RB cycle through: the first ability with choices (bombs, colours).</summary>
+    public IHasOptions? QuickOptions => _abilities.OfType<IHasOptions>().FirstOrDefault();
+
     /// <summary>False once the player has left (the hero is about to be removed).</summary>
     public bool IsInGame => !_left && IsInsideTree();
 
     public bool CanStartAbility => !IsDown && !_abilities.Any(a => a.IsActive);
 
-    /// <summary>Whether enemies can see this hero (camouflage hides it).</summary>
-    public bool IsVisibleToEnemies => IsInGame && !IsDown && !_abilities.Any(a => a.HidesHero);
+    /// <summary>Whether enemies can see this hero (camouflage and smoke hide it).</summary>
+    public bool IsVisibleToEnemies =>
+        IsInGame && !IsDown && !_abilities.Any(a => a.HidesHero) && !SmokeCloud.Hides(GetTree(), GlobalPosition);
 
     /// <summary>"In a fight": an enemy can see this hero and is targeting it.</summary>
     public bool IsInFight => GetTree().GetNodesInGroup(Enemies.Group).OfType<IEnemy>().Any(e => e.IsTargeting(this));
@@ -132,6 +159,8 @@ public partial class Hero : CharacterBody2D, IHittable
         Health = new Health(MaxHealth);
         MotionMode = MotionModeEnum.Floating;
         _abilities = GetChildren().OfType<Ability>().ToArray();
+        Herbs = StartingHerbs;
+        _menu = RingMenu.Create(this, BuildMenu);
 
         Sprite = new AnimatedSprite2D { SpriteFrames = BuildAnimations() };
         Sprite.Offset = _spriteOffset = new Vector2(0, -Sprite.SpriteFrames.GetFrameTexture("idle_down", 0).GetHeight() / 2f);
@@ -143,6 +172,12 @@ public partial class Hero : CharacterBody2D, IHittable
         AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = new Vector2(10, 6) }, Position = new Vector2(0, -3) });
     }
 
+    public override void _ExitTree()
+    {
+        _menu?.QueueFree();
+        _menu = null;
+    }
+
     public override void _PhysicsProcess(double delta)
     {
         var dt = (float)delta;
@@ -150,6 +185,7 @@ public partial class Hero : CharacterBody2D, IHittable
 
         if (_down)
         {
+            _menu?.Close();
             _downTime += dt;
             if (_downTime >= RespawnSeconds)
             {
@@ -163,23 +199,26 @@ public partial class Hero : CharacterBody2D, IHittable
             return;
         }
 
-        foreach (var ability in _abilities)
+        if (Controls.MenuPressed && _menu is not null)
         {
-            var pressed = ability.Slot switch
-            {
-                AbilitySlot.Primary => Controls.PrimaryPressed,
-                AbilitySlot.Secondary => Controls.SecondaryPressed,
-                AbilitySlot.Special => Controls.SpecialPressed,
-                _ => false,
-            };
-            if (pressed)
-            {
-                ability.TryUse();
-            }
+            if (_menu.IsOpen) _menu.Close(); else _menu.Open();
+        }
+        else if (_menu?.IsOpen == true)
+        {
+            _menu.HandleInput(Controls);
+        }
+        else
+        {
+            UseButtons();
         }
 
         var active = _abilities.FirstOrDefault(a => a.IsActive);
         var moveFactor = active?.MoveFactor ?? 1f;
+        if (IsMenuOpen && IsInFight)
+        {
+            moveFactor *= MenuFightSpeedFactor;
+        }
+
         var move = Controls.Move * moveFactor;
 
         if (Controls.Move.Length() > 0.2f && active is null)
@@ -196,6 +235,83 @@ public partial class Hero : CharacterBody2D, IHittable
         MoveAndSlide();
         StayOnScreen();
         UpdateLook(walking);
+    }
+
+    /// <summary>Put on a piece of armor (or take it off with null).</summary>
+    public void Equip(Armor? armor)
+    {
+        Armor = armor;
+        Health.SetMax(MaxHealth + (armor?.ExtraHealth ?? 0));
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), armor?.Name ?? "No armor", Colors.White, 1f, 8f);
+    }
+
+    /// <summary>Eat a healing herb, if there's one left and it would help.</summary>
+    public void UseHerb()
+    {
+        if (Herbs <= 0)
+        {
+            FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), "No herbs!", new Color(0.8f, 0.8f, 0.8f), 0.8f, 6f);
+            return;
+        }
+
+        if (Health.Current >= Health.Max)
+        {
+            FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), "Already full", new Color(0.8f, 0.8f, 0.8f), 0.8f, 6f);
+            return;
+        }
+
+        Herbs--;
+        var healed = Health.Heal(HerbHealing);
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -10), $"+{healed}", new Color(0.45f, 1f, 0.45f));
+    }
+
+    private void UseButtons()
+    {
+        foreach (var ability in _abilities)
+        {
+            var pressed = ability.Slot switch
+            {
+                AbilitySlot.Primary => Controls.PrimaryPressed,
+                AbilitySlot.Secondary => Controls.SecondaryPressed,
+                AbilitySlot.Special => Controls.SpecialPressed,
+                _ => false,
+            };
+            if (pressed)
+            {
+                ability.TryUse();
+            }
+        }
+
+        // Quick buttons, so the menu is rarely needed mid-fight.
+        if (QuickOptions is { } quick && (Controls.NextPressed || Controls.PreviousPressed))
+        {
+            quick.Select(quick.Selected + (Controls.NextPressed ? 1 : -1));
+        }
+
+        if (Controls.ItemPressed)
+        {
+            UseHerb();
+        }
+    }
+
+    private List<MenuRing> BuildMenu()
+    {
+        var rings = _abilities.OfType<IHasOptions>()
+            .Select(a => new MenuRing(a.OptionsTitle, a.Options, a.Selected, a.Select))
+            .ToList();
+
+        var armor = Items.Armor.All.Where(a => a.Fits(this)).ToList();
+        var armorOptions = new[] { new MenuOption("No armor", "Take your armor off", null, Colors.Transparent) }
+            .Concat(armor.Select(a => a.ToOption())).ToArray();
+        rings.Add(new MenuRing("Armor", armorOptions, Armor is null ? 0 : armor.IndexOf(Armor) + 1, i => Equip(i == 0 ? null : armor[i - 1])));
+
+        var herb = new MenuOption("Healing Herb", $"Heals {HerbHealing / 2} hearts", GD.Load<Texture2D>(HerbIcon), Colors.White)
+        {
+            Count = $"x{Herbs}",
+            Enabled = Herbs > 0,
+        };
+        rings.Add(new MenuRing("Items", new[] { herb }, 0, _ => UseHerb()));
+        return rings;
     }
 
     public override void _Draw()
@@ -236,7 +352,11 @@ public partial class Hero : CharacterBody2D, IHittable
     }
 
     /// <summary>Abilities call this when used: breaks camouflage and similar "stand still" effects.</summary>
-    public void NotifyAction() => StillSeconds = 0;
+    public void NotifyAction()
+    {
+        StillSeconds = 0;
+        ActionCount++;
+    }
 
     /// <summary>Quick shove of the sprite (punch lunge), relative to its normal position.</summary>
     public void Lunge(Vector2 offset)

@@ -1,0 +1,13 @@
+# Menu icon: bomb vest (12x12)
+.ooo....ooo.
+oFFo....oFFo
+oFFFo..oFFFo
+oFFFFooFFFFo
+oFfFFFFFFfFo
+oFfFFoFFFfFo
+oFfFFoFFFfFo
+oFfFFoFFFfFo
+oFfFFoFFFfFo
+oFFFFoFFFFFo
+offffofffffo
+oooooooooooo
