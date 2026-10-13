@@ -13,7 +13,7 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 
 ## Story
 - The players are **ordinary lizards** who become **knights of the Lizard King** over the course of the game,
-  earning ranks as they go.
+  earning **titles** as they go: each boss they defeat moves the story along and earns a new title.
 - **Mossimus Maximus**, a deer with bad intentions, is turning the kingdoms against the lizards.
   He's the **final boss**.
 - The deer and bugs you fight **aren't bad**. They've been **deceived**, and Mossimus convinces more
@@ -73,20 +73,20 @@ how they look, so you can tell classes apart at a glance.
 
 | Character | Kingdom | Starting class | Status |
 |---|---|---|---|
-| **Lizard** | Lizard | Chameleon (assumed) | **First** |
+| **Lizard** | Lizard | Chameleon | **First** |
 | **Arctic fox** | Fox | Bomb Master | **Second** |
 
 ### Lizard
 Every lizard can **punch** (5 damage, the main attack) and use its **tongue** (1 damage, longer reach;
 also a tool for grabbing, pulling and swinging in later puzzles).
 
-| Class | What it does |
-|---|---|
-| **Chameleon** | **Camouflage:** hidden while standing still, seen when moving. **Colour change** for damage resistance: 🔵 blue = ice, 🔴 red = fire, 🟡 yellow = lightning, 🟣 purple = arcane |
-| **Tongue Master** | More tongue damage, **spiked tongue**, **elemental** tongue attacks, longer range |
-| **Trickster** (like Loki; name TBD) | Sends out **decoys**: illusions, clones and turrets |
-| **Spitter** | Spits **poison** or **elements** |
-| **Healer** | Heals and protects the team, and has **extra HP** |
+| Class | What it does | How you get it |
+|---|---|---|
+| **Chameleon** | **Camouflage:** hidden while standing still, seen when moving. **Colour change** for damage resistance: 🔵 blue = ice, 🔴 red = fire, 🟡 yellow = lightning, 🟣 purple = arcane | **Starting class** |
+| **Tongue Master** | More tongue damage, **spiked tongue**, **elemental** tongue attacks, longer range | Learned from the **deer** |
+| **Trickster** (like Loki) | Sends out **decoys**: illusions, clones and turrets | Learned from the **peacocks** |
+| **Spitter** | Spits **poison** or **elements** | Learned from the **moose** |
+| **Healer** | Heals and protects the team, and has **extra HP** | Learned from the **bugs** |
 
 - **Armor** can still change how a class works, e.g. *shadow armor* lets a chameleon stay invisible while moving.
 - Earlier species ideas (gecko wall-climbing, frilled-lizard scare, komodo tank, basilisk water-running,
@@ -117,8 +117,6 @@ decides which skills it has. The paint also changes how the fox looks, so each m
   The Tiny Dungeon pack's slimes, bats, rats and skeletons can fill gaps.
 
 ## Questions for the designer
-- What's the **Trickster** class called? (Trickster, Illusionist, Mirage, …?)
-- Does the lizard **start as a Chameleon**, and where are the other lizard classes learned?
-- **Knight ranks:** what are they (e.g. Squire → Knight → Royal Knight), and what earns each one?
+- **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?
 - **Combos:** which element orders make which combos?
-- Where do the deer, fox and bug kings live?
+- **Kings' homes:** where do the deer, fox and bug kings live? (Names should include the animal, like the other places.)
