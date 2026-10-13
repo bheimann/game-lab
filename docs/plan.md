@@ -15,7 +15,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - 🛠 Check that C# builds and runs from the Godot editor.
 - 🦎 Choose a pixel-art pack (start with Kenney's free 16×16 packs, e.g. *Tiny Dungeon*;
   search itch.io for "free lizard sprite" to find the lizards).
-- 🦎 Choose a name for the game.
+- ✅ 🦎 Choose a name for the game: **Lizard Wizard**.
 
 **Done when:** pressing ▶ in Godot opens a window showing the art pack's tiles.
 
