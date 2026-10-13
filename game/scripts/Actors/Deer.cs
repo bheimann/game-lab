@@ -24,7 +24,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
 
     private readonly RandomNumberGenerator _rng = new();
     private AnimatedSprite2D _sprite = null!;
-    private Lizard? _target;
+    private Hero? _target;
     private Vector2 _wanderDirection;
     private float _wanderTimer;
     private float _windUp = -1f;
@@ -77,7 +77,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
 
     public float HurtRadius => 11f;
 
-    public bool IsTargeting(Lizard lizard) => CurrentMood == Mood.Chasing && _target == lizard;
+    public bool IsTargeting(Hero lizard) => CurrentMood == Mood.Chasing && _target == lizard;
 
     public override void _Ready()
     {
@@ -131,7 +131,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         DrawRect(new Rect2(bar.Position, bar.Size with { X = bar.Size.X * Health.Current / Health.Max }), new Color(0.39f, 0.67f, 0.25f));
     }
 
-    public void TakeHit(int damage, Vector2 from)
+    public void TakeHit(int damage, Vector2 from, DamageType type = DamageType.Physical)
     {
         if (!CanBeHit)
         {
@@ -139,7 +139,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         }
 
         var dealt = Health.Damage(damage);
-        FloatingText.Spawn(GetParent(), HurtCenter + new Vector2(0, -10), $"-{dealt}", Colors.White);
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -10), $"-{dealt}", Colors.White);
         _hurtFlash = 0.15f;
 
         // A deer winding up a kick is braced: hits don't stop the kick or push it back. Dodge instead!
@@ -200,6 +200,12 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
     {
         if (_target is null || !_target.IsVisibleToEnemies || _target.GlobalPosition.DistanceTo(GlobalPosition) > LoseSightRange)
         {
+            if (_target is not null && !_target.IsDown && !_target.IsVisibleToEnemies)
+            {
+                // It vanished (camouflage)!
+                FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -38), "?", new Color(1f, 0.85f, 0.3f), 0.8f, 6f);
+            }
+
             _target = null;
             CurrentMood = Mood.Wandering;
             _windUp = -1f;
@@ -244,17 +250,17 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         if (_zzzTimer <= 0)
         {
             _zzzTimer = 1.2f;
-            FloatingText.Spawn(GetParent(), GlobalPosition + new Vector2(8, -28), "z", new Color(0.6f, 0.75f, 1f), 1.2f, 10f);
+            FloatingText.Spawn(this, GlobalPosition + new Vector2(8, -28), "z", new Color(0.6f, 0.75f, 1f), 1.2f, 10f);
         }
 
         return Vector2.Zero;
     }
 
-    private void StartChasing(Lizard lizard)
+    private void StartChasing(Hero lizard)
     {
         _target = lizard;
         CurrentMood = Mood.Chasing;
-        FloatingText.Spawn(GetParent(), GlobalPosition + new Vector2(0, -38), "!", new Color(1f, 0.85f, 0.3f), 0.6f, 6f);
+        FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -38), "!", new Color(1f, 0.85f, 0.3f), 0.6f, 6f);
     }
 
     private void FallAsleep()
@@ -272,7 +278,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         _wanderTimer = 2.5f; // stand still while talking
         _wanderDirection = Vector2.Zero;
         var line = Thanks[_rng.RandiRange(0, Thanks.Length - 1)];
-        FloatingText.Spawn(GetParent(), GlobalPosition + new Vector2(0, -36), line, Colors.White, 2.5f, 6f);
+        FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -36), line, Colors.White, 2.5f, 6f);
     }
 
     private void UpdateLook()
@@ -299,6 +305,6 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         _sprite.Scale = CurrentMood == Mood.Asleep ? new Vector2(1f, 0.85f) : Vector2.One;
     }
 
-    private Lizard[] Lizards() =>
-        GetTree().GetNodesInGroup(Lizard.Group).OfType<Lizard>().Where(l => !l.IsDown).ToArray();
+    private Hero[] Lizards() =>
+        GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(l => !l.IsDown).ToArray();
 }

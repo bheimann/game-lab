@@ -1,9 +1,32 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource type="Script" path="res://scripts/Actors/Lizard.cs" id="1_lizard"]
+[ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
+[ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="2_melee"]
+[ext_resource type="Script" path="res://scripts/Abilities/TongueAbility.cs" id="3_tongue"]
+[ext_resource type="Script" path="res://scripts/Abilities/ColorChangeAbility.cs" id="4_colour"]
+[ext_resource type="Script" path="res://scripts/Abilities/CamouflageAbility.cs" id="5_camo"]
 
 [node name="Lizard" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 1
 motion_mode = 1
-script = ExtResource("1_lizard")
+script = ExtResource("1_hero")
+DisplayName = "Lizard"
+SpritePrefix = "res://assets/sprites/chameleon/chameleon"
+
+[node name="Punch" type="Node2D" parent="."]
+script = ExtResource("2_melee")
+CooldownSeconds = 0.35
+
+[node name="Tongue" type="Node2D" parent="."]
+script = ExtResource("3_tongue")
+Slot = 1
+CooldownSeconds = 0.4
+
+[node name="ColorChange" type="Node2D" parent="."]
+script = ExtResource("4_colour")
+Slot = 2
+
+[node name="Camouflage" type="Node2D" parent="."]
+script = ExtResource("5_camo")
+Slot = 3

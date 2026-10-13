@@ -9,6 +9,7 @@ Colours (Tiny Dungeon palette):
   .  transparent      o  outline (navy)    W  white
   L  light green      B  bright green      M  mid green      D  dark green
   Y  yellow           R  red / pink        P  pupil (navy)
+  G  light grey       g  mid grey          b  blue-grey         k  pink (inner ear)
 """
 import struct
 import sys
@@ -25,6 +26,10 @@ COLOURS = {
     "D": (47, 87, 83, 255),
     "Y": (240, 181, 65, 255),
     "R": (255, 82, 119, 255),
+    "G": (223, 224, 232, 255),
+    "g": (163, 167, 194, 255),
+    "b": (104, 111, 153, 255),
+    "k": (255, 194, 161, 255),
 }
 
 

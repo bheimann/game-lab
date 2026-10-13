@@ -6,14 +6,34 @@ using LizardWizard.Actors;
 
 namespace LizardWizard.Players;
 
+/// <summary>A character you can pick when joining.</summary>
+public sealed record CharacterOption(string Name, string ScenePath);
+
+/// <summary>One of the four player slots.</summary>
+public sealed class PlayerSlot
+{
+    /// <summary>The device that claimed this slot, or null if it's free.</summary>
+    public PlayerInput? Input { get; internal set; }
+
+    /// <summary>The spawned character, or null while picking (or free).</summary>
+    public Hero? Hero { get; internal set; }
+
+    /// <summary>Index into <see cref="PlayerManager.Characters"/> of the character being picked / played.</summary>
+    public int Choice { get; internal set; }
+
+    public bool IsFree => Input is null;
+
+    public bool IsChoosing => Input is not null && Hero is null;
+}
+
 /// <summary>
 /// Drop-in / drop-out co-op for up to 4 players. Every device (each half of the keyboard and each
-/// controller) is watched; pressing a button on a free device spawns a lizard for it, and holding the
-/// leave button for a second removes that player.
+/// controller) is watched. Pressing a button on a free device claims a slot; left / right picks a
+/// character and the primary button confirms. Holding the leave button for a second frees the slot.
 /// </summary>
 /// <remarks>
 /// Needs a child node "Spawns" with up to 4 Marker2D children (P1..P4 start points).
-/// Runs before the lizards each physics frame so their input is fresh.
+/// Runs before the heroes each physics frame so their input is fresh.
 /// </remarks>
 public partial class PlayerManager : Node
 {
@@ -29,18 +49,25 @@ public partial class PlayerManager : Node
         new(1f, 0.32f, 0.47f),
     };
 
-    private readonly Dictionary<InputDevice, PlayerInput> _devices = new();
-    private readonly Lizard?[] _players = new Lizard?[MaxPlayers];
+    public static readonly CharacterOption[] Characters =
+    {
+        new("Lizard", "res://scenes/actors/lizard.tscn"),
+        new("Arctic Fox", "res://scenes/actors/arctic_fox.tscn"),
+    };
 
-    /// <summary>Raised when someone joins or leaves.</summary>
+    private readonly Dictionary<InputDevice, PlayerInput> _devices = new();
+    private readonly PlayerSlot[] _slots = Enumerable.Range(0, MaxPlayers).Select(_ => new PlayerSlot()).ToArray();
+
+    /// <summary>Raised when someone joins, picks a character or leaves.</summary>
     public event Action? PlayersChanged;
 
-    [Export] public PackedScene LizardScene { get; set; } = GD.Load<PackedScene>("res://scenes/actors/lizard.tscn");
-
-    /// <summary>Where new lizards are added (should be the y-sorted actors node).</summary>
+    /// <summary>Where new heroes are added (should be the y-sorted actors node).</summary>
     [Export] public Node2D? ActorsParent { get; set; }
 
-    public IReadOnlyList<Lizard?> Players => _players;
+    public IReadOnlyList<PlayerSlot> Slots => _slots;
+
+    /// <summary>The spawned heroes by slot (null for free or still-picking slots).</summary>
+    public IReadOnlyList<Hero?> Players => _slots.Select(s => s.Hero).ToArray();
 
     public static PlayerManager? Find(Node anyNode) =>
         anyNode.GetTree().CurrentScene?.FindChild(nameof(PlayerManager), true, false) as PlayerManager;
@@ -69,54 +96,82 @@ public partial class PlayerManager : Node
 
             input.Update(delta);
 
-            var slot = Array.FindIndex(_players, p => p is not null && p.Controls == input);
-            if (slot < 0 && input.JoinPressed)
+            var slot = _slots.FirstOrDefault(s => s.Input == input);
+            if (slot is null)
             {
-                Join(input);
+                if (input.JoinPressed)
+                {
+                    Claim(input);
+                }
             }
-            else if (slot >= 0 && input.LeaveHeldSeconds >= LeaveAfterSeconds)
+            else if (input.LeaveHeldSeconds >= LeaveAfterSeconds)
             {
-                Leave(slot);
+                Leave(Array.IndexOf(_slots, slot));
+            }
+            else if (slot.IsChoosing)
+            {
+                if (input.NavigateX != 0)
+                {
+                    slot.Choice = (slot.Choice + input.NavigateX + Characters.Length) % Characters.Length;
+                    PlayersChanged?.Invoke();
+                }
+                else if (input.PrimaryPressed)
+                {
+                    Spawn(Array.IndexOf(_slots, slot));
+                }
             }
         }
     }
 
-    public Lizard? Join(PlayerInput input)
+    /// <summary>Give a free slot to this device; the player then picks a character.</summary>
+    public PlayerSlot? Claim(PlayerInput input)
     {
-        var slot = Array.IndexOf(_players, null);
-        if (slot < 0)
+        var slot = _slots.FirstOrDefault(s => s.IsFree);
+        if (slot is null)
         {
             return null;
         }
 
-        var lizard = LizardScene.Instantiate<Lizard>();
-        lizard.Name = $"P{slot + 1}";
-        lizard.Setup(slot, input, SpawnPoint(slot));
-        (ActorsParent ?? GetParent<Node2D>()).AddChild(lizard);
-        _players[slot] = lizard;
-        GD.Print($"P{slot + 1} joined with the {input.Device}");
+        slot.Input = input;
+        GD.Print($"P{Array.IndexOf(_slots, slot) + 1} joined with the {input.Device} and is picking a character");
         PlayersChanged?.Invoke();
-        return lizard;
+        return slot;
     }
 
-    public void Leave(int slot)
+    public void Leave(int index)
     {
-        var lizard = _players[slot];
-        if (lizard is null)
+        var slot = _slots[index];
+        slot.Hero?.QueueFree();
+        slot.Hero = null;
+        slot.Input = null;
+        GD.Print($"P{index + 1} left");
+        PlayersChanged?.Invoke();
+    }
+
+    private void Spawn(int index)
+    {
+        var slot = _slots[index];
+        var character = Characters[slot.Choice];
+        var hero = GD.Load<PackedScene>(character.ScenePath).Instantiate<Hero>();
+        hero.Name = $"P{index + 1}";
+        hero.Setup(index, slot.Input!, SpawnPoint(index));
+        (ActorsParent ?? GetParent<Node2D>()).AddChild(hero);
+        slot.Hero = hero;
+        GD.Print($"P{index + 1} is playing as the {character.Name}");
+        PlayersChanged?.Invoke();
+    }
+
+    private Vector2 SpawnPoint(int index)
+    {
+        // Join next to a teammate who's already playing, otherwise at this slot's start point.
+        var buddy = _slots.Select(s => s.Hero).FirstOrDefault(h => h is not null && !h.IsDown);
+        if (buddy is not null)
         {
-            return;
+            return buddy.GlobalPosition;
         }
 
-        _players[slot] = null;
-        lizard.QueueFree();
-        GD.Print($"P{slot + 1} left");
-        PlayersChanged?.Invoke();
-    }
-
-    private Vector2 SpawnPoint(int slot)
-    {
         var spawns = GetNodeOrNull("Spawns")?.GetChildren().OfType<Node2D>().ToArray() ?? Array.Empty<Node2D>();
-        return spawns.Length == 0 ? Vector2.Zero : spawns[slot % spawns.Length].GlobalPosition;
+        return spawns.Length == 0 ? Vector2.Zero : spawns[index % spawns.Length].GlobalPosition;
     }
 
     private static IEnumerable<InputDevice> CurrentDevices()
@@ -137,10 +192,10 @@ public partial class PlayerManager : Node
         }
 
         // A controller was unplugged: its player leaves.
-        var slot = Array.FindIndex(_players, p => p is not null && p.Controls.Device == InputDevice.Gamepad((int)device));
-        if (slot >= 0)
+        var index = Array.FindIndex(_slots, s => s.Input?.Device == InputDevice.Gamepad((int)device));
+        if (index >= 0)
         {
-            Leave(slot);
+            Leave(index);
         }
 
         _devices.Remove(InputDevice.Gamepad((int)device));

@@ -14,7 +14,9 @@ public partial class CoopCamera : Camera2D
 {
     public const string Group = "coop_camera";
 
+    private readonly RandomNumberGenerator _rng = new();
     private Vector2 _targetCenter;
+    private float _shake;
 
     /// <summary>Closest zoom (used when players are together).</summary>
     [Export] public float MaxZoom { get; set; } = 2f;
@@ -53,14 +55,21 @@ public partial class CoopCamera : Camera2D
         Position = Clamp(Position.Lerp(center, t), Zoom.X);
         _targetCenter = center;
 
+        // Screen shake (explosions): a random nudge that dies away quickly.
+        _shake = Mathf.MoveToward(_shake, 0, 12f * (float)delta);
+        Offset = new Vector2(_rng.RandfRange(-1, 1), _rng.RandfRange(-1, 1)) * _shake;
+
         // The widest view the players are allowed to stretch: the min-zoom view around the players.
         var maxView = ViewSize(MinZoom);
         AllowedRect = new Rect2(_targetCenter - maxView / 2, maxView).Grow(-10f);
     }
 
+    /// <summary>Shake the screen by up to <paramref name="pixels"/> (e.g. 3 for a bomb).</summary>
+    public void Shake(float pixels) => _shake = Mathf.Max(_shake, pixels);
+
     private (Vector2 Center, float Zoom) Target()
     {
-        var players = GetTree().GetNodesInGroup(Lizard.Group).OfType<Lizard>().Where(l => !l.IsDown).ToList();
+        var players = GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(l => !l.IsDown).ToList();
         if (players.Count == 0)
         {
             var roomCenter = Room is null ? Position : Room.GlobalPosition + Room.SizeInPixels / 2;

@@ -2,6 +2,16 @@ using Godot;
 
 namespace LizardWizard.Combat;
 
+public enum DamageType
+{
+    Physical,
+    Fire,
+    Ice,
+    Lightning,
+    Arcane,
+    Poison,
+}
+
 /// <summary>
 /// Something attacks can hit. Hits are worked out with simple circles rather than physics
 /// shapes: an attack lands if it touches the target's hurt circle.
@@ -16,9 +26,10 @@ public interface IHittable
 
     float HurtRadius { get; }
 
-    /// <param name="damage">Hit points to remove.</param>
+    /// <param name="damage">Hit points to remove (before resistances).</param>
     /// <param name="from">Where the hit came from (global), for knockback.</param>
-    void TakeHit(int damage, Vector2 from);
+    /// <param name="type">What kind of damage, for resistances.</param>
+    void TakeHit(int damage, Vector2 from, DamageType type = DamageType.Physical);
 }
 
 public static class Hits

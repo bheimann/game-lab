@@ -13,19 +13,24 @@
 
 ### Controls
 Up to 4 players. Each controller is a player, and the keyboard can be two players (left and right halves).
-Press punch or tongue to join; hold the leave button for a second to drop out.
+Press a button to join, pick a character with left / right and confirm with the primary button.
+Hold the leave button for a second to drop out.
 
-| | Keyboard (left) | Keyboard (right) | Controller |
-|---|---|---|---|
-| Move | WASD | Arrows | Left stick or d-pad |
-| Punch | J, Space or F | . or Numpad 1 | A (bottom button) |
-| Tongue | K or G | / or Numpad 2 | X (left button) |
-| Leave | hold Backspace | hold Delete | hold Back |
+| | Keyboard (left) | Keyboard (right) | Controller | Lizard | Arctic fox |
+|---|---|---|---|---|---|
+| Move | WASD | Arrows | Left stick or d-pad | | |
+| Primary | J, Space or F | . or Numpad 1 | A | Punch | Bite |
+| Secondary | K or G | / or Numpad 2 | X | Tongue | Throw bomb |
+| Special | L or H | , or Numpad 3 | Y | Change colour | – |
+| Leave | hold Backspace | hold Delete | hold Back | | |
+
+The lizard also hides (camouflage) by standing still for a moment.
 
 ### Dev helpers
 - `Godot_console.exe --path game -- --screenshot=out.png` saves a screenshot after half a second and quits.
 - `Godot_console.exe --path game -- --autoplay=<folder>` lets two bots play the test room by pressing the real keys
-  (P1 on WASD, P2 on the arrows): they join, clear the room, walk apart to test the camera, then P2 leaves.
+  (P1 on WASD as the lizard, P2 on the arrows as the fox): they join and pick characters, test camouflage and
+  colour change, clear the room, walk apart to test the camera, then P2 leaves.
   It logs everything and saves a screenshot every 2 seconds.
 
 The C# project is `game/LizardWizard.csproj`, which targets .NET 8. It can also be opened in Visual Studio or Rider using `game/LizardWizard.sln`.
