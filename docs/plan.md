@@ -20,14 +20,18 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 
 **Done when:** pressing ▶ in Godot opens a window showing the art pack's tiles.
 
-## M1: One chameleon in one room
-- 🛠 8-direction movement with keyboard and controller.
-- 🛠 Punch attack (5 damage) and tongue attack (longer reach, 1 damage).
-- 🛠 Health, taking damage, and respawning.
-- 🛠 One simple enemy (a deer, 10–15 health) that walks toward the player once it sees them.
-- 🛠 Beaten deer fall asleep. When no enemies are left awake, they wake up and say thank you.
-- 🦎 Paint the first room in the tilemap editor.
-- 🦎 Tune movement speed, tongue range and enemy speed until it *feels* good.
+## M1: One lizard in one room
+- ✅ 🛠 8-direction movement with keyboard and controller. (Controller support is untested so far.)
+- ✅ 🛠 Punch attack (5 damage) and tongue attack (longer reach, 1 damage, aim assist).
+- ✅ 🛠 Health (hearts), taking damage with knockback and a short flicker, getting back up at the start when knocked out.
+- ✅ 🛠 Deer (10–15 health) wander, notice a lizard within sight, chase it, and kick after a yellow wind-up flash.
+  A deer that's winding up can't be interrupted, so you have to dodge.
+- ✅ 🛠 Beaten deer fall asleep. When no enemies are left awake, they wake up and say thank you.
+- 🦎 Paint the first room in the tilemap editor (open `scenes/rooms/test_room.tscn`, select `Room/Floor` or `Room/Walls`).
+  If both layers are empty, the room builds itself when the game starts.
+- 🦎 Tune the numbers until it *feels* good: click `Lizard` or a `Deer` in the scene and change speed, damage,
+  health, sight range, wind-up time and so on in the inspector.
+- 🦎 Playtest! Write down what's fun, what's annoying, and what's confusing.
 
 **Done when:** you can run around a room and fight deer.
 

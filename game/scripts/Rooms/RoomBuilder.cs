@@ -15,6 +15,9 @@ public enum RoomColor
 /// <summary>
 /// Builds a rectangular room of any size by stretching the room template drawn
 /// in the Tiny Dungeon tileset sheets. Positions are in 8px tiles.
+///
+/// Fills the child TileMapLayers "Floor" and "Walls" when the game starts, but only if
+/// they're empty, so a room painted by hand in the editor is left alone.
 /// </summary>
 public partial class RoomBuilder : Node2D
 {
@@ -29,7 +32,6 @@ public partial class RoomBuilder : Node2D
     private static readonly int[] BottomRows = { 10, 11, 12 };
     private static readonly Vector2I FloorCell = new(2, 0); // 2x2 cells
 
-    [Export] public TileSet? TileSet { get; set; }
     [Export] public RoomColor Color { get; set; } = RoomColor.Green;
 
     /// <summary>Floor width in 8px tiles. Must be even so the wall pattern lines up.</summary>
@@ -41,24 +43,27 @@ public partial class RoomBuilder : Node2D
     public Vector2 SizeInPixels =>
         new((InteriorWidth + 2) * TileSize, (TopRows.Length + InteriorHeight + BottomRows.Length) * TileSize);
 
-    public override void _Ready() => Build();
+    /// <summary>The walkable floor area, in pixels relative to this node.</summary>
+    public Rect2 FloorRect =>
+        new(TileSize, TopRows.Length * TileSize, InteriorWidth * TileSize, InteriorHeight * TileSize);
 
-    public void Build()
+    public override void _Ready()
     {
-        foreach (var child in GetChildren())
+        var floor = GetNode<TileMapLayer>("Floor");
+        var walls = GetNode<TileMapLayer>("Walls");
+        if (floor.GetUsedCells().Count == 0 && walls.GetUsedCells().Count == 0)
         {
-            child.QueueFree();
+            Build(floor, walls);
         }
+    }
 
-        TileSet ??= GD.Load<TileSet>("res://assets/tilesets/room_tileset.tres");
-
-        var floor = new TileMapLayer { Name = "Floor", TileSet = TileSet };
-        var walls = new TileMapLayer { Name = "Walls", TileSet = TileSet };
-        AddChild(floor);
-        AddChild(walls);
+    public void Build(TileMapLayer floor, TileMapLayer walls)
+    {
+        floor.Clear();
+        walls.Clear();
 
         var sourceId = (int)Color;
-        var source = (TileSetAtlasSource)TileSet.GetSource(sourceId);
+        var source = (TileSetAtlasSource)walls.TileSet.GetSource(sourceId);
         var columns = InteriorWidth + 2;
         var rows = TopRows.Length + InteriorHeight + BottomRows.Length;
 

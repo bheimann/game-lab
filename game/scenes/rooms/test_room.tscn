@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/Game.cs" id="1_game"]
+[ext_resource type="Script" path="res://scripts/Rooms/RoomBuilder.cs" id="2_room"]
+[ext_resource type="TileSet" path="res://assets/tilesets/room_tileset.tres" id="3_tiles"]
+[ext_resource type="Script" path="res://scripts/Util/StripSprite.cs" id="4_strip"]
+[ext_resource type="Texture2D" path="res://assets/third_party/tiny_dungeon/Misc/Torch.png" id="5_torch"]
+[ext_resource type="Texture2D" path="res://assets/third_party/tiny_dungeon/Misc/Chest.png" id="6_chest"]
+[ext_resource type="PackedScene" path="res://scenes/actors/lizard.tscn" id="7_lizard"]
+[ext_resource type="PackedScene" path="res://scenes/actors/deer.tscn" id="8_deer"]
+[ext_resource type="Script" path="res://scripts/UI/HeartBar.cs" id="9_hearts"]
+
+[node name="TestRoom" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="Room" type="Node2D" parent="."]
+script = ExtResource("2_room")
+InteriorHeight = 14
+
+[node name="Floor" type="TileMapLayer" parent="Room"]
+tile_set = ExtResource("3_tiles")
+
+[node name="Walls" type="TileMapLayer" parent="Room"]
+tile_set = ExtResource("3_tiles")
+
+[node name="TorchLeft" type="AnimatedSprite2D" parent="."]
+position = Vector2(48, 22)
+script = ExtResource("4_strip")
+Strip = ExtResource("5_torch")
+FrameWidth = 8
+
+[node name="TorchRight" type="AnimatedSprite2D" parent="."]
+position = Vector2(224, 22)
+script = ExtResource("4_strip")
+Strip = ExtResource("5_torch")
+FrameWidth = 8
+
+[node name="Actors" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Chest" type="AnimatedSprite2D" parent="Actors"]
+position = Vector2(136, 40)
+offset = Vector2(0, -8)
+script = ExtResource("4_strip")
+Strip = ExtResource("6_chest")
+Loop = false
+PlayOnStart = false
+
+[node name="Lizard" parent="Actors" instance=ExtResource("7_lizard")]
+position = Vector2(136, 112)
+
+[node name="Deer1" parent="Actors" instance=ExtResource("8_deer")]
+position = Vector2(48, 64)
+
+[node name="Deer2" parent="Actors" instance=ExtResource("8_deer")]
+position = Vector2(224, 60)
+
+[node name="Deer3" parent="Actors" instance=ExtResource("8_deer")]
+position = Vector2(240, 136)
+
+[node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Hearts" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 208.0
+offset_bottom = 24.0
+script = ExtResource("9_hearts")
+
+[node name="Help" type="Label" parent="HUD"]
+offset_left = 232.0
+offset_top = 6.0
+offset_right = 632.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2
+text = "Move: WASD / stick    Punch: J or Space / A    Tongue: K / X"
