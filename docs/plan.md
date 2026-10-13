@@ -15,7 +15,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Check that C# builds and runs. Art check scene: a room built from the tileset, torches, a chest, the stand-in chameleon, and a walking deer.
 - ✅ 🦎 Choose a pixel-art pack: Vryell's *Tiny Dungeon Pack* (rooms, items, small enemies) plus deer.
 - ✅ Chameleon sprite, facing down (16×28, hand-pixelled from `chameleon-humanoid.jpg`).
-- 🦎 Chameleon facing up and sideways, plus walk frames. Draw them in [Piskel](https://www.piskelapp.com), or describe them and Claude will draw them.
+- ✅ Chameleon facing up and sideways, plus 2-step walk cycles for each view (`art-source/chameleon/*.txt`).
 - ✅ 🦎 Choose a name for the game: **Lizard Wizard**.
 
 **Done when:** pressing ▶ in Godot opens a window showing the art pack's tiles.

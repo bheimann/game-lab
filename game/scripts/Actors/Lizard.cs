@@ -3,6 +3,7 @@ using Godot;
 using LizardWizard.Combat;
 using LizardWizard.Effects;
 using LizardWizard.Players;
+using LizardWizard.Util;
 
 namespace LizardWizard.Actors;
 
@@ -14,8 +15,14 @@ public partial class Lizard : CharacterBody2D, IHittable
 {
     public const string Group = "players";
 
-    private const string SpritePath = "res://assets/sprites/chameleon/chameleon_front.png";
-    private static readonly Vector2 MouthOffset = new(0, -17);
+    private const string SpriteFolder = "res://assets/sprites/chameleon";
+    private const double WalkFps = 8;
+    private static readonly Vector2 SpriteOffset = new(0, -14); // feet at the node's origin
+
+    // Where the tongue comes out, per view (side view is drawn facing right).
+    private static readonly Vector2 MouthDown = new(0, -17);
+    private static readonly Vector2 MouthUp = new(0, -19);
+    private static readonly Vector2 MouthSide = new(6, -18);
     private static readonly Color TongueColor = new(1f, 0.32f, 0.47f);
 
     private const float PunchSeconds = 0.2f;
@@ -24,17 +31,17 @@ public partial class Lizard : CharacterBody2D, IHittable
     private const float TongueInSeconds = 0.15f;
 
     private readonly PlayerInput _input = new();
-    private Sprite2D _sprite = null!;
+    private AnimatedSprite2D _sprite = null!;
     private Line2D _tongue = null!;
     private State _state = State.Normal;
     private float _stateTime;
     private float _cooldown;
     private float _invulnerable;
-    private float _walkTime;
     private float _punchFlash;
     private bool _tongueHasHit;
     private Vector2 _knockback;
     private Vector2 _tongueDirection;
+    private float _tongueLength;
     private Vector2 _punchPoint;
     private Vector2 _spawnPoint;
 
@@ -96,8 +103,9 @@ public partial class Lizard : CharacterBody2D, IHittable
         _spawnPoint = GlobalPosition;
         MotionMode = MotionModeEnum.Floating;
 
-        _sprite = new Sprite2D { Texture = GD.Load<Texture2D>(SpritePath), Offset = new Vector2(0, -14) };
+        _sprite = new AnimatedSprite2D { SpriteFrames = BuildAnimations(), Offset = SpriteOffset };
         AddChild(_sprite);
+        _sprite.Play("idle_down");
 
         _tongue = new Line2D
         {
@@ -170,7 +178,7 @@ public partial class Lizard : CharacterBody2D, IHittable
         _knockback = _knockback.MoveToward(Vector2.Zero, 600f * dt);
         MoveAndSlide();
 
-        UpdateLook(move, dt);
+        UpdateLook(move);
     }
 
     public override void _Draw()
@@ -221,8 +229,8 @@ public partial class Lizard : CharacterBody2D, IHittable
 
         // Little lunge so the punch has some weight.
         var tween = CreateTween();
-        tween.TweenProperty(_sprite, "offset", new Vector2(0, -14) + Facing * 3f, 0.05f);
-        tween.TweenProperty(_sprite, "offset", new Vector2(0, -14), 0.12f);
+        tween.TweenProperty(_sprite, "offset", SpriteOffset + Facing * 3f, 0.05f);
+        tween.TweenProperty(_sprite, "offset", SpriteOffset, 0.12f);
     }
 
     private void StartTongue()
@@ -234,13 +242,14 @@ public partial class Lizard : CharacterBody2D, IHittable
         _tongue.Visible = true;
 
         // Aim assist: snap to the closest enemy roughly in front of us.
-        var mouth = ToGlobal(MouthOffset);
+        var mouth = ToGlobal(Mouth());
         var assisted = Targets()
             .Select(t => t.HurtCenter - mouth)
             .Where(d => d.Length() <= TongueRange + 8f && Mathf.RadToDeg(Mathf.Abs(Facing.AngleTo(d))) <= TongueAimAssistDegrees)
             .OrderBy(d => d.Length())
             .FirstOrDefault();
         _tongueDirection = assisted == Vector2.Zero ? Facing : assisted.Normalized();
+        _tongueLength = assisted == Vector2.Zero ? TongueRange : Mathf.Min(TongueRange, assisted.Length());
         UpdateTongue();
     }
 
@@ -268,8 +277,8 @@ public partial class Lizard : CharacterBody2D, IHittable
             return;
         }
 
-        var mouth = MouthOffset;
-        var tip = mouth + _tongueDirection * TongueRange * Mathf.Clamp(reach, 0, 1);
+        var mouth = Mouth();
+        var tip = mouth + _tongueDirection * _tongueLength * Mathf.Clamp(reach, 0, 1);
         _tongue.Points = new[] { mouth, tip };
 
         if (!_tongueHasHit && reach >= 1f)
@@ -310,24 +319,27 @@ public partial class Lizard : CharacterBody2D, IHittable
         _invulnerable = 1.5f;
     }
 
-    private void UpdateLook(Vector2 move, float dt)
+    private void UpdateLook(Vector2 move)
     {
-        // Hop while walking (we only have one frame so far).
-        if (move.Length() > 0.2f && _state != State.Down)
+        var view = View();
+        var walking = move.Length() > 0.2f && _state is State.Normal or State.Punching;
+        var animation = $"{(walking ? "walk" : "idle")}_{view}";
+        if (!IsDown && _sprite.Animation != animation)
         {
-            _walkTime += dt;
-            _sprite.Position = new Vector2(0, -Mathf.Abs(Mathf.Sin(_walkTime * 14f)) * 1.5f);
-        }
-        else
-        {
-            _walkTime = 0;
-            _sprite.Position = Vector2.Zero;
+            _sprite.Play(animation);
         }
 
-        if (Mathf.Abs(Facing.X) > 0.1f)
+        if (view == "side")
         {
             _sprite.FlipH = Facing.X < 0;
         }
+        else
+        {
+            _sprite.FlipH = false;
+        }
+
+        // Facing away: the tongue starts behind the head.
+        _tongue.ZIndex = view == "up" ? -1 : 0;
 
         // Flicker (faint / solid) while invulnerable, but never disappear completely.
         if (!IsDown)
@@ -335,7 +347,34 @@ public partial class Lizard : CharacterBody2D, IHittable
             var faint = _invulnerable > 0 && (int)(_invulnerable * 15) % 2 == 1;
             _sprite.Modulate = Colors.White with { A = faint ? 0.35f : 1f };
         }
+
         QueueRedraw();
+    }
+
+    /// <summary>Which drawing to use: "down", "up" or "side". Diagonals use the side view.</summary>
+    private string View() =>
+        Mathf.Abs(Facing.Y) > Mathf.Abs(Facing.X) + 0.01f ? (Facing.Y > 0 ? "down" : "up") : "side";
+
+    private Vector2 Mouth() => View() switch
+    {
+        "down" => MouthDown,
+        "up" => MouthUp,
+        _ => MouthSide with { X = Facing.X < 0 ? -MouthSide.X : MouthSide.X },
+    };
+
+    private static SpriteFrames BuildAnimations()
+    {
+        var frames = new SpriteFrames();
+        frames.RemoveAnimation("default");
+        foreach (var (view, width) in new[] { ("down", 16), ("up", 16), ("side", 20) })
+        {
+            // Each strip is: idle, step A, step B.
+            var strip = GD.Load<Texture2D>($"{SpriteFolder}/chameleon_{view}.png");
+            SpriteSheet.AddFrames(frames, $"idle_{view}", strip, width, 1, new[] { 0 });
+            SpriteSheet.AddFrames(frames, $"walk_{view}", strip, width, WalkFps, new[] { 1, 0, 2, 0 });
+        }
+
+        return frames;
     }
 
     private IHittable[] Targets() =>

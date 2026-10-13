@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8tjlcfww5xyh"
-path="res://.godot/imported/chameleon_front.png-9288cd6f91c0b3f1509faf5087a9767a.ctex"
+uid="uid://btfusoybf01o0"
+path="res://.godot/imported/chameleon_up.png-586d5d34012492c4c4231c74efd936c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/chameleon/chameleon_front.png"
-dest_files=["res://.godot/imported/chameleon_front.png-9288cd6f91c0b3f1509faf5087a9767a.ctex"]
+source_file="res://assets/sprites/chameleon/chameleon_up.png"
+dest_files=["res://.godot/imported/chameleon_up.png-586d5d34012492c4c4231c74efd936c0.ctex"]
 
 [params]
 
