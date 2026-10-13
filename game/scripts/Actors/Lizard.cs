@@ -30,7 +30,6 @@ public partial class Lizard : CharacterBody2D, IHittable
     private const float TongueHoldSeconds = 0.05f;
     private const float TongueInSeconds = 0.15f;
 
-    private readonly PlayerInput _input = new();
     private AnimatedSprite2D _sprite = null!;
     private Line2D _tongue = null!;
     private State _state = State.Normal;
@@ -79,6 +78,14 @@ public partial class Lizard : CharacterBody2D, IHittable
 
     public Health Health { get; private set; } = null!;
 
+    /// <summary>0-based player number (P1 = 0). Decides the colour of the ring and arrow.</summary>
+    public int PlayerIndex { get; private set; }
+
+    /// <summary>The device controlling this lizard. Updated by <see cref="PlayerManager"/> each frame.</summary>
+    public PlayerInput Controls { get; private set; } = new(InputDevice.KeyboardLeft);
+
+    public Color PlayerColour => PlayerManager.Colours[PlayerIndex % PlayerManager.Colours.Length];
+
     /// <summary>The direction the lizard last moved in (one of 8 directions).</summary>
     public Vector2 Facing { get; private set; } = Vector2.Down;
 
@@ -96,11 +103,19 @@ public partial class Lizard : CharacterBody2D, IHittable
 
     public float HurtRadius => 7f;
 
+    /// <summary>Call before adding the lizard to the scene.</summary>
+    public void Setup(int playerIndex, PlayerInput input, Vector2 spawnPoint)
+    {
+        PlayerIndex = playerIndex;
+        Controls = input;
+        _spawnPoint = spawnPoint;
+        Position = spawnPoint;
+    }
+
     public override void _Ready()
     {
         AddToGroup(Group);
         Health = new Health(MaxHealth);
-        _spawnPoint = GlobalPosition;
         MotionMode = MotionModeEnum.Floating;
 
         _sprite = new AnimatedSprite2D { SpriteFrames = BuildAnimations(), Offset = SpriteOffset };
@@ -123,7 +138,6 @@ public partial class Lizard : CharacterBody2D, IHittable
     public override void _PhysicsProcess(double delta)
     {
         var dt = (float)delta;
-        _input.Update();
         _stateTime += dt;
         _cooldown -= dt;
         _invulnerable -= dt;
@@ -142,11 +156,11 @@ public partial class Lizard : CharacterBody2D, IHittable
 
             case State.Normal:
                 moveFactor = 1f;
-                if (_input.PunchPressed && _cooldown <= 0)
+                if (Controls.PunchPressed && _cooldown <= 0)
                 {
                     StartPunch();
                 }
-                else if (_input.TonguePressed && _cooldown <= 0)
+                else if (Controls.TonguePressed && _cooldown <= 0)
                 {
                     StartTongue();
                 }
@@ -167,7 +181,7 @@ public partial class Lizard : CharacterBody2D, IHittable
                 break;
         }
 
-        var move = moveFactor > 0 ? _input.Move : Vector2.Zero;
+        var move = moveFactor > 0 ? Controls.Move : Vector2.Zero;
         if (move.Length() > 0.2f && _state == State.Normal)
         {
             // Snap to 8 directions.
@@ -177,12 +191,22 @@ public partial class Lizard : CharacterBody2D, IHittable
         Velocity = move * Speed * moveFactor + _knockback;
         _knockback = _knockback.MoveToward(Vector2.Zero, 600f * dt);
         MoveAndSlide();
+        StayOnScreen();
 
         UpdateLook(move);
     }
 
     public override void _Draw()
     {
+        // Player marker: a coloured ring at the feet and a small arrow over the head.
+        if (!IsDown)
+        {
+            DrawSetTransform(Vector2.Zero, 0, new Vector2(1f, 0.45f));
+            DrawArc(Vector2.Zero, 8f, 0, Mathf.Tau, 20, PlayerColour, 1.5f);
+            DrawSetTransform(Vector2.Zero, 0, Vector2.One);
+            DrawColoredPolygon(new[] { new Vector2(-3, -33), new Vector2(3, -33), new Vector2(0, -30) }, PlayerColour);
+        }
+
         if (_punchFlash > 0)
         {
             var at = ToLocal(_punchPoint);
@@ -310,7 +334,9 @@ public partial class Lizard : CharacterBody2D, IHittable
 
     private void Respawn()
     {
-        GlobalPosition = _spawnPoint;
+        // Get back up next to a teammate who's still standing, or at the start if nobody is.
+        var buddy = GetTree().GetNodesInGroup(Group).OfType<Lizard>().FirstOrDefault(l => l != this && !l.IsDown);
+        GlobalPosition = buddy?.GlobalPosition ?? _spawnPoint;
         Health.Refill();
         _state = State.Normal;
         _knockback = Vector2.Zero;
@@ -375,6 +401,15 @@ public partial class Lizard : CharacterBody2D, IHittable
         }
 
         return frames;
+    }
+
+    private void StayOnScreen()
+    {
+        if (CoopCamera.Find(this) is { } camera)
+        {
+            var allowed = camera.AllowedRect;
+            GlobalPosition = GlobalPosition.Clamp(allowed.Position, allowed.End);
+        }
     }
 
     private IHittable[] Targets() =>

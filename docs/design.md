@@ -26,6 +26,7 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 - **Local co-op only.** One computer, one screen, one controller (or the keyboard) per player. No online play.
 - **Shared camera.** It zooms out to keep every player in view, up to a limit. Players can't walk off-screen.
 - **Drop in / drop out.** Press a button on a controller to join the game.
+- **No friendly fire.** Players can't hurt each other.
 - **Menus don't pause.** The game keeps running for everyone. Only the player with the menu open
   is affected: **if they're in a fight, their character slows down**; otherwise it moves at normal speed.
   - **"In a fight"** means an enemy can see you and is targeting you, even if nobody has been hit yet.

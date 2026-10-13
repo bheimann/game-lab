@@ -36,11 +36,14 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 **Done when:** you can run around a room and fight deer.
 
 ## M2: Second player
-- 🛠 Per-player input: each controller and the keyboard is its own player.
-  (Godot's input actions are shared by default, so we'll wrap them in a small `PlayerInput` class that tracks which device belongs to which player.)
-- 🛠 Press a button to join.
-- 🛠 Shared camera that zooms to fit everyone, and stops players walking off-screen.
-- 🦎 Decide whether players can hurt each other (please say no 😄).
+- ✅ 🛠 Per-player input: each controller is its own player, and the keyboard splits in two (WASD side and arrows side).
+- ✅ 🛠 Press a button to join (up to 4 players); hold Back / Backspace / Delete for a second to leave.
+  Unplugging a controller also removes that player.
+- ✅ 🛠 Shared camera: zooms from 2× (together) out to 1× (spread out), never shows past the room's edges,
+  and stops players walking off-screen once it's fully zoomed out.
+- ✅ 🛠 Player colours (P1 blue, P2 red, P3 yellow, P4 pink): a ring at the feet, an arrow over the head, and a HUD corner each.
+- ✅ 🛠 A knocked-out lizard gets back up next to a teammate who's still standing.
+- ✅ 🦎 Decide whether players can hurt each other: **no**.
 
 **Done when:** father and son can play in the same room at the same time.
 
