@@ -131,6 +131,7 @@ decides which skills it has. The paint also changes how the fox looks, so each m
 
 ## Questions for the designer
 - **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?
-- **Bomb switching:** which button (or menu) picks the bomb type? Are all types there from the start or found / bought?
+- **Bomb types:** LB / RB (or the ring menu) switch them. Are all types there from the start, or found / bought?
+- **Items and armor:** what else goes in the menu? (So far: healing herb, shadow cloak, ember scales, bomb vest, sturdy vest.)
 - **Combos:** which element orders make which combos?
 - **Kings' homes:** where do the deer, fox and bug kings live? (Names should include the animal, like the other places.)

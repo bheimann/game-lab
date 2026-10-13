@@ -1,0 +1,13 @@
+# Menu icon: ember scales (12x12)
+.oooooooooo.
+oFFYFFYFFYFo
+oFYFFYFFYFFo
+oFFRFFRFFRFo
+oYFFYFFYFFYo
+oFFYFFYFFYFo
+.oFRFFRFFRo.
+.oFYFFYFFYo.
+..oFFRFFFo..
+...oFYFFo...
+....oFFo....
+.....oo.....

@@ -1,11 +1,14 @@
+using System.Collections.Generic;
 using Godot;
+using LizardWizard.Items;
 using LizardWizard.Players;
 
 namespace LizardWizard.UI;
 
 /// <summary>
 /// One player's corner of the HUD: "P1" in the player's colour and Zelda-style hearts (each heart is
-/// 2 HP, so odd damage shows half a heart). While nobody is in that slot it shows how to join.
+/// 2 HP, so odd damage shows half a heart). Under the hearts: the selected bomb / colour, herbs left
+/// and the armor being worn. While nobody is in that slot it shows how to join.
 /// </summary>
 public partial class HeartBar : Control
 {
@@ -14,8 +17,10 @@ public partial class HeartBar : Control
     private const int HeartScale = 2;
     private const int Gap = 2;
     private const int FontSize = 10;
+    private const string HerbIcon = "res://assets/sprites/icons/herb.png";
 
     private Texture2D _heart = null!;
+    private Texture2D _herb = null!;
 
     /// <summary>0-based player slot (P1 = 0).</summary>
     [Export] public int PlayerIndex { get; set; }
@@ -26,6 +31,7 @@ public partial class HeartBar : Control
     public override void _Ready()
     {
         _heart = GD.Load<Texture2D>(HeartPath);
+        _herb = GD.Load<Texture2D>(HerbIcon);
     }
 
     public override void _Process(double delta) => QueueRedraw();
@@ -46,7 +52,7 @@ public partial class HeartBar : Control
             var hintAlpha = slot is { IsChoosing: true } ? 1f : 0.6f;
             var hintWidth = font.GetStringSize(hint, HorizontalAlignment.Left, -1, FontSize).X;
             var hintX = AlignRight ? Size.X - hintWidth : 0;
-            DrawBacking(hintX, hintWidth);
+            DrawBacking(hintX, hintWidth, hintX, 0);
             DrawString(font, new Vector2(hintX, FontSize + 2), hint, HorizontalAlignment.Left, -1, FontSize, colour with { A = hintAlpha });
             return;
         }
@@ -57,7 +63,27 @@ public partial class HeartBar : Control
         var labelWidth = font.GetStringSize(label, HorizontalAlignment.Left, -1, FontSize).X + 4;
         var total = labelWidth + hearts * (size.X + Gap);
         var x = AlignRight ? Size.X - total : 0;
-        DrawBacking(x, total);
+
+        // Second row: quick-swap choice, herbs, armor.
+        var gear = new List<MenuOption>();
+        if (lizard.QuickOptions is { } quick)
+        {
+            gear.Add(quick.Options[quick.Selected]);
+        }
+
+        gear.Add(new MenuOption("Herbs", "", _herb, Colors.White) { Count = $"x{lizard.Herbs}", Enabled = lizard.Herbs > 0 });
+        if (lizard.Armor is { } armor)
+        {
+            gear.Add(armor.ToOption());
+        }
+
+        const float gearSlot = 24f;
+        var gearX = AlignRight ? Size.X - gear.Count * gearSlot : 0;
+        DrawBacking(x, total, gearX, gear.Count * gearSlot);
+        for (var i = 0; i < gear.Count; i++)
+        {
+            gear[i].Draw(this, new Vector2(gearX + 7 + i * gearSlot, 25), 1f);
+        }
 
         DrawString(font, new Vector2(x, FontSize + 2), label, HorizontalAlignment.Left, -1, FontSize, colour);
         x += labelWidth;
@@ -82,8 +108,8 @@ public partial class HeartBar : Control
         }
     }
 
-    /// <summary>Dark rounded box behind the panel so it's readable over walls and floor.</summary>
-    private void DrawBacking(float x, float width)
+    /// <summary>Dark rounded box behind the panel so it's readable over walls and floor (two rows when there's gear).</summary>
+    private void DrawBacking(float x, float width, float gearX, float gearWidth)
     {
         var box = new StyleBoxFlat
         {
@@ -94,5 +120,9 @@ public partial class HeartBar : Control
             CornerRadiusBottomRight = 3,
         };
         DrawStyleBox(box, new Rect2(x - 3, -2, width + 4, 18));
+        if (gearWidth > 0)
+        {
+            DrawStyleBox(box, new Rect2(gearX - 3, 17, gearWidth + 4, 16));
+        }
     }
 }
