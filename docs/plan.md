@@ -25,6 +25,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - 🛠 Punch attack (5 damage) and tongue attack (longer reach, 1 damage).
 - 🛠 Health, taking damage, and respawning.
 - 🛠 One simple enemy (a deer, 10–15 health) that walks toward the player once it sees them.
+- 🛠 Beaten deer fall asleep. When no enemies are left awake, they wake up and say thank you.
 - 🦎 Paint the first room in the tilemap editor.
 - 🦎 Tune movement speed, tongue range and enemy speed until it *feels* good.
 
@@ -43,9 +44,10 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - 🛠 A data-driven ability system: each power is a Godot `Resource` with settings
   (cooldown, duration, energy cost) that can be edited in the inspector without code.
 - 🛠 Chameleon camouflage: hidden while standing still, seen again when moving. Enemies lose track of hidden lizards.
-- 🛠 The second character: the fox (Weapon, Gun or Bomb Master).
+- 🛠 The second character: the arctic fox, as a **Bomb Master** (its starting mastery).
 - ✅ 🦎 Pick the second character: **the fox**.
-- 🦎 Decide whether the fox's three versions are separate characters or one fox that switches.
+- ✅ 🦎 Decide how the fox's masteries work: one fox that gets painted in a village to switch.
+  (Painting and the other masteries come later, after the first dungeon.)
 - 🦎 Balance cooldowns and durations.
 
 **Done when:** the chameleon and the fox feel different to play.

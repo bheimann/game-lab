@@ -17,7 +17,7 @@ If you upgrade Godot, change the `Godot.NET.Sdk/4.7.2` version in the `.csproj` 
 ## Credits
 - **Design:** the designer (6th grade) and dad
 - **Dungeon art:** *Tiny Dungeon Pack* by **Vryell**, palette *Rosy 42* by **@PineTreePizza**
-- **Deer art:** [*Deer Pixel Art*](https://mattar-productions.itch.io/deer-pixel-art) by **Ali Mattar (Mattar Productions)**
+- **Deer art:** [*Deer Pixel Art*](https://mattar-productions.itch.io/deer-pixel-art) by **Ali Mattar (Mattar Productions)**; deer walk and run animations by [**babisaur**](https://babisaur.itch.io/assets)
 - **Chameleon sprite:** pixelled by Claude from a Grok-generated reference
 
 Full details and licenses: [game/assets/third_party/CREDITS.md](game/assets/third_party/CREDITS.md).
