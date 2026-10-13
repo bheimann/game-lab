@@ -1,19 +1,69 @@
-"""Builds art-source/arctic_fox/*.txt. The head/body are drawn as left halves and mirrored, then the
-legs and tail (which aren't symmetric) are added per frame. Run: python tools/fox_frames.py"""
+"""Builds art-source/arctic_fox/*.txt and art-source/red_fox/*.txt. The head/body are drawn as left halves
+and mirrored, then the legs and tail (which aren't symmetric) are added per frame. The red fox is the
+arctic fox recoloured: orange fur, white muzzle / chest / tail tip, dark legs. Run: python tools/fox_frames.py"""
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parent.parent / "art-source" / "arctic_fox"
+ART = Path(__file__).resolve().parent.parent / "art-source"
 
 
 def mirror(halves):
     return [h + h[::-1] for h in halves]
 
 
+# Red fox: which part of the body each pixel is. "fur" turns orange, "white" stays white, "dark" turns brown-black.
+RECOLOUR = {
+    "fur": {"W": "F", "G": "f", "g": "f"},
+    "white": {},
+    "dark": {"W": "n", "G": "n", "g": "n"},
+}
+
+
+def red_zone(view, y, x):
+    if view == "down":
+        if 8 <= y <= 10 or (y == 7 and (x <= 3 or x >= 12)):
+            return "white"  # cheeks and muzzle
+        if 12 <= y <= 16 and 6 <= x <= 9:
+            return "white"  # chest
+        if y == 17:
+            return "dark"  # paws
+        if (y >= 19 and x >= 12) or (y >= 22 and x >= 10):
+            return "white" if y >= 22 else "fur"  # tail, white tip
+        if y >= 19:
+            return "dark"  # legs
+        return "fur"
+    if view == "up":
+        if y == 17:
+            return "dark"
+        if 18 <= y <= 20 and 5 <= x <= 10:
+            return "fur"  # tail down the back
+        if y >= 21 and 5 <= x <= 10:
+            return "white"  # tail tip
+        if y >= 18:
+            return "dark"
+        return "fur"
+    # side (facing right)
+    if (y == 9 and 5 <= x <= 11) or y in (10, 11) or (12 <= y <= 13 and x >= 8):
+        return "white"  # jaw, throat, chest
+    if 13 <= y <= 17 and x <= 4:
+        return "white" if (y in (14, 15) and x <= 2) else "fur"  # tail, white tip
+    if 14 <= y <= 16 and x >= 10:
+        return "dark"  # front leg
+    if y >= 19:
+        return "dark"
+    return "fur"
+
+
 def write(name, comment, frames, width):
+    view = name.rsplit("_", 1)[1].removesuffix(".txt")
     for f in frames:
         assert len(f) == 28 and all(len(r) == width for r in f), [(i, len(r)) for i, r in enumerate(f) if len(r) != width]
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / name).write_text(comment + "\n" + "\n\n".join("\n".join(f) for f in frames) + "\n", encoding="utf-8")
+    red = [["".join(RECOLOUR[red_zone(view, y, x)].get(c, c) for x, c in enumerate(row)) for y, row in enumerate(f)]
+           for f in frames]
+    for folder, species, fs in (("arctic_fox", "Arctic fox", frames), ("red_fox", "Red fox", red)):
+        out = ART / folder
+        out.mkdir(parents=True, exist_ok=True)
+        text = comment.replace("Arctic fox", species) + "\n" + "\n\n".join("\n".join(f) for f in fs) + "\n"
+        (out / name.replace("arctic_fox", folder)).write_text(text, encoding="utf-8")
 
 
 # ---------- facing down ----------

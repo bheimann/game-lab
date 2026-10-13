@@ -93,7 +93,7 @@ also a tool for grabbing, pulling and swinging in later puzzles).
   horned-lizard spikes) could become later classes or friendly lizards in the kingdom.
 
 ### Fox
-Player 2 starts as an ordinary **red fox**. (The game currently uses an arctic fox as a stand-in; it gets recoloured.)
+Player 2 is an ordinary **red fox**. (The arctic fox art is kept for the snow area's foxes.)
 
 **One fox that changes masteries.** To switch, the fox gets **painted in any village**, and the paint
 decides which skills it has. The paint also changes how the fox looks, so each mastery is easy to spot.

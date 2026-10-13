@@ -16,7 +16,7 @@ Up to 4 players. Each controller is a player, and the keyboard can be two player
 Press a button to join, pick a character with left / right and confirm with the primary button.
 Hold the leave button for a second to drop out.
 
-| | Keyboard (left) | Keyboard (right) | Controller | Lizard | Arctic fox |
+| | Keyboard (left) | Keyboard (right) | Controller | Lizard | Fox |
 |---|---|---|---|---|---|
 | Move | WASD | Arrows | Left stick or d-pad | | |
 | Primary | J, Space or F | . or Numpad 1 | A | Punch | Bite |

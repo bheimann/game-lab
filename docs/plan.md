@@ -55,7 +55,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Lizard (Chameleon class): punch, tongue, **camouflage** (stand still ~0.6 s to fade out; deer lose track
   and show "?"; moving, attacking or getting hit reveals you), **colour change** (cycles blue/red/yellow/purple;
   half damage from ice/fire/lightning/arcane; no elemental enemies yet).
-- ✅ 🛠 Arctic fox (Bomb Master): bite (4 damage) and **bombs** (thrown in an arc, 1 s fuse, 8 damage in a blast,
+- ✅ 🛠 Fox (Bomb Master; a red fox, first drawn as an arctic fox): bite (4 damage) and **bombs** (thrown in an arc, 1 s fuse, 8 damage in a blast,
   max 2 out at once, a little screen shake).
 - ✅ 🛠 Pick your character when you join: left / right, then A.
 - ✅ 🦎 Pick the second character: **the fox**.

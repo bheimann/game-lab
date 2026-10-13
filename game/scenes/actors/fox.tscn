@@ -4,13 +4,13 @@
 [ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="2_melee"]
 [ext_resource type="Script" path="res://scripts/Abilities/BombAbility.cs" id="3_bomb"]
 
-[node name="ArcticFox" type="CharacterBody2D"]
+[node name="Fox" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 1
 motion_mode = 1
 script = ExtResource("1_hero")
-DisplayName = "Arctic Fox"
-SpritePrefix = "res://assets/sprites/arctic_fox/arctic_fox"
+DisplayName = "Fox"
+SpritePrefix = "res://assets/sprites/red_fox/red_fox"
 SideFrameWidth = 20
 Speed = 75.0
 AttackOriginDown = Vector2(0, -15)
@@ -22,7 +22,7 @@ script = ExtResource("2_melee")
 CooldownSeconds = 0.3
 Damage = 4
 Reach = 11.0
-FlashColour = Color(0.8, 0.9, 1, 1)
+FlashColour = Color(1, 0.8, 0.6, 1)
 
 [node name="Bomb" type="Node2D" parent="."]
 script = ExtResource("3_bomb")

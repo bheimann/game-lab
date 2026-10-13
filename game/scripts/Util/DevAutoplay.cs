@@ -9,7 +9,7 @@ namespace LizardWizard.Util;
 
 /// <summary>
 /// Dev helper: run with <c>-- --autoplay=&lt;folder&gt;</c> and two bots play the room by pressing the real
-/// keyboard keys (P1 on WASD as the lizard, P2 on the arrows as the arctic fox). Script:
+/// keyboard keys (P1 on WASD as the lizard, P2 on the arrows as the fox). Script:
 /// 1. both join and pick characters, 2. P1 gets spotted by a deer then stands still (camouflage test),
 /// 3. P1 changes colour twice, 3b. P2 gets spotted then leaves (deer must forget them) and rejoins, 4. fight until every deer has said thanks (P1 punches, P2 throws bombs),
 /// 5. walk to opposite sides to test the camera, 6. P2 holds Delete to leave.
