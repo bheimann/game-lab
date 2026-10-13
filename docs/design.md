@@ -44,12 +44,17 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 - Some kingdoms have a few types of their animal, and a type can live somewhere different from
   the rest of its kingdom (e.g. **a snow area with arctic foxes and reindeer**).
 - The "Possible area" column is Claude's guess. The designer decides.
-- **Place names include the animal that lives there.** Decided: **Scarab Desert** (beetles).
-  Claude's suggestions for the rest:
-  - *Deer:* Antlerwood Forest, Hoofhollow
-  - *Fox:* Foxglove Hills, Frosttail Tundra (arctic foxes and reindeer)
-  - *Bird:* Plume Peaks, Peacock Palace
-  - *Lizard:* Scalebrook, Tailspin Swamp
+- **Each kingdom has a king.** **Place names include the animal that lives there**:
+
+| Kingdom | Places | King's home |
+|---|---|---|
+| 🦎 Lizard | Scalebrook, **Tailspin Swamp** | Tailspin Swamp |
+| 🦌 Deer | Antlerwood Forest, Hoofhollow | ? |
+| 🦊 Fox | Foxglove Hills, Frosttail Tundra (snow: arctic foxes and reindeer) | ? |
+| 🦚 Bird | Plume Peaks, **Peacock Palace** | Peacock Palace |
+| 🪲 Bug | Scarab Desert | ? |
+
+- **Every village has a painter.** Getting painted changes your **class**, for every character.
 
 ## Combat numbers (starting values, to be tuned)
 | | Damage | Health |
@@ -71,6 +76,7 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 | Horned lizard | Lizard | Shoots blood from its eyes, spikes for defence | Idea |
 
 ### Chameleon
+- **Classes:** like the fox, the chameleon changes class by getting painted in a village. (Which classes? See questions.)
 - **Punch:** the main attack, **5 damage**.
 - **Tongue:** a weak attack (**1 damage**) with a longer reach. It's also a tool (grab, pull, swing) for later puzzles.
 - **Camouflage:** while the chameleon **stands still** it's hidden and enemies can't see it.
@@ -80,16 +86,19 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
   - *Shadow armor:* the chameleon stays **invisible even while moving**.
 
 ### Arctic fox
-**One fox that changes masteries.** To switch, the fox goes to a **village to get painted**, and the paint
+**One fox that changes masteries.** To switch, the fox gets **painted in any village**, and the paint
 decides which skills it has. The paint also changes how the fox looks, so each mastery is easy to spot.
 
 | Mastery | What it does | How you get it |
 |---|---|---|
 | **Bomb Master** | Throws bombs that hit groups of enemies and break walls (Tiny Dungeon has bomb art) | **Starting mastery** |
-| **Weapon Master** | Close-up fighting with swords, spears, etc. | Learned from the **moose** (Deer kingdom) |
+| **Weapon Master** | Close-up fighting with swords, spears, etc. | Learned from the **moose** (Deer kingdom) ⚠️ see questions |
 | **Gun Master** | Shoots from a distance | Learned from the **peacocks** |
-| **Element Master** | Fire, ice, lightning and arcane damage | ? |
-| **Wand Master** | Casts spells with a wand | ? |
+| **Element Master** | **Spells** of fire, ice, lightning and arcane | Learned from the **moose** |
+| **Wand Master** | A **ranged wand**; the **right stick** changes its element (fire, ice, lightning, arcane) | Learned from the **bugs** |
+
+- **Combos:** casting spells (Element Master) or wand shots (Wand Master) **in a certain order** sets off a combo.
+  For example: ice then lightning = *shatter*, fire then arcane = *explosion*. The designer picks the real combos.
 
 ## Enemies
 - **Regular enemies are animals, starting with deer.** Deer are about twice as tall as a lizard,
@@ -101,8 +110,12 @@ decides which skills it has. The paint also changes how the fox looks, so each m
   The Tiny Dungeon pack's slimes, bats, rats and skeletons can fill gaps.
 
 ## Questions for the designer
-- Who teaches the fox the **Element Master** and **Wand Master** masteries?
-- Is there one painting village, or one in each kingdom?
-- Where do the lizards and the peacocks live? (Check the place name suggestions above.)
-- What's the difference between **Element Master** and **Wand Master**? Maybe the Element Master
-  uses fire, ice, lightning and arcane up close, and the Wand Master casts them from far away?
+- **Who are the players in the Lizard Kingdom?** Some options:
+  - **Knights** of the Lizard King (sent on a quest; the fox joins as an ally)
+  - **The king's kids**, a prince or princess setting out to save the kingdom
+  - **The king himself**
+  - **Ordinary lizards** who become heroes (they start weak and earn titles as they go)
+- **Moose:** do they teach **both** Weapon Master and Element Master, or did Weapon Master move somewhere else?
+- **Chameleon classes:** what can the chameleon get painted into? (e.g. Ninja for stealth, Brawler for punches, Tongue Master?)
+- **Combos:** which element orders make which combos?
+- Where do the deer, fox and bug kings live?
