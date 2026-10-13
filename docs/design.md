@@ -12,6 +12,8 @@ Inspired by: Cat Quest 2/3 (feel, simple RPG), Secret of Mana (real-time menus, 
 Zelda / Four Swords (dungeons, puzzles, co-op).
 
 ## Story
+- The players are **ordinary lizards** who become **knights of the Lizard King** over the course of the game,
+  earning ranks as they go.
 - **Mossimus Maximus**, a deer with bad intentions, is turning the kingdoms against the lizards.
   He's the **final boss**.
 - The deer and bugs you fight **aren't bad**. They've been **deceived**, and Mossimus convinces more
@@ -35,7 +37,7 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 ## The world: five kingdoms
 | Kingdom | Types | Possible area |
 |---|---|---|
-| 🦎 **Lizard** | Chameleon, … (the players' home) | ? |
+| 🦎 **Lizard** | (the players' home) | ? |
 | 🦌 **Deer** | White-tailed deer, reindeer, moose | Forest; reindeer in the snow |
 | 🦊 **Fox** | Red fox, arctic fox | Woods/hills; arctic foxes in the snow |
 | 🦚 **Bird** | Peacocks | ? |
@@ -60,30 +62,34 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 | | Damage | Health |
 |---|---|---|
 | Lizard **punch** | 5 | |
-| Chameleon **tongue** | 1 | |
+| Lizard **tongue** | 1 | |
 | Starting enemies (e.g. deer) | ? | 10–15 (2–3 punches) |
 | Players | | ? (Claude will start with 20) |
 
 ## Playable characters
-| Character | Kingdom | Main power | Status |
-|---|---|---|---|
-| **Chameleon** | Lizard | Camouflage (see below) | **First** |
-| **Arctic fox** | Fox | Changes mastery by getting painted (see below) | **Second** |
-| Gecko | Lizard | Climbs walls | Idea |
-| Frilled lizard | Lizard | Frill flare that scares or stuns enemies | Idea |
-| Komodo dragon | Lizard | Tank with a poison bite | Idea |
-| Basilisk | Lizard | Runs on water, very fast | Idea |
-| Horned lizard | Lizard | Shoots blood from its eyes, spikes for defence | Idea |
+Both playable characters change **class** by getting **painted in any village**. The paint also changes
+how they look, so you can tell classes apart at a glance.
 
-### Chameleon
-- **Classes:** like the fox, the chameleon changes class by getting painted in a village. (Which classes? See questions.)
-- **Punch:** the main attack, **5 damage**.
-- **Tongue:** a weak attack (**1 damage**) with a longer reach. It's also a tool (grab, pull, swing) for later puzzles.
-- **Camouflage:** while the chameleon **stands still** it's hidden and enemies can't see it.
-  **Moving** makes it visible again.
-- **Armor changes how camouflage works.** For example:
-  - *Fire armor:* changing colour also gives **fire resistance**.
-  - *Shadow armor:* the chameleon stays **invisible even while moving**.
+| Character | Kingdom | Starting class | Status |
+|---|---|---|---|
+| **Lizard** | Lizard | Chameleon (assumed) | **First** |
+| **Arctic fox** | Fox | Bomb Master | **Second** |
+
+### Lizard
+Every lizard can **punch** (5 damage, the main attack) and use its **tongue** (1 damage, longer reach;
+also a tool for grabbing, pulling and swinging in later puzzles).
+
+| Class | What it does |
+|---|---|
+| **Chameleon** | **Camouflage:** hidden while standing still, seen when moving. **Colour change** for damage resistance: 🔵 blue = ice, 🔴 red = fire, 🟡 yellow = lightning, 🟣 purple = arcane |
+| **Tongue Master** | More tongue damage, **spiked tongue**, **elemental** tongue attacks, longer range |
+| **Trickster** (like Loki; name TBD) | Sends out **decoys**: illusions, clones and turrets |
+| **Spitter** | Spits **poison** or **elements** |
+| **Healer** | Heals and protects the team, and has **extra HP** |
+
+- **Armor** can still change how a class works, e.g. *shadow armor* lets a chameleon stay invisible while moving.
+- Earlier species ideas (gecko wall-climbing, frilled-lizard scare, komodo tank, basilisk water-running,
+  horned-lizard spikes) could become later classes or friendly lizards in the kingdom.
 
 ### Arctic fox
 **One fox that changes masteries.** To switch, the fox gets **painted in any village**, and the paint
@@ -110,11 +116,8 @@ decides which skills it has. The paint also changes how the fox looks, so each m
   The Tiny Dungeon pack's slimes, bats, rats and skeletons can fill gaps.
 
 ## Questions for the designer
-- **Who are the players in the Lizard Kingdom?** Some options:
-  - **Knights** of the Lizard King (sent on a quest; the fox joins as an ally)
-  - **The king's kids**, a prince or princess setting out to save the kingdom
-  - **The king himself**
-  - **Ordinary lizards** who become heroes (they start weak and earn titles as they go)
-- **Chameleon classes:** what can the chameleon get painted into? (e.g. Ninja for stealth, Brawler for punches, Tongue Master?)
+- What's the **Trickster** class called? (Trickster, Illusionist, Mirage, …?)
+- Does the lizard **start as a Chameleon**, and where are the other lizard classes learned?
+- **Knight ranks:** what are they (e.g. Squire → Knight → Royal Knight), and what earns each one?
 - **Combos:** which element orders make which combos?
 - Where do the deer, fox and bug kings live?
