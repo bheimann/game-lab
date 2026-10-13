@@ -11,8 +11,8 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 
 ## M0: Setup
 - 🛠 Download the Godot .NET build and unzip it to `C:\Dev\tools\godot` (no installer).
-- 🛠 Create the Godot project in this repo, with a `.gitignore` for `.godot/`, and get an empty scene running.
-- 🛠 Check that C# builds and runs from the Godot editor.
+- ✅ 🛠 Create the Godot project in `game/`, with a `.gitignore` for `.godot/`, and get a test scene running.
+- ✅ 🛠 Check that C# builds and runs (`dotnet build`, plus a headless run). Still to do: press ▶ in the editor and see the window.
 - 🦎 Choose a pixel-art pack (start with Kenney's free 16×16 packs, e.g. *Tiny Dungeon*;
   search itch.io for "free lizard sprite" to find the lizards).
 - ✅ 🦎 Choose a name for the game: **Lizard Wizard**.
