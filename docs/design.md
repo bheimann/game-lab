@@ -33,6 +33,14 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 - Does the tongue do damage, or just grab and pull?
 - Can the chameleon change colour for other reasons? (e.g. turning red to resist fire)
 
+## Enemies
+- **Regular enemies are animals, starting with deer.** Deer are about twice as tall as a lizard,
+  so even ordinary enemies feel big. Our deer art only faces sideways; we flip it to face
+  left or right and use it for walking up and down too.
+- **Bosses are different animals**, e.g. a giant beetle.
+- There isn't much free animal pixel art, so expect to draw some of these ourselves.
+  The Tiny Dungeon pack's slimes, bats, rats and skeletons can fill gaps.
+
 ## Questions for the designer
 - What's the world like? (desert, jungle, swamp, volcano?)
 - Who or what is the bad guy?
