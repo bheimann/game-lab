@@ -74,7 +74,7 @@ how they look, so you can tell classes apart at a glance.
 | Character | Kingdom | Starting class | Status |
 |---|---|---|---|
 | **Lizard** | Lizard | Chameleon | **First** |
-| **Arctic fox** | Fox | Bomb Master | **Second** |
+| **Fox** (red fox) | Fox | Bomb Master | **Second** |
 
 ### Lizard
 Every lizard can **punch** (5 damage, the main attack) and use its **tongue** (1 damage, longer reach;
@@ -92,17 +92,30 @@ also a tool for grabbing, pulling and swinging in later puzzles).
 - Earlier species ideas (gecko wall-climbing, frilled-lizard scare, komodo tank, basilisk water-running,
   horned-lizard spikes) could become later classes or friendly lizards in the kingdom.
 
-### Arctic fox
+### Fox
+Player 2 starts as an ordinary **red fox**. (The game currently uses an arctic fox as a stand-in; it gets recoloured.)
+
 **One fox that changes masteries.** To switch, the fox gets **painted in any village**, and the paint
 decides which skills it has. The paint also changes how the fox looks, so each mastery is easy to spot.
 
 | Mastery | What it does | How you get it |
 |---|---|---|
-| **Bomb Master** | Throws bombs that hit groups of enemies and break walls (Tiny Dungeon has bomb art) | **Starting mastery** |
+| **Bomb Master** | Throws bombs that hit groups of enemies and break walls (Tiny Dungeon has bomb art). **Switch between bomb types** (below) | **Starting mastery** |
 | **Weapon Master** | Close-up fighting with swords, spears, etc. | Learned from the **reindeer** (Deer kingdom) |
 | **Gun Master** | Shoots from a distance | Learned from the **peacocks** |
 | **Element Master** | **Spells** of fire, ice, lightning and arcane | Learned from the **moose** |
 | **Wand Master** | A **ranged wand**; the **right stick** changes its element (fire, ice, lightning, arcane) | Learned from the **bugs** |
+
+- **Bomb types** (the Bomb Master switches between them):
+
+  | Bomb | What it does |
+  |---|---|
+  | **Bomb** | The normal bomb: short fuse, then a blast |
+  | **Smoke bomb** | A cloud enemies can't see through (hides the team, like camouflage) |
+  | **Sticky bomb** | Sticks to the enemy it hits and blows up on them |
+  | **Time bomb** | A much longer fuse, for traps and setting up ahead |
+  | **Remote bomb** | Doesn't go off until you press the button again |
+  | **Proximity bomb** (maybe) | Sits on the ground and blows up when an enemy walks near |
 
 - **Combos:** casting spells (Element Master) or wand shots (Wand Master) **in a certain order** sets off a combo.
   For example: ice then lightning = *shatter*, fire then arcane = *explosion*. The designer picks the real combos.
@@ -118,5 +131,6 @@ decides which skills it has. The paint also changes how the fox looks, so each m
 
 ## Questions for the designer
 - **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?
+- **Bomb switching:** which button (or menu) picks the bomb type? Are all types there from the start or found / bought?
 - **Combos:** which element orders make which combos?
 - **Kings' homes:** where do the deer, fox and bug kings live? (Names should include the animal, like the other places.)
