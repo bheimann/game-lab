@@ -4,13 +4,13 @@ namespace LizardWizard.Players;
 
 public enum InputDeviceKind
 {
-    /// <summary>WASD to move, J / Space / F to punch, K / G for the tongue, hold Backspace to leave.</summary>
+    /// <summary>WASD to move, J / Space / F primary, K / G secondary, L / H special, hold Backspace to leave.</summary>
     KeyboardLeft,
 
-    /// <summary>Arrows to move, Period / Numpad 1 to punch, Slash / Numpad 2 for the tongue, hold Delete to leave.</summary>
+    /// <summary>Arrows to move, Period / Numpad 1 primary, Slash / Numpad 2 secondary, Comma / Numpad 3 special, hold Delete to leave.</summary>
     KeyboardRight,
 
-    /// <summary>Left stick / d-pad to move, A to punch, X for the tongue, hold Back to leave.</summary>
+    /// <summary>Left stick / d-pad to move, A primary, X secondary, Y special, hold Back to leave.</summary>
     Gamepad,
 }
 
@@ -39,9 +39,11 @@ public sealed class PlayerInput
 {
     private const float StickDeadzone = 0.25f;
 
-    private bool _punchWasHeld;
-    private bool _tongueWasHeld;
+    private bool _primaryWasHeld;
+    private bool _secondaryWasHeld;
+    private bool _specialWasHeld;
     private bool _startWasHeld;
+    private int _navigateWas;
 
     public PlayerInput(InputDevice device)
     {
@@ -53,11 +55,19 @@ public sealed class PlayerInput
     /// <summary>Movement direction, length 0..1 (sticks can be partly pushed).</summary>
     public Vector2 Move { get; private set; }
 
-    public bool PunchPressed { get; private set; }
+    /// <summary>A / J: punch, bite, ...</summary>
+    public bool PrimaryPressed { get; private set; }
 
-    public bool TonguePressed { get; private set; }
+    /// <summary>X / K: tongue, bomb, ...</summary>
+    public bool SecondaryPressed { get; private set; }
 
-    /// <summary>Any of the buttons that join the game: punch, tongue or Start.</summary>
+    /// <summary>Y / L: colour change, ...</summary>
+    public bool SpecialPressed { get; private set; }
+
+    /// <summary>-1 or +1 on the frame the stick / keys are pushed left or right (for menus), otherwise 0.</summary>
+    public int NavigateX { get; private set; }
+
+    /// <summary>Any of the buttons that join the game: primary, secondary or Start.</summary>
     public bool JoinPressed { get; private set; }
 
     /// <summary>How long the leave button (Back / Backspace / Delete) has been held, in seconds.</summary>
@@ -65,23 +75,25 @@ public sealed class PlayerInput
 
     public void Update(double delta)
     {
-        bool punch, tongue, start, leave;
+        bool primary, secondary, special, start, leave;
         Vector2 move;
 
         switch (Device.Kind)
         {
             case InputDeviceKind.KeyboardLeft:
                 move = Keys(Key.W, Key.A, Key.S, Key.D);
-                punch = Down(Key.J) || Down(Key.Space) || Down(Key.F);
-                tongue = Down(Key.K) || Down(Key.G);
+                primary = Down(Key.J) || Down(Key.Space) || Down(Key.F);
+                secondary = Down(Key.K) || Down(Key.G);
+                special = Down(Key.L) || Down(Key.H);
                 start = false;
                 leave = Down(Key.Backspace);
                 break;
 
             case InputDeviceKind.KeyboardRight:
                 move = Keys(Key.Up, Key.Left, Key.Down, Key.Right);
-                punch = Down(Key.Period) || Down(Key.Kp1);
-                tongue = Down(Key.Slash) || Down(Key.Kp2);
+                primary = Down(Key.Period) || Down(Key.Kp1);
+                secondary = Down(Key.Slash) || Down(Key.Kp2);
+                special = Down(Key.Comma) || Down(Key.Kp3);
                 start = Down(Key.Enter) || Down(Key.KpEnter);
                 leave = Down(Key.Delete);
                 break;
@@ -89,22 +101,29 @@ public sealed class PlayerInput
             default:
                 var pad = Device.Joypad;
                 move = GamepadMove(pad);
-                punch = Input.IsJoyButtonPressed(pad, JoyButton.A);
-                tongue = Input.IsJoyButtonPressed(pad, JoyButton.X);
+                primary = Input.IsJoyButtonPressed(pad, JoyButton.A);
+                secondary = Input.IsJoyButtonPressed(pad, JoyButton.X);
+                special = Input.IsJoyButtonPressed(pad, JoyButton.Y);
                 start = Input.IsJoyButtonPressed(pad, JoyButton.Start);
                 leave = Input.IsJoyButtonPressed(pad, JoyButton.Back);
                 break;
         }
 
         Move = move.LimitLength(1f);
-        PunchPressed = punch && !_punchWasHeld;
-        TonguePressed = tongue && !_tongueWasHeld;
-        JoinPressed = PunchPressed || TonguePressed || (start && !_startWasHeld);
+        PrimaryPressed = primary && !_primaryWasHeld;
+        SecondaryPressed = secondary && !_secondaryWasHeld;
+        SpecialPressed = special && !_specialWasHeld;
+        JoinPressed = PrimaryPressed || SecondaryPressed || (start && !_startWasHeld);
         LeaveHeldSeconds = leave ? LeaveHeldSeconds + delta : 0;
 
-        _punchWasHeld = punch;
-        _tongueWasHeld = tongue;
+        var navigate = Move.X > 0.5f ? 1 : Move.X < -0.5f ? -1 : 0;
+        NavigateX = navigate != _navigateWas ? navigate : 0;
+
+        _primaryWasHeld = primary;
+        _secondaryWasHeld = secondary;
+        _specialWasHeld = special;
         _startWasHeld = start;
+        _navigateWas = navigate;
     }
 
     private static bool Down(Key key) => Input.IsPhysicalKeyPressed(key);

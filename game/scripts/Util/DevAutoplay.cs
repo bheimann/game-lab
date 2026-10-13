@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using LizardWizard.Abilities;
 using LizardWizard.Actors;
 using LizardWizard.Players;
 
@@ -8,20 +9,21 @@ namespace LizardWizard.Util;
 
 /// <summary>
 /// Dev helper: run with <c>-- --autoplay=&lt;folder&gt;</c> and two bots play the room by pressing the real
-/// keyboard keys (P1 on WASD, P2 on the arrows). Script:
-/// 1. both join, 2. fight until every deer has said thanks (P1 punches, P2 uses the tongue),
-/// 3. walk to opposite sides to test the camera, 4. P2 holds Delete to leave.
+/// keyboard keys (P1 on WASD as the lizard, P2 on the arrows as the arctic fox). Script:
+/// 1. both join and pick characters, 2. P1 gets spotted by a deer then stands still (camouflage test),
+/// 3. P1 changes colour twice, 4. fight until every deer has said thanks (P1 punches, P2 throws bombs),
+/// 5. walk to opposite sides to test the camera, 6. P2 holds Delete to leave.
 /// Logs what happens and saves a screenshot every 2 seconds into the folder.
 /// </summary>
 public partial class DevAutoplay : Node
 {
     private const string Flag = "--autoplay=";
-    private const double MaxSeconds = 90;
+    private const double MaxSeconds = 120;
 
     private readonly Bot[] _bots =
     {
-        new(0, Key.W, Key.A, Key.S, Key.D, Key.J, Key.K, Key.Backspace, useTongue: false, joinAt: 0.3),
-        new(1, Key.Up, Key.Left, Key.Down, Key.Right, Key.Period, Key.Slash, Key.Delete, useTongue: true, joinAt: 1.0),
+        new(0, Key.W, Key.A, Key.S, Key.D, Key.J, Key.K, Key.L, Key.Backspace, isFox: false),
+        new(1, Key.Up, Key.Left, Key.Down, Key.Right, Key.Period, Key.Slash, Key.Comma, Key.Delete, isFox: true),
     };
 
     private readonly HashSet<Key> _held = new();
@@ -30,11 +32,15 @@ public partial class DevAutoplay : Node
     private double _nextShot;
     private double _nextLog;
     private int _shotNumber;
-    private Phase _phase = Phase.Fight;
+    private Phase _phase = Phase.Join;
     private double _phaseStart;
+    private double _spottedAt = -1;
 
     private enum Phase
     {
+        Join,
+        Camouflage,
+        Colour,
         Fight,
         Spread,
         Leave,
@@ -55,36 +61,67 @@ public partial class DevAutoplay : Node
     public override void _PhysicsProcess(double delta)
     {
         _time += delta;
+        var inPhase = _time - _phaseStart;
         var manager = PlayerManager.Find(this)!;
         var deer = GetTree().GetNodesInGroup(Enemies.Group).OfType<Deer>().ToList();
         var camera = CoopCamera.Find(this)!;
         var wanted = new HashSet<Key>();
+        var lizard = manager.Players[0];
 
-        foreach (var bot in _bots)
+        switch (_phase)
         {
-            var lizard = manager.Players[bot.Slot];
-            if (lizard is null)
-            {
-                if (_phase == Phase.Fight && _time >= bot.JoinAt && _time < bot.JoinAt + 0.05)
+            case Phase.Join:
+                // P1: join, then pick the first character (lizard). P2: join, go right once (fox), pick.
+                PressAt(wanted, _bots[0].Primary, inPhase, 0.2, 0.6);
+                PressAt(wanted, _bots[1].Primary, inPhase, 0.8);
+                PressAt(wanted, _bots[1].Right, inPhase, 1.1);
+                PressAt(wanted, _bots[1].Primary, inPhase, 1.4);
+                break;
+
+            case Phase.Camouflage when lizard is not null:
+                // Walk at the nearest deer until one targets us, then freeze.
+                var targeted = deer.Any(d => d.IsTargeting(lizard));
+                if (_spottedAt < 0 && targeted)
                 {
-                    wanted.Add(bot.Punch);
+                    _spottedAt = _time;
+                    GD.Print($"[autoplay {_time:0.0}s] a deer spotted P1 - standing still now");
                 }
 
-                continue;
-            }
+                if (_spottedAt < 0)
+                {
+                    var nearest = deer.OrderBy(d => d.GlobalPosition.DistanceTo(lizard.GlobalPosition)).First();
+                    _bots[0].Steer(lizard, nearest.HurtCenter, wanted);
+                }
+                else if (_time - _spottedAt > 0.3 && _time - _spottedAt < 0.35)
+                {
+                    TakeShot();
+                }
 
-            switch (_phase)
-            {
-                case Phase.Fight:
-                    bot.Fight(lizard, deer, wanted);
-                    break;
-                case Phase.Spread:
-                    wanted.Add(bot.Slot == 0 ? bot.Left : bot.Right);
-                    break;
-                case Phase.Leave when bot.Slot == 1:
-                    wanted.Add(bot.Leave);
-                    break;
-            }
+                break;
+
+            case Phase.Colour:
+                PressAt(wanted, _bots[0].Special, inPhase, 0.2, 0.9);
+                break;
+
+            case Phase.Fight:
+                foreach (var bot in _bots)
+                {
+                    if (manager.Players[bot.Slot] is { } hero)
+                    {
+                        bot.Fight(hero, deer, wanted);
+                    }
+                }
+
+                break;
+
+            case Phase.Spread:
+                wanted.Add(_bots[0].Left);
+                wanted.Add(_bots[1].Right);
+                break;
+
+            case Phase.Leave:
+                wanted.Add(_bots[1].Leave);
+                break;
         }
 
         foreach (var key in _bots.SelectMany(b => b.AllKeys).Distinct())
@@ -95,10 +132,10 @@ public partial class DevAutoplay : Node
         if (_time >= _nextLog)
         {
             _nextLog += 0.5;
-            var players = string.Join(" ", manager.Players.Where(p => p is not null)
-                .Select(p => $"{p!.Name}:hp{p.Health.Current}{(p.IsDown ? "DOWN" : "")}@{p.GlobalPosition.X:0},{p.GlobalPosition.Y:0}"));
+            var players = string.Join(" ", manager.Players.Where(p => p is not null).Select(p =>
+                $"{p!.Name}({p.DisplayName}):hp{p.Health.Current}{(p.IsDown ? "DOWN" : "")}{(p.IsVisibleToEnemies ? "" : " HIDDEN")}"));
             var animals = string.Join(" ", deer.Select(d => $"{d.CurrentMood.ToString()[0]}{d.Health.Current}"));
-            GD.Print($"[autoplay {_time:0.0}s] {_phase} zoom={camera.Zoom.X:0.00} cam={camera.Position.X:0},{camera.Position.Y:0} | {players} | deer {animals}");
+            GD.Print($"[autoplay {_time:0.0}s] {_phase} zoom={camera.Zoom.X:0.00} | {players} | deer {animals}");
         }
 
         if (_time >= _nextShot)
@@ -107,14 +144,18 @@ public partial class DevAutoplay : Node
             TakeShot();
         }
 
-        AdvancePhase(deer, manager);
+        AdvancePhase(deer, manager, inPhase);
     }
 
-    private void AdvancePhase(List<Deer> deer, PlayerManager manager)
+    private void AdvancePhase(List<Deer> deer, PlayerManager manager, double inPhase)
     {
-        var inPhase = _time - _phaseStart;
+        var lizard = manager.Players[0];
         var next = _phase switch
         {
+            Phase.Join when inPhase > 2 => Phase.Camouflage,
+            Phase.Camouflage when _spottedAt >= 0 && _time - _spottedAt > 2.5 => Phase.Colour,
+            Phase.Camouflage when inPhase > 12 => Phase.Colour,
+            Phase.Colour when inPhase > 1.5 => Phase.Fight,
             Phase.Fight when deer.All(d => d.CurrentMood == Deer.Mood.Thankful) && inPhase > 2 => Phase.Spread,
             Phase.Spread when inPhase > 3 => Phase.Leave,
             Phase.Leave when inPhase > 2 => Phase.Done,
@@ -131,6 +172,17 @@ public partial class DevAutoplay : Node
             return;
         }
 
+        if (_phase == Phase.Camouflage && lizard is not null)
+        {
+            var chasing = deer.Count(d => d.IsTargeting(lizard));
+            GD.Print($"[autoplay {_time:0.0}s] camouflage test: P1 hidden={!lizard.IsVisibleToEnemies}, deer still chasing P1={chasing}");
+        }
+
+        if (_phase == Phase.Colour && lizard?.Abilities.OfType<ColorChangeAbility>().FirstOrDefault() is { } colour)
+        {
+            GD.Print($"[autoplay {_time:0.0}s] colour test: P1 now resists {colour.Resists?.ToString() ?? "nothing"}");
+        }
+
         TakeShot();
         GD.Print($"[autoplay {_time:0.0}s] ---- {next} (players: {manager.Players.Count(p => p is not null)})");
         _phase = next;
@@ -138,6 +190,15 @@ public partial class DevAutoplay : Node
         if (_phase == Phase.Done)
         {
             GetTree().Quit();
+        }
+    }
+
+    /// <summary>Hold <paramref name="key"/> for one short tap at each of the given times (seconds into the phase).</summary>
+    private static void PressAt(HashSet<Key> wanted, Key key, double inPhase, params double[] times)
+    {
+        if (times.Any(t => inPhase >= t && inPhase < t + 0.12))
+        {
+            wanted.Add(key);
         }
     }
 
@@ -163,18 +224,18 @@ public partial class DevAutoplay : Node
     {
         private bool _attackHeld;
 
-        public Bot(int slot, Key up, Key left, Key down, Key right, Key punch, Key tongue, Key leave, bool useTongue, double joinAt)
+        public Bot(int slot, Key up, Key left, Key down, Key right, Key primary, Key secondary, Key special, Key leave, bool isFox)
         {
             Slot = slot;
             Up = up;
             Left = left;
             Down = down;
             Right = right;
-            Punch = punch;
-            Tongue = tongue;
+            Primary = primary;
+            Secondary = secondary;
+            Special = special;
             Leave = leave;
-            UseTongue = useTongue;
-            JoinAt = joinAt;
+            IsFox = isFox;
         }
 
         public int Slot { get; }
@@ -182,39 +243,49 @@ public partial class DevAutoplay : Node
         public Key Left { get; }
         public Key Down { get; }
         public Key Right { get; }
-        public Key Punch { get; }
-        public Key Tongue { get; }
+        public Key Primary { get; }
+        public Key Secondary { get; }
+        public Key Special { get; }
         public Key Leave { get; }
-        public bool UseTongue { get; }
-        public double JoinAt { get; }
+        public bool IsFox { get; }
 
-        public Key[] AllKeys => new[] { Up, Left, Down, Right, Punch, Tongue, Leave };
+        public Key[] AllKeys => new[] { Up, Left, Down, Right, Primary, Secondary, Special, Leave };
 
-        /// <summary>Walk to the nearest hostile deer, turn to face it, attack every other frame.</summary>
-        public void Fight(Lizard lizard, List<Deer> deer, HashSet<Key> wanted)
+        public void Steer(Hero hero, Vector2 target, HashSet<Key> wanted)
         {
-            var target = deer.Where(d => d.IsHostile).OrderBy(d => d.GlobalPosition.DistanceTo(lizard.GlobalPosition)).FirstOrDefault();
-            if (target is null || lizard.IsDown)
+            var offset = target - hero.HurtCenter;
+            if (offset.X > 6) wanted.Add(Right);
+            if (offset.X < -6) wanted.Add(Left);
+            if (offset.Y > 6) wanted.Add(Down);
+            if (offset.Y < -6) wanted.Add(Up);
+        }
+
+        /// <summary>
+        /// Walk to the nearest hostile deer, turn to face it, attack every other frame.
+        /// The lizard punches up close; the fox lobs bombs from a few steps away and bites if a deer gets close.
+        /// </summary>
+        public void Fight(Hero hero, List<Deer> deer, HashSet<Key> wanted)
+        {
+            var target = deer.Where(d => d.IsHostile).OrderBy(d => d.GlobalPosition.DistanceTo(hero.GlobalPosition)).FirstOrDefault();
+            if (target is null || hero.IsDown)
             {
                 return;
             }
 
-            var offset = target.HurtCenter - lizard.HurtCenter;
-            var steer = new List<Key>();
-            if (offset.X > 6) steer.Add(Right);
-            if (offset.X < -6) steer.Add(Left);
-            if (offset.Y > 6) steer.Add(Down);
-            if (offset.Y < -6) steer.Add(Up);
+            var distance = target.HurtCenter.DistanceTo(hero.HurtCenter);
+            Key? attack = IsFox
+                ? distance < 20 ? Primary : distance is >= 34 and <= 58 ? Secondary : null
+                : distance <= 20 ? Primary : null;
 
-            if (offset.Length() > (UseTongue ? 34 : 20) || _attackHeld)
+            if (attack is null || _attackHeld)
             {
-                // Walk closer, or (on alternate frames) tap toward the deer to face it.
-                wanted.UnionWith(steer);
+                // Walk closer (or, on alternate frames, tap toward the deer to face it).
+                Steer(hero, target.HurtCenter, wanted);
                 _attackHeld = false;
             }
             else
             {
-                wanted.Add(UseTongue ? Tongue : Punch);
+                wanted.Add(attack.Value);
                 _attackHeld = true;
             }
         }

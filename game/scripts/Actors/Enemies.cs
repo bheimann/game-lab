@@ -12,7 +12,7 @@ public interface IEnemy
     bool IsAsleep { get; }
 
     /// <summary>Can see this lizard and is going after it (the lizard is "in a fight").</summary>
-    bool IsTargeting(Lizard lizard);
+    bool IsTargeting(Hero lizard);
 
     /// <summary>Wake up free of the trick and thank the heroes.</summary>
     void WakeUpAfter(double seconds);

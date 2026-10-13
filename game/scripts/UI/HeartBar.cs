@@ -35,15 +35,19 @@ public partial class HeartBar : Control
         var font = ThemeDB.FallbackFont;
         var colour = PlayerManager.Colours[PlayerIndex];
         var label = $"P{PlayerIndex + 1}";
-        var lizard = PlayerManager.Find(this)?.Players[PlayerIndex];
+        var slot = PlayerManager.Find(this)?.Slots[PlayerIndex];
+        var lizard = slot?.Hero;
 
         if (lizard is null)
         {
-            var hint = $"{label}: press A, J or . to join";
+            var hint = slot is { IsChoosing: true }
+                ? $"{label}:  <  {PlayerManager.Characters[slot.Choice].Name}  >   press A / J / . to pick"
+                : $"{label}: press A, J or . to join";
+            var hintAlpha = slot is { IsChoosing: true } ? 1f : 0.6f;
             var hintWidth = font.GetStringSize(hint, HorizontalAlignment.Left, -1, FontSize).X;
             var hintX = AlignRight ? Size.X - hintWidth : 0;
             DrawBacking(hintX, hintWidth);
-            DrawString(font, new Vector2(hintX, FontSize + 2), hint, HorizontalAlignment.Left, -1, FontSize, colour with { A = 0.6f });
+            DrawString(font, new Vector2(hintX, FontSize + 2), hint, HorizontalAlignment.Left, -1, FontSize, colour with { A = hintAlpha });
             return;
         }
 

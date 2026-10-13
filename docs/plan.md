@@ -48,14 +48,21 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 **Done when:** father and son can play in the same room at the same time.
 
 ## M3: Powers
-- 🛠 A data-driven ability system: each power is a Godot `Resource` with settings
-  (cooldown, duration, energy cost) that can be edited in the inspector without code.
-- 🛠 Chameleon camouflage: hidden while standing still, seen again when moving. Enemies lose track of hidden lizards.
-- 🛠 The second character: the arctic fox, as a **Bomb Master** (its starting mastery).
+- ✅ 🛠 Ability system: every power is a child node of the character (`scripts/Abilities/`), with its numbers
+  (damage, range, cooldown, ...) editable in the inspector. A character = `Hero` + a set of abilities,
+  so changing class later (painting) means swapping ability nodes.
+- ✅ 🛠 Three buttons: primary (A / J / .), secondary (X / K / /), special (Y / L / ,).
+- ✅ 🛠 Lizard (Chameleon class): punch, tongue, **camouflage** (stand still ~0.6 s to fade out; deer lose track
+  and show "?"; moving, attacking or getting hit reveals you), **colour change** (cycles blue/red/yellow/purple;
+  half damage from ice/fire/lightning/arcane; no elemental enemies yet).
+- ✅ 🛠 Arctic fox (Bomb Master): bite (4 damage) and **bombs** (thrown in an arc, 1 s fuse, 8 damage in a blast,
+  max 2 out at once, a little screen shake).
+- ✅ 🛠 Pick your character when you join: left / right, then A.
 - ✅ 🦎 Pick the second character: **the fox**.
 - ✅ 🦎 Decide how the fox's masteries work: one fox that gets painted in a village to switch.
   (Painting and the other masteries come later, after the first dungeon.)
-- 🦎 Balance cooldowns and durations.
+- 🦎 Balance cooldowns, damage and how long you have to stand still to hide.
+- 🦎 Look at the fox and say what to change (ears, tail, face...).
 
 **Done when:** the chameleon and the fox feel different to play.
 
