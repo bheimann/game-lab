@@ -12,9 +12,10 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 ## M0: Setup
 - ✅ 🛠 Download the Godot .NET build (4.7.2) and unzip it to `C:\Dev\tools\Godot\Godot_v4.7.2-stable_mono_win64\` (no installer).
 - ✅ 🛠 Create the Godot project in `game/`, with a `.gitignore` for `.godot/`, and get a test scene running.
-- ✅ 🛠 Check that C# builds and runs (`dotnet build`, plus a headless run). Still to do: press ▶ in the editor and see the window.
-- 🦎 Choose a pixel-art pack (start with Kenney's free 16×16 packs, e.g. *Tiny Dungeon*;
-  search itch.io for "free lizard sprite" to find the lizards).
+- ✅ 🛠 Check that C# builds and runs. Art check scene: a room built from the tileset, torches, a chest, the stand-in chameleon, and a walking deer.
+- ✅ 🦎 Choose a pixel-art pack: Vryell's *Tiny Dungeon Pack* (rooms, items, small enemies) plus deer.
+- 🦎 Draw a 16×16 top-down chameleon (try [Piskel](https://www.piskelapp.com) with the Tiny Dungeon palette).
+  Until then, the Tiny Dungeon hero tinted green stands in for it.
 - ✅ 🦎 Choose a name for the game: **Lizard Wizard**.
 
 **Done when:** pressing ▶ in Godot opens a window showing the art pack's tiles.
@@ -23,11 +24,11 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - 🛠 8-direction movement with keyboard and controller.
 - 🛠 Tongue attack (short range to start).
 - 🛠 Health, taking damage, and respawning.
-- 🛠 One simple enemy (a beetle?) that walks toward the player.
+- 🛠 One simple enemy (a deer) that walks toward the player.
 - 🦎 Paint the first room in the tilemap editor.
 - 🦎 Tune movement speed, tongue range and enemy speed until it *feels* good.
 
-**Done when:** you can run around a room and fight beetles.
+**Done when:** you can run around a room and fight deer.
 
 ## M2: Second player
 - 🛠 Per-player input: each controller and the keyboard is its own player.
@@ -62,7 +63,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - 🛠 A puzzle that needs both lizards' powers.
 - 🛠 A small boss.
 - 🦎 Draw the dungeon map on paper first, then build it in the editor.
-- 🦎 Design the boss.
+- 🦎 Design the boss (a different animal, e.g. a giant beetle).
 
 **Done when:** you can play from the start of the dungeon to beating the boss, together.
 
