@@ -1,6 +1,6 @@
 # Game design (working draft)
 
-Working title: **Lizard Quest** (placeholder; naming the game is a job for the designer!)
+Title: **Lizard Wizard** (chosen by the designer)
 
 ## The pitch
 A top-down action adventure for 1–4 players on one screen. Each player is a different
@@ -34,7 +34,6 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 - Can the chameleon change colour for other reasons? (e.g. turning red to resist fire)
 
 ## Questions for the designer
-- What's the game called?
 - What's the world like? (desert, jungle, swamp, volcano?)
 - Who or what is the bad guy?
 - Which lizard comes second?
