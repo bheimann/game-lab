@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using LizardWizard.Actors;
+using LizardWizard.Dungeons;
 
 namespace LizardWizard.Players;
 
@@ -168,6 +169,11 @@ public partial class PlayerManager : Node
         if (buddy is not null)
         {
             return buddy.GlobalPosition;
+        }
+
+        if (Dungeon.Find(this) is { } dungeon)
+        {
+            return dungeon.RespawnPoint + new Vector2(index * 12 - 18, 0);
         }
 
         var spawns = GetNodeOrNull("Spawns")?.GetChildren().OfType<Node2D>().ToArray() ?? Array.Empty<Node2D>();

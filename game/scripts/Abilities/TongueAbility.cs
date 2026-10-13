@@ -53,10 +53,18 @@ public partial class TongueAbility : Ability
         var assisted = Hero.EnemyTargets()
             .Select(t => t.HurtCenter - mouth)
             .Where(d => d.Length() <= Range + 8f && Mathf.RadToDeg(Mathf.Abs(Hero.Facing.AngleTo(d))) <= AimAssistDegrees)
+            .Where(d => Hero.ClearPath(mouth, mouth + d * 0.85f))
             .OrderBy(d => d.Length())
             .FirstOrDefault();
         _direction = assisted == Vector2.Zero ? Hero.Facing : assisted.Normalized();
         _length = assisted == Vector2.Zero ? Range : Mathf.Min(Range, assisted.Length());
+
+        // Walls and rocks stop the tongue (it reaches over pits, though).
+        var wall = Hero.GetWorld2D().DirectSpaceState.IntersectRay(PhysicsRayQueryParameters2D.Create(mouth, mouth + _direction * _length, collisionMask: 1));
+        if (wall.Count > 0)
+        {
+            _length = Mathf.Max(4f, ((Vector2)wall["position"]).DistanceTo(mouth) - 1f);
+        }
     }
 
     public override void Cancel()

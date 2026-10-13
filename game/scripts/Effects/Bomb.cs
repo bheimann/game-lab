@@ -2,6 +2,7 @@ using System.Linq;
 using Godot;
 using LizardWizard.Actors;
 using LizardWizard.Combat;
+using LizardWizard.Dungeons;
 using LizardWizard.Players;
 using LizardWizard.Util;
 
@@ -262,6 +263,12 @@ public partial class Bomb : Node2D
         foreach (var target in targets.ToList())
         {
             target.TakeHit(Damage, GlobalPosition, DamageType);
+        }
+
+        // Cracked rocks only break to bombs.
+        foreach (var boulder in GetTree().GetNodesInGroup(Boulder.Group).OfType<Boulder>().Where(b => b.GlobalPosition.DistanceTo(GlobalPosition) <= Radius + 8f))
+        {
+            boulder.Break();
         }
 
         CoopCamera.Find(this)?.Shake(Kind == BombKind.Time ? 5f : 3f);

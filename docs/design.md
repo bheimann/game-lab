@@ -134,4 +134,5 @@ decides which skills it has. The paint also changes how the fox looks, so each m
 - **Bomb types:** LB / RB (or the ring menu) switch them. Are all types there from the start, or found / bought?
 - **Items and armor:** what else goes in the menu? (So far: healing herb, shadow cloak, ember scales, bomb vest, sturdy vest.)
 - **Combos:** which element orders make which combos?
+- **The first dungeon:** its name ("The Old Burrow" for now), the rooms, the puzzles and the boss are all placeholders to change.
 - **Kings' homes:** where do the deer, fox and bug kings live? (Names should include the animal, like the other places.)

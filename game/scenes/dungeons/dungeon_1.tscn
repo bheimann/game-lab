@@ -1,0 +1,336 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/Game.cs" id="game"]
+[ext_resource type="Script" path="res://scripts/Dungeons/Dungeon.cs" id="dungeon"]
+[ext_resource type="Script" path="res://scripts/Dungeons/DungeonRoom.cs" id="room"]
+[ext_resource type="Script" path="res://scripts/Rooms/RoomBuilder.cs" id="layout"]
+[ext_resource type="TileSet" path="res://assets/tilesets/room_tileset.tres" id="tiles"]
+[ext_resource type="Script" path="res://scripts/Dungeons/Door.cs" id="door"]
+[ext_resource type="PackedScene" path="res://scenes/actors/deer.tscn" id="deer"]
+[ext_resource type="Script" path="res://scripts/Dungeons/TreasureChest.cs" id="chest"]
+[ext_resource type="Script" path="res://scripts/Dungeons/Pit.cs" id="pit"]
+[ext_resource type="Script" path="res://scripts/Dungeons/LeverSwitch.cs" id="lever"]
+[ext_resource type="Script" path="res://scripts/Dungeons/Boulder.cs" id="boulder"]
+[ext_resource type="Script" path="res://scripts/Actors/GiantBeetle.cs" id="beetle"]
+[ext_resource type="Script" path="res://scripts/Players/PlayerManager.cs" id="players"]
+[ext_resource type="Script" path="res://scripts/Players/CoopCamera.cs" id="camera"]
+[ext_resource type="Script" path="res://scripts/UI/HeartBar.cs" id="hearts"]
+
+[node name="Dungeon1" type="Node2D"]
+script = ExtResource("game")
+
+[node name="Dungeon" type="Node" parent="." node_paths=PackedStringArray("StartRoom", "StartPoint")]
+script = ExtResource("dungeon")
+DungeonName = "The Old Burrow"
+TitleEarned = "Squire"
+StartRoom = NodePath("../World/Entrance")
+StartPoint = NodePath("../World/Entrance/Start")
+
+[node name="World" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Entrance" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(0, 0)
+script = ExtResource("room")
+Title = "Entrance Hall"
+
+[node name="Layout" type="Node2D" parent="World/Entrance"]
+z_index = -1
+script = ExtResource("layout")
+Color = 0
+InteriorWidth = 36
+InteriorHeight = 16
+
+[node name="Floor" type="TileMapLayer" parent="World/Entrance/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/Entrance/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Start" type="Marker2D" parent="World/Entrance"]
+position = Vector2(152, 140)
+
+[node name="DoorTop" type="Node2D" parent="World/Entrance"]
+script = ExtResource("door")
+Side = 0
+State = 2
+LeadsTo = NodePath("../../KeyHall/DoorBottom")
+OpensWhenCleared = true
+
+[node name="Deer1" parent="World/Entrance" instance=ExtResource("deer")]
+position = Vector2(70, 70)
+
+[node name="Deer2" parent="World/Entrance" instance=ExtResource("deer")]
+position = Vector2(240, 80)
+
+[node name="KeyHall" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(0, -320)
+script = ExtResource("room")
+Title = "Key Hall"
+
+[node name="Layout" type="Node2D" parent="World/KeyHall"]
+z_index = -1
+script = ExtResource("layout")
+Color = 1
+InteriorWidth = 36
+InteriorHeight = 18
+
+[node name="Floor" type="TileMapLayer" parent="World/KeyHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/KeyHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/KeyHall"]
+script = ExtResource("door")
+Side = 1
+State = 0
+LeadsTo = NodePath("../../Entrance/DoorTop")
+
+[node name="DoorTop" type="Node2D" parent="World/KeyHall"]
+script = ExtResource("door")
+Side = 0
+State = 1
+LeadsTo = NodePath("../../PuzzleRoom/DoorBottom")
+
+[node name="DoorRight" type="Node2D" parent="World/KeyHall"]
+script = ExtResource("door")
+Side = 3
+State = 0
+LeadsTo = NodePath("../../SideRoom/DoorLeft")
+
+[node name="Deer1" parent="World/KeyHall" instance=ExtResource("deer")]
+position = Vector2(80, 100)
+
+[node name="HerbChest" type="StaticBody2D" parent="World/KeyHall"]
+position = Vector2(40, 50)
+script = ExtResource("chest")
+Reward = 1
+
+[node name="SideRoom" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(420, -300)
+script = ExtResource("room")
+Title = "Side Room"
+
+[node name="Layout" type="Node2D" parent="World/SideRoom"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 26
+InteriorHeight = 14
+
+[node name="Floor" type="TileMapLayer" parent="World/SideRoom/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/SideRoom/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorLeft" type="Node2D" parent="World/SideRoom"]
+script = ExtResource("door")
+Side = 2
+State = 0
+LeadsTo = NodePath("../../KeyHall/DoorRight")
+
+[node name="Deer1" parent="World/SideRoom" instance=ExtResource("deer")]
+position = Vector2(110, 60)
+
+[node name="Deer2" parent="World/SideRoom" instance=ExtResource("deer")]
+position = Vector2(170, 110)
+
+[node name="Deer3" parent="World/SideRoom" instance=ExtResource("deer")]
+position = Vector2(60, 120)
+
+[node name="KeyChest" type="StaticBody2D" parent="World/SideRoom"]
+position = Vector2(112, 96)
+script = ExtResource("chest")
+AppearsWhenCleared = true
+
+[node name="PuzzleRoom" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(-16, -680)
+script = ExtResource("room")
+Title = "Pit of Two Levers"
+
+[node name="Layout" type="Node2D" parent="World/PuzzleRoom"]
+z_index = -1
+script = ExtResource("layout")
+Color = 3
+InteriorWidth = 40
+InteriorHeight = 24
+
+[node name="Floor" type="TileMapLayer" parent="World/PuzzleRoom/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/PuzzleRoom/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/PuzzleRoom"]
+script = ExtResource("door")
+Side = 1
+State = 0
+LeadsTo = NodePath("../../KeyHall/DoorTop")
+
+[node name="DoorTop" type="Node2D" parent="World/PuzzleRoom"]
+script = ExtResource("door")
+Side = 0
+State = 0
+LeadsTo = NodePath("../../BossRoom/DoorBottom")
+
+[node name="PitLeft" type="Node2D" parent="World/PuzzleRoom"]
+position = Vector2(8, 96)
+script = ExtResource("pit")
+Size = Vector2(144, 32)
+EdgeRight = false
+
+[node name="Bridge" type="Node2D" parent="World/PuzzleRoom"]
+position = Vector2(152, 96)
+script = ExtResource("pit")
+Size = Vector2(32, 32)
+EdgeLeft = false
+EdgeRight = false
+Switches = Array[NodePath]([NodePath("../LeverAcrossPit"), NodePath("../LeverBehindRocks")])
+
+[node name="PitRight" type="Node2D" parent="World/PuzzleRoom"]
+position = Vector2(184, 96)
+script = ExtResource("pit")
+Size = Vector2(144, 32)
+EdgeLeft = false
+
+[node name="LeverAcrossPit" type="Node2D" parent="World/PuzzleRoom"]
+position = Vector2(240, 90)
+script = ExtResource("lever")
+
+[node name="LeverBehindRocks" type="Node2D" parent="World/PuzzleRoom"]
+position = Vector2(26, 206)
+script = ExtResource("lever")
+
+[node name="Rock1" type="StaticBody2D" parent="World/PuzzleRoom"]
+position = Vector2(15, 160)
+script = ExtResource("boulder")
+
+[node name="Rock2" type="StaticBody2D" parent="World/PuzzleRoom"]
+position = Vector2(29, 160)
+script = ExtResource("boulder")
+
+[node name="Rock3" type="StaticBody2D" parent="World/PuzzleRoom"]
+position = Vector2(43, 160)
+script = ExtResource("boulder")
+
+[node name="Rock4" type="StaticBody2D" parent="World/PuzzleRoom"]
+position = Vector2(57, 160)
+script = ExtResource("boulder")
+
+[node name="Rock5" type="StaticBody2D" parent="World/PuzzleRoom"]
+position = Vector2(57, 174)
+script = ExtResource("boulder")
+
+[node name="Rock6" type="StaticBody2D" parent="World/PuzzleRoom"]
+position = Vector2(57, 188)
+script = ExtResource("boulder")
+
+[node name="Rock7" type="StaticBody2D" parent="World/PuzzleRoom"]
+position = Vector2(57, 202)
+script = ExtResource("boulder")
+
+[node name="Rock8" type="StaticBody2D" parent="World/PuzzleRoom"]
+position = Vector2(57, 216)
+script = ExtResource("boulder")
+
+[node name="BossRoom" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(-32, -1040)
+script = ExtResource("room")
+Title = "Beetle's Lair"
+IsBossRoom = true
+
+[node name="Layout" type="Node2D" parent="World/BossRoom"]
+z_index = -1
+script = ExtResource("layout")
+Color = 4
+InteriorWidth = 44
+InteriorHeight = 26
+
+[node name="Floor" type="TileMapLayer" parent="World/BossRoom/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BossRoom/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BossRoom"]
+script = ExtResource("door")
+Side = 1
+State = 2
+LeadsTo = NodePath("../../PuzzleRoom/DoorTop")
+OpensWhenCleared = true
+
+[node name="GiantBeetle" type="CharacterBody2D" parent="World/BossRoom"]
+position = Vector2(184, 110)
+script = ExtResource("beetle")
+
+[node name="Heroes" type="Node2D" parent="World"]
+y_sort_enabled = true
+
+[node name="PlayerManager" type="Node" parent="." node_paths=PackedStringArray("ActorsParent")]
+script = ExtResource("players")
+ActorsParent = NodePath("../World/Heroes")
+
+[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("Room")]
+script = ExtResource("camera")
+Room = NodePath("../World/Entrance/Layout")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="P1" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 308.0
+offset_bottom = 22.0
+script = ExtResource("hearts")
+
+[node name="P2" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 332.0
+offset_top = 6.0
+offset_right = 632.0
+offset_bottom = 22.0
+script = ExtResource("hearts")
+PlayerIndex = 1
+AlignRight = true
+
+[node name="P3" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 322.0
+offset_right = 308.0
+offset_bottom = 354.0
+script = ExtResource("hearts")
+PlayerIndex = 2
+
+[node name="P4" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 332.0
+offset_top = 322.0
+offset_right = 632.0
+offset_bottom = 354.0
+script = ExtResource("hearts")
+PlayerIndex = 3
+AlignRight = true
+
+[node name="StartPrompt" type="Label" parent="HUD"]
+offset_top = 150.0
+offset_right = 640.0
+offset_bottom = 210.0
+theme_override_colors/font_outline_color = Color(0.08, 0.09, 0.18, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Lizard Wizard
+Press A on a controller, or J / . on the keyboard, to join"
+horizontal_alignment = 1

@@ -39,13 +39,28 @@ bigger blast), remote (press the bomb button again to set it off) and proximity 
 **Armor (one slot):** shadow cloak (lizard: stay hidden while walking), ember scales (lizard: resist fire while
 hidden), bomb vest (fox: one more bomb out at a time), sturdy vest (anyone: +2 hearts).
 
+### The first dungeon: The Old Burrow
+The game starts in the first dungeon (`game/scenes/dungeons/dungeon_1.tscn`). Walking through a door takes the
+whole team to the next room.
+1. **Entrance Hall:** beat the deer and the door opens.
+2. **Key Hall:** the north door is locked. There's a chest of herbs, and a door to the east.
+3. **Side Room:** beat the deer and a chest with the key appears.
+4. **Pit of Two Levers:** a bridge comes out when both levers are on. One is across the pit, where only the
+   lizard's tongue reaches. The other is behind cracked rocks that only the fox's bombs can break.
+   (Playing alone? Hold the leave button and rejoin as the other character. Levers stay on.)
+5. **Beetle's Lair:** the Giant Beetle. Its shell shrugs off hits ("clank"). Dodge its charge so it runs into
+   a wall, then hit it while it's dizzy.
+
+The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in Godot and press F6 to play it).
+
 ### Dev helpers
 - `Godot_console.exe --path game -- --screenshot=out.png` saves a screenshot after half a second and quits.
-- `Godot_console.exe --path game -- --autoplay=<folder>` lets two bots play the test room by pressing the real keys
-  (P1 on WASD as the lizard, P2 on the arrows as the fox): they join and pick characters, test camouflage and
-  colour change, test leaving mid-chase, use the ring menu mid-fight, try the bomb types, clear the room,
-  walk apart to test the camera, then P2 leaves.
+- `Godot_console.exe --path game -- --autoplay=<folder>` lets two bots (P1 on WASD as the lizard, P2 on the
+  arrows as the fox) play through the dungeon by pressing the real keys, from the entrance to beating the boss.
   It logs everything and saves a screenshot every 2 seconds.
+- `Godot_console.exe --path game res://scenes/rooms/test_room.tscn -- --autoplay=<folder>` runs the test-room bots
+  instead: they join and pick characters, test camouflage and colour change, test leaving mid-chase, use the ring
+  menu mid-fight, try the bomb types, clear the room, walk apart to test the camera, then P2 leaves.
 
 The C# project is `game/LizardWizard.csproj`, which targets .NET 8. It can also be opened in Visual Studio or Rider using `game/LizardWizard.sln`.
 If you upgrade Godot, change the `Godot.NET.Sdk/4.7.2` version in the `.csproj` to the new editor version.

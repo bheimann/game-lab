@@ -18,17 +18,31 @@ public interface IEnemy
     void WakeUpAfter(double seconds);
 }
 
+/// <summary>A boss: gets a big health bar across the top of the screen while it's fighting.</summary>
+public interface IBoss
+{
+    string BossName { get; }
+
+    Combat.Health Health { get; }
+
+    /// <summary>Has noticed the heroes and is fighting.</summary>
+    bool IsFighting { get; }
+}
+
 public static class Enemies
 {
     public const string Group = "enemies";
 
     /// <summary>
-    /// Call when an enemy falls asleep. Once nobody is left fighting, the sleepers wake up
+    /// Call when an enemy falls asleep. Once nobody in its room is left fighting, the sleepers wake up
     /// one after another and thank the heroes.
     /// </summary>
-    public static void CheckCleared(SceneTree tree)
+    public static void CheckCleared(Node enemy)
     {
-        var enemies = tree.GetNodesInGroup(Group).OfType<IEnemy>().ToList();
+        var room = Dungeons.DungeonRoom.Of(enemy);
+        var enemies = room is not null
+            ? room.Enemies.ToList()
+            : enemy.GetTree().GetNodesInGroup(Group).OfType<IEnemy>().ToList();
         if (enemies.Any(e => e.IsHostile))
         {
             return;

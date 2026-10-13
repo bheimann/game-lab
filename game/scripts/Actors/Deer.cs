@@ -86,6 +86,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         Health = new Health(_rng.RandiRange(MinHealth, MaxHealth));
         Health.Changed += QueueRedraw;
         MotionMode = MotionModeEnum.Floating;
+        CollisionMask |= Dungeons.Pit.PitLayer;
 
         _sprite = new AnimatedSprite2D
         {
@@ -275,7 +276,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         _target = null;
         _zzzTimer = 0.3f;
         QueueRedraw();
-        Enemies.CheckCleared(GetTree());
+        Enemies.CheckCleared(this);
     }
 
     private void WakeUp()
