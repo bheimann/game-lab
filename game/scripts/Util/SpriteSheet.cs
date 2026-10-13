@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 namespace LizardWizard.Util;
@@ -18,13 +19,19 @@ public static class SpriteSheet
 
     public static void AddStrip(SpriteFrames frames, string animation, Texture2D texture, int frameWidth, double fps, bool loop = true)
     {
-        var height = texture.GetHeight();
         var count = texture.GetWidth() / frameWidth;
+        AddFrames(frames, animation, texture, frameWidth, fps, Enumerable.Range(0, count).ToArray(), loop);
+    }
+
+    /// <summary>Adds an animation that plays the strip's frames in the given order, e.g. { 1, 0, 2, 0 } for a walk cycle.</summary>
+    public static void AddFrames(SpriteFrames frames, string animation, Texture2D texture, int frameWidth, double fps, int[] order, bool loop = true)
+    {
+        var height = texture.GetHeight();
 
         frames.AddAnimation(animation);
         frames.SetAnimationSpeed(animation, fps);
         frames.SetAnimationLoopMode(animation, loop ? SpriteFrames.LoopMode.Linear : SpriteFrames.LoopMode.None);
-        for (var i = 0; i < count; i++)
+        foreach (var i in order)
         {
             var atlas = new AtlasTexture
             {
