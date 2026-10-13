@@ -2,12 +2,13 @@
 
 This repo is private because these files can't be redistributed. Replace them before making it public.
 
-| Folder | Source | License |
+| File(s) | Source | License |
 |---|---|---|
 | `tiny_dungeon/` | *Tiny Dungeon Pack* by **Vryell** (itch.io, bought). Palette: *Rosy 42* by @PineTreePizza | No license file came with the pack. Credit is appreciated. |
-| `deer/` | Unknown (TODO: record where these came from) | Unknown |
+| `deer/deer-portrait.png` | [*Deer Pixel Art*](https://mattar-productions.itch.io/deer-pixel-art) by **Ali Mattar (Mattar Productions)** | Free, including commercial use. Credit is optional but appreciated. |
+| `deer/deer-walk-*.png`, `deer/deer-run-frames.png` | Unknown, possibly another Mattar Productions page (TODO: confirm) | Unknown |
 
 ## Our own art
 - `assets/sprites/chameleon/`: drawn by Claude as ASCII grids (`art-source/chameleon/*.txt`), based on
-  the reference pictures in `art-source/chameleon/` (TODO: record where those came from).
+  the reference pictures in `art-source/chameleon/`, which were generated with **Grok**.
   Re-render with `python tools/ascii_sprite.py <txt> <png>`.

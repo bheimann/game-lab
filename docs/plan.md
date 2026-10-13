@@ -22,9 +22,9 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 
 ## M1: One chameleon in one room
 - 🛠 8-direction movement with keyboard and controller.
-- 🛠 Tongue attack (short range to start, 1 damage).
+- 🛠 Punch attack (5 damage) and tongue attack (longer reach, 1 damage).
 - 🛠 Health, taking damage, and respawning.
-- 🛠 One simple enemy (a deer) that walks toward the player.
+- 🛠 One simple enemy (a deer, 10–15 health) that walks toward the player once it sees them.
 - 🦎 Paint the first room in the tilemap editor.
 - 🦎 Tune movement speed, tongue range and enemy speed until it *feels* good.
 
@@ -43,11 +43,12 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - 🛠 A data-driven ability system: each power is a Godot `Resource` with settings
   (cooldown, duration, energy cost) that can be edited in the inspector without code.
 - 🛠 Chameleon camouflage: hidden while standing still, seen again when moving. Enemies lose track of hidden lizards.
-- 🛠 The second lizard and its main power.
-- 🦎 Pick the second lizard and design its power.
+- 🛠 The second character: the fox (Weapon, Gun or Bomb Master).
+- ✅ 🦎 Pick the second character: **the fox**.
+- 🦎 Decide whether the fox's three versions are separate characters or one fox that switches.
 - 🦎 Balance cooldowns and durations.
 
-**Done when:** the two lizards feel different to play.
+**Done when:** the chameleon and the fox feel different to play.
 
 ## M4: The menu that doesn't pause
 - 🛠 A ring menu for each player (like Secret of Mana's) that opens next to that player's lizard.
