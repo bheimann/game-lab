@@ -1,6 +1,6 @@
 # Game ideas: shortlist
 
-Status: brainstorming. Goal: narrow to one, then plan an MVP.
+Status: **decided**: a top-down lizard co-op action RPG (ideas 1–3 combined). See [design.md](design.md) and [plan.md](plan.md).
 
 **Decided:**
 - All co-op is local (one machine, multiple controllers). No online play.
