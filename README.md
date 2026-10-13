@@ -11,6 +11,18 @@
 2. Click **Import**, choose `game/project.godot`, then open it.
 3. Press **▶** (F5).
 
+### Controls
+| | Keyboard | Controller |
+|---|---|---|
+| Move | WASD or arrows | Left stick or d-pad |
+| Punch | J or Space | A (bottom button) |
+| Tongue | K | X (left button) |
+
+### Dev helpers
+- `Godot_console.exe --path game -- --screenshot=out.png` saves a screenshot after half a second and quits.
+- `Godot_console.exe --path game -- --autoplay=<folder>` lets a bot play the test room: it presses the real keys,
+  logs everything, saves a screenshot every 2 seconds, and quits when every deer has said thanks.
+
 The C# project is `game/LizardWizard.csproj`, which targets .NET 8. It can also be opened in Visual Studio or Rider using `game/LizardWizard.sln`.
 If you upgrade Godot, change the `Godot.NET.Sdk/4.7.2` version in the `.csproj` to the new editor version.
 

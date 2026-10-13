@@ -5,17 +5,19 @@ namespace LizardWizard.Util;
 /// <summary>Builds animations from horizontal sprite strips (all frames in one row, equal width).</summary>
 public static class SpriteSheet
 {
-    public static SpriteFrames Frames(string animation, string texturePath, int frameWidth, double fps, bool loop = true)
+    public static SpriteFrames Frames(string animation, string texturePath, int frameWidth, double fps, bool loop = true) =>
+        Frames(animation, GD.Load<Texture2D>(texturePath), frameWidth, fps, loop);
+
+    public static SpriteFrames Frames(string animation, Texture2D texture, int frameWidth, double fps, bool loop = true)
     {
         var frames = new SpriteFrames();
         frames.RemoveAnimation("default");
-        AddStrip(frames, animation, texturePath, frameWidth, fps, loop);
+        AddStrip(frames, animation, texture, frameWidth, fps, loop);
         return frames;
     }
 
-    public static void AddStrip(SpriteFrames frames, string animation, string texturePath, int frameWidth, double fps, bool loop = true)
+    public static void AddStrip(SpriteFrames frames, string animation, Texture2D texture, int frameWidth, double fps, bool loop = true)
     {
-        var texture = GD.Load<Texture2D>(texturePath);
         var height = texture.GetHeight();
         var count = texture.GetWidth() / frameWidth;
 
