@@ -22,7 +22,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 
 ## M1: One chameleon in one room
 - 🛠 8-direction movement with keyboard and controller.
-- 🛠 Tongue attack (short range to start).
+- 🛠 Tongue attack (short range to start, 1 damage).
 - 🛠 Health, taking damage, and respawning.
 - 🛠 One simple enemy (a deer) that walks toward the player.
 - 🦎 Paint the first room in the tilemap editor.
@@ -42,7 +42,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 ## M3: Powers
 - 🛠 A data-driven ability system: each power is a Godot `Resource` with settings
   (cooldown, duration, energy cost) that can be edited in the inspector without code.
-- 🛠 Chameleon camouflage: enemies lose track of you while you're invisible.
+- 🛠 Chameleon camouflage: hidden while standing still, seen again when moving. Enemies lose track of hidden lizards.
 - 🛠 The second lizard and its main power.
 - 🦎 Pick the second lizard and design its power.
 - 🦎 Balance cooldowns and durations.
@@ -52,8 +52,9 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 ## M4: The menu that doesn't pause
 - 🛠 A ring menu for each player (like Secret of Mana's) that opens next to that player's lizard.
 - 🛠 Switch powers and items while the game keeps running.
-- 🛠 Equipment slots (one or two to start).
-- 🦎 Decide what happens to your lizard while your menu is open.
+- 🛠 Equipment slots (one or two to start). Armor changes how camouflage works (e.g. fire resistance, or invisible while moving).
+- ✅ 🦎 Decide what happens to your lizard while your menu is open: it slows down only if you're in a fight.
+- 🛠 Quick buttons for common actions, so you rarely need the menu mid-fight.
 - 🦎 Design 3–4 items or equipment pieces.
 
 **Done when:** one player can change their gear mid-fight while the other keeps fighting.
