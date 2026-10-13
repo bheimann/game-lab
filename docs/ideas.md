@@ -2,7 +2,12 @@
 
 Status: brainstorming. Goal: narrow to one, then plan an MVP.
 
-**Decided:** all co-op is local (one machine, multiple controllers). No online play.
+**Decided:**
+- All co-op is local (one machine, multiple controllers). No online play.
+- Art: start with free pixel-art packs (e.g. Kenney, CC0). Hand-drawn art may replace them later.
+- Team: dad (experienced C#/.NET developer) and son (6th grade, game designer and ideas).
+
+**Leaning:** Godot 4 (.NET edition), with gameplay code in C#.
 
 | # | Idea | Inspiration | Core hook | Scope | Main risk |
 |---|------|-------------|-----------|-------|-----------|
