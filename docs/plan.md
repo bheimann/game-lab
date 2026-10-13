@@ -70,7 +70,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 **Done when:** you can play from the start of the dungeon to beating the boss, together.
 
 ## M6: Polish and share
-- 🛠 Title screen, sound effects, music.
+- 🛠 Title screen, credits screen, sound effects, music.
 - 🛠 Export to a standalone `.exe` (needs Godot's export templates, about 1 GB).
 - 🦎 Playtest with friends and write down what confuses them.
 
