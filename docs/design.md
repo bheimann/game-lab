@@ -75,16 +75,23 @@ how they look, so you can tell classes apart at a glance.
 |---|---|---|---|
 | **Lizard** | Lizard | Chameleon | **First** |
 | **Fox** (red fox) | Fox | Bomb Master | **Second** |
+| **Moose** | Deer | Warrior | Playable; classes to design |
+| **Peacock** | Bird | Warrior (with a **gun** instead of a punch) | Playable; classes to design |
+| **Beetle** | Bug | Warrior | Playable; classes to design |
+
+- **The moose, peacock and beetle are warriors the heroes helped:** animals freed from Mossimus's trick who
+  join the team. For now each has one attack plus the dodge; the designer will come up with their classes.
+- **Every hero can dodge:** a quick dash you can't be hurt during (RT / Shift / Ctrl).
 
 ### Lizard
 Every lizard can **punch** (5 damage, the main attack) and use its **tongue** (1 damage, longer reach;
-also a tool for grabbing, pulling and swinging in later puzzles).
+it **sticks to enemies and pulls them in**, though bosses are too heavy; also a tool for grabbing and swinging in later puzzles).
 
 | Class | What it does | How you get it |
 |---|---|---|
 | **Chameleon** | **Camouflage:** hidden while standing still, seen when moving. **Colour change** for damage resistance: 🔵 blue = ice, 🔴 red = fire, 🟡 yellow = lightning, 🟣 purple = arcane | **Starting class** |
 | **Tongue Master** | More tongue damage, **spiked tongue**, **elemental** tongue attacks, longer range | Learned from the **deer** |
-| **Trickster** (like Loki) | Sends out **decoys**: illusions, clones and turrets | Learned from the **peacocks** |
+| **Illusionist** (like Loki) | 10 **illusionist energy** that fills back up over time. **Clones** (5 energy), a **tail decoy** (4), **charm** enemies (2 each); every spell lasts 5 seconds | Learned from the **peacocks** |
 | **Spitter** | Spits **poison** or **elements** | Learned from the **moose** |
 | **Healer** | Heals and protects the team, and has **extra HP** | Learned from the **bugs** |
 
@@ -101,11 +108,18 @@ decides which skills it has. The paint also changes how the fox looks, so each m
 | Mastery | What it does | How you get it |
 |---|---|---|
 | **Bomb Master** | Throws bombs that hit groups of enemies and break walls (Tiny Dungeon has bomb art). **Switch between bomb types** (below) | **Starting mastery** |
-| **Weapon Master** | Close-up fighting with swords, spears, etc. | Learned from the **reindeer** (Deer kingdom) |
+| **Weapon Master** | Switches between weapons: **sword & shield** (X blocks), **javelin** (X throws it), **flail** (X spin attack), **axe & bow** (X shoots, Y changes the arrow: arcane, fire, ice, lightning, poison, explosive) | Learned from the **reindeer** (Deer kingdom) |
 | **Gun Master** | Shoots from a distance | Learned from the **peacocks** |
 | **Element Master** | **Spells** of fire, ice, lightning and arcane | Learned from the **moose** |
 | **Wand Master** | A **ranged wand**; the **right stick** changes its element (fire, ice, lightning, arcane) | Learned from the **bugs** |
 
+- **Elements for everything:** guns, weapons and bombs each come in **normal, fire, ice, lightning and arcane**
+  versions (the same elements as the chameleon's colours and the spells).
+- **What elements do:** **poison** and **fire** keep doing damage over time, **ice** slows enemies down,
+  **lightning** and **arcane** do a lot more damage. (Starting numbers: poison 1 damage every half second for
+  3 s, fire the same for 2 s, ice half speed for 2 s, lightning and arcane double damage.)
+- **Each boss unlocks something new for the fox**: new weapons, guns or bombs. The fox **starts with the original
+  ones** (all the bombs below); boss drops add new ones. Which boss drops what is still to be designed.
 - **Bomb types** (the Bomb Master switches between them):
 
   | Bomb | What it does |
@@ -120,7 +134,12 @@ decides which skills it has. The paint also changes how the fox looks, so each m
 - **Combos:** casting spells (Element Master) or wand shots (Wand Master) **in a certain order** sets off a combo.
   For example: ice then lightning = *shatter*, fire then arcane = *explosion*. The designer picks the real combos.
 
+## Saving
+- The game **saves by itself** and picks up where you left off next time (starting in the overworld).
+- Hold N on the start screen for a new game.
+
 ## Enemies
+- **Enemies come back** when you leave a room (or overworld area) and walk back in. Bosses stay beaten.
 - **Regular enemies are animals, starting with deer.** Deer are about twice as tall as a lizard,
   so even ordinary enemies feel big. Our deer art only faces sideways; we flip it to face
   left or right and use it for walking up and down too.
@@ -131,7 +150,10 @@ decides which skills it has. The paint also changes how the fox looks, so each m
 
 ## Questions for the designer
 - **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?
-- **Bomb types:** LB / RB (or the ring menu) switch them. Are all types there from the start, or found / bought?
+- **Elements:** are elemental versions of weapons and bombs unlocked by bosses too?
+- **The overworld:** what else is in Scalebrook Meadow, and where do the paths lead next (the village, Tailspin Swamp)?
+- **Boss drops:** which new bomb, weapon or gun does each boss drop?
+- **Moose, peacock and beetle:** their classes, and their second and special buttons.
 - **Items and armor:** what else goes in the menu? (So far: healing herb, shadow cloak, ember scales, bomb vest, sturdy vest.)
 - **Combos:** which element orders make which combos?
 - **The first dungeon:** its name ("The Old Burrow" for now), the rooms, the puzzles and the boss are all placeholders to change.
