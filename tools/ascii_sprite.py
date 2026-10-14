@@ -11,6 +11,9 @@ Colours (Tiny Dungeon palette):
   Y  yellow           R  red / pink        P  pupil (navy)
   G  light grey       g  mid grey          b  blue-grey         k  pink (inner ear)
   F  fox orange       f  dark orange       n  dark brown (fox legs)
+  H  moose brown      h  dark brown        T  tan (antler)      t  dark tan
+  C  teal             c  dark teal         U  blue              u  dark blue
+  V  violet           v  dark violet       A  lilac (shine)
 """
 import struct
 import sys
@@ -34,6 +37,17 @@ COLOURS = {
     "F": (237, 118, 54, 255),
     "f": (181, 74, 46, 255),
     "n": (66, 38, 46, 255),
+    "H": (150, 95, 60, 255),
+    "h": (96, 58, 44, 255),
+    "T": (238, 214, 160, 255),
+    "t": (196, 160, 104, 255),
+    "C": (62, 190, 186, 255),
+    "c": (30, 120, 130, 255),
+    "U": (72, 120, 220, 255),
+    "u": (44, 62, 150, 255),
+    "V": (128, 84, 200, 255),
+    "v": (74, 46, 128, 255),
+    "A": (196, 168, 240, 255),
 }
 
 
