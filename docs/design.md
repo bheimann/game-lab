@@ -91,7 +91,7 @@ it **sticks to enemies and pulls them in**, though bosses are too heavy; also a 
 |---|---|---|
 | **Chameleon** | **Camouflage:** hidden while standing still, seen when moving. **Colour change** for damage resistance: 🔵 blue = ice, 🔴 red = fire, 🟡 yellow = lightning, 🟣 purple = arcane | **Starting class** |
 | **Tongue Master** | More tongue damage, **spiked tongue**, **elemental** tongue attacks, longer range | Learned from the **deer** |
-| **Illusionist** (like Loki) | 10 **illusionist energy** that fills back up over time. **Clones** (5 energy), a **tail decoy** (4), **charm** enemies (2 each); every spell lasts 5 seconds | Learned from the **peacocks** |
+| **Illusionist** (like Loki) | 10 **illusionist energy** that fills back up over time. **Clones** (5 energy; they attack the enemy you hit last), a **tail decoy** (4), **charm** enemies (2 each); every spell lasts 5 seconds | Learned from the **peacocks** |
 | **Spitter** | Spits **poison** or **elements** | Learned from the **moose** |
 | **Healer** | Heals and protects the team, and has **extra HP** | Learned from the **bugs** |
 

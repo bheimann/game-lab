@@ -40,6 +40,7 @@ public partial class DevAutoplay : Node
     private int[] _picks = { 0, 1 };
     private string[] _classes = System.Array.Empty<string>();
     private int _abilityStep = -1;
+    private Deer? _cloneTarget;
     private double _time;
     private double _nextShot;
     private double _nextLog;
@@ -285,7 +286,7 @@ public partial class DevAutoplay : Node
         var next = _phase switch
         {
             Phase.Join when inPhase > 2 => _classes.Length > 0 ? Phase.Abilities : Phase.Camouflage,
-            Phase.Abilities when inPhase > 9 => Phase.Camouflage,
+            Phase.Abilities when inPhase > 13 => Phase.Camouflage,
             Phase.Camouflage when _spottedAt >= 0 && _time - _spottedAt > 2.5 => Phase.Colour,
             Phase.Camouflage when inPhase > 12 => Phase.Colour,
             Phase.Colour when inPhase > 1.5 => Phase.Ditch,
@@ -406,13 +407,20 @@ public partial class DevAutoplay : Node
             switch (step)
             {
                 case 2: spells.Select(2); Place(deer[4], p1, 20); deer[4].GlobalPosition += new Vector2(0, 10); spells.TryUse(); break;
-                case 8: spells.Select(0); spells.TryUse(); break;
-                case 12: spells.Select(1); spells.TryUse(); break;
+                case 8: spells.Select(1); spells.TryUse(); break;
+                case 17:
+                    // Once the charm has worn off, punch a fresh deer: the clones should go after it.
+                    _cloneTarget = deer.First(d => d.IsHostile && !d.IsCharmed);
+                    _cloneTarget.Respawn();
+                    Place(_cloneTarget, p1, 14);
+                    A(p1, "Punch").TryUse();
+                    break;
+                case 18: spells.Select(0); spells.TryUse(); _cloneTarget!.GlobalPosition = p1.GlobalPosition + new Vector2(70, 0); break;
             }
 
             if (step % 2 == 0)
             {
-                GD.Print($"[autoplay {_time:0.0}s] ability test: P1 energy {spells.Energy:0.0}, charmed deer {deer.Count(d => d.IsCharmed)}, decoys out {GetTree().GetNodesInGroup(Enemies.LureGroup).Count}");
+                GD.Print($"[autoplay {_time:0.0}s] ability test: P1 energy {spells.Energy:0.0}, charmed deer {deer.Count(d => d.IsCharmed)}, decoys out {GetTree().GetNodesInGroup(Enemies.LureGroup).Count}, P1 last hit {(p1.LastHitEnemy as Node)?.Name ?? "nothing"} (hp {(p1.LastHitEnemy as Deer)?.Health.Current})");
             }
         }
 

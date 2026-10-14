@@ -139,7 +139,11 @@ public partial class TongueAbility : Ability
                 .Where(e => Hits.Touches(e, start, end))
                 .OrderBy(e => e.HurtCenter.DistanceTo(start))
                 .FirstOrDefault();
-            target?.TakeHit(Damage, Hero.GlobalPosition, DamageType);
+            if (target is not null)
+            {
+                Hero.Hit(target, Damage, Hero.GlobalPosition, DamageType);
+            }
+
             if (target is IPullable { CanBePulled: true })
             {
                 _caught = target;
