@@ -101,8 +101,23 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 
 ---
 
+## After M5: extras the designer asked for
+- ✅ 🛠 The tongue sticks to enemies and pulls them in (bosses are too heavy).
+- ✅ 🛠 Dodge for every hero (RT / Shift / Ctrl), with a short moment where nothing can hurt you.
+- ✅ 🛠 Three more playable heroes, warriors the team helped: moose, peacock (with a gun) and beetle.
+- ✅ 🛠 Classes: lizard (Chameleon, Tongue Master, Spitter) and fox (Bomb Master, Gun Master, Weapon Master),
+  with a temporary test painter in the dungeon's first room.
+- ✅ 🛠 Elements: poison and fire hurt over time, ice slows, lightning and arcane hit harder.
+- ✅ 🛠 Bosses can unlock new bombs, weapons and guns (the boss drops are still to be designed).
+- ✅ 🛠 Enemies come back when you leave a room and return.
+- ✅ 🛠 A first overworld area, Scalebrook Meadow, with the stairs down into The Old Burrow.
+- ✅ 🛠 Weapon Master weapons: sword & shield, javelin, flail, axe & bow (with 7 arrow types).
+- ✅ 🛠 The lizard's Illusionist class: clones, tail decoy and charm, using illusionist energy.
+- ✅ 🛠 Saving: the game saves by itself and picks up where you left off; hold N for a new game.
+- 🦎 Design the boss drops, the moose / peacock / beetle classes, and what's next in the overworld.
+
 ## Later (once the first dungeon is fun)
-More lizards so there are four, an overworld map, levelling up, saving the game,
+More lizards so there are four, more of the overworld, levelling up,
 more dungeons, hand-drawn art, and maybe split-screen.
 
 ## How we work with Claude
