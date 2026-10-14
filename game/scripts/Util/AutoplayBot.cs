@@ -17,8 +17,9 @@ internal sealed class AutoplayBot
     private int _detours;
 
     public AutoplayBot(int slot, Key up, Key left, Key down, Key right, Key primary, Key secondary, Key special, Key leave,
-        Key item, Key previous, Key next, Key menu, bool isFox)
+        Key item, Key previous, Key next, Key menu, Key dodge, bool isFox)
     {
+        Dodge = dodge;
         Item = item;
         Previous = previous;
         Next = next;
@@ -48,9 +49,10 @@ internal sealed class AutoplayBot
     public Key Previous { get; }
     public Key Next { get; }
     public Key Menu { get; }
+    public Key Dodge { get; }
     public bool IsFox { get; }
 
-    public Key[] AllKeys => new[] { Up, Left, Down, Right, Primary, Secondary, Special, Leave, Item, Previous, Next, Menu };
+    public Key[] AllKeys => new[] { Up, Left, Down, Right, Primary, Secondary, Special, Leave, Item, Previous, Next, Menu, Dodge };
 
     /// <summary>Press the arrow keys that move the hero's feet toward <paramref name="target"/> (within <paramref name="slack"/> pixels).</summary>
     public void Steer(Hero hero, Vector2 target, HashSet<Key> wanted, float slack = 6f, bool feet = false)
@@ -73,11 +75,12 @@ internal sealed class AutoplayBot
 
     /// <summary>
     /// Walk to the nearest hostile enemy, turn to face it, attack every other frame.
-    /// The lizard punches up close; the fox lobs bombs from a few steps away and bites if an enemy gets close.
+    /// The lizard punches up close and tongues enemies from a few steps away to pull them in; the fox lobs
+    /// bombs from a few steps away and bites if an enemy gets close. Both dodge sideways when a deer winds up a kick.
     /// </summary>
     public void Fight(Hero hero, IEnumerable<Node2D> enemies, HashSet<Key> wanted)
     {
-        var target = enemies.Where(e => e is IEnemy { IsHostile: true } and IHittable)
+        var target = enemies.Where(e => e is IEnemy { IsHostile: true } and IHittable { CanBeHit: true })
             .OrderBy(e => e.GlobalPosition.DistanceTo(hero.GlobalPosition)).FirstOrDefault() as IHittable;
         if (target is null || hero.IsDown)
         {
@@ -87,9 +90,18 @@ internal sealed class AutoplayBot
         // Bigger enemies: stand off a little further.
         var reach = 13f + target.HurtRadius;
         var distance = target.HurtCenter.DistanceTo(hero.HurtCenter);
+
+        if (target is Deer { IsWindingUp: true } && distance <= reach + 8f && !hero.IsDodging)
+        {
+            // Dodge sideways, not straight back: straight back can be through a door into the next room.
+            var away = (hero.HurtCenter - target.HurtCenter).Normalized();
+            Steer(hero, hero.HurtCenter + new Vector2(-away.Y, away.X) * 20f, wanted, slack: 1f);
+            wanted.Add(Dodge);
+            return;
+        }
         Key? attack = IsFox
             ? distance < reach ? Primary : distance is >= 34 and <= 58 ? Secondary : null
-            : distance <= reach ? Primary : null;
+            : distance <= reach ? Primary : distance is >= 30 and <= 46 ? Secondary : null;
 
         if (attack is null || _attackHeld)
         {

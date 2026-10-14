@@ -18,6 +18,10 @@ public partial class DungeonRoom : Node2D
     /// <summary>Shown when the players walk in for the first time.</summary>
     [Export] public string Title { get; set; } = "";
 
+    /// <summary>Which dungeon this room belongs to (e.g. "The Old Burrow"); empty for the overworld.
+    /// Walking into a different area shows its name.</summary>
+    [Export] public string Area { get; set; } = "";
+
     /// <summary>Beating this room's enemies completes the dungeon.</summary>
     [Export] public bool IsBossRoom { get; set; }
 
@@ -72,6 +76,9 @@ public partial class DungeonRoom : Node2D
             Cleared?.Invoke();
         }
     }
+
+    /// <summary>After loading a save: a room that's already cleared doesn't announce it again.</summary>
+    public void SyncCleared() => _wasCleared = IsCleared;
 
     /// <summary>Only the players' room runs and is drawn.</summary>
     public void SetActive(bool active)

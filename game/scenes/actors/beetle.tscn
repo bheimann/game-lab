@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
+[ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="2_melee"]
+
+[node name="Beetle" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 1
+motion_mode = 1
+script = ExtResource("1_hero")
+DisplayName = "Beetle"
+StartingClass = "Warrior"
+SpritePrefix = "res://assets/sprites/beetle/beetle"
+SideFrameWidth = 20
+Speed = 68.0
+MaxHealth = 24
+
+[node name="HornJab" type="Node2D" parent="."]
+script = ExtResource("2_melee")
+CooldownSeconds = 0.25
+Damage = 4
+Reach = 12.0
+FlashColour = Color(0.6, 0.75, 1, 1)

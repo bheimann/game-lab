@@ -6,6 +6,7 @@ namespace LizardWizard.Abilities;
 
 /// <summary>
 /// The lizard's tongue: shoots out, hits the first enemy it touches, and snaps back.
+/// Light enemies (<see cref="IPullable"/>) get stuck to it and reeled in to right in front of the hero.
 /// Aim assist bends it toward an enemy that's roughly in front of the hero.
 /// </summary>
 public partial class TongueAbility : Ability
@@ -19,6 +20,11 @@ public partial class TongueAbility : Ability
     private bool _hasHit;
     private Vector2 _direction;
     private float _length;
+    private IHittable? _caught;
+    private float _reelTime;
+    private float _stuckTime;
+    private Vector2 _caughtLastPosition;
+    private float _pullSpeed;
 
     [Export] public int Damage { get; set; } = 1;
 
@@ -29,6 +35,15 @@ public partial class TongueAbility : Ability
 
     /// <summary>Aim assist: the tongue snaps to an enemy within this many degrees of where the hero faces.</summary>
     [Export] public float AimAssistDegrees { get; set; } = 35f;
+
+    /// <summary>How fast a caught enemy gets reeled in, in pixels per second.</summary>
+    [Export] public float PullSpeed { get; set; } = 170f;
+
+    /// <summary>Let go after this long even if the enemy hasn't arrived yet.</summary>
+    [Export] public float MaxReelSeconds { get; set; } = 0.6f;
+
+    /// <summary>Reeled-in enemies stop this many pixels from the mouth (past their own size).</summary>
+    [Export] public float PullGap { get; set; } = 4f;
 
     [Export] public Color Colour { get; set; } = new(1f, 0.32f, 0.47f);
 
@@ -47,6 +62,7 @@ public partial class TongueAbility : Ability
     {
         _time = 0;
         _hasHit = false;
+        _caught = null;
 
         // Aim assist: snap to the closest enemy roughly in front of us, and stop at it.
         var mouth = Hero.ToGlobal(Hero.AttackOrigin);
@@ -70,6 +86,7 @@ public partial class TongueAbility : Ability
     public override void Cancel()
     {
         _time = -1f;
+        _caught = null;
         _line.Visible = false;
     }
 
@@ -77,6 +94,12 @@ public partial class TongueAbility : Ability
     {
         if (_time < 0)
         {
+            return;
+        }
+
+        if (_caught is not null)
+        {
+            Reel(dt);
             return;
         }
 
@@ -117,6 +140,56 @@ public partial class TongueAbility : Ability
                 .OrderBy(e => e.HurtCenter.DistanceTo(start))
                 .FirstOrDefault();
             target?.TakeHit(Damage, Hero.GlobalPosition, DamageType);
+            if (target is IPullable { CanBePulled: true })
+            {
+                _caught = target;
+                _reelTime = 0;
+                _stuckTime = 0;
+                _caughtLastPosition = target.HurtCenter;
+                _pullSpeed = 0;
+            }
         }
+    }
+
+    /// <summary>The tongue is stuck to an enemy: drag it in until it's right in front of us, then let go.</summary>
+    private void Reel(float dt)
+    {
+        var caught = _caught!;
+        if (!IsInstanceValid((GodotObject)caught))
+        {
+            LetGo();
+            return;
+        }
+
+        _reelTime += dt;
+
+        // A pit or wall in the way stops the enemy, and then the tongue slips off.
+        var moved = caught.HurtCenter.DistanceTo(_caughtLastPosition);
+        _caughtLastPosition = caught.HurtCenter;
+        _stuckTime = _pullSpeed > 0 && moved < _pullSpeed * dt * 0.25f ? _stuckTime + dt : 0;
+
+        var toMouth = Hero.ToGlobal(Hero.AttackOrigin) - caught.HurtCenter;
+        var gap = caught.HurtRadius + PullGap;
+        if (toMouth.Length() <= gap || _reelTime >= MaxReelSeconds || _stuckTime >= 0.1f)
+        {
+            LetGo();
+            return;
+        }
+
+        // Slow down at the end so it doesn't overshoot into the hero.
+        _pullSpeed = Mathf.Min(PullSpeed, (toMouth.Length() - gap) / dt);
+        ((IPullable)caught).Pull(toMouth.Normalized() * _pullSpeed);
+
+        _line.Points = new[] { Hero.AttackOrigin, Hero.ToLocal(caught.HurtCenter) };
+    }
+
+    /// <summary>Stop pulling and snap the tongue back from wherever its tip is now.</summary>
+    private void LetGo()
+    {
+        var tip = _line.Points.Length == 2 ? _line.Points[1] - Hero.AttackOrigin : Vector2.Zero;
+        _caught = null;
+        _direction = tip == Vector2.Zero ? _direction : tip.Normalized();
+        _length = tip.Length();
+        _time = OutSeconds + HoldSeconds;
     }
 }

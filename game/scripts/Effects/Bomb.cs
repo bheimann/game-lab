@@ -73,6 +73,9 @@ public partial class Bomb : Node2D
 
     public DamageType DamageType { get; init; } = DamageType.Physical;
 
+    /// <summary>Go off the moment it's added, with no flight or fuse (explosive arrows).</summary>
+    public bool Instant { get; init; }
+
     /// <summary>A remote bomb that has landed and is waiting for the button.</summary>
     public bool IsWaitingForRemote => Kind == BombKind.Remote && _state == State.Waiting;
 
@@ -95,6 +98,10 @@ public partial class Bomb : Node2D
         _sprite = new AnimatedSprite2D { SpriteFrames = frames, Offset = new Vector2(0, -7), Modulate = Tint(Kind) };
         AddChild(_sprite);
         _sprite.Play("fly");
+        if (Instant)
+        {
+            Explode();
+        }
     }
 
     public override void _PhysicsProcess(double delta)

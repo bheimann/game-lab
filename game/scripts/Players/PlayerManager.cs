@@ -54,6 +54,9 @@ public partial class PlayerManager : Node
     {
         new("Lizard", "res://scenes/actors/lizard.tscn"),
         new("Fox", "res://scenes/actors/fox.tscn"),
+        new("Moose", "res://scenes/actors/moose.tscn"),
+        new("Peacock", "res://scenes/actors/peacock.tscn"),
+        new("Beetle", "res://scenes/actors/beetle.tscn"),
     };
 
     private readonly Dictionary<InputDevice, PlayerInput> _devices = new();
@@ -141,6 +144,7 @@ public partial class PlayerManager : Node
 
     public void Leave(int index)
     {
+        Saving.SaveGame.Save(this); // remember what they were playing
         var slot = _slots[index];
         slot.Hero?.LeaveGame();
         slot.Hero = null;
@@ -158,8 +162,36 @@ public partial class PlayerManager : Node
         hero.Setup(index, slot.Input!, SpawnPoint(index));
         (ActorsParent ?? GetParent<Node2D>()).AddChild(hero);
         slot.Hero = hero;
+        Restore(hero, index);
         GD.Print($"P{index + 1} is playing as the {character.Name}");
         PlayersChanged?.Invoke();
+    }
+
+    /// <summary>Same character as last time? Then the same class, weapon, armor and herbs.</summary>
+    private static void Restore(Hero hero, int slot)
+    {
+        if (Saving.SaveGame.PlayerFor(slot, hero.DisplayName) is not { } saved)
+        {
+            return;
+        }
+
+        if (saved.Class != hero.CurrentClass && hero.ClassNames.Contains(saved.Class))
+        {
+            hero.Paint(saved.Class);
+        }
+
+        if (saved.Weapon != "" && saved.Weapon != hero.CurrentWeapon)
+        {
+            hero.SetWeapon(saved.Weapon);
+        }
+
+        if (Items.Armor.All.FirstOrDefault(a => a.Name == saved.Armor && a.Fits(hero)) is { } armor)
+        {
+            hero.Equip(armor);
+        }
+
+        hero.RestoreHerbs(saved.Herbs);
+        GD.Print($"P{slot + 1} picks up where they left off: {hero.DisplayName} {hero.CurrentClass} {hero.CurrentWeapon}, armor={hero.Armor?.Name ?? "none"}, herbs={hero.Herbs}");
     }
 
     private Vector2 SpawnPoint(int index)

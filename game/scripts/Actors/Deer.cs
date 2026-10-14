@@ -10,7 +10,7 @@ namespace LizardWizard.Actors;
 /// A deer tricked into fighting the lizards. Wanders until it spots a lizard, then chases it and kicks.
 /// When its health runs out it falls asleep; once the area is clear it wakes up and says thanks.
 /// </summary>
-public partial class Deer : CharacterBody2D, IHittable, IEnemy
+public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnemyTarget, ICharmable
 {
     private const string WalkStrip = "res://assets/third_party/deer/deer-walk-32x32.png";
 
@@ -24,7 +24,9 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
 
     private readonly RandomNumberGenerator _rng = new();
     private AnimatedSprite2D _sprite = null!;
-    private Hero? _target;
+    private IEnemyTarget? _target;
+    private float _charmLeft;
+    private Hero? _charmedBy;
     private Vector2 _wanderDirection;
     private float _wanderTimer;
     private float _windUp = -1f;
@@ -32,6 +34,9 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
     private float _hurtFlash;
     private float _zzzTimer;
     private Vector2 _knockback;
+    private Vector2? _pull;
+    private Vector2 _home;
+    private readonly ElementEffects _effects = new();
 
     public enum Mood
     {
@@ -71,17 +76,31 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
 
     public bool IsAsleep => CurrentMood == Mood.Asleep;
 
-    public bool CanBeHit => IsHostile;
+    /// <summary>Charmed deer are on the heroes' side for a while, so the heroes' attacks pass them by.</summary>
+    public bool CanBeHit => IsHostile && !IsCharmed;
+
+    public bool IsCharmed => _charmLeft > 0;
+
+    /// <summary>Charmed deer go after the other deer.</summary>
+    public bool IsTargetable => IsHostile && !IsCharmed;
+
+    public bool CanBeCharmed => IsHostile && !IsCharmed;
 
     public Vector2 HurtCenter => GlobalPosition + new Vector2(0, -16);
 
     public float HurtRadius => 11f;
 
-    public bool IsTargeting(Hero lizard) => CurrentMood == Mood.Chasing && _target == lizard;
+    public bool CanBePulled => true;
+
+    /// <summary>Flashing yellow, about to kick: the moment to dodge.</summary>
+    public bool IsWindingUp => _windUp >= 0;
+
+    public bool IsTargeting(Hero lizard) => CurrentMood == Mood.Chasing && !IsCharmed && ReferenceEquals(_target, lizard);
 
     public override void _Ready()
     {
         AddToGroup(Enemies.Group);
+        _home = Position;
         _rng.Seed = (ulong)GetInstanceId() ^ Time.GetTicksUsec();
         Health = new Health(_rng.RandiRange(MinHealth, MaxHealth));
         Health.Changed += QueueRedraw;
@@ -104,6 +123,38 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         var dt = (float)delta;
         _kickCooldown -= dt;
         _hurtFlash -= dt;
+        if (IsCharmed)
+        {
+            _charmLeft -= dt;
+            if (!IsCharmed)
+            {
+                // The charm wore off.
+                _target = null;
+                _windUp = -1f;
+                FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -38), "?", new Color(1f, 0.6f, 0.85f), 0.8f, 6f);
+            }
+        }
+
+        if (_pull is { } pull)
+        {
+            // Caught by a tongue: get dragged along and do nothing else this frame.
+            _pull = null;
+            Velocity = pull;
+            MoveAndSlide();
+            UpdateLook();
+            return;
+        }
+
+        // Poison and fire keep hurting for a while.
+        var overTime = _effects.Tick(dt);
+        if (overTime > 0 && IsHostile)
+        {
+            Hurt(overTime, _effects.IsBurning ? new Color(1f, 0.6f, 0.4f) : new Color(0.65f, 1f, 0.5f));
+            if (!IsHostile)
+            {
+                return;
+            }
+        }
 
         var desired = CurrentMood switch
         {
@@ -113,7 +164,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
             _ => Wander(dt, lookForLizards: false),
         };
 
-        Velocity = desired + _knockback;
+        Velocity = desired * _effects.SpeedFactor + _knockback;
         _knockback = _knockback.MoveToward(Vector2.Zero, 500f * dt);
         MoveAndSlide();
         UpdateLook();
@@ -121,6 +172,15 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
 
     public override void _Draw()
     {
+        if (IsCharmed)
+        {
+            // A little heart over its head.
+            var pink = new Color(1f, 0.45f, 0.7f);
+            DrawCircle(new Vector2(-2, -46), 2.2f, pink);
+            DrawCircle(new Vector2(2, -46), 2.2f, pink);
+            DrawColoredPolygon(new[] { new Vector2(-4, -45.5f), new Vector2(4, -45.5f), new Vector2(0, -41) }, pink);
+        }
+
         // Health bar over the deer once it's been hurt.
         if (!IsHostile || Health.Current == Health.Max)
         {
@@ -139,8 +199,10 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
             return;
         }
 
-        var dealt = Health.Damage(damage);
-        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -10), $"-{dealt}", Colors.White);
+        var boosted = ElementEffects.Boost(damage, type);
+        _effects.Hit(type);
+        var dealt = Health.Damage(boosted);
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -10), boosted > damage ? $"-{dealt}!" : $"-{dealt}", Colors.White);
         _hurtFlash = 0.15f;
 
         // A deer winding up a kick is braced: hits don't stop the kick or push it back. Dodge instead!
@@ -166,6 +228,42 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         }
     }
 
+    public void Charm(float seconds, Hero by)
+    {
+        _charmLeft = seconds;
+        _charmedBy = by;
+        _target = null;
+        _windUp = -1f;
+        CurrentMood = Mood.Chasing;
+        FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -38), "Charmed!", new Color(1f, 0.6f, 0.85f), 1f, 8f);
+        QueueRedraw();
+    }
+
+    public void Pull(Vector2 velocity)
+    {
+        // Being yanked off your feet spoils a kick.
+        _pull = velocity;
+        _windUp = -1f;
+        _knockback = Vector2.Zero;
+    }
+
+    public void Respawn()
+    {
+        Position = _home;
+        _effects.Clear();
+        Health.Refill();
+        CurrentMood = Mood.Wandering;
+        _target = null;
+        _charmLeft = 0;
+        _windUp = -1f;
+        _kickCooldown = 0;
+        _knockback = Vector2.Zero;
+        _pull = null;
+        _wanderTimer = 0;
+        ResetPhysicsInterpolation();
+        QueueRedraw();
+    }
+
     public void WakeUpAfter(double seconds)
     {
         GetTree().CreateTimer(seconds).Timeout += WakeUp;
@@ -173,17 +271,10 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
 
     private Vector2 Wander(float dt, bool lookForLizards)
     {
-        if (lookForLizards)
+        if (lookForLizards && FindTarget() is { } seen)
         {
-            var seen = Lizards()
-                .Where(l => l.IsVisibleToEnemies && l.GlobalPosition.DistanceTo(GlobalPosition) <= SightRange)
-                .OrderBy(l => l.GlobalPosition.DistanceTo(GlobalPosition))
-                .FirstOrDefault();
-            if (seen is not null)
-            {
-                StartChasing(seen);
-                return Vector2.Zero;
-            }
+            StartChasing(seen);
+            return Vector2.Zero;
         }
 
         _wanderTimer -= dt;
@@ -199,22 +290,40 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
 
     private Vector2 Chase(float dt)
     {
-        if (_target is not null && (!IsInstanceValid(_target) || !_target.IsInGame))
+        if (_target is GodotObject gone && !IsInstanceValid(gone))
         {
-            // The player dropped out of the game: forget them and go back to wandering.
+            // The player dropped out of the game, or a decoy vanished.
             _target = null;
         }
 
-        if (_target is null || !_target.IsVisibleToEnemies || _target.GlobalPosition.DistanceTo(GlobalPosition) > LoseSightRange)
+        // A decoy in sight is more interesting than a hero.
+        if (!IsCharmed && _target is Hero && FindLure() is { } lure)
         {
-            if (_target is not null && !_target.IsDown && !_target.IsVisibleToEnemies)
+            _target = lure;
+        }
+
+        if (IsCharmed && (_target is null || !_target.IsTargetable))
+        {
+            // Charmed: go after another deer, or tag along with the lizard who charmed it.
+            _target = FindTarget();
+            if (_target is null)
+            {
+                _windUp = -1f;
+                var buddy = _charmedBy is not null && IsInstanceValid(_charmedBy) ? _charmedBy.GlobalPosition : GlobalPosition;
+                return buddy.DistanceTo(GlobalPosition) > 30 ? (buddy - GlobalPosition).Normalized() * ChaseSpeed : Vector2.Zero;
+            }
+        }
+
+        if (_target is null || !_target.IsTargetable || _target.GlobalPosition.DistanceTo(GlobalPosition) > LoseSightRange)
+        {
+            if (_target is Hero { IsDown: false, IsVisibleToEnemies: false })
             {
                 // It vanished (camouflage)!
                 FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -38), "?", new Color(1f, 0.85f, 0.3f), 0.8f, 6f);
             }
 
             _target = null;
-            CurrentMood = Mood.Wandering;
+            CurrentMood = IsCharmed ? Mood.Chasing : Mood.Wandering;
             _windUp = -1f;
             return Vector2.Zero;
         }
@@ -263,15 +372,28 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         return Vector2.Zero;
     }
 
-    private void StartChasing(Hero lizard)
+    private void StartChasing(IEnemyTarget target)
     {
-        _target = lizard;
+        _target = target;
         CurrentMood = Mood.Chasing;
         FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -38), "!", new Color(1f, 0.85f, 0.3f), 0.6f, 6f);
     }
 
+    /// <summary>Damage over time (poison, fire): no knockback, doesn't make the deer notice anyone.</summary>
+    private void Hurt(int damage, Color colour)
+    {
+        var dealt = Health.Damage(damage);
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -10), $"-{dealt}", colour, 0.6f, 8f);
+        if (Health.IsEmpty)
+        {
+            FallAsleep();
+        }
+    }
+
     private void FallAsleep()
     {
+        _effects.Clear();
+        _charmLeft = 0;
         CurrentMood = Mood.Asleep;
         _target = null;
         _zzzTimer = 0.3f;
@@ -281,6 +403,11 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
 
     private void WakeUp()
     {
+        if (CurrentMood != Mood.Asleep)
+        {
+            return; // respawned before it woke up
+        }
+
         CurrentMood = Mood.Thankful;
         _wanderTimer = 2.5f; // stand still while talking
         _wanderDirection = Vector2.Zero;
@@ -308,9 +435,33 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy
         _sprite.Modulate = CurrentMood == Mood.Asleep ? new Color(0.7f, 0.75f, 1f)
             : _hurtFlash > 0 ? new Color(1f, 0.45f, 0.45f)
             : _windUp >= 0 ? new Color(1f, 1f, 0.55f)
-            : Colors.White;
+            : IsCharmed ? new Color(1f, 0.7f, 0.9f)
+            : _effects.Tint ?? Colors.White;
         _sprite.Scale = CurrentMood == Mood.Asleep ? new Vector2(1f, 0.85f) : Vector2.One;
     }
+
+    /// <summary>What to go after: charmed, the nearest other deer; otherwise a decoy in sight, then a hero in sight.</summary>
+    private IEnemyTarget? FindTarget()
+    {
+        if (IsCharmed)
+        {
+            return GetTree().GetNodesInGroup(Enemies.Group).OfType<IEnemyTarget>()
+                .Where(e => !ReferenceEquals(e, this) && e.IsTargetable && e.GlobalPosition.DistanceTo(GlobalPosition) <= LoseSightRange)
+                .OrderBy(e => e.GlobalPosition.DistanceTo(GlobalPosition))
+                .FirstOrDefault();
+        }
+
+        return FindLure() ?? Lizards()
+            .Where(l => l.IsVisibleToEnemies && l.GlobalPosition.DistanceTo(GlobalPosition) <= SightRange)
+            .OrderBy(l => l.GlobalPosition.DistanceTo(GlobalPosition))
+            .FirstOrDefault();
+    }
+
+    private IEnemyTarget? FindLure() =>
+        Enemies.Lures(GetTree())
+            .Where(l => l.GlobalPosition.DistanceTo(GlobalPosition) <= SightRange)
+            .OrderBy(l => l.GlobalPosition.DistanceTo(GlobalPosition))
+            .FirstOrDefault();
 
     private Hero[] Lizards() =>
         GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(l => l.IsInGame && !l.IsDown).ToArray();

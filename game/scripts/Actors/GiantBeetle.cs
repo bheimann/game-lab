@@ -13,7 +13,7 @@ namespace LizardWizard.Actors;
 /// and every few seconds it flashes, then charges in a straight line. Its hard shell shrugs off hits (1 damage),
 /// but if the charge ends in a wall it's dizzy for a moment and takes full damage: dodge the charge, then hit it hard.
 /// </summary>
-public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss
+public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, Saving.ISaveable
 {
     private const string Strip = "res://assets/sprites/beetle/giant_beetle.png";
 
@@ -25,6 +25,7 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss
     private float _untilCharge;
     private float _pinchCooldown;
     private float _hurtFlash;
+    private readonly ElementEffects _effects = new();
     private Vector2 _chargeDirection;
     private Vector2 _facing = Vector2.Down;
     private bool _pinchHit;
@@ -103,6 +104,18 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss
         _pinchCooldown -= dt;
         _hurtFlash -= dt;
 
+        // Poison and fire get under the shell a little at a time.
+        var overTime = _effects.Tick(dt);
+        if (overTime > 0 && IsHostile)
+        {
+            var hurt = Health.Damage(overTime);
+            FloatingText.Spawn(this, HurtCenter + new Vector2(0, -16), $"-{hurt}", _effects.IsBurning ? new Color(1f, 0.6f, 0.4f) : new Color(0.65f, 1f, 0.5f), 0.6f, 8f);
+            if (Health.IsEmpty)
+            {
+                Defeated();
+            }
+        }
+
         Velocity = _state switch
         {
             State.Waiting => Wait(),
@@ -115,6 +128,7 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss
             _ => Vector2.Zero,
         };
 
+        Velocity *= _effects.SpeedFactor; // ice slows it
         MoveAndSlide();
 
         if (_state == State.Charging && GetSlideCollisionCount() > 0 && _time > 0.1f)
@@ -149,19 +163,37 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss
             return;
         }
 
-        // The shell shrugs off hits, unless it's dizzy and wide open.
-        var dealt = Health.Damage(IsDizzy ? damage : 1);
+        // The shell shrugs off hits, unless it's dizzy and wide open. Elements still take effect.
+        _effects.Hit(type);
+        var dealt = Health.Damage(IsDizzy ? ElementEffects.Boost(damage, type) : 1);
         FloatingText.Spawn(this, HurtCenter + new Vector2(0, -16), IsDizzy ? $"-{dealt}!" : "clank",
             IsDizzy ? new Color(1f, 0.9f, 0.4f) : new Color(0.75f, 0.78f, 0.85f), 0.6f, 8f);
         _hurtFlash = 0.15f;
 
         if (Health.IsEmpty)
         {
-            Enter(State.Asleep);
-            _target = null;
-            Enemies.CheckCleared(this);
+            Defeated();
         }
     }
+
+    private void Defeated()
+    {
+        _effects.Clear();
+        Enter(State.Asleep);
+        _target = null;
+        Items.Unlocks.BossBeaten(this, BossName);
+        Enemies.CheckCleared(this);
+    }
+
+    /// <summary>Bosses stay beaten.</summary>
+    public void Respawn()
+    {
+    }
+
+    public string? SaveState() => _state is State.Asleep or State.Thankful ? "Beaten" : null;
+
+    /// <summary>Loading a save: it was already beaten, so it's back to its normal, friendly self.</summary>
+    public void LoadState(string state) => Enter(State.Thankful);
 
     public void WakeUpAfter(double seconds)
     {
@@ -327,7 +359,7 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss
             : _hurtFlash > 0 ? new Color(1f, 0.45f, 0.45f)
             : flashing ? new Color(1f, 1f, 0.55f)
             : _state == State.Dizzy ? new Color(0.85f, 0.85f, 1f)
-            : Colors.White;
+            : _effects.Tint ?? Colors.White;
     }
 
     private Hero[] Heroes() =>

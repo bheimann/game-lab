@@ -36,7 +36,7 @@ public interface ISwitch
 /// tiles, draws the door frame from the room's tileset, and blocks the way while it's locked or shut.
 /// Walking through an open door takes the whole team to the next room.
 /// </summary>
-public partial class Door : Node2D
+public partial class Door : Node2D, Saving.ISaveable
 {
     // Pieces of the Tiny Dungeon room sheet, in pixels.
     private static readonly Rect2 ClosedFrame = new(106, 23, 28, 24);
@@ -45,6 +45,7 @@ public partial class Door : Node2D
     private static readonly Rect2 LeftPost = new(88, 58, 9, 28);
     private static readonly Rect2 RightPost = new(143, 58, 9, 28);
     private const string KeyIcon = "res://assets/third_party/tiny_dungeon/Misc/Golden_key.png";
+    private const string StairsTexture = "res://assets/third_party/tiny_dungeon/Misc/Stairs_down_grass.png";
 
     private DungeonRoom _room = null!;
     private StaticBody2D _blocker = null!;
@@ -52,6 +53,7 @@ public partial class Door : Node2D
     private Sprite2D? _keyIcon;
     private Texture2D _sheet = null!;
     private float _messageCooldown;
+    private DoorState _startState;
 
     [Export] public DoorSide Side { get; set; } = DoorSide.Top;
 
@@ -63,6 +65,12 @@ public partial class Door : Node2D
     /// <summary>A shut door opens once all of these switches are on.</summary>
     [Export] public Godot.Collections.Array<NodePath> Switches { get; set; } = new();
 
+    /// <summary>
+    /// Not in a wall: grassy stairs going down, standing where it's placed (the way into a dungeon from the
+    /// overworld). Walk onto the stairs to go through. Always open.
+    /// </summary>
+    [Export] public bool Stairs { get; set; }
+
     /// <summary>The door on the other side.</summary>
     [Export] public NodePath? LeadsTo { get; set; }
 
@@ -73,16 +81,16 @@ public partial class Door : Node2D
     public Door? Partner => LeadsTo is null || LeadsTo.IsEmpty ? null : GetNodeOrNull<Door>(LeadsTo);
 
     /// <summary>Where heroes appear when they come through this door from the other side (global).</summary>
-    public Vector2 EntryPoint => GlobalPosition + Side switch
+    public Vector2 EntryPoint => GlobalPosition + (Stairs ? new Vector2(0, 16) : Side switch
     {
         DoorSide.Top => new Vector2(0, 46),
         DoorSide.Bottom => new Vector2(0, -12),
         DoorSide.Left => new Vector2(22, 4),
         _ => new Vector2(-22, 4),
-    };
+    });
 
     /// <summary>Which way you walk to go through this door.</summary>
-    public Vector2 Outward => Side switch
+    public Vector2 Outward => Stairs ? Vector2.Up : Side switch
     {
         DoorSide.Top => Vector2.Up,
         DoorSide.Bottom => Vector2.Down,
@@ -94,9 +102,20 @@ public partial class Door : Node2D
     public void Setup(DungeonRoom room)
     {
         _room = room;
+        _startState = State;
         var layout = room.Layout;
+        ZIndex = -1; // part of the wall (or the ground): behind everyone
+
+        if (Stairs)
+        {
+            State = DoorState.Open;
+            AddChild(new Sprite2D { Texture = GD.Load<Texture2D>(StairsTexture), Position = new Vector2(0, -8) });
+            Block(Vector2.Zero, Vector2.One);
+            Refresh();
+            return;
+        }
+
         _sheet = layout.Sheet;
-        ZIndex = -1; // part of the wall: behind everyone
 
         var size = RoomBuilder.TileSize;
         var midColumn = layout.Columns / 2;
@@ -168,6 +187,14 @@ public partial class Door : Node2D
         }
     }
 
+    public string? SaveState() => State == _startState ? null : State.ToString();
+
+    public void LoadState(string state)
+    {
+        State = System.Enum.Parse<DoorState>(state);
+        Refresh();
+    }
+
     public void Open()
     {
         if (State == DoorState.Open)
@@ -189,6 +216,11 @@ public partial class Door : Node2D
         }
 
         var offset = hero.GlobalPosition - GlobalPosition;
+        if (Stairs)
+        {
+            return Mathf.Abs(offset.X) < 7 && offset.Y is > -14 and < 2;
+        }
+
         return Side switch
         {
             DoorSide.Top => Mathf.Abs(offset.X) < 9 && offset.Y < 24,

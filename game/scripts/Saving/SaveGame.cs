@@ -1,0 +1,215 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using Godot;
+using LizardWizard.Actors;
+using LizardWizard.Dungeons;
+using LizardWizard.Items;
+using LizardWizard.Players;
+
+namespace LizardWizard.Saving;
+
+/// <summary>Something in the world whose state is kept in the save file (a door, a lever, a chest...).</summary>
+public interface ISaveable
+{
+    /// <summary>The state to save, or null if it's still how it started.</summary>
+    string? SaveState();
+
+    /// <summary>Put back a saved state, quietly (no "Click!" or "The door opens!").</summary>
+    void LoadState(string state);
+}
+
+/// <summary>What one player slot was playing, so picking the same character again brings it all back.</summary>
+public sealed class SavedPlayer
+{
+    public string Character { get; set; } = "";
+
+    public string Class { get; set; } = "";
+
+    public string Weapon { get; set; } = "";
+
+    public string? Armor { get; set; }
+
+    public int Herbs { get; set; }
+}
+
+/// <summary>Everything in the save file.</summary>
+public sealed class SaveData
+{
+    public int Version { get; set; } = 1;
+
+    public List<string> BossesBeaten { get; set; } = new();
+
+    public int Keys { get; set; }
+
+    public bool DungeonComplete { get; set; }
+
+    /// <summary>Node path (from the scene root) → saved state.</summary>
+    public Dictionary<string, string> World { get; set; } = new();
+
+    /// <summary>Things that are gone for good (broken rocks), by node path.</summary>
+    public List<string> Removed { get; set; } = new();
+
+    /// <summary>Player slot (0 = P1) → what they were playing.</summary>
+    public Dictionary<int, SavedPlayer> Players { get; set; } = new();
+}
+
+/// <summary>
+/// Saves the game to <c>user://save.json</c> (on Windows: %APPDATA%\Godot\app_userdata\Lizard Wizard) and loads
+/// it next time. The game saves by itself: going through a door, beating a boss, a player leaving, and closing
+/// the game. Loading puts the world back how it was (doors, levers, chests, broken rocks, bosses, keys) and
+/// starts the team in the overworld. Dev runs (autoplay, screenshots) never touch the save, unless they're given
+/// their own file with <c>--save-file=user://test_save.json</c>.
+/// </summary>
+public static class SaveGame
+{
+    private const string FileFlag = "--save-file=";
+
+    private static readonly string Path =
+        OS.GetCmdlineUserArgs().FirstOrDefault(a => a.StartsWith(FileFlag))?[FileFlag.Length..] ?? "user://save.json";
+
+    private static SaveData? _loaded;
+
+    /// <summary>Off for dev runs (autoplay bots, screenshots), so they never touch the real save.</summary>
+    public static bool Enabled { get; } =
+        OS.GetCmdlineUserArgs().Any(a => a.StartsWith(FileFlag))
+        || !OS.GetCmdlineUserArgs().Any(a => a.StartsWith("--autoplay") || a.StartsWith("--screenshot"));
+
+    public static bool Exists => Enabled && FileAccess.FileExists(Path);
+
+    /// <summary>The save file's contents (read once).</summary>
+    public static SaveData? Loaded
+    {
+        get
+        {
+            if (_loaded is null && Exists)
+            {
+                using var file = FileAccess.Open(Path, FileAccess.ModeFlags.Read);
+                try
+                {
+                    _loaded = JsonSerializer.Deserialize<SaveData>(file.GetAsText());
+                }
+                catch (JsonException e)
+                {
+                    GD.PushWarning($"Couldn't read the save file, starting fresh: {e.Message}");
+                }
+            }
+
+            return _loaded;
+        }
+    }
+
+    /// <summary>Things broken since the game started (merged into the save).</summary>
+    private static readonly HashSet<string> Removed = new();
+
+    /// <summary>Remember that <paramref name="node"/> is gone for good (a rock was blown up).</summary>
+    public static void MarkRemoved(Node node) => Removed.Add(node.GetTree().CurrentScene.GetPathTo(node));
+
+    /// <summary>Put the world back how the save left it. Call once everything in the scene is ready.</summary>
+    public static void Apply(Node anyNode)
+    {
+        var data = Loaded;
+        if (data is null)
+        {
+            return;
+        }
+
+        GD.Print($"Loaded the save: {data.World.Count} things changed, {data.Removed.Count} gone, bosses beaten: {string.Join(", ", data.BossesBeaten)}");
+        var scene = anyNode.GetTree().CurrentScene;
+        foreach (var path in data.Removed)
+        {
+            Removed.Add(path);
+            scene.GetNodeOrNull(path)?.QueueFree();
+        }
+
+        foreach (var (path, state) in data.World)
+        {
+            if (scene.GetNodeOrNull(path) is ISaveable saveable)
+            {
+                saveable.LoadState(state);
+            }
+        }
+
+        Unlocks.Restore(data.BossesBeaten);
+        if (Dungeon.Find(anyNode) is { } dungeon)
+        {
+            dungeon.Keys = data.Keys;
+            dungeon.RestoreComplete(data.DungeonComplete);
+        }
+
+        foreach (var room in scene.FindChildren("*", "", true, false).OfType<DungeonRoom>())
+        {
+            room.SyncCleared();
+        }
+    }
+
+    /// <summary>Save now (does nothing in dev runs).</summary>
+    public static void Save(Node anyNode)
+    {
+        if (!Enabled || !anyNode.IsInsideTree())
+        {
+            return;
+        }
+
+        var scene = anyNode.GetTree().CurrentScene;
+        var data = new SaveData
+        {
+            BossesBeaten = Unlocks.BeatenBosses.ToList(),
+            Removed = Removed.ToList(),
+            Players = new Dictionary<int, SavedPlayer>(Loaded?.Players ?? new()),
+        };
+
+        foreach (var node in scene.FindChildren("*", "", true, false))
+        {
+            if (node is ISaveable saveable && saveable.SaveState() is { } state)
+            {
+                data.World[scene.GetPathTo(node)] = state;
+            }
+        }
+
+        if (Dungeon.Find(anyNode) is { } dungeon)
+        {
+            data.Keys = dungeon.Keys;
+            data.DungeonComplete = dungeon.IsComplete;
+        }
+
+        if (PlayerManager.Find(anyNode) is { } manager)
+        {
+            for (var i = 0; i < manager.Players.Count; i++)
+            {
+                if (manager.Players[i] is { } hero)
+                {
+                    data.Players[i] = new SavedPlayer
+                    {
+                        Character = hero.DisplayName,
+                        Class = hero.CurrentClass,
+                        Weapon = hero.CurrentWeapon,
+                        Armor = hero.Armor?.Name,
+                        Herbs = hero.Herbs,
+                    };
+                }
+            }
+        }
+
+        using var file = FileAccess.Open(Path, FileAccess.ModeFlags.Write);
+        file.StoreString(JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+        _loaded = data;
+    }
+
+    /// <summary>What this player slot was playing last time, if it was the same character.</summary>
+    public static SavedPlayer? PlayerFor(int slot, string character) =>
+        Loaded?.Players.GetValueOrDefault(slot) is { } saved && saved.Character == character ? saved : null;
+
+    /// <summary>Throw the save away (new game).</summary>
+    public static void Delete()
+    {
+        if (Exists)
+        {
+            DirAccess.RemoveAbsolute(ProjectSettings.GlobalizePath(Path));
+        }
+
+        _loaded = null;
+        Removed.Clear();
+        Unlocks.Restore(Enumerable.Empty<string>());
+    }
+}
