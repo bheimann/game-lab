@@ -1,0 +1,131 @@
+using Godot;
+using LizardWizard.Actors;
+using LizardWizard.Combat;
+
+namespace LizardWizard.Effects;
+
+public enum LureKind
+{
+    /// <summary>A copy of the hero that wanders off. Pops when it's hit.</summary>
+    Clone,
+
+    /// <summary>A dropped tail that wriggles where it lands. Takes any number of hits.</summary>
+    Tail,
+}
+
+/// <summary>
+/// An Illusionist decoy. Enemies that see it go after it instead of the heroes, until it runs out of time.
+/// </summary>
+public partial class Lure : Node2D, IEnemyTarget
+{
+    private readonly RandomNumberGenerator _rng = new();
+    private Sprite2D? _sprite;
+    private float _left;
+    private float _time;
+    private Vector2 _drift;
+
+    public required Hero Caster { get; init; }
+
+    public LureKind Kind { get; init; }
+
+    /// <summary>How long it lasts.</summary>
+    public float Seconds { get; init; } = 5f;
+
+    public Vector2 HurtCenter => GlobalPosition + new Vector2(0, Kind == LureKind.Clone ? -12 : -3);
+
+    public float HurtRadius => Kind == LureKind.Clone ? 7f : 5f;
+
+    public bool IsTargetable => _left > 0;
+
+    public override void _Ready()
+    {
+        AddToGroup(Enemies.LureGroup);
+        _left = Seconds;
+        _rng.Seed = (ulong)GetInstanceId();
+        if (Kind == LureKind.Clone)
+        {
+            var hero = Caster.Sprite;
+            _sprite = new Sprite2D
+            {
+                Texture = hero.SpriteFrames.GetFrameTexture(hero.Animation, hero.Frame),
+                Offset = hero.Offset,
+                FlipH = hero.FlipH,
+                Material = hero.Material,
+            };
+            AddChild(_sprite);
+            _drift = Vector2.Right.Rotated(_rng.RandfRange(0, Mathf.Tau)) * 22f;
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        var dt = (float)delta;
+        _left -= dt;
+        _time += dt;
+        if (_left <= 0)
+        {
+            Vanish();
+            return;
+        }
+
+        // Clones wander about so enemies chase them away from the real hero.
+        if (Kind == LureKind.Clone)
+        {
+            if ((int)(_time * 1.5f) != (int)((_time - dt) * 1.5f))
+            {
+                _drift = Vector2.Right.Rotated(_rng.RandfRange(0, Mathf.Tau)) * 22f;
+            }
+
+            Position += _drift * dt;
+            _sprite!.FlipH = _drift.X < 0;
+            _sprite.Modulate = new Color(0.85f, 0.75f, 1f, _left < 1f && (int)(_time * 10) % 2 == 0 ? 0.3f : 0.75f);
+        }
+
+        QueueRedraw();
+    }
+
+    public void TakeHit(int damage, Vector2 from, DamageType type = DamageType.Physical)
+    {
+        if (!IsTargetable)
+        {
+            return;
+        }
+
+        if (Kind == LureKind.Clone)
+        {
+            FloatingText.Spawn(this, HurtCenter + new Vector2(0, -8), "Poof!", new Color(0.85f, 0.75f, 1f), 0.8f, 8f);
+            Vanish();
+        }
+        else
+        {
+            FloatingText.Spawn(this, HurtCenter + new Vector2(0, -8), "wiggle", new Color(0.6f, 0.9f, 0.5f), 0.5f, 6f);
+        }
+    }
+
+    public override void _Draw()
+    {
+        if (Kind != LureKind.Tail)
+        {
+            return;
+        }
+
+        // A green tail curling and wriggling on the ground.
+        var points = new Vector2[8];
+        for (var i = 0; i < points.Length; i++)
+        {
+            var along = i / (float)(points.Length - 1);
+            points[i] = new Vector2(-8 + 16 * along, -2 + Mathf.Sin(_time * 14f + along * 5f) * 2.5f * along);
+        }
+
+        var fade = _left < 1f && (int)(_time * 10) % 2 == 0 ? 0.4f : 1f;
+        DrawPolyline(points, new Color(0.08f, 0.09f, 0.18f, fade), 4f);
+        DrawPolyline(points, new Color(0.39f, 0.67f, 0.25f, fade), 2.5f);
+    }
+
+    private void Vanish()
+    {
+        _left = 0;
+        RemoveFromGroup(Enemies.LureGroup);
+        QueueFree();
+    }
+}

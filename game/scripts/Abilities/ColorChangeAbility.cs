@@ -62,8 +62,17 @@ public partial class ColorChangeAbility : Ability, IHasOptions
 
     protected override void Use() => Select(_index + 1);
 
+    public override void Activate() => Apply();
+
+    public override void Deactivate() => Hero.Sprite.Material = null;
+
     private void Apply()
     {
+        if (!CanProcess())
+        {
+            return; // another class is painted on
+        }
+
         Hero.Sprite.Material = _index == 0 ? null : _material;
         _material.SetShaderParameter("hue_shift", Colours[_index].HueShift);
     }

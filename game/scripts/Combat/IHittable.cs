@@ -32,6 +32,18 @@ public interface IHittable
     void TakeHit(int damage, Vector2 from, DamageType type = DamageType.Physical);
 }
 
+/// <summary>Something light enough for a tongue to grab and drag (bosses are too heavy).</summary>
+public interface IPullable
+{
+    bool CanBePulled { get; }
+
+    /// <summary>
+    /// Move at <paramref name="velocity"/> (global, pixels per second) on the next physics frame instead of
+    /// moving on its own. The tongue calls this every frame while it holds on; stop calling it to let go.
+    /// </summary>
+    void Pull(Vector2 velocity);
+}
+
 public static class Hits
 {
     /// <summary>Does a circle at <paramref name="point"/> with <paramref name="radius"/> touch the target?</summary>

@@ -8,7 +8,7 @@ namespace LizardWizard.Dungeons;
 /// A lever you flip by hitting it (punch, bite, tongue...). It stays on. Hittable things that aren't
 /// enemies live in the <see cref="Group"/> group so heroes' attacks (and the tongue's aim assist) find them.
 /// </summary>
-public partial class LeverSwitch : Node2D, IHittable, ISwitch
+public partial class LeverSwitch : Node2D, IHittable, ISwitch, Saving.ISaveable
 {
     public const string Group = "targets";
 
@@ -40,6 +40,16 @@ public partial class LeverSwitch : Node2D, IHittable, ISwitch
         AddChild(body);
     }
 
+    public string? SaveState() => IsOn ? "On" : null;
+
+    public void LoadState(string state) => TurnOn();
+
+    private void TurnOn()
+    {
+        IsOn = true;
+        ((AtlasTexture)_sprite.Texture).Region = new Rect2(10, 0, 10, 16);
+    }
+
     public void TakeHit(int damage, Vector2 from, DamageType type = DamageType.Physical)
     {
         if (IsOn)
@@ -47,8 +57,7 @@ public partial class LeverSwitch : Node2D, IHittable, ISwitch
             return;
         }
 
-        IsOn = true;
-        ((AtlasTexture)_sprite.Texture).Region = new Rect2(10, 0, 10, 16);
+        TurnOn();
         FloatingText.Spawn(this, HurtCenter + new Vector2(0, -10), "Click!", new Color(1f, 0.75f, 0.35f), 1f, 8f);
     }
 }

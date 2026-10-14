@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
 [ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="2_melee"]
 [ext_resource type="Script" path="res://scripts/Abilities/BombAbility.cs" id="3_bomb"]
+[ext_resource type="Script" path="res://scripts/Abilities/GunAbility.cs" id="4_gun"]
+[ext_resource type="Script" path="res://scripts/Abilities/WeaponSelectorAbility.cs" id="5_weapons"]
+[ext_resource type="Script" path="res://scripts/Abilities/ShieldAbility.cs" id="6_shield"]
+[ext_resource type="Script" path="res://scripts/Abilities/SpinAbility.cs" id="7_spin"]
+[ext_resource type="Script" path="res://scripts/Abilities/CycleOptionsAbility.cs" id="8_cycle"]
 
 [node name="Fox" type="CharacterBody2D"]
 collision_layer = 2
@@ -10,6 +15,7 @@ collision_mask = 1
 motion_mode = 1
 script = ExtResource("1_hero")
 DisplayName = "Fox"
+StartingClass = "Bomb Master"
 SpritePrefix = "res://assets/sprites/red_fox/red_fox"
 SideFrameWidth = 20
 Speed = 75.0
@@ -19,6 +25,7 @@ AttackOriginSide = Vector2(7, -16)
 
 [node name="Bite" type="Node2D" parent="."]
 script = ExtResource("2_melee")
+Classes = "Bomb Master, Gun Master"
 CooldownSeconds = 0.3
 Damage = 4
 Reach = 11.0
@@ -27,3 +34,105 @@ FlashColour = Color(1, 0.8, 0.6, 1)
 [node name="Bomb" type="Node2D" parent="."]
 script = ExtResource("3_bomb")
 Slot = 1
+Classes = "Bomb Master"
+
+[node name="Gun" type="Node2D" parent="."]
+script = ExtResource("4_gun")
+Slot = 1
+Classes = "Gun Master"
+CooldownSeconds = 0.3
+Damage = 3
+Elements = "Physical, Fire, Ice, Lightning, Arcane"
+
+[node name="Weapons" type="Node2D" parent="."]
+script = ExtResource("5_weapons")
+Classes = "Weapon Master"
+Weapons = "Sword & Shield, Javelin, Flail, Axe & Bow"
+
+[node name="Sword" type="Node2D" parent="."]
+script = ExtResource("2_melee")
+Classes = "Weapon Master"
+Weapon = "Sword & Shield"
+CooldownSeconds = 0.35
+Damage = 6
+Reach = 14.0
+Radius = 11.0
+FlashColour = Color(0.85, 0.9, 1, 1)
+
+[node name="Shield" type="Node2D" parent="."]
+script = ExtResource("6_shield")
+Slot = 1
+Classes = "Weapon Master"
+Weapon = "Sword & Shield"
+CooldownSeconds = 0.6
+
+[node name="JavelinJab" type="Node2D" parent="."]
+script = ExtResource("2_melee")
+Classes = "Weapon Master"
+Weapon = "Javelin"
+CooldownSeconds = 0.35
+Damage = 5
+Reach = 18.0
+Radius = 7.0
+FlashColour = Color(0.85, 0.9, 1, 1)
+
+[node name="JavelinThrow" type="Node2D" parent="."]
+script = ExtResource("4_gun")
+Slot = 1
+Classes = "Weapon Master"
+Weapon = "Javelin"
+CooldownSeconds = 0.8
+Damage = 6
+Look = 1
+Range = 140.0
+BulletSpeed = 240.0
+ActiveSeconds = 0.2
+
+[node name="FlailSwing" type="Node2D" parent="."]
+script = ExtResource("2_melee")
+Classes = "Weapon Master"
+Weapon = "Flail"
+CooldownSeconds = 0.5
+Damage = 6
+Reach = 15.0
+Radius = 14.0
+ActiveSeconds = 0.3
+FlashColour = Color(0.85, 0.9, 1, 1)
+
+[node name="FlailSpin" type="Node2D" parent="."]
+script = ExtResource("7_spin")
+Slot = 1
+Classes = "Weapon Master"
+Weapon = "Flail"
+CooldownSeconds = 1.2
+
+[node name="AxeChop" type="Node2D" parent="."]
+script = ExtResource("2_melee")
+Classes = "Weapon Master"
+Weapon = "Axe & Bow"
+CooldownSeconds = 0.55
+Damage = 8
+Reach = 14.0
+Radius = 11.0
+ActiveSeconds = 0.28
+FlashColour = Color(0.85, 0.9, 1, 1)
+
+[node name="Bow" type="Node2D" parent="."]
+script = ExtResource("4_gun")
+Slot = 1
+Classes = "Weapon Master"
+Weapon = "Axe & Bow"
+CooldownSeconds = 0.45
+Damage = 3
+Elements = "Physical, Arcane, Fire, Ice, Lightning, Poison, Explosive"
+OptionsTitle = "Arrows"
+Look = 2
+Range = 170.0
+BulletSpeed = 280.0
+
+[node name="ArrowType" type="Node2D" parent="."]
+script = ExtResource("8_cycle")
+Slot = 2
+Classes = "Weapon Master"
+Weapon = "Axe & Bow"
+Target = NodePath("../Bow")

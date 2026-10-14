@@ -15,25 +15,165 @@
 [ext_resource type="Script" path="res://scripts/Players/PlayerManager.cs" id="players"]
 [ext_resource type="Script" path="res://scripts/Players/CoopCamera.cs" id="camera"]
 [ext_resource type="Script" path="res://scripts/UI/HeartBar.cs" id="hearts"]
+[ext_resource type="Script" path="res://scripts/Dungeons/Painter.cs" id="painter"]
+[ext_resource type="Script" path="res://scripts/Rooms/OutdoorBuilder.cs" id="outdoor"]
+[ext_resource type="Script" path="res://scripts/Dungeons/Prop.cs" id="prop"]
 
 [node name="Dungeon1" type="Node2D"]
 script = ExtResource("game")
 
-[node name="Dungeon" type="Node" parent="." node_paths=PackedStringArray("StartRoom", "StartPoint")]
+[node name="Dungeon" type="Node" parent="." node_paths=PackedStringArray("StartRoom", "StartPoint", "ReturnDoor")]
 script = ExtResource("dungeon")
 DungeonName = "The Old Burrow"
 TitleEarned = "Squire"
-StartRoom = NodePath("../World/Entrance")
-StartPoint = NodePath("../World/Entrance/Start")
+StartRoom = NodePath("../World/Overworld")
+StartPoint = NodePath("../World/Overworld/Start")
+ReturnDoor = NodePath("../World/Overworld/BurrowStairs")
 
 [node name="World" type="Node2D" parent="."]
 y_sort_enabled = true
+
+[node name="Overworld" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(-1200, 0)
+script = ExtResource("room")
+Title = "Scalebrook Meadow"
+
+[node name="Layout" type="Node2D" parent="World/Overworld"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 112
+InteriorHeight = 60
+PathPoints = PackedVector2Array(140, 440, 330, 420, 560, 400, 700, 300, 780, 170, 800, 112)
+
+[node name="Start" type="Marker2D" parent="World/Overworld"]
+position = Vector2(140, 430)
+
+[node name="WelcomeSign" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(104, 404)
+script = ExtResource("prop")
+Kind = 3
+Text = "Scalebrook Meadow
+The Old Burrow is to the north-east"
+
+[node name="BurrowStairs" type="Node2D" parent="World/Overworld"]
+position = Vector2(800, 104)
+script = ExtResource("door")
+Stairs = true
+LeadsTo = NodePath("../../Entrance/DoorBottom")
+
+[node name="BurrowSign" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(770, 112)
+script = ExtResource("prop")
+Kind = 3
+Text = "The Old Burrow"
+
+[node name="Pond" type="Node2D" parent="World/Overworld"]
+position = Vector2(300, 176)
+script = ExtResource("pit")
+Size = Vector2(112, 72)
+Water = true
+
+[node name="Rock1" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(180, 224)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Rock2" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(196, 230)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Rock3" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(620, 164)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Rock4" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(638, 156)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Rock5" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(860, 424)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Rock6" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(470, 474)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Rock7" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(250, 334)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Bush1" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(520, 252)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush2" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(534, 258)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush3" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(548, 250)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush4" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(700, 452)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush5" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(714, 458)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush6" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(400, 320)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush7" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(160, 150)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush8" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(174, 144)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Crate1" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(96, 300)
+script = ExtResource("prop")
+Kind = 4
+
+[node name="Crate2" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(112, 300)
+script = ExtResource("prop")
+Kind = 4
+
+[node name="Deer1" parent="World/Overworld" instance=ExtResource("deer")]
+position = Vector2(450, 380)
+
+[node name="Deer2" parent="World/Overworld" instance=ExtResource("deer")]
+position = Vector2(650, 260)
+
+[node name="Deer3" parent="World/Overworld" instance=ExtResource("deer")]
+position = Vector2(260, 110)
 
 [node name="Entrance" type="Node2D" parent="World"]
 y_sort_enabled = true
 position = Vector2(0, 0)
 script = ExtResource("room")
 Title = "Entrance Hall"
+Area = "The Old Burrow"
 
 [node name="Layout" type="Node2D" parent="World/Entrance"]
 z_index = -1
@@ -58,17 +198,28 @@ State = 2
 LeadsTo = NodePath("../../KeyHall/DoorBottom")
 OpensWhenCleared = true
 
+[node name="DoorBottom" type="Node2D" parent="World/Entrance"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Overworld/BurrowStairs")
+
 [node name="Deer1" parent="World/Entrance" instance=ExtResource("deer")]
 position = Vector2(70, 70)
 
 [node name="Deer2" parent="World/Entrance" instance=ExtResource("deer")]
 position = Vector2(240, 80)
 
+[node name="TestPainter" type="Node2D" parent="World/Entrance"]
+z_index = -1
+position = Vector2(100, 116)
+script = ExtResource("painter")
+
 [node name="KeyHall" type="Node2D" parent="World"]
 y_sort_enabled = true
 position = Vector2(0, -320)
 script = ExtResource("room")
 Title = "Key Hall"
+Area = "The Old Burrow"
 
 [node name="Layout" type="Node2D" parent="World/KeyHall"]
 z_index = -1
@@ -114,6 +265,7 @@ y_sort_enabled = true
 position = Vector2(420, -300)
 script = ExtResource("room")
 Title = "Side Room"
+Area = "The Old Burrow"
 
 [node name="Layout" type="Node2D" parent="World/SideRoom"]
 z_index = -1
@@ -153,6 +305,7 @@ y_sort_enabled = true
 position = Vector2(-16, -680)
 script = ExtResource("room")
 Title = "Pit of Two Levers"
+Area = "The Old Burrow"
 
 [node name="Layout" type="Node2D" parent="World/PuzzleRoom"]
 z_index = -1
@@ -245,6 +398,7 @@ position = Vector2(-32, -1040)
 script = ExtResource("room")
 Title = "Beetle's Lair"
 IsBossRoom = true
+Area = "The Old Burrow"
 
 [node name="Layout" type="Node2D" parent="World/BossRoom"]
 z_index = -1

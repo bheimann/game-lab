@@ -17,20 +17,29 @@ namespace LizardWizard.Util;
 /// (P2 switches bomb type every few seconds, P1 eats a herb) until every deer has said thanks (P1 punches, P2 throws bombs),
 /// 5. walk to opposite sides to test the camera, 6. P2 holds Delete to leave.
 /// Logs what happens and saves a screenshot every 2 seconds into the folder.
+/// Add <c>--autoplay-pick=2,3</c> to make the bots pick other characters (indexes into
+/// <see cref="PlayerManager.Characters"/>); the lizard-only tests then just log "nothing".
+/// Add <c>--autoplay-classes=Illusionist,Weapon Master</c> to paint the bots into those classes once they've joined;
+/// in the fight they then also press Y every so often and flip through their choices (spells, weapons, arrows).
 /// </summary>
 public partial class DevAutoplay : Node
 {
     private const string Flag = "--autoplay=";
+    private const string PickFlag = "--autoplay-pick=";
+    private const string ClassesFlag = "--autoplay-classes=";
     private const double MaxSeconds = 120;
 
     private readonly AutoplayBot[] _bots =
     {
-        new(0, Key.W, Key.A, Key.S, Key.D, Key.J, Key.K, Key.L, Key.Backspace, Key.I, Key.Q, Key.E, Key.Tab, isFox: false),
-        new(1, Key.Up, Key.Left, Key.Down, Key.Right, Key.Period, Key.Slash, Key.Comma, Key.Delete, Key.M, Key.Semicolon, Key.Apostrophe, Key.Enter, isFox: true),
+        new(0, Key.W, Key.A, Key.S, Key.D, Key.J, Key.K, Key.L, Key.Backspace, Key.I, Key.Q, Key.E, Key.Tab, Key.Shift, isFox: false),
+        new(1, Key.Up, Key.Left, Key.Down, Key.Right, Key.Period, Key.Slash, Key.Comma, Key.Delete, Key.M, Key.Semicolon, Key.Apostrophe, Key.Enter, Key.Ctrl, isFox: true),
     };
 
     private readonly HashSet<Key> _held = new();
     private string _folder = "";
+    private int[] _picks = { 0, 1 };
+    private string[] _classes = System.Array.Empty<string>();
+    private int _abilityStep = -1;
     private double _time;
     private double _nextShot;
     private double _nextLog;
@@ -46,6 +55,7 @@ public partial class DevAutoplay : Node
     private enum Phase
     {
         Join,
+        Abilities,
         Camouflage,
         Colour,
         Ditch,
@@ -59,7 +69,10 @@ public partial class DevAutoplay : Node
 
     public static void AttachIfRequested(Node parent)
     {
-        foreach (var arg in OS.GetCmdlineUserArgs())
+        var args = OS.GetCmdlineUserArgs();
+        var picks = args.Where(a => a.StartsWith(PickFlag)).Select(a => a[PickFlag.Length..].Split(',').Select(int.Parse).ToArray()).FirstOrDefault();
+        var classes = args.Where(a => a.StartsWith(ClassesFlag)).Select(a => a[ClassesFlag.Length..].Split(',')).FirstOrDefault();
+        foreach (var arg in args)
         {
             if (arg.StartsWith(Flag))
             {
@@ -67,7 +80,7 @@ public partial class DevAutoplay : Node
                 var folder = arg[Flag.Length..];
                 parent.AddChild(Dungeons.Dungeon.Find(parent) is not null
                     ? DevDungeonAutoplay.Create(folder)
-                    : new DevAutoplay { _folder = folder, ProcessPhysicsPriority = -20 });
+                    : new DevAutoplay { _folder = folder, _picks = picks ?? new[] { 0, 1 }, _classes = classes ?? System.Array.Empty<string>(), ProcessPhysicsPriority = -20 });
             }
         }
     }
@@ -86,9 +99,10 @@ public partial class DevAutoplay : Node
         {
             case Phase.Join:
                 // P1: join, then pick the first character (lizard). P2: join, go right once (fox), pick.
-                PressAt(wanted, _bots[0].Primary, inPhase, 0.2, 0.6);
+                PressAt(wanted, _bots[0].Primary, inPhase, 0.2, 0.65);
+                Choose(wanted, _bots[0], _picks[0], inPhase, 0.35);
                 PressAt(wanted, _bots[1].Primary, inPhase, 0.8);
-                PressAt(wanted, _bots[1].Right, inPhase, 1.1);
+                Choose(wanted, _bots[1], _picks[1], inPhase, 1.0);
                 PressAt(wanted, _bots[1].Primary, inPhase, 1.4);
                 break;
 
@@ -187,6 +201,10 @@ public partial class DevAutoplay : Node
 
                 break;
 
+            case Phase.Abilities:
+                AbilityTest(manager, deer, inPhase);
+                break;
+
             case Phase.Fight:
                 foreach (var bot in _bots)
                 {
@@ -200,6 +218,21 @@ public partial class DevAutoplay : Node
                 if (inPhase % 2 is > 1.7 and < 1.82)
                 {
                     wanted.Add(_bots[1].Next);
+                }
+
+                // Painted bots also use Y now and then, and P1 flips through its choices too.
+                if (_classes.Length > 0)
+                {
+                    if (inPhase % 1.5 is > 0.7 and < 0.82)
+                    {
+                        wanted.Add(_bots[0].Special);
+                        wanted.Add(_bots[1].Special);
+                    }
+
+                    if (inPhase % 4 is > 3.1 and < 3.22)
+                    {
+                        wanted.Add(_bots[0].Next);
+                    }
                 }
 
                 PressAt(wanted, _bots[0].Item, inPhase, 1.0);
@@ -251,7 +284,8 @@ public partial class DevAutoplay : Node
         var lizard = manager.Players[0];
         var next = _phase switch
         {
-            Phase.Join when inPhase > 2 => Phase.Camouflage,
+            Phase.Join when inPhase > 2 => _classes.Length > 0 ? Phase.Abilities : Phase.Camouflage,
+            Phase.Abilities when inPhase > 9 => Phase.Camouflage,
             Phase.Camouflage when _spottedAt >= 0 && _time - _spottedAt > 2.5 => Phase.Colour,
             Phase.Camouflage when inPhase > 12 => Phase.Colour,
             Phase.Colour when inPhase > 1.5 => Phase.Ditch,
@@ -305,6 +339,18 @@ public partial class DevAutoplay : Node
             GD.Print($"[autoplay {_time:0.0}s] leave test: P2 left={manager.Slots[1].IsFree}, deer still chasing a player who left={lost}");
         }
 
+        if (_phase is Phase.Join or Phase.Rejoin)
+        {
+            for (var i = 0; i < _classes.Length && i < manager.Players.Count; i++)
+            {
+                if (manager.Players[i] is { } hero && _classes[i].Trim() != "")
+                {
+                    hero.Paint(_classes[i].Trim());
+                    GD.Print($"[autoplay {_time:0.0}s] P{i + 1} painted as a {hero.CurrentClass}");
+                }
+            }
+        }
+
         TakeShot();
         GD.Print($"[autoplay {_time:0.0}s] ---- {next} (players: {manager.Players.Count(p => p is not null)})");
         _phase = next;
@@ -312,6 +358,78 @@ public partial class DevAutoplay : Node
         if (_phase == Phase.Done)
         {
             GetTree().Quit();
+        }
+    }
+
+    /// <summary>
+    /// With <c>--autoplay-classes</c>: a scripted check of the painted classes' moves. Deer are put right next to
+    /// the heroes and each move is used directly, once, at a set time; the log says what happened.
+    /// (Written for P1 = Illusionist, P2 = Weapon Master.)
+    /// </summary>
+    private void AbilityTest(PlayerManager manager, List<Deer> deer, double inPhase)
+    {
+        var step = (int)(inPhase * 2); // a step every half second
+        if (step == _abilityStep || deer.Count < 5)
+        {
+            return;
+        }
+
+        _abilityStep = step;
+        var p1 = manager.Players[0];
+        var p2 = manager.Players[1];
+        void Place(Deer d, Hero h, float distance) => d.GlobalPosition = h.GlobalPosition + h.Facing * distance;
+        Ability A(Hero h, string name) => h.GetNode<Ability>(name);
+
+        if (p2?.CurrentClass == "Weapon Master")
+        {
+            var weapons = (WeaponSelectorAbility)A(p2, "Weapons");
+            switch (step)
+            {
+                case 1: weapons.Select(0); Place(deer[0], p2, 16); A(p2, "Shield").TryUse(); p2.TakeHit(3, deer[0].GlobalPosition); break;
+                case 3: A(p2, "Sword").TryUse(); break;
+                case 5: weapons.Select(1); Place(deer[1], p2, 50); A(p2, "JavelinThrow").TryUse(); break;
+                case 7: weapons.Select(2); Place(deer[2], p2, 14); A(p2, "FlailSpin").TryUse(); break;
+                case 9: weapons.Select(3); A(p2, "ArrowType").TryUse(); break; // normal -> arcane
+                case 11:
+                    var bow = (GunAbility)A(p2, "Bow");
+                    bow.Select(6); // explosive
+                    Place(deer[3], p2, 60);
+                    bow.TryUse();
+                    break;
+                case 13: ((GunAbility)A(p2, "Bow")).Select(5); Place(deer[3], p2, 60); A(p2, "Bow").TryUse(); break; // poison
+            }
+        }
+
+        if (p1?.CurrentClass == "Illusionist")
+        {
+            var spells = (IllusionAbility)A(p1, "Illusion");
+            switch (step)
+            {
+                case 2: spells.Select(2); Place(deer[4], p1, 20); deer[4].GlobalPosition += new Vector2(0, 10); spells.TryUse(); break;
+                case 8: spells.Select(0); spells.TryUse(); break;
+                case 12: spells.Select(1); spells.TryUse(); break;
+            }
+
+            if (step % 2 == 0)
+            {
+                GD.Print($"[autoplay {_time:0.0}s] ability test: P1 energy {spells.Energy:0.0}, charmed deer {deer.Count(d => d.IsCharmed)}, decoys out {GetTree().GetNodesInGroup(Enemies.LureGroup).Count}");
+            }
+        }
+
+        if (step % 4 == 0)
+        {
+            TakeShot();
+        }
+    }
+
+    /// <summary>On the character picker, step from the first character to <paramref name="index"/> (the short way round).</summary>
+    private static void Choose(HashSet<Key> wanted, AutoplayBot bot, int index, double inPhase, double at)
+    {
+        var count = PlayerManager.Characters.Length;
+        var steps = index <= count / 2 ? index : index - count;
+        for (var i = 0; i < Mathf.Abs(steps); i++)
+        {
+            PressAt(wanted, steps > 0 ? bot.Right : bot.Left, inPhase, at + i * 0.15);
         }
     }
 

@@ -3,13 +3,15 @@ using Godot;
 using LizardWizard.Actors;
 using LizardWizard.Effects;
 using LizardWizard.Players;
+using LizardWizard.Saving;
 using LizardWizard.UI;
 
 namespace LizardWizard.Dungeons;
 
 /// <summary>
-/// Runs a dungeon: which room the team is in, the keys they've found (shared by everyone), and moving
-/// the whole team through doors. When the boss room is cleared the dungeon is complete and the team earns a title.
+/// Runs the world: which room (or overworld area) the team is in, the keys they've found (shared by everyone),
+/// and moving the whole team through doors. When the boss room is cleared the dungeon is complete, the team earns
+/// a title, and they're taken back out to <see cref="ReturnDoor"/>.
 /// </summary>
 public partial class Dungeon : Node
 {
@@ -29,6 +31,12 @@ public partial class Dungeon : Node
 
     [Export] public DungeonRoom? StartRoom { get; set; }
 
+    /// <summary>Where the heroes first appear (defaults to the middle of the start room).</summary>
+    [Export] public Node2D? StartPoint { get; set; }
+
+    /// <summary>Where the team is taken after beating the boss (the dungeon's entrance in the overworld).</summary>
+    [Export] public Door? ReturnDoor { get; set; }
+
     /// <summary>Keys the team is carrying. Any player can use them.</summary>
     public int Keys { get; set; }
 
@@ -38,6 +46,9 @@ public partial class Dungeon : Node
     public Vector2 RespawnPoint { get; private set; }
 
     public bool IsComplete => _complete;
+
+    /// <summary>Loading a save: the boss was already beaten.</summary>
+    public void RestoreComplete(bool complete) => _complete = complete;
 
     public DungeonHud Hud { get; private set; } = null!;
 
@@ -68,7 +79,7 @@ public partial class Dungeon : Node
             }
         }
 
-        RespawnPoint = CurrentRoom.FloorRect.GetCenter();
+        RespawnPoint = StartPoint?.GlobalPosition ?? CurrentRoom.FloorRect.GetCenter();
         CallDeferred(MethodName.Begin);
     }
 
@@ -95,6 +106,8 @@ public partial class Dungeon : Node
 
     private void Begin()
     {
+        SaveGame.Apply(this);
+
         if (CoopCamera.Find(this) is { } camera)
         {
             camera.Room = CurrentRoom.Layout;
@@ -102,12 +115,14 @@ public partial class Dungeon : Node
         }
 
         CurrentRoom.Visited = true;
-        Hud.ShowBanner(DungeonName, CurrentRoom.Title, 3f);
+        Hud.ShowBanner(CurrentRoom.Area != "" ? CurrentRoom.Area : CurrentRoom.Title, CurrentRoom.Area != "" ? CurrentRoom.Title : "", 3f);
     }
 
-    private void GoThrough(Door door)
+    private void GoThrough(Door door) => MoveTo(door.Partner!);
+
+    /// <summary>Fade out, bring the whole team in through <paramref name="target"/>, fade back in.</summary>
+    private void MoveTo(Door target)
     {
-        var target = door.Partner!;
         _moving = true;
         var tween = CreateTween();
         tween.TweenProperty(_fade, "color:a", 1f, FadeSeconds);
@@ -118,15 +133,25 @@ public partial class Dungeon : Node
 
     private void Arrive(Door door)
     {
+        var previousArea = CurrentRoom.Area;
         CurrentRoom.SetActive(false);
         CurrentRoom = door.Room;
         CurrentRoom.SetActive(true);
+
+        // Coming back into a room: its enemies are back (bosses stay beaten; doors stay open, chests stay opened).
+        if (CurrentRoom.Visited)
+        {
+            foreach (var enemy in CurrentRoom.Enemies)
+            {
+                enemy.Respawn();
+            }
+        }
         RespawnPoint = door.EntryPoint;
 
         // Bombs and smoke stay behind in the old room.
         var heroes = Heroes();
         var actors = heroes.FirstOrDefault()?.GetParent();
-        foreach (var leftover in actors?.GetChildren().Where(c => c is Bomb or SmokeCloud) ?? Enumerable.Empty<Node>())
+        foreach (var leftover in actors?.GetChildren().Where(c => c is Bomb or SmokeCloud or Lure or Bullet) ?? Enumerable.Empty<Node>())
         {
             leftover.QueueFree();
         }
@@ -145,7 +170,15 @@ public partial class Dungeon : Node
             camera.Snap();
         }
 
-        if (!CurrentRoom.Visited)
+        SaveGame.Save(this);
+
+        if (CurrentRoom.Area != previousArea && CurrentRoom.Area != "")
+        {
+            // Into a dungeon.
+            CurrentRoom.Visited = true;
+            Hud.ShowBanner(CurrentRoom.Area, CurrentRoom.Title, 3f);
+        }
+        else if (!CurrentRoom.Visited)
         {
             CurrentRoom.Visited = true;
             if (CurrentRoom.Title != "")
@@ -161,6 +194,14 @@ public partial class Dungeon : Node
         await ToSignal(GetTree().CreateTimer(4.5), SceneTreeTimer.SignalName.Timeout);
         _complete = true;
         Hud.ShowBanner("Dungeon complete!", $"The heroes earned a title: {TitleEarned}", 6f);
+        SaveGame.Save(this);
+
+        // Then back out into the overworld.
+        if (ReturnDoor is not null)
+        {
+            await ToSignal(GetTree().CreateTimer(3.5), SceneTreeTimer.SignalName.Timeout);
+            MoveTo(ReturnDoor);
+        }
     }
 
     private Hero[] Heroes() => GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(h => h.IsInGame).ToArray();

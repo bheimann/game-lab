@@ -52,11 +52,11 @@ public partial class RoomBuilder : Node2D
     /// <summary>The Tiny Dungeon sheet this room's tiles come from (doors cut pieces out of it too).</summary>
     public Texture2D Sheet => GD.Load<Texture2D>($"res://assets/third_party/tiny_dungeon/Tilesets/Room/Room_{Color.ToString().ToLowerInvariant()}.png");
 
-    public Vector2 SizeInPixels =>
+    public virtual Vector2 SizeInPixels =>
         new((InteriorWidth + 2) * TileSize, (TopRows.Length + InteriorHeight + BottomRows.Length) * TileSize);
 
     /// <summary>The walkable floor area, in pixels relative to this node.</summary>
-    public Rect2 FloorRect =>
+    public virtual Rect2 FloorRect =>
         new(TileSize, TopRows.Length * TileSize, InteriorWidth * TileSize, InteriorHeight * TileSize);
 
     public override void _Ready()

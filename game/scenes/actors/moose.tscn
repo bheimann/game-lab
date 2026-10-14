@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
+[ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="2_melee"]
+
+[node name="Moose" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 1
+motion_mode = 1
+script = ExtResource("1_hero")
+DisplayName = "Moose"
+StartingClass = "Warrior"
+SpritePrefix = "res://assets/sprites/moose/moose"
+SideFrameWidth = 20
+Speed = 62.0
+MaxHealth = 26
+
+[node name="AntlerBash" type="Node2D" parent="."]
+script = ExtResource("2_melee")
+CooldownSeconds = 0.5
+Damage = 7
+Reach = 13.0
+Radius = 10.0
+ActiveSeconds = 0.3
+MoveFactorWhileActive = 0.15
+FlashColour = Color(0.93, 0.85, 0.6, 1)

@@ -18,24 +18,32 @@ namespace LizardWizard.Actors;
 /// <see cref="Ability"/> nodes, so each character is a scene: Hero + abilities.
 /// Each hero has its own ring menu (gear, bombs, colours, items) that doesn't pause the game.
 /// </summary>
-public partial class Hero : CharacterBody2D, IHittable
+public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 {
     public const string Group = "players";
 
     private const double WalkFps = 8;
     private const string HerbIcon = "res://assets/sprites/icons/herb.png";
 
+    private Ability[] _allAbilities = System.Array.Empty<Ability>();
     private Ability[] _abilities = System.Array.Empty<Ability>();
     private bool _down;
     private bool _left;
     private float _downTime;
     private float _invulnerable;
+    private float _dodgeTime = -1f;
+    private float _dodgeCooldown;
+    private float _ghostTimer;
+    private Vector2 _dodgeDirection;
     private Vector2 _knockback;
     private Vector2 _spawnPoint;
     private Vector2 _spriteOffset;
     private RingMenu? _menu;
 
     [Export] public string DisplayName { get; set; } = "Hero";
+
+    /// <summary>The class the hero starts as (see <see cref="Ability.Classes"/>).</summary>
+    [Export] public string StartingClass { get; set; } = "";
 
     /// <summary>Sprite strips are "&lt;prefix&gt;_down.png", "_up.png" and "_side.png" (side faces right).
     /// Each strip is: idle, step A, step B.</summary>
@@ -61,6 +69,13 @@ public partial class Hero : CharacterBody2D, IHittable
     /// <summary>How long the hero can't be hurt again after being hit.</summary>
     [Export] public float InvulnerableSeconds { get; set; } = 1f;
 
+    /// <summary>Dodge: a quick dash you can't be hurt during. Speed in pixels per second.</summary>
+    [Export] public float DodgeSpeed { get; set; } = 210f;
+
+    [Export] public float DodgeSeconds { get; set; } = 0.2f;
+
+    [Export] public float DodgeCooldownSeconds { get; set; } = 0.5f;
+
     /// <summary>How long a knocked-out hero waits before getting back up.</summary>
     [Export] public float RespawnSeconds { get; set; } = 2f;
 
@@ -84,7 +99,18 @@ public partial class Hero : CharacterBody2D, IHittable
 
     public AnimatedSprite2D Sprite { get; private set; } = null!;
 
+    /// <summary>The abilities of the current class.</summary>
     public IReadOnlyList<Ability> Abilities => _abilities;
+
+    public string CurrentClass { get; private set; } = "";
+
+    /// <summary>The weapon in hand, for classes that switch weapons (empty otherwise).</summary>
+    public string CurrentWeapon { get; private set; } = "";
+
+    /// <summary>Every class this character can be painted as, starting class first.</summary>
+    public IReadOnlyList<string> ClassNames =>
+        new[] { StartingClass }.Concat(_allAbilities.SelectMany(a => a.Classes.Split(',')).Select(c => c.Trim()))
+            .Where(c => c != "").Distinct().ToArray();
 
     /// <summary>The direction the hero last moved in (one of 8 directions).</summary>
     public Vector2 Facing { get; private set; } = Vector2.Down;
@@ -109,12 +135,14 @@ public partial class Hero : CharacterBody2D, IHittable
     public bool IsMenuOpen => _menu?.IsOpen == true;
 
     /// <summary>What LB / RB cycle through: the first ability with choices (bombs, colours).</summary>
-    public IHasOptions? QuickOptions => _abilities.OfType<IHasOptions>().FirstOrDefault();
+    public IHasOptions? QuickOptions => _abilities.OfType<IHasOptions>().FirstOrDefault(o => o.Options.Length > 1);
 
     /// <summary>False once the player has left (the hero is about to be removed).</summary>
     public bool IsInGame => !_left && IsInsideTree();
 
-    public bool CanStartAbility => !IsDown && !_abilities.Any(a => a.IsActive);
+    public bool CanStartAbility => !IsDown && !IsDodging && !_abilities.Any(a => a.IsActive);
+
+    public bool IsDodging => _dodgeTime >= 0;
 
     /// <summary>Whether enemies can see this hero (camouflage and smoke hide it).</summary>
     public bool IsVisibleToEnemies =>
@@ -123,7 +151,10 @@ public partial class Hero : CharacterBody2D, IHittable
     /// <summary>"In a fight": an enemy can see this hero and is targeting it.</summary>
     public bool IsInFight => GetTree().GetNodesInGroup(Enemies.Group).OfType<IEnemy>().Any(e => e.IsTargeting(this));
 
-    public bool CanBeHit => !IsDown && _invulnerable <= 0;
+    public bool CanBeHit => !IsDown && !IsDodging && _invulnerable <= 0;
+
+    /// <summary>Enemies can see this hero and go after it.</summary>
+    public bool IsTargetable => IsVisibleToEnemies;
 
     public Vector2 HurtCenter => GlobalPosition + new Vector2(0, -12);
 
@@ -160,7 +191,7 @@ public partial class Hero : CharacterBody2D, IHittable
         Health = new Health(MaxHealth);
         MotionMode = MotionModeEnum.Floating;
         CollisionMask |= Pit.PitLayer; // can't walk over pits
-        _abilities = GetChildren().OfType<Ability>().ToArray();
+        _allAbilities = GetChildren().OfType<Ability>().ToArray();
         Herbs = StartingHerbs;
         _menu = RingMenu.Create(this, BuildMenu);
 
@@ -172,6 +203,8 @@ public partial class Hero : CharacterBody2D, IHittable
 
         // Small box at the feet, so the hero can walk right up to walls and overlap things above it.
         AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = new Vector2(10, 6) }, Position = new Vector2(0, -3) });
+
+        SetClass(StartingClass, starting: true);
     }
 
     public override void _ExitTree()
@@ -184,6 +217,7 @@ public partial class Hero : CharacterBody2D, IHittable
     {
         var dt = (float)delta;
         _invulnerable -= dt;
+        _dodgeCooldown -= dt;
 
         if (_down)
         {
@@ -198,6 +232,18 @@ public partial class Hero : CharacterBody2D, IHittable
             _knockback = _knockback.MoveToward(Vector2.Zero, 600f * dt);
             MoveAndSlide();
             QueueRedraw();
+            return;
+        }
+
+        // Dodge works even with the ring menu open (it doesn't pause the game).
+        if (Controls.DodgePressed)
+        {
+            TryDodge();
+        }
+
+        if (IsDodging)
+        {
+            Dodge(dt);
             return;
         }
 
@@ -239,6 +285,61 @@ public partial class Hero : CharacterBody2D, IHittable
         UpdateLook(walking);
     }
 
+    /// <summary>Get painted into another class: its abilities switch on, the others switch off.</summary>
+    public void Paint(string className)
+    {
+        _menu?.Close();
+        foreach (var ability in _abilities)
+        {
+            ability.Cancel();
+        }
+
+        CurrentWeapon = "";
+        SetClass(className, starting: false);
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), className, Colors.White, 1.5f, 8f);
+    }
+
+    /// <summary>Take another weapon in hand: its abilities switch on, the other weapons' switch off.</summary>
+    public void SetWeapon(string weapon)
+    {
+        foreach (var ability in _abilities)
+        {
+            ability.Cancel();
+        }
+
+        CurrentWeapon = weapon;
+        SetClass(CurrentClass, starting: false);
+    }
+
+    private void SetClass(string className, bool starting)
+    {
+        CurrentClass = className;
+        var before = _abilities;
+        var inClass = _allAbilities.Where(a => a.BelongsTo(className)).ToArray();
+        if (CurrentWeapon == "")
+        {
+            // Classes with weapons start with the first one.
+            CurrentWeapon = inClass.Select(a => a.Weapon).FirstOrDefault(w => w != "") ?? "";
+        }
+
+        _abilities = inClass.Where(a => a.GoesWith(CurrentWeapon)).ToArray();
+        foreach (var ability in _allAbilities)
+        {
+            var on = _abilities.Contains(ability);
+            var wasOn = before.Contains(ability);
+            ability.ProcessMode = on ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+            ability.Visible = on;
+            if (wasOn && !on)
+            {
+                ability.Deactivate();
+            }
+            else if (on && !wasOn && !starting)
+            {
+                ability.Activate();
+            }
+        }
+    }
+
     /// <summary>Put on a piece of armor (or take it off with null).</summary>
     public void Equip(Armor? armor)
     {
@@ -252,12 +353,16 @@ public partial class Hero : CharacterBody2D, IHittable
         Herbs += count;
     }
 
+    /// <summary>Loading a save: the herbs this hero had.</summary>
+    public void RestoreHerbs(int count) => Herbs = count;
+
     /// <summary>Come into a new room (through a door) at <paramref name="position"/>, facing <paramref name="facing"/>.</summary>
     public void ArriveAt(Vector2 position, Vector2 facing)
     {
         GlobalPosition = position;
         _spawnPoint = position;
         _knockback = Vector2.Zero;
+        _dodgeTime = -1f;
         Facing = facing;
         ResetPhysicsInterpolation();
     }
@@ -287,6 +392,69 @@ public partial class Hero : CharacterBody2D, IHittable
         Herbs--;
         var healed = Health.Heal(HerbHealing);
         FloatingText.Spawn(this, HurtCenter + new Vector2(0, -10), $"+{healed}", new Color(0.45f, 1f, 0.45f));
+    }
+
+    /// <summary>Dash the way the stick is pushed (or the way the hero faces), cancelling any attack.</summary>
+    private void TryDodge()
+    {
+        if (IsDodging || _dodgeCooldown > 0)
+        {
+            return;
+        }
+
+        foreach (var ability in _abilities)
+        {
+            ability.Cancel();
+        }
+
+        _dodgeDirection = Controls.Move.Length() > 0.2f ? Controls.Move.Normalized() : Facing;
+        _dodgeTime = 0;
+        _dodgeCooldown = DodgeSeconds + DodgeCooldownSeconds;
+        _ghostTimer = 0;
+        _knockback = Vector2.Zero;
+        NotifyAction();
+    }
+
+    private void Dodge(float dt)
+    {
+        _dodgeTime += dt;
+        var t = Mathf.Clamp(_dodgeTime / DodgeSeconds, 0, 1);
+        if (_dodgeTime >= DodgeSeconds)
+        {
+            _dodgeTime = -1f;
+        }
+
+        // Fast at the start, easing off at the end. Walls and pits still stop you.
+        Velocity = _dodgeDirection * DodgeSpeed * (1.3f - 0.6f * t);
+        MoveAndSlide();
+        StayOnScreen();
+
+        _ghostTimer -= dt;
+        if (_ghostTimer <= 0)
+        {
+            _ghostTimer = 0.04f;
+            LeaveGhost();
+        }
+
+        UpdateLook(walking: true);
+    }
+
+    /// <summary>A fading copy of the hero left behind while dodging.</summary>
+    private void LeaveGhost()
+    {
+        var ghost = new Sprite2D
+        {
+            Texture = Sprite.SpriteFrames.GetFrameTexture(Sprite.Animation, Sprite.Frame),
+            Offset = Sprite.Offset,
+            FlipH = Sprite.FlipH,
+            Position = Position,
+            Modulate = PlayerColour with { A = 0.5f },
+        };
+        GetParent().AddChild(ghost);
+        GetParent().MoveChild(ghost, GetIndex()); // behind the hero
+        var tween = ghost.CreateTween();
+        tween.TweenProperty(ghost, "modulate:a", 0f, 0.2f);
+        tween.TweenCallback(Callable.From(ghost.QueueFree));
     }
 
     private void UseButtons()
@@ -320,7 +488,7 @@ public partial class Hero : CharacterBody2D, IHittable
 
     private List<MenuRing> BuildMenu()
     {
-        var rings = _abilities.OfType<IHasOptions>()
+        var rings = _abilities.OfType<IHasOptions>().Where(a => a.Options.Length > 1)
             .Select(a => new MenuRing(a.OptionsTitle, a.Options, a.Selected, a.Select))
             .ToList();
 
@@ -355,6 +523,13 @@ public partial class Hero : CharacterBody2D, IHittable
     {
         if (!CanBeHit)
         {
+            return;
+        }
+
+        if (_abilities.Any(a => a.Blocks(from)))
+        {
+            FloatingText.Spawn(this, HurtCenter + new Vector2(0, -8), "Blocked!", new Color(0.8f, 0.9f, 1f), 0.6f, 8f);
+            _knockback = (GlobalPosition - from).Normalized() * 40f;
             return;
         }
 
@@ -399,6 +574,7 @@ public partial class Hero : CharacterBody2D, IHittable
     {
         _down = true;
         _downTime = 0;
+        _dodgeTime = -1f;
         Sprite.RotationDegrees = 90;
         Sprite.Modulate = new Color(0.6f, 0.6f, 0.6f, 0.8f);
         FloatingText.Spawn(this, HurtCenter + new Vector2(0, -12), "Ouch!", Colors.White, 1.2f);

@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 using LizardWizard.Actors;
 using LizardWizard.Combat;
@@ -23,11 +24,19 @@ public enum AbilitySlot
 /// <summary>
 /// One thing a hero can do. Abilities are child nodes of a <see cref="Hero"/> scene, so a character is
 /// just a hero plus a set of abilities, and every number can be tuned in the inspector.
-/// Changing class (painting, later) means swapping the ability nodes.
+/// A character scene holds the abilities of all its classes; <see cref="Classes"/> says which class each belongs
+/// to, and getting painted switches which ones are on.
 /// </summary>
 public abstract partial class Ability : Node2D
 {
     [Export] public AbilitySlot Slot { get; set; }
+
+    /// <summary>Which classes have this ability, comma-separated (e.g. "Chameleon, Spitter"). Empty = every class.</summary>
+    [Export] public string Classes { get; set; } = "";
+
+    /// <summary>Which weapon this ability comes with (e.g. "Flail"), for classes that switch weapons
+    /// (see <see cref="WeaponSelectorAbility"/>). Empty = whatever the weapon.</summary>
+    [Export] public string Weapon { get; set; } = "";
 
     [Export] public float CooldownSeconds { get; set; } = 0.3f;
 
@@ -71,6 +80,24 @@ public abstract partial class Ability : Node2D
         Hero.NotifyAction();
         Use();
         return true;
+    }
+
+    public bool BelongsTo(string className) =>
+        string.IsNullOrWhiteSpace(Classes) || Classes.Split(',').Any(c => c.Trim() == className);
+
+    public bool GoesWith(string weapon) => Weapon == "" || Weapon == weapon;
+
+    /// <summary>Does this ability stop a hit coming from <paramref name="from"/> right now (a raised shield)?</summary>
+    public virtual bool Blocks(Vector2 from) => false;
+
+    /// <summary>The hero got painted into a class that has this ability.</summary>
+    public virtual void Activate()
+    {
+    }
+
+    /// <summary>The hero got painted into a class without this ability: undo any lasting effects (tints etc.).</summary>
+    public virtual void Deactivate()
+    {
     }
 
     /// <summary>Damage taken of this type is multiplied by this (resistances).</summary>

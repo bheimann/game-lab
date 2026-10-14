@@ -16,7 +16,7 @@ public enum ChestReward
 }
 
 /// <summary>A chest that opens when a hero walks up to it. It can stay hidden until the room is cleared.</summary>
-public partial class TreasureChest : StaticBody2D
+public partial class TreasureChest : StaticBody2D, Saving.ISaveable
 {
     private const string Strip = "res://assets/third_party/tiny_dungeon/Misc/Chest.png";
 
@@ -65,8 +65,27 @@ public partial class TreasureChest : StaticBody2D
         }
     }
 
+    public string? SaveState() => _opened ? "Opened" : AppearsWhenCleared && Visible ? "Appeared" : null;
+
+    public void LoadState(string state)
+    {
+        Show();
+        _shape.SetDeferred(CollisionShape2D.PropertyName.Disabled, false);
+        if (state == "Opened")
+        {
+            _opened = true;
+            _sprite.Play("open");
+            _sprite.Frame = _sprite.SpriteFrames.GetFrameCount("open") - 1;
+        }
+    }
+
     private void Appear()
     {
+        if (Visible)
+        {
+            return; // already there (loaded from a save)
+        }
+
         Show();
         _shape.SetDeferred(CollisionShape2D.PropertyName.Disabled, false);
         Scale = new Vector2(0.2f, 0.2f);

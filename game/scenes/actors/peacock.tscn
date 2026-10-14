@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
+[ext_resource type="Script" path="res://scripts/Abilities/GunAbility.cs" id="2_gun"]
+
+[node name="Peacock" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 1
+motion_mode = 1
+script = ExtResource("1_hero")
+DisplayName = "Peacock"
+StartingClass = "Warrior"
+SpritePrefix = "res://assets/sprites/peacock/peacock"
+SideFrameWidth = 20
+Speed = 78.0
+MaxHealth = 18
+
+[node name="Gun" type="Node2D" parent="."]
+script = ExtResource("2_gun")
+CooldownSeconds = 0.35

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using LizardWizard.Combat;
@@ -9,19 +10,22 @@ namespace LizardWizard.Abilities;
 /// <summary>
 /// Bomb Master: lob a bomb in front of the hero. Switch bomb type with LB / RB or the ring menu.
 /// Remote bombs wait on the ground until the bomb button is pressed again.
+/// The fox starts with these bomb types; new ones get unlocked by beating bosses (see <see cref="Unlocks"/>).
 /// </summary>
 public partial class BombAbility : Ability, IHasOptions
 {
     private const string BombTexture = "res://assets/third_party/tiny_dungeon/Weapons/Bomb.png";
 
-    private static readonly (BombKind Kind, string Name, string Description)[] Kinds =
+    /// <summary>Every bomb type, and which boss unlocks it (null = the fox has it from the start).
+    /// Add new bombs here with the boss that drops them, e.g. "Giant Beetle".</summary>
+    private static readonly (BombKind Kind, string Name, string Description, string? UnlockedBy)[] Kinds =
     {
-        (BombKind.Bomb, "Bomb", "Short fuse, big bang"),
-        (BombKind.Smoke, "Smoke Bomb", "Enemies can't see you in the smoke"),
-        (BombKind.Sticky, "Sticky Bomb", "Sticks to the enemy it hits"),
-        (BombKind.Time, "Time Bomb", "Long fuse, bigger blast"),
-        (BombKind.Remote, "Remote Bomb", "Press the bomb button again to blow it up"),
-        (BombKind.Proximity, "Proximity Bomb", "Goes off when an enemy walks near"),
+        (BombKind.Bomb, "Bomb", "Short fuse, big bang", null),
+        (BombKind.Smoke, "Smoke Bomb", "Enemies can't see you in the smoke", null),
+        (BombKind.Sticky, "Sticky Bomb", "Sticks to the enemy it hits", null),
+        (BombKind.Time, "Time Bomb", "Long fuse, bigger blast", null),
+        (BombKind.Remote, "Remote Bomb", "Press the bomb button again to blow it up", null),
+        (BombKind.Proximity, "Proximity Bomb", "Goes off when an enemy walks near", null),
     };
 
     private int _selected;
@@ -63,15 +67,36 @@ public partial class BombAbility : Ability, IHasOptions
     public string OptionsTitle => "Bombs";
 
     public MenuOption[] Options =>
-        Kinds.Select(k => new MenuOption(k.Name, k.Description, GD.Load<Texture2D>(BombTexture), Bomb.Tint(k.Kind))).ToArray();
+        Kinds.Select((k, i) => IsUnlocked(i)
+            ? new MenuOption(k.Name, k.Description, GD.Load<Texture2D>(BombTexture), Bomb.Tint(k.Kind))
+            : new MenuOption("???", $"Beat {(k.UnlockedBy == Unlocks.LaterBoss ? k.UnlockedBy : "the " + k.UnlockedBy)} to unlock", GD.Load<Texture2D>(BombTexture), Colors.Black) { Enabled = false })
+        .ToArray();
 
     public int Selected => _selected;
 
+    /// <summary>Names of the bomb types <paramref name="boss"/> unlocks.</summary>
+    public static IEnumerable<string> UnlockedBy(string boss) => Kinds.Where(k => k.UnlockedBy == boss).Select(k => k.Name);
+
     public void Select(int index)
     {
-        _selected = (index % Kinds.Length + Kinds.Length) % Kinds.Length;
+        // Step past locked types in the direction we're going (LB goes back, RB forward).
+        var step = index < _selected ? -1 : 1;
+        for (var tries = 0; tries < Kinds.Length; tries++)
+        {
+            index = (index % Kinds.Length + Kinds.Length) % Kinds.Length;
+            if (IsUnlocked(index))
+            {
+                break;
+            }
+
+            index += step;
+        }
+
+        _selected = index;
         FloatingText.Spawn(this, Hero.HurtCenter + new Vector2(0, -14), Kinds[_selected].Name, Bomb.Tint(Kind), 1f, 8f);
     }
+
+    private static bool IsUnlocked(int index) => Kinds[index].UnlockedBy is not { } boss || Unlocks.IsBeaten(boss);
 
     protected override void Use()
     {

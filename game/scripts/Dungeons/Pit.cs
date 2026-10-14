@@ -14,6 +14,7 @@ public partial class Pit : Node2D
     public const uint PitLayer = 16;
 
     private const string PitTexture = "res://assets/third_party/tiny_dungeon/Tilesets/Pit.png";
+    private const string WaterTexture = "res://assets/third_party/tiny_dungeon/Tilesets/Water.png";
     private static readonly Rect2 Frame = new(16, 0, 48, 48);
     private const int Border = 6;
 
@@ -24,6 +25,9 @@ public partial class Pit : Node2D
 
     /// <summary>Size in pixels; the node's position is the top-left corner.</summary>
     [Export] public Vector2 Size { get; set; } = new(32, 32);
+
+    /// <summary>Draw it as water (a pond) instead of a pit. Works the same: no walking in, tongues reach over.</summary>
+    [Export] public bool Water { get; set; }
 
     /// <summary>Draw the stone edge on the left / right (turn off where another pit continues).</summary>
     [Export] public bool EdgeLeft { get; set; } = true;
@@ -53,7 +57,7 @@ public partial class Pit : Node2D
 
         _patch = new NinePatchRect
         {
-            Texture = GD.Load<Texture2D>(PitTexture),
+            Texture = GD.Load<Texture2D>(Water ? WaterTexture : PitTexture),
             RegionRect = region,
             PatchMarginLeft = EdgeLeft ? Border : 0,
             PatchMarginRight = EdgeRight ? Border : 0,

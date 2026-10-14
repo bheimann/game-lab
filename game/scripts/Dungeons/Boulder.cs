@@ -30,6 +30,7 @@ public partial class Boulder : StaticBody2D
         }
 
         _crumble = 0;
+        Saving.SaveGame.MarkRemoved(this);
         GetChild<Sprite2D>(0).Hide();
         GetChild<CollisionShape2D>(1).SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
     }

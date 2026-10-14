@@ -4,16 +4,16 @@ namespace LizardWizard.Players;
 
 public enum InputDeviceKind
 {
-    /// <summary>WASD to move, J / Space / F primary, K / G secondary, L / H special, I item, Q / E previous / next,
-    /// Tab menu, hold Backspace to leave.</summary>
+    /// <summary>WASD to move, J / Space / F primary, K / G secondary, L / H special, Shift dodge, I item,
+    /// Q / E previous / next, Tab menu, hold Backspace to leave.</summary>
     KeyboardLeft,
 
     /// <summary>Arrows to move, Period / Numpad 1 primary, Slash / Numpad 2 secondary, Comma / Numpad 3 special,
-    /// M / Numpad 0 item, ; and ' previous / next, Enter menu, hold Delete to leave.</summary>
+    /// Ctrl / Numpad . dodge, M / Numpad 0 item, ; and ' previous / next, Enter menu, hold Delete to leave.</summary>
     KeyboardRight,
 
-    /// <summary>Left stick / d-pad to move, A primary, X secondary, Y special, B item, LB / RB previous / next,
-    /// Start menu, hold Back to leave.</summary>
+    /// <summary>Left stick / d-pad to move, A primary, X secondary, Y special, RT dodge, B item,
+    /// LB / RB previous / next, Start menu, hold Back to leave.</summary>
     Gamepad,
 }
 
@@ -45,6 +45,7 @@ public sealed class PlayerInput
     private bool _primaryWasHeld;
     private bool _secondaryWasHeld;
     private bool _specialWasHeld;
+    private bool _dodgeWasHeld;
     private bool _startWasHeld;
     private bool _itemWasHeld;
     private bool _previousWasHeld;
@@ -70,6 +71,9 @@ public sealed class PlayerInput
     /// <summary>Y / L: colour change, ...</summary>
     public bool SpecialPressed { get; private set; }
 
+    /// <summary>RT / Shift / Ctrl: dodge.</summary>
+    public bool DodgePressed { get; private set; }
+
     /// <summary>B / I / M: use the selected item (herb).</summary>
     public bool ItemPressed { get; private set; }
 
@@ -93,7 +97,7 @@ public sealed class PlayerInput
 
     public void Update(double delta)
     {
-        bool primary, secondary, special, start, leave, item, previous, next;
+        bool primary, secondary, special, dodge, start, leave, item, previous, next;
         Vector2 move;
 
         switch (Device.Kind)
@@ -103,6 +107,7 @@ public sealed class PlayerInput
                 primary = Down(Key.J) || Down(Key.Space) || Down(Key.F);
                 secondary = Down(Key.K) || Down(Key.G);
                 special = Down(Key.L) || Down(Key.H);
+                dodge = Down(Key.Shift);
                 item = Down(Key.I);
                 previous = Down(Key.Q);
                 next = Down(Key.E);
@@ -115,6 +120,7 @@ public sealed class PlayerInput
                 primary = Down(Key.Period) || Down(Key.Kp1);
                 secondary = Down(Key.Slash) || Down(Key.Kp2);
                 special = Down(Key.Comma) || Down(Key.Kp3);
+                dodge = Down(Key.Ctrl) || Down(Key.KpPeriod);
                 item = Down(Key.M) || Down(Key.Kp0);
                 previous = Down(Key.Semicolon);
                 next = Down(Key.Apostrophe);
@@ -128,6 +134,7 @@ public sealed class PlayerInput
                 primary = Input.IsJoyButtonPressed(pad, JoyButton.A);
                 secondary = Input.IsJoyButtonPressed(pad, JoyButton.X);
                 special = Input.IsJoyButtonPressed(pad, JoyButton.Y);
+                dodge = Input.GetJoyAxis(pad, JoyAxis.TriggerRight) > 0.5f;
                 item = Input.IsJoyButtonPressed(pad, JoyButton.B);
                 previous = Input.IsJoyButtonPressed(pad, JoyButton.LeftShoulder);
                 next = Input.IsJoyButtonPressed(pad, JoyButton.RightShoulder);
@@ -140,6 +147,7 @@ public sealed class PlayerInput
         PrimaryPressed = primary && !_primaryWasHeld;
         SecondaryPressed = secondary && !_secondaryWasHeld;
         SpecialPressed = special && !_specialWasHeld;
+        DodgePressed = dodge && !_dodgeWasHeld;
         ItemPressed = item && !_itemWasHeld;
         PreviousPressed = previous && !_previousWasHeld;
         NextPressed = next && !_nextWasHeld;
@@ -153,6 +161,7 @@ public sealed class PlayerInput
         _primaryWasHeld = primary;
         _secondaryWasHeld = secondary;
         _specialWasHeld = special;
+        _dodgeWasHeld = dodge;
         _startWasHeld = start;
         _itemWasHeld = item;
         _previousWasHeld = previous;
