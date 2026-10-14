@@ -104,6 +104,9 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     public string CurrentClass { get; private set; } = "";
 
+    /// <summary>The enemy this hero hit most recently (the Illusionist's clones go after it).</summary>
+    public IHittable? LastHitEnemy { get; private set; }
+
     /// <summary>The weapon in hand, for classes that switch weapons (empty otherwise).</summary>
     public string CurrentWeapon { get; private set; } = "";
 
@@ -548,6 +551,17 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         {
             GoDown();
         }
+    }
+
+    /// <summary>Land one of this hero's attacks on <paramref name="target"/> (and remember it if it's an enemy).</summary>
+    public void Hit(IHittable target, int damage, Vector2 from, DamageType type)
+    {
+        if (target is IEnemy)
+        {
+            LastHitEnemy = target;
+        }
+
+        target.TakeHit(damage, from, type);
     }
 
     /// <summary>Abilities call this when used: breaks camouflage and similar "stand still" effects.</summary>

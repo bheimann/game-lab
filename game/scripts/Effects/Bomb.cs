@@ -269,7 +269,14 @@ public partial class Bomb : Node2D
         var targets = GetTree().GetNodesInGroup(Enemies.Group).OfType<IHittable>().Where(t => t.CanBeHit && Hits.Touches(t, center, Radius));
         foreach (var target in targets.ToList())
         {
-            target.TakeHit(Damage, GlobalPosition, DamageType);
+            if (Thrower is not null && IsInstanceValid(Thrower))
+            {
+                Thrower.Hit(target, Damage, GlobalPosition, DamageType);
+            }
+            else
+            {
+                target.TakeHit(Damage, GlobalPosition, DamageType);
+            }
         }
 
         // Cracked rocks only break to bombs.

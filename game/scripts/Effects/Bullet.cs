@@ -67,7 +67,7 @@ public partial class Bullet : Node2D
             .FirstOrDefault();
         if (target is not null)
         {
-            target.TakeHit(_shot.Damage, start - _velocity.Normalized() * 8f, _shot.Type);
+            _shooter.Hit(target, _shot.Damage, start - _velocity.Normalized() * 8f, _shot.Type);
             Stop(target.HurtCenter);
             return;
         }

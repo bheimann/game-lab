@@ -55,7 +55,8 @@ its mat for a moment to switch to your next class (step off and on again for the
 
 **Illusionist (lizard):** 10 illusionist energy (the purple dots under your feet), which fills back up by
 itself (1 a second). LB / RB pick a spell, Y casts it, and every spell lasts 5 seconds:
-- **Clones** (5 energy): two copies of you wander off; enemies chase them. A clone pops when it's hit.
+- **Clones** (5 energy): two copies of you that go and punch the enemy you hit last (or wander off if there
+  isn't one). Enemies chase them, and a clone pops when it's hit.
 - **Tail decoy** (4 energy): drop your tail; enemies attack it instead of you.
 - **Charm** (2 energy for each enemy): nearby enemies get a heart and fight the other enemies for you.
 Bosses can't be charmed and ignore decoys. A punches and X uses the tongue, as usual.

@@ -51,7 +51,7 @@ public partial class SpinAbility : Ability
         foreach (var target in Hero.EnemyTargets().Where(t => Hits.Touches(t, Hero.HurtCenter, Radius) && !_hit.Contains(t)).ToList())
         {
             _hit.Add(target);
-            target.TakeHit(Damage, Hero.GlobalPosition, DamageType);
+            Hero.Hit(target, Damage, Hero.GlobalPosition, DamageType);
         }
 
         if (_time >= SpinSeconds)

@@ -9,7 +9,7 @@ namespace LizardWizard.Items;
 /// <summary>
 /// What the team has earned so far. The fox starts with its original bombs, weapons and guns; each boss
 /// beaten unlocks new ones (the boss drops aren't designed yet). Shared by the whole team, and kept until
-/// the game is closed (there's no saving yet).
+/// the game is closed; the save file keeps them between games.
 /// </summary>
 public static class Unlocks
 {
