@@ -12,7 +12,7 @@ namespace LizardWizard.Actors;
 /// </summary>
 public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnemyTarget, ICharmable
 {
-    private const string WalkStrip = "res://assets/third_party/deer/deer-walk-32x32.png";
+    private const string WalkStrip = "res://assets/sprites/deer/deer_walk.png";
 
     private static readonly string[] Thanks =
     {
@@ -109,7 +109,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnem
 
         _sprite = new AnimatedSprite2D
         {
-            SpriteFrames = SpriteSheet.Frames("walk", WalkStrip, 40, 10),
+            SpriteFrames = SpriteSheet.Frames("walk", WalkStrip, 40, 5),
             Offset = new Vector2(0, -21), // feet at the node's origin
         };
         AddChild(_sprite);

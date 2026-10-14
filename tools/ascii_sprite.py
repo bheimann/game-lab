@@ -14,6 +14,7 @@ Colours (Tiny Dungeon palette):
   H  moose brown      h  dark brown        T  tan (antler)      t  dark tan
   C  teal             c  dark teal         U  blue              u  dark blue
   V  violet           v  dark violet       A  lilac (shine)
+  E  deer fawn         e  dark fawn
 """
 import struct
 import sys
@@ -48,6 +49,8 @@ COLOURS = {
     "V": (128, 84, 200, 255),
     "v": (74, 46, 128, 255),
     "A": (196, 168, 240, 255),
+    "E": (201, 132, 74, 255),
+    "e": (140, 86, 52, 255),
 }
 
 
