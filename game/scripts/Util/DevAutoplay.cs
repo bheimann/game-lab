@@ -152,17 +152,41 @@ public partial class DevAutoplay : Node
                 // P2 walks at a deer until it's chased, then holds Delete to drop out.
                 if (manager.Players[1] is { } fox)
                 {
-                    // A Bomb Master first drops a remote bomb: it mustn't be left behind when P2 leaves.
-                    if (inPhase < 0.05 && fox.Abilities.OfType<BombAbility>().FirstOrDefault() is { } bombs)
+                    // A Bomb Master lays two remote bombs and sets both off with Y, then lays another one: that one
+                    // mustn't be left behind when P2 leaves.
+                    if (fox.Abilities.OfType<BombAbility>().FirstOrDefault() is { } bombs)
                     {
-                        bombs.Select(System.Array.FindIndex(bombs.Options, o => o.Name == "Remote Bomb"));
-                        bombs.TryUse();
-                    }
+                        int Waiting() => fox.GetParent().GetChildren().OfType<Bomb>().Count(b => b.Thrower == fox && b.IsWaitingForRemote);
+                        if (inPhase < 0.02)
+                        {
+                            bombs.Select(System.Array.FindIndex(bombs.Options, o => o.Name == "Remote Bomb"));
+                        }
 
-                    if (inPhase is >= 1.0 and < 1.02)
-                    {
-                        var waiting = fox.GetParent().GetChildren().OfType<Bomb>().Count(b => b.IsWaitingForRemote);
-                        GD.Print($"[autoplay {_time:0.0}s] leave test: P2's remote bombs waiting before leaving={waiting}");
+                        if (inPhase is < 0.02 or (>= 0.8 and < 0.82) or (>= 2.2 and < 2.22))
+                        {
+                            bombs.TryUse();
+                        }
+
+                        if (inPhase is >= 1.6 and < 1.62)
+                        {
+                            GD.Print($"[autoplay {_time:0.0}s] remote test: waiting={Waiting()}, pressing Y");
+                            fox.GetNode<Ability>("Detonate").TryUse();
+                        }
+
+                        if (inPhase is >= 1.9 and < 1.92)
+                        {
+                            GD.Print($"[autoplay {_time:0.0}s] remote test: waiting after Y={Waiting()}");
+                        }
+
+                        if (inPhase is >= 2.8 and < 2.82)
+                        {
+                            GD.Print($"[autoplay {_time:0.0}s] leave test: P2's remote bombs waiting before leaving={Waiting()}");
+                        }
+
+                        if (inPhase < 3)
+                        {
+                            break; // stand still for the bomb check first
+                        }
                     }
 
                     if (_ditchSpottedAt < 0 && deer.Any(d => d.IsTargeting(fox)))
@@ -323,7 +347,7 @@ public partial class DevAutoplay : Node
             Phase.Camouflage when inPhase > 12 => Phase.Colour,
             Phase.Colour when inPhase > 1.5 => Phase.Ditch,
             Phase.Ditch when manager.Slots[1].IsFree && inPhase > 0.5 && _ditchSpottedAt >= 0 && _time - _ditchSpottedAt > 1.6 => Phase.Rejoin,
-            Phase.Ditch when inPhase > 12 => Phase.Rejoin,
+            Phase.Ditch when inPhase > 15 => Phase.Rejoin,
             Phase.Rejoin when inPhase > 1.5 => Phase.Gear,
             Phase.Gear when _gearSpottedAt >= 0 && _time - _gearSpottedAt > 1.6 => Phase.Fight,
             Phase.Gear when inPhase > 12 => Phase.Fight,

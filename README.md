@@ -98,7 +98,7 @@ enemy is after you) but can't attack. Previous / next turn the ring, special swi
 (colours or bombs → armor → items), primary picks, secondary or menu closes it.
 
 **Bombs (fox):** bomb, smoke (enemies can't see you in it), sticky (sticks to an enemy), time (long fuse,
-bigger blast), remote (press the bomb button again to set it off) and proximity (goes off when an enemy walks near).
+bigger blast), remote (waits on the ground; Y sets off all of them at once, so you can lay a few) and proximity (goes off when an enemy walks near).
 The fox has all of these from the start; **bosses will unlock new ones** (boss drops still to be designed).
 Locked ones show as "???" in the ring menu.
 

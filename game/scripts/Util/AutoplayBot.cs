@@ -99,6 +99,15 @@ internal sealed class AutoplayBot
             wanted.Add(Dodge);
             return;
         }
+        // The fox's remote bombs: set them off (Y) once the enemy is next to one.
+        if (IsFox && !_attackHeld && hero.GetParent().GetChildren().OfType<Effects.Bomb>()
+                .Any(b => b.Thrower == hero && b.IsWaitingForRemote && b.GlobalPosition.DistanceTo(target.HurtCenter) < 30))
+        {
+            wanted.Add(Special);
+            _attackHeld = true;
+            return;
+        }
+
         Key? attack = IsFox
             ? distance < reach ? Primary : distance is >= 34 and <= 58 ? Secondary : null
             : distance <= reach ? Primary : distance is >= 30 and <= 46 ? Secondary : null;
