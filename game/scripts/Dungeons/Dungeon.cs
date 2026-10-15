@@ -11,7 +11,7 @@ namespace LizardWizard.Dungeons;
 /// <summary>
 /// Runs the world: which room (or overworld area) the team is in, the keys they've found (shared by everyone),
 /// and moving the whole team through doors. When the boss room is cleared the dungeon is complete, the team earns
-/// a title, and they're taken back out to <see cref="ReturnDoor"/>.
+/// a title, and an <see cref="ExitPortal"/> opens in the boss room that takes them back out to <see cref="ReturnDoor"/>.
 /// </summary>
 public partial class Dungeon : Node
 {
@@ -34,7 +34,7 @@ public partial class Dungeon : Node
     /// <summary>Where the heroes first appear (defaults to the middle of the start room).</summary>
     [Export] public Node2D? StartPoint { get; set; }
 
-    /// <summary>Where the team is taken after beating the boss (the dungeon's entrance in the overworld).</summary>
+    /// <summary>Where the exit portal takes the team after beating the boss (the dungeon's entrance in the overworld).</summary>
     [Export] public Door? ReturnDoor { get; set; }
 
     /// <summary>Keys the team is carrying. Any player can use them.</summary>
@@ -205,10 +205,14 @@ public partial class Dungeon : Node
         Hud.ShowBanner("Dungeon complete!", $"The heroes earned a title: {TitleEarned}", 6f);
         SaveGame.Save(this);
 
-        // Then back out into the overworld.
-        if (ReturnDoor is not null)
+        // An exit portal opens in the boss room (see ExitPortal); the heroes leave when they're ready.
+    }
+
+    /// <summary>A hero stood on the exit portal: take the whole team back out to the overworld.</summary>
+    public void LeaveThroughPortal()
+    {
+        if (!_moving && ReturnDoor is not null)
         {
-            await ToSignal(GetTree().CreateTimer(3.5), SceneTreeTimer.SignalName.Timeout);
             MoveTo(ReturnDoor);
         }
     }

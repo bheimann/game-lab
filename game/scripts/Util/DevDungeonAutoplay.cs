@@ -11,7 +11,7 @@ namespace LizardWizard.Util;
 /// Dev helper for dungeon scenes: <c>-- --autoplay=&lt;folder&gt;</c> and two bots (P1 lizard on WASD, P2 fox on
 /// the arrows) walk from the overworld into the first dungeon and play it to the boss by pressing the real keys. Each room has a
 /// little plan: fight, open the chest, walk through the right door, solve the lever puzzle (the fox bombs the rocks
-/// and flips that lever, the lizard tongues the lever across the pit), then beat the beetle.
+/// and flips that lever, the lizard tongues the lever across the pit), beat the beetle, and take the exit portal out.
 /// Logs what happens and saves a screenshot every 2 seconds (and on every new room) into the folder.
 /// </summary>
 public partial class DevDungeonAutoplay : Node
@@ -95,7 +95,7 @@ public partial class DevDungeonAutoplay : Node
 
         // After the boss, wait until the team is back out in the overworld.
         var backOutside = room.Name == "Overworld" && _time - _completeAt > 1.5;
-        if ((_completeAt >= 0 && (backOutside || _time - _completeAt > 12)) || _time > MaxSeconds)
+        if ((_completeAt >= 0 && (backOutside || _time - _completeAt > 25)) || _time > MaxSeconds)
         {
             GD.Print($"[dungeon {_time:0.0}s] done: complete={dungeon.IsComplete}, back in {room.Name}");
             TakeShot(0);
@@ -147,7 +147,21 @@ public partial class DevDungeonAutoplay : Node
                 break;
 
             case "BossRoom":
-                // Cleared: wait for the thanks.
+                // Cleared: the team stays until someone uses the exit portal. After a few seconds, P1 stands on it
+                // (P2 waits nearby) until it takes them out.
+                var portal = room.GetNode<ExitPortal>("ExitPortal");
+                if (portal.IsOpen && _completeAt >= 0 && _time - _completeAt is > 3 and < 3.02)
+                {
+                    GD.Print($"[dungeon {_time:0.0}s] portal test: 3 s after the boss, still in {room.Name}, portal open={portal.IsOpen}");
+                    TakeShot(0);
+                }
+
+                if (portal.IsOpen && _completeAt >= 0 && _time - _completeAt > 3)
+                {
+                    _bots[0].Steer(lizard, portal.GlobalPosition, wanted, slack: 2f, feet: true);
+                    _bots[1].Steer(fox, portal.GlobalPosition + new Vector2(0, 30), wanted, slack: 2f, feet: true);
+                }
+
                 break;
         }
     }

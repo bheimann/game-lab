@@ -119,6 +119,8 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Moose **Summoner** class: six light summons on X, treant or stampede on Y (B switches), up to 4 at once.
 - ✅ 🛠 A bigger overworld: Scalebrook Village (with a painter), Antlerwood Forest, Frosttail Tundra and Tailspin
   Swamp around the meadow, joined by paths.
+- ✅ 🛠 The village painter replaces the dungeon's test painter, The Old Burrow gets a temple gate, and beating
+  the boss opens an exit portal (stand on it for a second) instead of taking the team out straight away.
 - 🦎 Design the boss drops and what goes in the new areas.
 
 ## Later (once the first dungeon is fun)
