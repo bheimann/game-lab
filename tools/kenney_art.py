@@ -335,6 +335,31 @@ def main():
     write_png(OUT / "lever.png", lever())
     write_png(OUT / "torch.png", torch())
 
+    # Outdoor props for the overworld areas (Prop.cs: the file name is the PropKind, lower case).
+    write_png(OUT / "tree.png", trim(tile(town, 4, 0, 1, 2)))
+    write_png(OUT / "treeautumn.png", trim(tile(town, 3, 0, 1, 2)))
+    write_png(OUT / "smalltree.png", trim(tile(town, 4, 2)))
+    write_png(OUT / "pine.png", trim(tile(farm, 3, 0, 1, 2)))
+    write_png(OUT / "snowpine.png", trim(tile(ski, 6, 0, 1, 2)))
+    write_png(OUT / "deadtree.png", trim(tile(farm, 2, 0, 1, 2)))
+    write_png(OUT / "mushroom.png", trim(tile(town, 5, 2)))
+    write_png(OUT / "snowman.png", trim(tile(ski, 9, 5)))
+    write_png(OUT / "fence.png", trim(hstack(tile(town, 8, 6), tile(town, 9, 6), tile(town, 10, 6))))
+    write_png(OUT / "houseblue.png", house(town, 0))
+    write_png(OUT / "housered.png", house(town, 4))
+
+
+def house(town, col):
+    """A 4x3-tile house: two rows of roof (with a dormer and gable on the right) over a wall with a doorway.
+    The doorway is see-through in the pack, so it's filled in dark."""
+    rows = [hstack(*[tile(town, col + c, r) for c in range(4)]) for r in (4, 5, 6)]
+    img = [row[:] for band in rows for row in band]
+    for y in range(2 * T, 3 * T):
+        for x in range(T // 4, 4 * T - T // 4):
+            if img[y][x][3] == 0:
+                img[y][x] = (38, 28, 36, 255)
+    return img
+
 
 if __name__ == "__main__":
     main()

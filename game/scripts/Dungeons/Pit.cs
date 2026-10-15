@@ -30,6 +30,12 @@ public partial class Pit : Node2D
     /// <summary>Draw it as water (a pond) instead of a pit. Works the same: no walking in, tongues reach over.</summary>
     [Export] public bool Water { get; set; }
 
+    /// <summary>Draw it as a frozen lake (thin ice: no walking on it either).</summary>
+    [Export] public bool Ice { get; set; }
+
+    /// <summary>Colour the water (or pit) with this: green for a swamp, pale for a frozen lake.</summary>
+    [Export] public Color Tint { get; set; } = Colors.White;
+
     /// <summary>Draw the stone edge on the left / right (turn off where another pit continues).</summary>
     [Export] public bool EdgeLeft { get; set; } = true;
 
@@ -68,8 +74,16 @@ public partial class Pit : Node2D
             AxisStretchHorizontal = NinePatchRect.AxisStretchMode.Tile,
             AxisStretchVertical = NinePatchRect.AxisStretchMode.Tile,
             MouseFilter = Control.MouseFilterEnum.Ignore,
+            Modulate = Tint,
+            Visible = !Ice,
         };
         AddChild(_patch);
+        if (Ice)
+        {
+            var ice = new Node2D();
+            ice.Draw += () => DrawIce(ice);
+            AddChild(ice);
+        }
 
         // The bridge is drawn by its own child, added after the pit picture so it shows on top of it.
         _planks = new Node2D();
@@ -95,6 +109,26 @@ public partial class Pit : Node2D
             _bridge = Mathf.Min(1f, _bridge + (float)delta * 2f);
             _planks.QueueRedraw();
         }
+    }
+
+    private void DrawIce(Node2D canvas)
+    {
+        // Pale blue ice with a snowy rim, a few cracks and a shine.
+        var rect = new Rect2(Vector2.Zero, Size);
+        canvas.DrawRect(rect, new Color(0.62f, 0.8f, 0.94f));
+        canvas.DrawRect(rect.Grow(-3), new Color(0.74f, 0.88f, 0.98f));
+        canvas.DrawRect(rect, new Color(0.9f, 0.95f, 1f), false, 2f);
+        var rng = new RandomNumberGenerator { Seed = 99 };
+        var crack = new Color(0.55f, 0.72f, 0.88f);
+        for (var i = 0; i < Size.X * Size.Y / 1500; i++)
+        {
+            var at = new Vector2(rng.RandfRange(8, Size.X - 8), rng.RandfRange(8, Size.Y - 8));
+            var mid = at + new Vector2(rng.RandfRange(-6, 6), rng.RandfRange(-4, 4));
+            canvas.DrawPolyline(new[] { at, mid, mid + new Vector2(rng.RandfRange(-6, 6), rng.RandfRange(-4, 4)) }, crack, 1f);
+        }
+
+        canvas.DrawLine(new Vector2(8, 8), new Vector2(Size.X * 0.3f, 8), new Color(1f, 1f, 1f, 0.8f), 1f);
+        canvas.DrawLine(new Vector2(8, 11), new Vector2(Size.X * 0.18f, 11), new Color(1f, 1f, 1f, 0.6f), 1f);
     }
 
     private void DrawBridge()

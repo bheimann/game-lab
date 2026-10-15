@@ -105,7 +105,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnem
         Health = new Health(_rng.RandiRange(MinHealth, MaxHealth));
         Health.Changed += QueueRedraw;
         MotionMode = MotionModeEnum.Floating;
-        CollisionMask |= Dungeons.Pit.PitLayer;
+        CollisionMask |= Dungeons.Pit.PitLayer | Rooms.OutdoorBuilder.EnemyWallLayer; // deer stay out of pits and in their area
 
         _sprite = new AnimatedSprite2D
         {

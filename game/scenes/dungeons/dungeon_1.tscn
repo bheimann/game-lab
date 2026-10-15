@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://scripts/Dungeons/Painter.cs" id="painter"]
 [ext_resource type="Script" path="res://scripts/Rooms/OutdoorBuilder.cs" id="outdoor"]
 [ext_resource type="Script" path="res://scripts/Dungeons/Prop.cs" id="prop"]
+[ext_resource type="Script" path="res://scripts/Rooms/DirtPath.cs" id="dirtpath"]
 
 [node name="Dungeon1" type="Node2D"]
 script = ExtResource("game")
@@ -552,3 +553,3453 @@ theme_override_font_sizes/font_size = 20
 text = "Lizard Wizard
 Press A on a controller, or J / . on the keyboard, to join"
 horizontal_alignment = 1
+
+[node name="WestPath" type="Node2D" parent="World/Overworld"]
+position = Vector2(0, 440)
+script = ExtResource("door")
+Side = 2
+Path = true
+LeadsTo = NodePath("../../Village/EastPath")
+
+[node name="EastPath" type="Node2D" parent="World/Overworld"]
+position = Vector2(928, 300)
+script = ExtResource("door")
+Side = 3
+Path = true
+LeadsTo = NodePath("../../Forest/WestPath")
+
+[node name="SouthPath" type="Node2D" parent="World/Overworld"]
+position = Vector2(330, 512)
+script = ExtResource("door")
+Side = 1
+Path = true
+LeadsTo = NodePath("../../Swamp/NorthPath")
+
+[node name="PathWest" type="Node2D" parent="World/Overworld"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(140, 440, 0, 440)
+
+[node name="PathEast" type="Node2D" parent="World/Overworld"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(700, 300, 928, 300)
+
+[node name="PathSouth" type="Node2D" parent="World/Overworld"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(330, 420, 330, 512)
+
+[node name="WestSign" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(40, 420)
+script = ExtResource("prop")
+Kind = 3
+Text = "West: Scalebrook Village"
+
+[node name="EastSign" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(880, 282)
+script = ExtResource("prop")
+Kind = 3
+Text = "East: Antlerwood Forest"
+
+[node name="SouthSign" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(356, 486)
+script = ExtResource("prop")
+Kind = 3
+Text = "South: Tailspin Swamp"
+
+[node name="Village" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(-2400, 0)
+script = ExtResource("room")
+Title = "Scalebrook Village"
+
+[node name="Layout" type="Node2D" parent="World/Village"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 72
+InteriorHeight = 42
+Ground = 0
+PathPoints = PackedVector2Array(608, 200, 460, 200, 300, 200, 128, 200)
+
+[node name="EastPath" type="Node2D" parent="World/Village"]
+position = Vector2(608, 200)
+script = ExtResource("door")
+Side = 3
+Path = true
+LeadsTo = NodePath("../../Overworld/WestPath")
+
+[node name="House1" type="StaticBody2D" parent="World/Village"]
+position = Vector2(120, 150)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="House2" type="StaticBody2D" parent="World/Village"]
+position = Vector2(240, 140)
+script = ExtResource("prop")
+Kind = 15
+
+[node name="House3" type="StaticBody2D" parent="World/Village"]
+position = Vector2(430, 140)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="House4" type="StaticBody2D" parent="World/Village"]
+position = Vector2(150, 310)
+script = ExtResource("prop")
+Kind = 15
+
+[node name="House5" type="StaticBody2D" parent="World/Village"]
+position = Vector2(450, 320)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="Path1" type="Node2D" parent="World/Village"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(128, 200, 128, 154)
+
+[node name="Path2" type="Node2D" parent="World/Village"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(248, 200, 248, 144)
+
+[node name="Path3" type="Node2D" parent="World/Village"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(438, 200, 438, 144)
+
+[node name="Path4" type="Node2D" parent="World/Village"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(300, 200, 300, 345, 158, 345, 158, 314)
+
+[node name="Path5" type="Node2D" parent="World/Village"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(300, 345, 458, 345, 458, 324)
+
+[node name="Painter" type="Node2D" parent="World/Village"]
+position = Vector2(360, 262)
+script = ExtResource("painter")
+
+[node name="VillageSign1" type="StaticBody2D" parent="World/Village"]
+position = Vector2(566, 178)
+script = ExtResource("prop")
+Kind = 3
+Text = "Scalebrook Village"
+
+[node name="HerbChest1" type="StaticBody2D" parent="World/Village"]
+position = Vector2(540, 300)
+script = ExtResource("chest")
+Reward = 1
+
+[node name="Fence1" type="StaticBody2D" parent="World/Village"]
+position = Vector2(60, 252)
+script = ExtResource("prop")
+Kind = 13
+
+[node name="Fence2" type="StaticBody2D" parent="World/Village"]
+position = Vector2(100, 252)
+script = ExtResource("prop")
+Kind = 13
+
+[node name="Box1" type="StaticBody2D" parent="World/Village"]
+position = Vector2(190, 152)
+script = ExtResource("prop")
+Kind = 4
+
+[node name="Box2" type="StaticBody2D" parent="World/Village"]
+position = Vector2(204, 150)
+script = ExtResource("prop")
+Kind = 4
+
+[node name="Tree1" type="StaticBody2D" parent="World/Village"]
+position = Vector2(40, 39)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree2" type="StaticBody2D" parent="World/Village"]
+position = Vector2(137, 40)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree1" type="StaticBody2D" parent="World/Village"]
+position = Vector2(167, 42)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree3" type="StaticBody2D" parent="World/Village"]
+position = Vector2(286, 38)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree4" type="StaticBody2D" parent="World/Village"]
+position = Vector2(355, 44)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Bush1" type="StaticBody2D" parent="World/Village"]
+position = Vector2(375, 31)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Tree5" type="StaticBody2D" parent="World/Village"]
+position = Vector2(28, 62)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree6" type="StaticBody2D" parent="World/Village"]
+position = Vector2(87, 64)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn1" type="StaticBody2D" parent="World/Village"]
+position = Vector2(153, 74)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Bush2" type="StaticBody2D" parent="World/Village"]
+position = Vector2(182, 89)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="TreeAutumn2" type="StaticBody2D" parent="World/Village"]
+position = Vector2(232, 66)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="SmallTree2" type="StaticBody2D" parent="World/Village"]
+position = Vector2(304, 87)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree7" type="StaticBody2D" parent="World/Village"]
+position = Vector2(360, 78)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Bush3" type="StaticBody2D" parent="World/Village"]
+position = Vector2(404, 85)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Tree8" type="StaticBody2D" parent="World/Village"]
+position = Vector2(453, 75)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree3" type="StaticBody2D" parent="World/Village"]
+position = Vector2(496, 82)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn3" type="StaticBody2D" parent="World/Village"]
+position = Vector2(546, 73)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="SmallTree4" type="StaticBody2D" parent="World/Village"]
+position = Vector2(37, 111)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree9" type="StaticBody2D" parent="World/Village"]
+position = Vector2(305, 110)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Bush4" type="StaticBody2D" parent="World/Village"]
+position = Vector2(354, 130)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="SmallTree5" type="StaticBody2D" parent="World/Village"]
+position = Vector2(525, 116)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Bush5" type="StaticBody2D" parent="World/Village"]
+position = Vector2(554, 115)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush6" type="StaticBody2D" parent="World/Village"]
+position = Vector2(34, 166)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="SmallTree6" type="StaticBody2D" parent="World/Village"]
+position = Vector2(84, 166)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="SmallTree7" type="StaticBody2D" parent="World/Village"]
+position = Vector2(165, 168)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="SmallTree8" type="StaticBody2D" parent="World/Village"]
+position = Vector2(222, 155)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="SmallTree9" type="StaticBody2D" parent="World/Village"]
+position = Vector2(279, 149)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="SmallTree10" type="StaticBody2D" parent="World/Village"]
+position = Vector2(340, 159)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree10" type="StaticBody2D" parent="World/Village"]
+position = Vector2(372, 145)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Bush7" type="StaticBody2D" parent="World/Village"]
+position = Vector2(502, 165)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="TreeAutumn4" type="StaticBody2D" parent="World/Village"]
+position = Vector2(536, 167)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree11" type="StaticBody2D" parent="World/Village"]
+position = Vector2(87, 188)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree11" type="StaticBody2D" parent="World/Village"]
+position = Vector2(389, 180)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree12" type="StaticBody2D" parent="World/Village"]
+position = Vector2(51, 221)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree13" type="StaticBody2D" parent="World/Village"]
+position = Vector2(79, 246)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree12" type="StaticBody2D" parent="World/Village"]
+position = Vector2(151, 244)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Bush8" type="StaticBody2D" parent="World/Village"]
+position = Vector2(186, 254)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="TreeAutumn5" type="StaticBody2D" parent="World/Village"]
+position = Vector2(248, 228)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Bush9" type="StaticBody2D" parent="World/Village"]
+position = Vector2(388, 231)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush10" type="StaticBody2D" parent="World/Village"]
+position = Vector2(469, 231)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="TreeAutumn6" type="StaticBody2D" parent="World/Village"]
+position = Vector2(501, 253)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Bush11" type="StaticBody2D" parent="World/Village"]
+position = Vector2(37, 264)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Tree14" type="StaticBody2D" parent="World/Village"]
+position = Vector2(92, 282)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree13" type="StaticBody2D" parent="World/Village"]
+position = Vector2(187, 280)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn7" type="StaticBody2D" parent="World/Village"]
+position = Vector2(227, 269)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree15" type="StaticBody2D" parent="World/Village"]
+position = Vector2(323, 285)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Bush12" type="StaticBody2D" parent="World/Village"]
+position = Vector2(388, 274)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Tree16" type="StaticBody2D" parent="World/Village"]
+position = Vector2(454, 263)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree17" type="StaticBody2D" parent="World/Village"]
+position = Vector2(554, 274)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree18" type="StaticBody2D" parent="World/Village"]
+position = Vector2(53, 336)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree14" type="StaticBody2D" parent="World/Village"]
+position = Vector2(107, 328)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree19" type="StaticBody2D" parent="World/Village"]
+position = Vector2(205, 307)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Bush13" type="StaticBody2D" parent="World/Village"]
+position = Vector2(264, 311)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Tree20" type="StaticBody2D" parent="World/Village"]
+position = Vector2(349, 316)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree21" type="StaticBody2D" parent="World/Village"]
+position = Vector2(497, 323)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Forest" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(0, 1000)
+script = ExtResource("room")
+Title = "Antlerwood Forest"
+
+[node name="Layout" type="Node2D" parent="World/Forest"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 120
+InteriorHeight = 64
+Ground = 1
+PathPoints = PackedVector2Array(0, 270, 180, 300, 360, 230, 500, 130, 500, 0)
+
+[node name="WestPath" type="Node2D" parent="World/Forest"]
+position = Vector2(0, 270)
+script = ExtResource("door")
+Side = 2
+Path = true
+LeadsTo = NodePath("../../Overworld/EastPath")
+
+[node name="NorthPath" type="Node2D" parent="World/Forest"]
+position = Vector2(500, 0)
+script = ExtResource("door")
+Side = 0
+Path = true
+LeadsTo = NodePath("../../Tundra/SouthPath")
+
+[node name="Path1" type="Node2D" parent="World/Forest"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(360, 230, 560, 330, 760, 400, 860, 420)
+
+[node name="ForestSign1" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(56, 248)
+script = ExtResource("prop")
+Kind = 3
+Text = "Antlerwood Forest\nHome of the deer"
+
+[node name="HerbChest1" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(890, 432)
+script = ExtResource("chest")
+Reward = 1
+
+[node name="Deer1" parent="World/Forest" instance=ExtResource("deer")]
+position = Vector2(250, 420)
+
+[node name="Deer2" parent="World/Forest" instance=ExtResource("deer")]
+position = Vector2(600, 200)
+
+[node name="Deer3" parent="World/Forest" instance=ExtResource("deer")]
+position = Vector2(700, 470)
+
+[node name="Deer4" parent="World/Forest" instance=ExtResource("deer")]
+position = Vector2(150, 120)
+
+[node name="Deer5" parent="World/Forest" instance=ExtResource("deer")]
+position = Vector2(820, 150)
+
+[node name="Deer6" parent="World/Forest" instance=ExtResource("deer")]
+position = Vector2(420, 420)
+
+[node name="Mushroom1" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(840, 470)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom2" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(930, 400)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom3" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(900, 470)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Pine1" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(72, 39)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn1" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(166, 33)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom4" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(240, 36)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="TreeAutumn2" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(295, 31)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn3" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(454, 31)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine2" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(563, 43)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine3" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(595, 40)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine4" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(649, 41)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree1" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(736, 42)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn4" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(770, 36)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn5" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(933, 41)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine5" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(965, 41)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine6" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(26, 57)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree2" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(65, 73)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Mushroom5" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(125, 57)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="TreeAutumn6" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(159, 62)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree3" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(198, 64)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Mushroom6" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(226, 62)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="SmallTree1" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(277, 51)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree4" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(320, 73)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine7" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(360, 50)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="SmallTree2" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(388, 55)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="SmallTree3" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(423, 63)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Mushroom7" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(638, 51)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree5" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(661, 68)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree6" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(707, 70)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree7" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(745, 67)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree8" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(782, 75)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine8" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(821, 58)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree9" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(880, 52)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine9" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(901, 61)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine10" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(960, 73)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree10" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(47, 93)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree11" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(86, 89)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree12" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(120, 104)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn7" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(164, 91)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree13" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(192, 106)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree14" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(244, 92)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree15" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(283, 84)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree16" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(309, 85)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Mushroom8" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(365, 94)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree17" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(413, 107)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn8" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(440, 87)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn9" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(527, 88)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree18" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(562, 81)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine11" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(599, 84)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree19" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(634, 83)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn10" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(674, 86)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine12" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(720, 89)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Mushroom9" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(754, 105)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="TreeAutumn11" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(807, 92)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn12" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(843, 82)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree20" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(882, 85)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn13" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(929, 90)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree21" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(43, 123)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree22" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(75, 115)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree23" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(119, 131)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree24" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(232, 115)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree25" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(266, 138)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn14" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(317, 118)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine13" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(347, 125)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree26" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(387, 116)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine14" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(419, 135)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn15" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(557, 132)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine15" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(586, 125)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn16" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(624, 127)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom10" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(682, 134)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree27" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(719, 121)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn17" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(749, 120)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn18" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(795, 137)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree28" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(838, 115)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn19" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(883, 117)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="SmallTree4" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(898, 115)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree29" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(963, 130)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn20" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(75, 156)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom11" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(100, 159)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="TreeAutumn21" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(157, 147)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="SmallTree5" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(196, 152)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn22" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(229, 163)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn23" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(283, 166)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree30" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(300, 156)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree31" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(352, 168)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn24" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(390, 158)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine16" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(522, 153)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="SmallTree6" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(554, 165)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn25" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(583, 161)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine17" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(634, 171)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine18" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(657, 157)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="SmallTree7" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(720, 162)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Pine19" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(737, 170)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="SmallTree8" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(793, 169)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Pine20" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(877, 150)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="SmallTree9" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(912, 150)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn26" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(940, 161)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree32" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(31, 189)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree33" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(82, 179)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine21" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(109, 199)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine22" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(156, 190)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn27" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(185, 184)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine23" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(216, 179)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine24" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(260, 197)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine25" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(307, 195)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Mushroom12" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(456, 192)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree34" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(506, 191)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree35" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(548, 200)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree36" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(630, 201)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine26" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(678, 185)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree37" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(717, 194)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine27" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(758, 179)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="SmallTree10" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(786, 191)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree38" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(837, 193)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree39" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(862, 189)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree40" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(903, 202)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree41" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(958, 187)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree42" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(61, 220)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn28" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(121, 233)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree43" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(154, 233)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree44" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(180, 215)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree45" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(235, 219)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree11" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(278, 215)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="SmallTree12" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(314, 219)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Pine28" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(435, 234)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Mushroom13" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(477, 232)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree46" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(517, 235)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree47" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(554, 227)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn29" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(643, 218)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom14" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(681, 214)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree48" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(700, 209)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree13" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(747, 233)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn30" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(797, 220)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree49" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(823, 231)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree50" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(865, 226)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree51" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(905, 233)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree52" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(941, 214)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree53" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(115, 250)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn31" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(183, 263)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn32" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(240, 244)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree54" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(350, 267)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn33" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(475, 256)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="SmallTree14" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(525, 267)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn34" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(551, 252)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom15" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(580, 244)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Pine29" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(622, 266)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree55" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(683, 243)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree56" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(720, 241)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree57" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(783, 259)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree58" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(845, 258)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn35" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(883, 247)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn36" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(914, 244)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom16" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(941, 246)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom17" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(284, 296)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom18" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(326, 286)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree59" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(409, 289)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn37" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(569, 288)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom19" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(595, 293)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Pine30" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(633, 291)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn38" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(685, 273)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn39" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(712, 278)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine31" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(764, 289)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree60" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(806, 285)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree15" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(848, 295)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree61" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(883, 274)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn40" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(910, 290)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom20" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(952, 298)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree62" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(41, 312)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree63" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(91, 323)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn41" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(133, 320)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn42" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(160, 324)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom21" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(247, 312)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="TreeAutumn43" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(274, 314)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom22" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(319, 319)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Pine32" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(354, 325)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn44" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(410, 317)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree64" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(438, 317)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree65" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(474, 317)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine33" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(635, 321)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree66" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(692, 323)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree67" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(714, 327)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree68" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(749, 328)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree69" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(797, 313)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn45" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(848, 314)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree70" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(880, 327)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree71" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(924, 308)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree72" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(965, 315)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn46" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(47, 354)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree73" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(84, 361)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Mushroom23" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(110, 362)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="SmallTree16" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(148, 355)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn47" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(198, 355)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree74" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(229, 342)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine34" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(280, 340)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Mushroom24" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(313, 348)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree75" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(353, 349)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn48" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(388, 343)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom25" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(444, 339)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Pine35" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(480, 338)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree76" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(513, 350)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn49" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(668, 337)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree77" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(706, 340)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine36" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(757, 353)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn50" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(808, 339)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn51" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(825, 355)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine37" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(866, 345)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree78" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(915, 362)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine38" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(951, 361)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Mushroom26" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(34, 378)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="SmallTree17" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(70, 390)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree79" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(106, 394)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree80" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(142, 391)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine39" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(191, 395)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn52" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(236, 371)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn53" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(269, 380)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree81" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(314, 373)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree18" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(349, 394)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Mushroom27" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(391, 377)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Pine40" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(414, 375)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Mushroom28" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(477, 379)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree82" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(496, 385)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree83" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(539, 374)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree84" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(584, 382)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Mushroom29" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(785, 379)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree85" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(26, 410)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine41" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(81, 427)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn54" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(118, 407)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree86" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(155, 412)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Mushroom30" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(188, 421)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="TreeAutumn55" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(325, 427)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree87" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(358, 419)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine42" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(445, 413)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn56" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(477, 415)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn57" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(528, 421)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine43" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(556, 425)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree88" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(600, 426)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn58" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(639, 417)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree89" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(688, 426)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine44" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(719, 421)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="TreeAutumn59" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(953, 425)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="SmallTree19" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(36, 454)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn60" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(77, 450)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree90" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(100, 445)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine45" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(164, 442)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="SmallTree20" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(198, 437)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn61" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(227, 435)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn62" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(269, 457)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree91" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(301, 433)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree92" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(352, 452)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree21" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(388, 445)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Pine46" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(445, 456)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine47" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(474, 439)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="SmallTree22" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(503, 441)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn63" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(554, 452)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn64" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(586, 446)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Mushroom31" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(625, 455)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="SmallTree23" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(664, 439)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn65" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(718, 439)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn66" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(745, 456)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="TreeAutumn67" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(792, 437)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Pine48" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(961, 449)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine49" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(53, 467)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree93" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(99, 470)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree24" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(156, 465)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="TreeAutumn68" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(181, 480)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree94" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(217, 490)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn69" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(275, 488)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree95" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(319, 466)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree25" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(346, 467)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree96" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(387, 486)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree97" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(414, 488)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn70" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(464, 468)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree98" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(506, 470)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree99" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(542, 486)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine50" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(579, 481)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="SmallTree26" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(635, 482)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree100" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(657, 489)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Mushroom32" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(754, 478)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Pine51" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(799, 490)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine52" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(823, 490)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="SmallTree27" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(950, 484)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Mushroom33" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(29, 516)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Tree101" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(84, 509)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Mushroom34" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(107, 513)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="SmallTree28" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(149, 519)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Tree102" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(195, 519)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="SmallTree29" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(234, 512)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Pine53" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(331, 512)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree103" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(352, 506)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="TreeAutumn71" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(391, 508)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Tree104" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(443, 519)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree105" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(490, 514)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Pine54" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(511, 522)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree106" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(547, 515)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree107" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(597, 517)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Mushroom35" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(633, 511)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Pine55" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(668, 519)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Pine56" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(710, 514)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Tree108" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(765, 511)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree109" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(838, 507)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree110" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(872, 506)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree111" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(921, 517)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tree112" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(961, 506)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Tundra" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(1200, 1000)
+script = ExtResource("room")
+Title = "Frosttail Tundra"
+
+[node name="Layout" type="Node2D" parent="World/Tundra"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 100
+InteriorHeight = 56
+Ground = 3
+PathPoints = PackedVector2Array(416, 480, 400, 380, 300, 300, 260, 200)
+
+[node name="SouthPath" type="Node2D" parent="World/Tundra"]
+position = Vector2(416, 480)
+script = ExtResource("door")
+Side = 1
+Path = true
+LeadsTo = NodePath("../../Forest/NorthPath")
+
+[node name="Path1" type="Node2D" parent="World/Tundra"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(400, 380, 560, 300, 680, 220)
+
+[node name="TundraSign1" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(446, 452)
+script = ExtResource("prop")
+Kind = 3
+Text = "Frosttail Tundra\nBrr!"
+
+[node name="FrozenLake1" type="Node2D" parent="World/Tundra"]
+position = Vector2(470, 70)
+script = ExtResource("pit")
+Size = Vector2(160, 72)
+Ice = true
+
+[node name="HerbChest1" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(770, 80)
+script = ExtResource("chest")
+Reward = 1
+
+[node name="Deer1" parent="World/Tundra" instance=ExtResource("deer")]
+position = Vector2(200, 380)
+
+[node name="Deer2" parent="World/Tundra" instance=ExtResource("deer")]
+position = Vector2(620, 400)
+
+[node name="Deer3" parent="World/Tundra" instance=ExtResource("deer")]
+position = Vector2(700, 140)
+
+[node name="Deer4" parent="World/Tundra" instance=ExtResource("deer")]
+position = Vector2(150, 150)
+
+[node name="Snowman1" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(330, 400)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="Snowman2" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(560, 210)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="Snowman3" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(130, 260)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="Snowman4" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(720, 330)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="SnowPine1" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(88, 35)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine2" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(121, 42)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine3" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(183, 48)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine4" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(359, 43)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine5" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(417, 36)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine6" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(472, 33)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock1" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(569, 38)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SnowPine7" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(675, 41)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine8" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(748, 44)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine9" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(48, 78)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine10" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(104, 69)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock2" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(161, 76)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SnowPine11" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(219, 89)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine12" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(284, 79)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock3" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(333, 90)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SnowPine13" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(377, 81)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine14" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(440, 76)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine15" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(708, 87)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine16" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(756, 57)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock4" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(800, 87)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SnowPine17" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(56, 110)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine18" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(95, 100)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine19" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(142, 120)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine20" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(183, 130)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine21" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(270, 131)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine22" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(306, 117)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine23" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(365, 119)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine24" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(432, 117)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine25" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(689, 99)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine26" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(744, 101)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine27" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(792, 123)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine28" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(52, 142)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine29" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(103, 176)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine30" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(199, 155)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine31" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(254, 163)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine32" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(309, 169)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine33" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(370, 168)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine34" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(411, 171)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine35" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(464, 157)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine36" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(515, 153)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine37" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(595, 157)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine38" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(625, 154)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine39" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(735, 146)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine40" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(788, 171)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine41" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(88, 214)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine42" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(124, 195)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine43" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(183, 197)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine44" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(314, 190)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock5" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(369, 216)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Rock6" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(405, 219)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SnowPine45" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(451, 212)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine46" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(521, 203)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine47" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(563, 193)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine48" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(626, 195)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock7" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(738, 218)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SnowPine49" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(799, 206)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine50" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(32, 239)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock8" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(99, 243)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SnowPine51" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(156, 240)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine52" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(219, 245)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine53" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(315, 257)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine54" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(379, 261)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine55" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(434, 228)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine56" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(489, 230)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine57" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(522, 247)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine58" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(620, 230)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine59" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(763, 259)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine60" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(800, 239)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine61" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(39, 292)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine62" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(76, 283)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine63" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(143, 297)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine64" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(180, 278)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine65" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(253, 299)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine66" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(355, 285)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine67" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(419, 286)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine68" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(464, 280)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine69" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(527, 274)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock9" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(643, 285)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SnowPine70" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(692, 281)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine71" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(722, 300)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine72" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(803, 300)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine73" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(46, 318)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine74" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(80, 320)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine75" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(135, 318)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine76" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(220, 321)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine77" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(272, 319)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine78" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(384, 335)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine79" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(405, 342)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine80" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(539, 348)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine81" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(577, 335)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine82" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(629, 321)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine83" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(696, 342)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine84" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(741, 329)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine85" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(797, 317)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine86" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(47, 385)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine87" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(111, 385)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine88" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(159, 375)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine89" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(227, 363)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine90" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(275, 391)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine91" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(318, 383)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock10" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(473, 382)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SnowPine92" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(529, 383)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine93" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(603, 379)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine94" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(634, 358)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine95" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(694, 364)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine96" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(746, 385)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine97" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(39, 431)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine98" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(96, 418)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine99" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(161, 415)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine100" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(219, 418)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine101" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(247, 427)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine102" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(327, 432)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine103" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(353, 410)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock11" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(487, 410)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SnowPine104" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(519, 416)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine105" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(565, 404)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine106" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(691, 425)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="SnowPine107" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(736, 417)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Rock12" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(786, 422)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Swamp" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(-1200, 1000)
+script = ExtResource("room")
+Title = "Tailspin Swamp"
+
+[node name="Layout" type="Node2D" parent="World/Swamp"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 112
+InteriorHeight = 60
+Ground = 2
+PathPoints = PackedVector2Array(330, 0, 340, 120, 470, 230, 620, 260, 720, 250)
+
+[node name="NorthPath" type="Node2D" parent="World/Swamp"]
+position = Vector2(330, 0)
+script = ExtResource("door")
+Side = 0
+Path = true
+LeadsTo = NodePath("../../Overworld/SouthPath")
+
+[node name="SwampSign1" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(300, 40)
+script = ExtResource("prop")
+Kind = 3
+Text = "Tailspin Swamp"
+
+[node name="Pond1" type="Node2D" parent="World/Swamp"]
+position = Vector2(40, 70)
+script = ExtResource("pit")
+Size = Vector2(120, 64)
+Water = true
+Tint = Color(0.65, 0.85, 0.55, 1)
+
+[node name="Pond2" type="Node2D" parent="World/Swamp"]
+position = Vector2(560, 60)
+script = ExtResource("pit")
+Size = Vector2(180, 70)
+Water = true
+Tint = Color(0.65, 0.85, 0.55, 1)
+
+[node name="Pond3" type="Node2D" parent="World/Swamp"]
+position = Vector2(120, 300)
+script = ExtResource("pit")
+Size = Vector2(160, 90)
+Water = true
+Tint = Color(0.65, 0.85, 0.55, 1)
+
+[node name="Pond4" type="Node2D" parent="World/Swamp"]
+position = Vector2(420, 350)
+script = ExtResource("pit")
+Size = Vector2(140, 70)
+Water = true
+Tint = Color(0.65, 0.85, 0.55, 1)
+
+[node name="Pond5" type="Node2D" parent="World/Swamp"]
+position = Vector2(620, 320)
+script = ExtResource("pit")
+Size = Vector2(90, 48)
+Water = true
+Tint = Color(0.65, 0.85, 0.55, 1)
+
+[node name="SecretWater1" type="Node2D" parent="World/Swamp"]
+position = Vector2(744, 400)
+script = ExtResource("pit")
+Size = Vector2(168, 32)
+Water = true
+Tint = Color(0.65, 0.85, 0.55, 1)
+EdgeRight = false
+
+[node name="RockWall1" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 438)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="RockWall2" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 444)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="RockWall3" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 450)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="RockWall4" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 456)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="RockWall5" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 462)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="RockWall6" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 468)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="RockWall7" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 474)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="RockWall8" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 480)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="RockWall9" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 486)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="RockWall10" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 492)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="RockWall11" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(752, 498)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="SecretChest1" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(840, 470)
+script = ExtResource("chest")
+Reward = 1
+
+[node name="ShoreRock1" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(800, 362)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="ShoreRock2" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(870, 356)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="SecretSign1" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(712, 396)
+script = ExtResource("prop")
+Kind = 3
+Text = "Something glints across the water..."
+
+[node name="Deer1" parent="World/Swamp" instance=ExtResource("deer")]
+position = Vector2(200, 220)
+
+[node name="Deer2" parent="World/Swamp" instance=ExtResource("deer")]
+position = Vector2(520, 200)
+
+[node name="Deer3" parent="World/Swamp" instance=ExtResource("deer")]
+position = Vector2(800, 160)
+
+[node name="Deer4" parent="World/Swamp" instance=ExtResource("deer")]
+position = Vector2(300, 460)
+
+[node name="DeadTree1" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(190, 39)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush1" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(391, 40)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush2" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(484, 38)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Rock21" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(844, 32)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree2" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(227, 71)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree3" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(279, 87)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree4" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(389, 63)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree5" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(443, 64)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree6" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(498, 57)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Mushroom1" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(525, 79)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="DeadTree7" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(792, 85)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush3" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(827, 86)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Mushroom2" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(881, 85)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="DeadTree8" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(189, 94)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree9" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(233, 119)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree10" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(385, 95)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree11" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(433, 116)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree12" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(479, 110)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock22" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(792, 102)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree13" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(855, 110)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree14" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(886, 101)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree15" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(65, 164)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock23" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(146, 147)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Bush4" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(185, 160)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="DeadTree16" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(230, 136)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock24" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(292, 163)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Bush5" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(324, 155)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Mushroom3" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(431, 155)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Rock25" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(472, 164)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Rock26" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(516, 166)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree17" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(695, 156)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree18" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(719, 155)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock27" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(820, 133)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree19" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(864, 163)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree20" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(54, 203)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Mushroom4" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(107, 180)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Bush6" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(139, 203)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="DeadTree21" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(193, 191)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree22" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(229, 193)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree23" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(306, 194)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree24" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(340, 199)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush7" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(378, 201)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="DeadTree25" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(490, 200)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree26" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(610, 177)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree27" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(648, 203)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush8" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(692, 202)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="DeadTree28" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(730, 203)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree29" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(788, 201)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock28" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(854, 179)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree30" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(883, 178)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Mushroom5" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(34, 243)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="DeadTree31" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(66, 224)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree32" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(132, 237)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush9" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(168, 222)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Rock29" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(228, 239)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Mushroom6" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(287, 236)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="DeadTree33" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(326, 244)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock210" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(396, 224)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree34" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(588, 218)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree35" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(777, 234)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree36" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(829, 245)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree37" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(888, 224)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush10" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(86, 280)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Mushroom7" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(140, 259)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom8" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(290, 257)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom9" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(330, 278)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Rock211" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(386, 263)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Rock212" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(421, 273)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree38" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(481, 264)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock213" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(519, 274)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Mushroom10" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(776, 276)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom11" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(820, 285)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Rock214" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(863, 256)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree39" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(63, 313)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree40" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(85, 302)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush11" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(314, 299)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Rock215" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(355, 312)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree41" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(391, 311)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree42" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(435, 294)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock216" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(486, 295)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Mushroom12" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(605, 318)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="DeadTree43" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(755, 317)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush12" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(799, 298)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="DeadTree44" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(848, 296)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree45" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(40, 362)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree46" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(80, 347)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree47" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(295, 341)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree48" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(333, 357)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Mushroom13" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(395, 367)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom14" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(737, 335)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom15" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(776, 362)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom16" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(827, 363)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom17" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(59, 403)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="DeadTree49" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(103, 393)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree50" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(300, 382)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock217" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(332, 399)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Bush13" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(600, 374)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="DeadTree51" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(631, 389)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush14" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(692, 403)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Bush15" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(39, 436)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="DeadTree52" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(102, 428)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock218" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(129, 443)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree53" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(188, 439)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree54" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(250, 441)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree55" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(300, 422)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree56" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(330, 422)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock219" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(610, 436)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree57" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(646, 417)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree58" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(694, 446)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush16" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(37, 459)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="DeadTree59" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(60, 479)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree60" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(116, 454)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Mushroom18" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(170, 486)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="DeadTree61" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(221, 486)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Rock220" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(266, 485)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="DeadTree62" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(332, 486)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Mushroom19" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(389, 477)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="DeadTree63" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(437, 457)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree64" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(464, 469)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Bush17" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(527, 465)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="DeadTree65" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(587, 479)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree66" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(614, 461)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Mushroom20" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(678, 460)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom21" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(721, 465)
+script = ExtResource("prop")
+Kind = 11

@@ -59,6 +59,17 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 
 - **Every village has a painter.** Getting painted changes your **class**, for every character.
 
+### The overworld so far
+| Area | Where | What's there |
+|---|---|---|
+| **Scalebrook Meadow** | The middle | The stairs down to The Old Burrow, a grapple-only chest, deer |
+| **Scalebrook Village** | West of the meadow | Houses, the **village painter**, a herb chest. No enemies |
+| **Antlerwood Forest** | East of the meadow | Thick trees, lots of deer, a chest in a clearing |
+| **Frosttail Tundra** | North of the forest | Snow, snowy pines, snowmen, a frozen lake, deer, a chest |
+| **Tailspin Swamp** | South of the meadow | Murky ponds, bare trees, deer, a grapple-only chest |
+
+(These are first versions made by Claude from the place names above. The designer decides what really goes in each.)
+
 ## Combat numbers (starting values, to be tuned)
 | | Damage | Health |
 |---|---|---|
@@ -128,8 +139,9 @@ they're beaten (enemies can hurt them), go after the enemy the moose hit last, a
 | **Grappler** (starting class) | A: a fan of three **feathers**; LB / RB pick normal, poison, fire, ice, lightning or arcane. X: **grapple gun**: reels in small enemies, pulls you over to big ones (bosses) and to walls, rocks and bushes, **flying over water and pits**. Y: **RPG**, a rocket with a big explosion |
 | **Warrior** | Shoots a plain gun |
 
-- **Grapple spots:** some places can only be reached by grappling. The first is a chest across the water in
-  Scalebrook Meadow's top-left corner (with rocks on the near shore to grapple back to).
+- **Grapple spots:** some places can only be reached by grappling: a chest across the water in Scalebrook Meadow's
+  top-left corner, and one behind water and a rock wall in Tailspin Swamp's bottom-right corner (each with rocks on
+  the near shore to grapple back to).
 
 ### Fox
 Player 2 is an ordinary **red fox**. (The arctic fox art is kept for the snow area's foxes.)
@@ -183,7 +195,8 @@ decides which skills it has. The paint also changes how the fox looks, so each m
 ## Questions for the designer
 - **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?
 - **Elements:** are elemental versions of weapons and bombs unlocked by bosses too?
-- **The overworld:** what else is in Scalebrook Meadow, and where do the paths lead next (the village, Tailspin Swamp)?
+- **The overworld:** what should the village, forest, tundra and swamp have in them (shops, friendly animals,
+  quests, new enemies, dungeons)? Where do the other kingdoms go (Foxglove Hills, Plume Peaks, Scarab Desert)?
 - **Boss drops:** which new bomb, weapon or gun does each boss drop?
 - **Moose, peacock and beetle:** more classes? What should the peacock and beetle Warrior classes become?
 - **Items and armor:** what else goes in the menu? (So far: healing herb, shadow cloak, ember scales, bomb vest, sturdy vest.)
