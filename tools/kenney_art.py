@@ -347,6 +347,24 @@ def main():
     write_png(OUT / "fence.png", trim(hstack(tile(town, 8, 6), tile(town, 9, 6), tile(town, 10, 6))))
     write_png(OUT / "houseblue.png", house(town, 0))
     write_png(OUT / "housered.png", house(town, 4))
+    write_png(OUT / "gate.png", gate(town))
+
+
+def gate(town):
+    """A dungeon gate (DungeonGate.cs), 6x3 tiles: battlements on top, a stone wall with arrow slits, and the
+    portcullis archway in the middle. Inside the arch is dark, except the bottom 16px, where the stairs show through."""
+    brick, slit = tile(town, 6, 10), tile(town, 5, 10)
+    rows = [
+        hstack(tile(town, 3, 8), tile(town, 4, 8), tile(town, 4, 8), tile(town, 4, 8), tile(town, 4, 8), tile(town, 5, 8)),
+        hstack(brick, brick, tile(town, 3, 9), tile(town, 4, 9), brick, brick),
+        hstack(brick, slit, tile(town, 3, 10), tile(town, 4, 10), slit, brick),
+    ]
+    img = [row[:] for band in rows for row in band]
+    for y in range(T, 2 * T):
+        for x in range(2 * T, 4 * T):
+            if img[y][x][3] == 0:
+                img[y][x] = (24, 18, 28, 255)
+    return img
 
 
 def house(town, col):

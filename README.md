@@ -53,7 +53,8 @@ yellow: that's its kick coming. Works even with the ring menu open.
   mid-flight over water, you land back where you started. Its other class, **Warrior**, shoots a plain gun.
 - **Secret:** in Scalebrook Meadow's top-left corner there's a chest across the water that only a grapple can reach.
 
-**The overworld:** Scalebrook Meadow is in the middle, with paths out through gaps in the bushes (signs show the way):
+**The overworld:** Scalebrook Meadow is in the middle, with the stone temple gate into The Old Burrow at the top
+right (walk in through the arch), and paths out through gaps in the bushes (signs show the way):
 west to **Scalebrook Village** (houses and the village painter, no enemies), east to **Antlerwood Forest** (thick
 trees, deer, a chest in a clearing) and on north to **Frosttail Tundra** (snow, snowmen, a frozen lake), and south
 to **Tailspin Swamp** (murky ponds, bare trees, and another chest only a grapple can reach).

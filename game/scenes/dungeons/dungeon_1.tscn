@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://scripts/Rooms/OutdoorBuilder.cs" id="outdoor"]
 [ext_resource type="Script" path="res://scripts/Dungeons/Prop.cs" id="prop"]
 [ext_resource type="Script" path="res://scripts/Rooms/DirtPath.cs" id="dirtpath"]
+[ext_resource type="Script" path="res://scripts/Dungeons/DungeonGate.cs" id="gate"]
 
 [node name="Dungeon1" type="Node2D"]
 script = ExtResource("game")
@@ -45,7 +46,7 @@ z_index = -1
 script = ExtResource("outdoor")
 InteriorWidth = 112
 InteriorHeight = 60
-PathPoints = PackedVector2Array(140, 440, 330, 420, 560, 400, 700, 300, 780, 170, 800, 112)
+PathPoints = PackedVector2Array(140, 440, 330, 420, 560, 400, 700, 300, 780, 170, 800, 64)
 
 [node name="Start" type="Marker2D" parent="World/Overworld"]
 position = Vector2(140, 430)
@@ -57,14 +58,58 @@ Kind = 3
 Text = "Scalebrook Meadow
 The Old Burrow is to the north-east"
 
+[node name="BurrowGate" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(800, 64)
+script = ExtResource("gate")
+
 [node name="BurrowStairs" type="Node2D" parent="World/Overworld"]
-position = Vector2(800, 104)
+position = Vector2(800, 64)
 script = ExtResource("door")
 Stairs = true
 LeadsTo = NodePath("../../Entrance/DoorBottom")
 
+[node name="GateRock1" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(742, 30)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="GateRock2" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(738, 52)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="GateRock3" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(744, 70)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="GateRock4" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(858, 30)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="GateRock5" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(864, 50)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="GateRock6" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(856, 70)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="GateRock7" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(726, 40)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="GateRock8" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(874, 40)
+script = ExtResource("prop")
+Kind = 1
+
 [node name="BurrowSign" type="StaticBody2D" parent="World/Overworld"]
-position = Vector2(770, 112)
+position = Vector2(764, 92)
 script = ExtResource("prop")
 Kind = 3
 Text = "The Old Burrow"
