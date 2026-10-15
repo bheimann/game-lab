@@ -19,6 +19,9 @@ public enum PropKind
 /// </summary>
 public partial class Prop : StaticBody2D
 {
+    /// <summary>Every prop is in this group (the grapple's aim assist looks for them).</summary>
+    public const string Group = "props";
+
     private Label? _label;
 
     [Export] public PropKind Kind { get; set; } = PropKind.Bush;
@@ -28,6 +31,7 @@ public partial class Prop : StaticBody2D
 
     public override void _Ready()
     {
+        AddToGroup(Group);
         CollisionLayer = 1;
         CollisionMask = 0;
         var texture = GD.Load<Texture2D>($"res://assets/kenney/{Kind.ToString().ToLowerInvariant()}.png");

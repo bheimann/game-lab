@@ -114,7 +114,9 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Weapon Master weapons: sword & shield, javelin, flail, axe & bow (with 7 arrow types).
 - ✅ 🛠 The lizard's Illusionist class: clones, tail decoy and charm, using illusionist energy.
 - ✅ 🛠 Saving: the game saves by itself and picks up where you left off; hold N for a new game.
-- 🦎 Design the boss drops, the moose / peacock / beetle classes, and what's next in the overworld.
+- ✅ 🛠 Beetle **Roller** class (roll, shell block, tough shell) and peacock **Grappler** class (elemental
+  feathers, grapple gun, RPG), plus a secret chest in the meadow that only the grapple reaches.
+- 🦎 Design the boss drops, the moose classes, and what's next in the overworld.
 
 ## Later (once the first dungeon is fun)
 More lizards so there are four, more of the overworld, levelling up,

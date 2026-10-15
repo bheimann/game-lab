@@ -34,9 +34,17 @@ The lizard also hides (camouflage) by standing still for a moment. Its tongue st
 **Dodge:** a quick dash the way you're pushing; nothing can hurt you during it. Watch for a deer flashing
 yellow: that's its kick coming. Works even with the ring menu open.
 
-**More heroes (warriors you helped):** the **moose** (slow, tough, big antler bash), the **peacock** (shoots a
-gun instead of punching; shots flip levers too) and the **beetle** (quick horn jabs, sturdy). For now each has
-only its primary attack and the dodge; their classes are still to be designed.
+**More heroes (warriors you helped):** the **moose** (slow, tough, big antler bash), the **peacock** and the
+**beetle**. The moose has only its primary attack and the dodge for now.
+- The **beetle** starts as a **Roller**: A horn jab, X **rolls** (a fast ball that rams enemies and bounces off
+  walls; steer it a little; hits hurt half as much while rolling), Y **hides in its shell** (blocks every hit for a
+  moment), and its tough shell always makes hits hurt less. Its other class, **Warrior**, just jabs.
+- The **peacock** starts as a **Grappler**: A shoots a fan of three **feathers** (LB / RB pick normal, poison,
+  fire, ice, lightning or arcane), X fires the **grapple gun**, Y fires an **RPG** (a rocket with a big explosion
+  that also breaks cracked rocks). The grapple **reels in** small enemies, **pulls you over** to big ones (bosses)
+  and to **walls, rocks and bushes**, flying you over **water and pits** on the way. If something hits you
+  mid-flight over water, you land back where you started. Its other class, **Warrior**, shoots a plain gun.
+- **Secret:** in Scalebrook Meadow's top-left corner there's a chest across the water that only a grapple can reach.
 
 **Classes (getting painted):** the lizard can be a **Chameleon** (camouflage, colour change), **Tongue Master**
 (stronger, longer tongue), **Spitter** (special button spits poison; LB / RB pick poison, fire, ice, lightning
@@ -116,6 +124,11 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   to make the bots play other characters (0 lizard, 1 fox, 2 moose, 3 peacock, 4 beetle).
 - Add `"--autoplay-classes=Illusionist,Weapon Master"` (test room) to paint the bots into those classes and run a
   scripted check of their moves first (block, javelin, spin, explosive arrow, charm, clones, tail decoy).
+  `--autoplay-pick=4,3 "--autoplay-classes=Roller,Grappler"` checks the beetle (roll, shell, tough shell, bounce)
+  and the peacock (fire feathers, grapple pull, rocket, zip to a wall).
+- `Godot_console.exe --path game -- --autoplay-grapple=<folder>` checks the meadow's secret chest: the peacock
+  can't walk over the water or through the hedge, grapples over to the chest and back, and lands back on the shore
+  when stopped mid-flight.
 - Bot runs never touch the real save. Add `--save-file=user://test_save.json` to let them save to a test file.
 - `Godot_console.exe --path game res://scenes/rooms/test_room.tscn -- --autoplay=<folder>` runs the test-room bots
   instead: they join and pick characters, test camouflage and colour change, test leaving mid-chase, use the ring

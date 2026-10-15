@@ -41,6 +41,11 @@ public partial class DevAutoplay : Node
     private string[] _classes = System.Array.Empty<string>();
     private int _abilityStep = -1;
     private Deer? _cloneTarget;
+    private int _abilityHp;
+    private int _abilityHp2;
+    private Vector2 _abilityPos;
+    private int _rollerStage;
+    private int _rollerNextStep;
     private double _time;
     private double _nextShot;
     private double _nextLog;
@@ -75,6 +80,11 @@ public partial class DevAutoplay : Node
         var classes = args.Where(a => a.StartsWith(ClassesFlag)).Select(a => a[ClassesFlag.Length..].Split(',')).FirstOrDefault();
         foreach (var arg in args)
         {
+            if (arg.StartsWith(DevGrappleCheck.Flag))
+            {
+                parent.AddChild(DevGrappleCheck.Create(arg[DevGrappleCheck.Flag.Length..]));
+            }
+
             if (arg.StartsWith(Flag))
             {
                 // Dungeons get their own script; the test room gets this one.
@@ -367,6 +377,62 @@ public partial class DevAutoplay : Node
     /// the heroes and each move is used directly, once, at a set time; the log says what happened.
     /// (Written for P1 = Illusionist, P2 = Weapon Master.)
     /// </summary>
+    /// <summary>
+    /// The beetle's Roller class, one check at a time; each waits until the beetle isn't busy or flashing from a
+    /// deer's kick (a hit cancels a roll): roll into a deer, get hit inside the shell, get hit with the tough shell,
+    /// roll into the top wall and bounce.
+    /// </summary>
+    private void RollerTest(Hero p1, List<Deer> deer, int step, System.Action<Deer, Hero, float> place, System.Func<Hero, string, Ability> ability)
+    {
+        var ready = p1.CanBeHit && !p1.Abilities.Any(a => a.IsActive) && step >= _rollerNextStep;
+        void Log(string text) => GD.Print($"[autoplay {_time:0.0}s] roller test: {text}");
+        switch (_rollerStage)
+        {
+            case 0 when ready:
+                p1.Face(Vector2.Left);
+                place(deer[0], p1, 40);
+                _abilityHp = deer[0].Health.Current;
+                ability(p1, "Roll").TryUse();
+                TakeShot(0.15, "_roll");
+                break;
+            case 1:
+                Log($"roll hit the deer: hp {_abilityHp} -> {deer[0].Health.Current}");
+                break;
+            case 2 when ready:
+                _abilityHp = p1.Health.Current;
+                ability(p1, "ShellShield").TryUse();
+                TakeShot(0.1, "_shell");
+                p1.TakeHit(3, p1.GlobalPosition + Vector2.Right * 10);
+                Log($"hit (3) inside the shell: hp {_abilityHp} -> {p1.Health.Current}");
+                break;
+            case 3 when ready:
+                _abilityHp = p1.Health.Current;
+                p1.TakeHit(5, p1.GlobalPosition + Vector2.Right * 10);
+                Log($"hit (5) with the tough shell: hp {_abilityHp} -> {p1.Health.Current}");
+                break;
+            case 4 when ready:
+                // Deer close by would kick the beetle out of its roll.
+                foreach (var near in deer.Where(d => d.GlobalPosition.DistanceTo(p1.GlobalPosition) < 60))
+                {
+                    near.GlobalPosition = new Vector2(470, 240);
+                }
+
+                p1.Face(Vector2.Up);
+                _abilityPos = p1.GlobalPosition;
+                Log($"rolling up: started={ability(p1, "Roll").TryUse()}");
+                break;
+            case 5:
+            case 6:
+                Log($"rolling up from y={_abilityPos.Y:0}, now y={p1.GlobalPosition.Y:0}, facing {p1.Facing}");
+                break;
+            default:
+                return;
+        }
+
+        _rollerStage++;
+        _rollerNextStep = step + 1;
+    }
+
     private void AbilityTest(PlayerManager manager, List<Deer> deer, double inPhase)
     {
         var step = (int)(inPhase * 2); // a step every half second
@@ -424,6 +490,28 @@ public partial class DevAutoplay : Node
             }
         }
 
+        // Roller (P1, on the left) tests to its left and upward; Grappler (P2, on the right) to its right and downward.
+        if (p1?.CurrentClass == "Roller")
+        {
+            RollerTest(p1, deer, step, Place, A);
+        }
+
+        if (p2?.CurrentClass == "Grappler")
+        {
+            var feathers = (GunAbility)A(p2, "Feathers");
+            switch (step)
+            {
+                case 1: p2.Face(Vector2.Right); feathers.Select(2); Place(deer[2], p2, 50); _abilityHp2 = deer[2].Health.Current; feathers.TryUse(); TakeShot(0.12, "_feathers"); break;
+                case 2: GD.Print($"[autoplay {_time:0.0}s] grappler test: {feathers.Options[feathers.Selected].Name} feathers: deer hp {_abilityHp2} -> {deer[2].Health.Current}"); break;
+                case 3: deer[2].GlobalPosition = new Vector2(470, 60); p2.Face(Vector2.Down); Place(deer[3], p2, 90); A(p2, "Grapple").TryUse(); TakeShot(0.15, "_grapple"); break;
+                case 5: GD.Print($"[autoplay {_time:0.0}s] grappler test: grappled deer is now {deer[3].GlobalPosition.DistanceTo(p2.GlobalPosition):0} px away (was 90)"); break;
+                case 6: deer[3].GlobalPosition = new Vector2(470, 60); p2.Face(Vector2.Right); Place(deer[1], p2, 80); _abilityHp2 = deer[1].Health.Current; A(p2, "Rocket").TryUse(); TakeShot(0.15, "_rocket"); TakeShot(0.4, "_boom"); break;
+                case 8: GD.Print($"[autoplay {_time:0.0}s] grappler test: rocket: deer hp {_abilityHp2} -> {deer[1].Health.Current}"); break;
+                case 9: p2.Teleport(new Vector2(110, 200)); p2.Face(Vector2.Left); A(p2, "Grapple").TryUse(); TakeShot(0.3, "_zip"); break;
+                case 11: GD.Print($"[autoplay {_time:0.0}s] grappler test: zipped to the left wall: x 110 -> {p2.GlobalPosition.X:0}"); break;
+            }
+        }
+
         if (step % 4 == 0)
         {
             TakeShot();
@@ -461,9 +549,14 @@ public partial class DevAutoplay : Node
         Input.ParseInputEvent(new InputEventKey { PhysicalKeycode = key, Keycode = key, Pressed = down });
     }
 
-    private async void TakeShot()
+    private async void TakeShot(double after = 0, string name = "")
     {
-        var path = $"{_folder}/shot_{_shotNumber++:00}.png";
+        var path = $"{_folder}/shot_{_shotNumber++:00}{name}.png";
+        if (after > 0)
+        {
+            await ToSignal(GetTree().CreateTimer(after), SceneTreeTimer.SignalName.Timeout);
+        }
+
         await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
         GetViewport().GetTexture().GetImage().SavePng(path);
     }

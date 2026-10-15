@@ -45,6 +45,11 @@ public partial class GunAbility : Ability, IHasOptions
 
     [Export] public int ExplosionDamage { get; set; } = 4;
 
+    /// <summary>Shots per press, fanned out over <see cref="SpreadDegrees"/> (the peacock's feathers fly three at once).</summary>
+    [Export] public int ShotCount { get; set; } = 1;
+
+    [Export] public float SpreadDegrees { get; set; }
+
     /// <summary>Aim assist: shots bend toward an enemy within this many degrees of where the hero faces.</summary>
     [Export] public float AimAssistDegrees { get; set; } = 15f;
 
@@ -111,8 +116,13 @@ public partial class GunAbility : Ability, IHasOptions
             .FirstOrDefault();
         var direction = assisted == Vector2.Zero ? Hero.Facing : assisted.Normalized();
 
-        Bullet.Fire(Hero, muzzle, direction, new Bullet.Shot(BulletSpeed, Range, Damage, Element, ShotColour, Look,
-            IsExplosive ? ExplosionRadius : 0, ExplosionDamage));
+        var shot = new Bullet.Shot(BulletSpeed, Range, Damage, Element, ShotColour, Look, IsExplosive ? ExplosionRadius : 0, ExplosionDamage);
+        for (var i = 0; i < ShotCount; i++)
+        {
+            var spread = ShotCount == 1 ? 0 : SpreadDegrees * (i / (ShotCount - 1f) - 0.5f);
+            Bullet.Fire(Hero, muzzle, direction.Rotated(Mathf.DegToRad(spread)), shot);
+        }
+
         Hero.Lunge(-direction * 2f); // kick back
     }
 
