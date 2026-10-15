@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://scripts/Dungeons/Prop.cs" id="prop"]
 [ext_resource type="Script" path="res://scripts/Rooms/DirtPath.cs" id="dirtpath"]
 [ext_resource type="Script" path="res://scripts/Dungeons/DungeonGate.cs" id="gate"]
+[ext_resource type="Script" path="res://scripts/Dungeons/ExitPortal.cs" id="portal"]
 
 [node name="Dungeon1" type="Node2D"]
 script = ExtResource("game")
@@ -524,6 +525,10 @@ Side = 1
 State = 2
 LeadsTo = NodePath("../../PuzzleRoom/DoorTop")
 OpensWhenCleared = true
+
+[node name="ExitPortal" type="Node2D" parent="World/BossRoom"]
+position = Vector2(250, 165)
+script = ExtResource("portal")
 
 [node name="GiantBeetle" type="CharacterBody2D" parent="World/BossRoom"]
 position = Vector2(184, 110)

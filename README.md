@@ -110,7 +110,8 @@ hidden), bomb vest (fox: one more bomb out at a time), sturdy vest (anyone: +2 h
 The game starts outside in **Scalebrook Meadow** (it's in `game/scenes/dungeons/dungeon_1.tscn`, as the
 "Overworld" area, next to the dungeon rooms). There are deer, a pond, signs, and a dirt path up to the grassy
 stairs of **The Old Burrow**. Walk onto the stairs to go down into the dungeon; the dungeon's first room has a
-door at the bottom that leads back out. After beating the boss, the team is taken back out to the stairs.
+door at the bottom that leads back out. After beating the boss, an **exit portal** opens in the boss room: stand on it for a second to go back out to the
+temple gate. It stays open, so you can look around the dungeon first (or come back to it later).
 
 ### The first dungeon: The Old Burrow
 Walking through a door takes the whole team to the next room.
@@ -130,7 +131,7 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   Add `--screenshot-world` to hide the HUD and menus, and `--room=PuzzleRoom` to start in another room.
 - `python tools/kenney_art.py` then `python tools/make_room_tileset.py` rebuild the world art from the Kenney packs.
 - `Godot_console.exe --path game -- --autoplay=<folder>` lets two bots (P1 on WASD as the lizard, P2 on the
-  arrows as the fox) play by pressing the real keys: they clear the meadow, go down the stairs, play the dungeon to the boss, and end up back outside. It logs everything and saves a
+  arrows as the fox) play by pressing the real keys: they clear the meadow, go down the stairs, play the dungeon to the boss, and take the exit portal back outside. It logs everything and saves a
   screenshot every 2 seconds.
 - In the test room (`res://scenes/rooms/test_room.tscn` before the `--`), add `--autoplay-pick=2,3` after the `--`
   to make the bots play other characters (0 lizard, 1 fox, 2 moose, 3 peacock, 4 beetle).
