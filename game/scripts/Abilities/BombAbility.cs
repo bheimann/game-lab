@@ -9,7 +9,7 @@ namespace LizardWizard.Abilities;
 
 /// <summary>
 /// Bomb Master: lob a bomb in front of the hero. Switch bomb type with LB / RB or the ring menu.
-/// Remote bombs wait on the ground until the bomb button is pressed again.
+/// Remote bombs wait on the ground until Y sets them all off (see <see cref="DetonateAbility"/>), so several can be out at once.
 /// The fox starts with these bomb types; new ones get unlocked by beating bosses (see <see cref="Unlocks"/>).
 /// </summary>
 public partial class BombAbility : Ability, IHasOptions
@@ -24,7 +24,7 @@ public partial class BombAbility : Ability, IHasOptions
         (BombKind.Smoke, "Smoke Bomb", "Enemies can't see you in the smoke", null),
         (BombKind.Sticky, "Sticky Bomb", "Sticks to the enemy it hits", null),
         (BombKind.Time, "Time Bomb", "Long fuse, bigger blast", null),
-        (BombKind.Remote, "Remote Bomb", "Press the bomb button again to blow it up", null),
+        (BombKind.Remote, "Remote Bomb", "Waits on the ground until Y blows it up", null),
         (BombKind.Proximity, "Proximity Bomb", "Goes off when an enemy walks near", null),
     };
 
@@ -101,14 +101,6 @@ public partial class BombAbility : Ability, IHasOptions
     protected override void Use()
     {
         var mine = Hero.GetParent().GetChildren().OfType<Bomb>().Where(b => b.Thrower == Hero).ToList();
-
-        // Remote bombs out there? This press sets them off instead of throwing.
-        var waiting = mine.Where(b => b.IsWaitingForRemote).ToList();
-        if (waiting.Count > 0)
-        {
-            waiting.ForEach(b => b.Detonate());
-            return;
-        }
 
         if (mine.Count >= MaxBombs + (Hero.Armor?.ExtraBombs ?? 0))
         {

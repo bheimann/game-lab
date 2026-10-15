@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
 [ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="2_melee"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/Abilities/ShieldAbility.cs" id="6_shield"]
 [ext_resource type="Script" path="res://scripts/Abilities/SpinAbility.cs" id="7_spin"]
 [ext_resource type="Script" path="res://scripts/Abilities/CycleOptionsAbility.cs" id="8_cycle"]
+[ext_resource type="Script" path="res://scripts/Abilities/DetonateAbility.cs" id="9_detonate"]
 
 [node name="Fox" type="CharacterBody2D"]
 collision_layer = 2
@@ -34,6 +35,10 @@ FlashColour = Color(1, 0.8, 0.6, 1)
 [node name="Bomb" type="Node2D" parent="."]
 script = ExtResource("3_bomb")
 Slot = 1
+Classes = "Bomb Master"
+
+[node name="Detonate" type="Node2D" parent="."]
+script = ExtResource("9_detonate")
 Classes = "Bomb Master"
 
 [node name="Gun" type="Node2D" parent="."]

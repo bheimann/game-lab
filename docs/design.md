@@ -172,7 +172,7 @@ decides which skills it has. The paint also changes how the fox looks, so each m
   | **Smoke bomb** | A cloud enemies can't see through (hides the team, like camouflage) |
   | **Sticky bomb** | Sticks to the enemy it hits and blows up on them |
   | **Time bomb** | A much longer fuse, for traps and setting up ahead |
-  | **Remote bomb** | Doesn't go off until you press the button again |
+  | **Remote bomb** | Doesn't go off until you press **Y**, which sets off every remote bomb you have out (up to 2 out at once, 3 with the bomb vest) |
   | **Proximity bomb** (maybe) | Sits on the ground and blows up when an enemy walks near |
 
 - **Combos:** casting spells (Element Master) or wand shots (Wand Master) **in a certain order** sets off a combo.
