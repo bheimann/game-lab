@@ -274,11 +274,6 @@ position = Vector2(70, 70)
 [node name="Deer2" parent="World/Entrance" instance=ExtResource("deer")]
 position = Vector2(240, 80)
 
-[node name="TestPainter" type="Node2D" parent="World/Entrance"]
-z_index = -1
-position = Vector2(100, 116)
-script = ExtResource("painter")
-
 [node name="KeyHall" type="Node2D" parent="World"]
 y_sort_enabled = true
 position = Vector2(0, -320)

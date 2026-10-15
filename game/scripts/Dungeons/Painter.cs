@@ -3,16 +3,15 @@ using System.Linq;
 using Godot;
 using LizardWizard.Actors;
 using LizardWizard.Effects;
-using LizardWizard.Items;
 using LizardWizard.Players;
 
 namespace LizardWizard.Dungeons;
 
 /// <summary>
-/// TEST PAINTER (temporary, for trying things out): step onto the paint mat and you get painted into your
-/// character's next class (e.g. lizard: Chameleon → Spitter → Tongue Master → Chameleon ...).
+/// A village painter: step onto the paint mat and you get painted into your character's next class
+/// (e.g. lizard: Chameleon → Spitter → Tongue Master → Chameleon ...).
 /// You have to stand on the mat for a moment, so walking across it in a fight doesn't repaint you.
-/// Step off and on again for the next one. Using it also unlocks everything bosses would unlock.
+/// Step off and on again for the next one.
 /// </summary>
 public partial class Painter : Node2D
 {
@@ -65,7 +64,6 @@ public partial class Painter : Node2D
             _onMatFor[hero.PlayerIndex] = _onMatFor.GetValueOrDefault(hero.PlayerIndex) + (float)delta;
             if (_onMatFor[hero.PlayerIndex] >= StandSeconds && _painted.Add(hero.PlayerIndex))
             {
-                Unlocks.UnlockEverything();
                 var classes = hero.ClassNames;
                 if (classes.Count < 2)
                 {
