@@ -33,8 +33,8 @@ public enum BombKind
 /// <summary>A thrown bomb: flies in an arc, lands, then (depending on its kind) waits and explodes.</summary>
 public partial class Bomb : Node2D
 {
-    private const string BombTexture = "res://assets/third_party/tiny_dungeon/Weapons/Bomb.png";
-    private const string LitStrip = "res://assets/third_party/tiny_dungeon/Weapons/Bomb_lighted.png";
+    private const string BombTexture = "res://assets/kenney/bomb.png";
+    private const string LitStrip = "res://assets/kenney/bomb_lit.png";
     private const float ArcHeight = 18f;
     private const float BlastSeconds = 0.35f;
     private const float ArmSeconds = 0.6f;
@@ -93,7 +93,7 @@ public partial class Bomb : Node2D
     public override void _Ready()
     {
         GlobalPosition = From;
-        var frames = SpriteSheet.Frames("fly", BombTexture, 12, 1);
+        var frames = SpriteSheet.Frames("fly", BombTexture, 16, 1);
         SpriteSheet.AddStrip(frames, "fuse", GD.Load<Texture2D>(LitStrip), 16, 8);
         _sprite = new AnimatedSprite2D { SpriteFrames = frames, Offset = new Vector2(0, -7), Modulate = Tint(Kind) };
         AddChild(_sprite);

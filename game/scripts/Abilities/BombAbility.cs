@@ -14,7 +14,7 @@ namespace LizardWizard.Abilities;
 /// </summary>
 public partial class BombAbility : Ability, IHasOptions
 {
-    private const string BombTexture = "res://assets/third_party/tiny_dungeon/Weapons/Bomb.png";
+    private const string BombTexture = "res://assets/kenney/bomb.png";
 
     /// <summary>Every bomb type, and which boss unlocks it (null = the fox has it from the start).
     /// Add new bombs here with the boss that drops them, e.g. "Giant Beetle".</summary>

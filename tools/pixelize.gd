@@ -1,5 +1,5 @@
 # Turns a big "pixel art" picture (e.g. a JPG on a dark background) into a small game sprite:
-# removes the background, shrinks it, snaps colours to the Tiny Dungeon palette and adds an outline.
+# removes the background, shrinks it, snaps colours to our palette (art-source/palette.png) and adds an outline.
 #
 # Usage (from the repo root):
 #   Godot_console.exe --headless --script tools/pixelize.gd -- <input> <output.png> <height> [dark_threshold]
@@ -7,7 +7,7 @@
 # <height> is the final sprite height in pixels, including the 1px outline.
 extends SceneTree
 
-const PALETTE := "game/assets/third_party/tiny_dungeon/Palette/rosyandblue.png"
+const PALETTE := "art-source/palette.png"
 const OUTLINE := Color8(20, 24, 46)
 
 

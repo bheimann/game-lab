@@ -10,13 +10,14 @@ namespace LizardWizard.Rooms;
 /// </summary>
 public partial class OutdoorBuilder : RoomBuilder
 {
-    private const string BushTexture = "res://assets/third_party/tiny_dungeon/Misc/Bush.png";
+    private const string BushTexture = "res://assets/kenney/bush.png";
     private const int Edge = 16; // the bush border
 
-    private static readonly Color Grass = new(0.78f, 0.81f, 0.37f);
-    private static readonly Color GrassDark = new(0.39f, 0.67f, 0.25f);
-    private static readonly Color Dirt = new(0.82f, 0.62f, 0.42f);
-    private static readonly Color DirtDark = new(0.66f, 0.45f, 0.33f);
+    // Kenney's Tiny Town colours, so the pond's grassy bank matches.
+    private static readonly Color Grass = Godot.Color.Color8(132, 198, 105);
+    private static readonly Color GrassDark = Godot.Color.Color8(101, 165, 86);
+    private static readonly Color Dirt = Godot.Color.Color8(234, 165, 108);
+    private static readonly Color DirtDark = Godot.Color.Color8(207, 130, 84);
 
     /// <summary>A dirt path through these points (relative to this node), drawn under everything.</summary>
     [Export] public Vector2[] PathPoints { get; set; } = System.Array.Empty<Vector2>();
@@ -72,7 +73,7 @@ public partial class OutdoorBuilder : RoomBuilder
         for (var x = 0f; x < size.X; x += 14)
         {
             DrawTexture(bush, new Vector2(x, 1));
-            DrawTexture(bush, new Vector2(x, size.Y - 14));
+            DrawTexture(bush, new Vector2(x, size.Y - 16));
         }
 
         for (var y = 12f; y < size.Y - 14; y += 12)

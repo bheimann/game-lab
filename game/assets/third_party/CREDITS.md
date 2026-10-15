@@ -4,7 +4,25 @@ This repo is private because these files can't be redistributed. Replace them be
 
 | File(s) | Source | License |
 |---|---|---|
-| `tiny_dungeon/` | *Tiny Dungeon Pack* by **Vryell** (itch.io, bought). Palette: *Rosy 42* by @PineTreePizza | No license file came with the pack. Credit is appreciated. |
+| `tiny_dungeon/` | *Tiny Dungeon Pack* by **Vryell** (itch.io, bought). No longer used by the game; to be deleted | No license file came with the pack. Credit is appreciated. |
+
+## Kenney (CC0)
+`assets/kenney/` is cut from Kenney's "Tiny" packs ([kenney.nl](https://www.kenney.nl), CC0: free for any use, credit
+appreciated but not required). The packs' tile sheets and licenses are in `art-source/kenney/`; rebuild with
+`python tools/kenney_art.py`, then `python tools/make_room_tileset.py`.
+
+| Pack | Used for |
+|---|---|
+| *Tiny Dungeon* | room walls and floors (recoloured per room), doors, the pit, treasure chests, the stairs down |
+| *Tiny Town* | bushes, signs, bombs, the key (recoloured gold) |
+| *Tiny Battle* | hearts, the pond |
+| *Tiny Farm* | crates, rock piles |
+| *Tiny Ski* | boulders |
+
+The lever, the torch and the sparks on lit bombs are drawn by Claude in `tools/kenney_art.py`, in Kenney's colours.
+
+## Palette
+Most of our own sprites use colours from *Rosy 42* by **@PineTreePizza** (`art-source/palette.png`).
 
 ## Our own art
 - `assets/sprites/chameleon/`: drawn by Claude as ASCII grids (`art-source/chameleon/*.txt`), based on

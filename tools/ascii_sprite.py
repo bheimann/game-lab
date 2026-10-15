@@ -5,7 +5,7 @@ The frames are laid out left to right in one PNG, ready for SpriteSheet.cs.
 
 usage: python tools/ascii_sprite.py <input.txt> <output.png>
 
-Colours (Tiny Dungeon palette):
+Colours (mostly the Rosy 42 palette by @PineTreePizza; art-source/palette.png has them all):
   .  transparent      o  outline (navy)    W  white
   L  light green      B  bright green      M  mid green      D  dark green
   Y  yellow           R  red / pink        P  pupil (navy)

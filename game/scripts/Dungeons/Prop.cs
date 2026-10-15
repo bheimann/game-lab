@@ -30,7 +30,7 @@ public partial class Prop : StaticBody2D
     {
         CollisionLayer = 1;
         CollisionMask = 0;
-        var texture = GD.Load<Texture2D>($"res://assets/third_party/tiny_dungeon/Misc/{Kind}.png");
+        var texture = GD.Load<Texture2D>($"res://assets/kenney/{Kind.ToString().ToLowerInvariant()}.png");
         AddChild(new Sprite2D { Texture = texture, Offset = new Vector2(0, -texture.GetHeight() / 2f + 1) });
         AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = new Vector2(12, 6) }, Position = new Vector2(0, -3) });
 

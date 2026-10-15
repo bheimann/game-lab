@@ -14,7 +14,7 @@ public enum RoomColor
 
 /// <summary>
 /// Builds a rectangular room of any size by stretching the room template drawn
-/// in the Tiny Dungeon tileset sheets. Positions are in 8px tiles.
+/// in the room sheets (made from Kenney's Tiny Dungeon by tools/kenney_art.py). Positions are in 8px tiles.
 ///
 /// Fills the child TileMapLayers "Floor" and "Walls" when the game starts, but only if
 /// they're empty, so a room painted by hand in the editor is left alone.
@@ -49,8 +49,8 @@ public partial class RoomBuilder : Node2D
 
     public int Rows => TopRows.Length + InteriorHeight + BottomRows.Length;
 
-    /// <summary>The Tiny Dungeon sheet this room's tiles come from (doors cut pieces out of it too).</summary>
-    public Texture2D Sheet => GD.Load<Texture2D>($"res://assets/third_party/tiny_dungeon/Tilesets/Room/Room_{Color.ToString().ToLowerInvariant()}.png");
+    /// <summary>The sheet this room's tiles come from (doors cut pieces out of it too).</summary>
+    public Texture2D Sheet => GD.Load<Texture2D>($"res://assets/kenney/rooms/room_{Color.ToString().ToLowerInvariant()}.png");
 
     public virtual Vector2 SizeInPixels =>
         new((InteriorWidth + 2) * TileSize, (TopRows.Length + InteriorHeight + BottomRows.Length) * TileSize);

@@ -12,9 +12,9 @@ namespace LizardWizard.UI;
 /// </summary>
 public partial class HeartBar : Control
 {
-    private const string HeartPath = "res://assets/third_party/tiny_dungeon/Misc/Heart.png";
+    private const string HeartPath = "res://assets/kenney/heart.png";
     private const int HpPerHeart = 2;
-    private const int HeartScale = 2;
+    private const int HeartScale = 1;
     private const int Gap = 2;
     private const int FontSize = 10;
     private const string HerbIcon = "res://assets/sprites/icons/herb.png";

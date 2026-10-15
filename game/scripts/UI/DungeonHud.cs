@@ -11,7 +11,7 @@ namespace LizardWizard.UI;
 /// </summary>
 public partial class DungeonHud : Control
 {
-    private const string KeyIcon = "res://assets/third_party/tiny_dungeon/Misc/Golden_key.png";
+    private const string KeyIcon = "res://assets/kenney/key.png";
     private static readonly Color Outline = new(0.08f, 0.09f, 0.18f);
 
     private Texture2D _key = null!;
@@ -48,7 +48,7 @@ public partial class DungeonHud : Control
         {
             var at = new Vector2(width / 2 - 18, 6);
             DrawRect(new Rect2(at - new Vector2(4, 2), new Vector2(44, 18)), Outline with { A = 0.7f });
-            DrawTextureRect(_key, new Rect2(at + new Vector2(0, 3), _key.GetSize() * 2 / 1.5f), false);
+            DrawTextureRect(_key, new Rect2(at + new Vector2(0, 1), _key.GetSize()), false);
             Text($"x{Dungeon.Keys}", at + new Vector2(20, 12), Colors.White, 10, left: true);
         }
 

@@ -12,7 +12,7 @@ public partial class LeverSwitch : Node2D, IHittable, ISwitch, Saving.ISaveable
 {
     public const string Group = "targets";
 
-    private const string Texture = "res://assets/third_party/tiny_dungeon/Misc/Switches/Switch_blue_orange.png";
+    private const string Texture = "res://assets/kenney/lever.png";
 
     private Sprite2D _sprite = null!;
 

@@ -1,0 +1,2 @@
+# Every colour tools/ascii_sprite.py knows, in one row. Render: python tools/ascii_sprite.py art-source/palette.txt art-source/palette.png
+oWLBMDYRGgbkFfnHhTtCcUuVvAEe
