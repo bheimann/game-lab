@@ -12,7 +12,6 @@ namespace LizardWizard.Util;
 /// the arrows) walk from the overworld into the first dungeon and play it to the boss by pressing the real keys. Each room has a
 /// little plan: fight, open the chest, walk through the right door, solve the lever puzzle (the fox bombs the rocks
 /// and flips that lever, the lizard tongues the lever across the pit), then beat the beetle.
-/// Once the first room is cleared, both bots use the test painter there to try every class (and end up back where they started).
 /// Logs what happens and saves a screenshot every 2 seconds (and on every new room) into the folder.
 /// </summary>
 public partial class DevDungeonAutoplay : Node
@@ -26,11 +25,6 @@ public partial class DevDungeonAutoplay : Node
     };
 
     private readonly HashSet<Key> _held = new();
-    private readonly int[] _paints = new int[2];
-    private readonly string?[] _lastClass = new string?[2];
-    private readonly bool[] _steppingOff = new bool[2];
-    private bool _paintTestDone;
-    private double _paintTestStart = -1;
     private string _folder = "";
     private double _time;
     private double _nextShot;
@@ -58,10 +52,6 @@ public partial class DevDungeonAutoplay : Node
             PressAt(wanted, _bots[1].Primary, 0.8);
             PressAt(wanted, _bots[1].Right, 1.1);
             PressAt(wanted, _bots[1].Primary, 1.4);
-        }
-        else if (lizard is not null && fox is not null && !_paintTestDone && room.IsCleared && room.Name == "Entrance")
-        {
-            PaintTest(new[] { lizard, fox }, wanted);
         }
         else if (lizard is not null && fox is not null)
         {
@@ -111,64 +101,6 @@ public partial class DevDungeonAutoplay : Node
             TakeShot(0);
             GetTree().CreateTimer(0.3).Timeout += () => GetTree().Quit();
             SetPhysicsProcess(false);
-        }
-    }
-
-    /// <summary>
-    /// Before setting off, each bot steps on and off the test painter's mat until it has been painted into every
-    /// one of its classes and is back to its starting class.
-    /// </summary>
-    private void PaintTest(Hero[] heroes, HashSet<Key> wanted)
-    {
-        var painter = GetTree().CurrentScene.FindChild("TestPainter", true, false) as Node2D;
-        if (_paintTestStart < 0)
-        {
-            _paintTestStart = _time;
-        }
-
-        if (painter is null || _time - _paintTestStart > 20)
-        {
-            GD.Print($"[dungeon {_time:0.0}s] painter test: gave up (painter found={painter is not null})");
-            _paintTestDone = true;
-            return;
-        }
-
-        var done = true;
-        for (var i = 0; i < heroes.Length; i++)
-        {
-            var hero = heroes[i];
-            if (hero.CurrentClass != _lastClass[i])
-            {
-                if (_lastClass[i] != null)
-                {
-                    _paints[i]++;
-                    GD.Print($"[dungeon {_time:0.0}s] painter test: {hero.Name} is now a {hero.CurrentClass} ({string.Join(", ", hero.Abilities.Select(a => a.Name))})");
-                    _steppingOff[i] = true;
-                }
-
-                _lastClass[i] = hero.CurrentClass;
-            }
-
-            if (_paints[i] >= hero.ClassNames.Count && hero.CurrentClass == hero.StartingClass)
-            {
-                continue;
-            }
-
-            done = false;
-            if (_steppingOff[i] && hero.GlobalPosition.DistanceTo(painter.GlobalPosition) > 20)
-            {
-                _steppingOff[i] = false;
-            }
-
-            // P1 steps off upward, P2 downward, so they don't block each other.
-            var target = _steppingOff[i] ? painter.GlobalPosition + new Vector2(0, i == 0 ? -26 : 26) : painter.GlobalPosition;
-            _bots[i].Steer(hero, target, wanted, slack: 2f, feet: true);
-        }
-
-        if (done)
-        {
-            GD.Print($"[dungeon {_time:0.0}s] painter test: done, back to {string.Join(" and ", heroes.Select(h => h.CurrentClass))}");
-            _paintTestDone = true;
         }
     }
 

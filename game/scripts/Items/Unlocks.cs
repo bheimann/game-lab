@@ -17,9 +17,8 @@ public static class Unlocks
     public const string LaterBoss = "a later boss";
 
     private static readonly HashSet<string> BossesBeaten = new();
-    private static bool _everything;
 
-    public static bool IsBeaten(string boss) => _everything || BossesBeaten.Contains(boss);
+    public static bool IsBeaten(string boss) => BossesBeaten.Contains(boss);
 
     public static IEnumerable<string> BeatenBosses => BossesBeaten;
 
@@ -29,9 +28,6 @@ public static class Unlocks
         BossesBeaten.Clear();
         BossesBeaten.UnionWith(bosses);
     }
-
-    /// <summary>Unlock it all, for trying things out (the test painter does this).</summary>
-    public static void UnlockEverything() => _everything = true;
 
     /// <summary>Call when a boss is beaten: unlocks its rewards and announces them over <paramref name="where"/>.</summary>
     public static void BossBeaten(Node2D where, string boss)

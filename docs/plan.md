@@ -106,7 +106,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Dodge for every hero (RT / Shift / Ctrl), with a short moment where nothing can hurt you.
 - ✅ 🛠 Three more playable heroes, warriors the team helped: moose, peacock (with a gun) and beetle.
 - ✅ 🛠 Classes: lizard (Chameleon, Tongue Master, Spitter) and fox (Bomb Master, Gun Master, Weapon Master),
-  with a temporary test painter in the dungeon's first room.
+  with a temporary test painter in the dungeon's first room (later replaced by the village painter).
 - ✅ 🛠 Elements: poison and fire hurt over time, ice slows, lightning and arcane hit harder.
 - ✅ 🛠 Bosses can unlock new bombs, weapons and guns (the boss drops are still to be designed).
 - ✅ 🛠 Enemies come back when you leave a room and return.

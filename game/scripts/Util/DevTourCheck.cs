@@ -9,7 +9,8 @@ namespace LizardWizard.Util;
 /// <summary>
 /// Dev helper for the overworld's areas: <c>-- --autoplay-tour=&lt;folder&gt;</c>. P1 joins (as the lizard) and walks
 /// out through every path between the areas, there and back (meadow, village, forest, tundra, swamp), checking each
-/// one lands in the right area. Logs each trip and saves a screenshot on arrival.
+/// one lands in the right area. In the village it also stands on the painter's mat and checks it gets painted.
+/// Logs each trip and saves a screenshot on arrival.
 /// </summary>
 public partial class DevTourCheck : Node
 {
@@ -19,6 +20,7 @@ public partial class DevTourCheck : Node
     private static readonly (string From, string Door, string To)[] Trips =
     {
         ("Overworld", "WestPath", "Village"),
+        ("Village", "Painter", "Village"),
         ("Village", "EastPath", "Overworld"),
         ("Overworld", "EastPath", "Forest"),
         ("Forest", "NorthPath", "Tundra"),
@@ -35,6 +37,7 @@ public partial class DevTourCheck : Node
     private int _trip;
     private int _passed;
     private int _shotNumber;
+    private string _classBefore = "";
 
     public static DevTourCheck Create(string folder) => new() { _folder = folder, ProcessPhysicsPriority = -20 };
 
@@ -62,6 +65,12 @@ public partial class DevTourCheck : Node
             }
 
             var since = _time - _tripStart;
+            if (doorName == "Painter")
+            {
+                Paint(hero, room, since);
+                return;
+            }
+
             var door = room.Name == from ? room.GetNodeOrNull<Door>(doorName) : null;
             if (room.Name == to && since > 0.5)
             {
@@ -102,6 +111,28 @@ public partial class DevTourCheck : Node
         {
             SetKey(key, wanted.Contains(key));
         }
+    }
+
+    /// <summary>Stand on the village painter's mat for a moment: the hero should get painted into its next class.</summary>
+    private void Paint(Actors.Hero hero, DungeonRoom room, double since)
+    {
+        var painter = room.GetNode<Node2D>("Painter");
+        if (since < 0.05)
+        {
+            _classBefore = hero.CurrentClass;
+        }
+
+        if (since < 1.5)
+        {
+            hero.Teleport(painter.GlobalPosition);
+            return;
+        }
+
+        var painted = hero.CurrentClass != _classBefore;
+        _passed += painted ? 1 : 0;
+        Log($"village painter: {_classBefore} -> {hero.CurrentClass} ({(painted ? "painted" : "NOT painted")})");
+        hero.Teleport(painter.GlobalPosition + new Vector2(0, 30));
+        Next();
     }
 
     private void Next()

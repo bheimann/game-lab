@@ -61,7 +61,7 @@ to **Tailspin Swamp** (murky ponds, bare trees, and another chest only a grapple
 **Classes (getting painted):** the lizard can be a **Chameleon** (camouflage, colour change), **Tongue Master**
 (stronger, longer tongue), **Spitter** (special button spits poison; LB / RB pick poison, fire, ice, lightning
 or arcane) or **Illusionist** (below). The fox can be a **Bomb Master**, **Gun Master** (shoots; LB / RB pick the
-element) or **Weapon Master** (below). For now there's a **test painter** in the dungeon's first room: stand on
+element) or **Weapon Master** (below). To change class, visit the **painter in Scalebrook Village**: stand on
 its mat for a moment to switch to your next class (step off and on again for the one after).
 
 **Weapon Master (fox):** LB / RB switch weapons. A attacks with the weapon (instead of biting), X does its trick:
@@ -129,8 +129,7 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   Add `--screenshot-world` to hide the HUD and menus, and `--room=PuzzleRoom` to start in another room.
 - `python tools/kenney_art.py` then `python tools/make_room_tileset.py` rebuild the world art from the Kenney packs.
 - `Godot_console.exe --path game -- --autoplay=<folder>` lets two bots (P1 on WASD as the lizard, P2 on the
-  arrows as the fox) play by pressing the real keys: they clear the meadow, go down the stairs, try every class at
-  the test painter, play the dungeon to the boss, and end up back outside. It logs everything and saves a
+  arrows as the fox) play by pressing the real keys: they clear the meadow, go down the stairs, play the dungeon to the boss, and end up back outside. It logs everything and saves a
   screenshot every 2 seconds.
 - In the test room (`res://scenes/rooms/test_room.tscn` before the `--`), add `--autoplay-pick=2,3` after the `--`
   to make the bots play other characters (0 lizard, 1 fox, 2 moose, 3 peacock, 4 beetle).
@@ -144,7 +143,7 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   `--room=Swamp` for the swamp's): the peacock can't walk over the water or round the side, grapples over to the chest
   and back, and lands back on the shore when stopped mid-flight.
 - `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
-  there and back, and checks each one leads to the right area.
+  there and back, and checks each one leads to the right area (and that the village painter paints you).
 - New overworld areas are `DungeonRoom`s with an `OutdoorBuilder` layout (Ground: meadow, forest, swamp or snow);
   a `Door` with Path on the area's edge makes a gap in the border, and `DirtPath` nodes draw extra paths.
 - Bot runs never touch the real save. Add `--save-file=user://test_save.json` to let them save to a test file.
