@@ -1,10 +1,6 @@
-# Third-party art
+# Art credits
 
-This repo is private because these files can't be redistributed. Replace them before making it public.
-
-| File(s) | Source | License |
-|---|---|---|
-| `tiny_dungeon/` | *Tiny Dungeon Pack* by **Vryell** (itch.io, bought). No longer used by the game; to be deleted | No license file came with the pack. Credit is appreciated. |
+Everything in this repo can be shared: it's either CC0 or our own. Paths are relative to `game/`.
 
 ## Kenney (CC0)
 `assets/kenney/` is cut from Kenney's "Tiny" packs ([kenney.nl](https://www.kenney.nl), CC0: free for any use, credit
