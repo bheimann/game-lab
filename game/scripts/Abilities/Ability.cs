@@ -48,6 +48,13 @@ public abstract partial class Ability : Node2D
     /// <summary>How fast the hero can walk while this ability is active (0 = rooted, 1 = full speed).</summary>
     public virtual float MoveFactor => 1f;
 
+    /// <summary>While active: the hero moves at this velocity (pixels per second) instead of walking (a roll, a grapple
+    /// zip). Null = walk normally.</summary>
+    public virtual Vector2? Motion => null;
+
+    /// <summary>While active: the hero can pass over pits and water (flying along a grapple line).</summary>
+    public virtual bool CrossesPits => false;
+
     /// <summary>Hides the hero from enemies (camouflage).</summary>
     public virtual bool HidesHero => false;
 
