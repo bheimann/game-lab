@@ -130,5 +130,18 @@ If you upgrade Godot, change the `Godot.NET.Sdk/4.7.2` version in the `.csproj` 
 - **Palette:** *Rosy 42* by **@PineTreePizza**
 - **Chameleon sprite:** pixelled by Claude from a Grok-generated reference
 
-Full details and licenses: [game/assets/third_party/CREDITS.md](game/assets/third_party/CREDITS.md).
+Full details and licenses: [game/assets/CREDITS.md](game/assets/CREDITS.md).
 The game will also get an in-game credits screen (milestone M6).
+
+## Running older commits
+Early versions used art we're not allowed to share, so it was taken out of the git history. To run a commit from
+before that art was replaced, add it back yourself (and don't commit it):
+
+- **Before "Replace the Tiny Dungeon art with Kenney's CC0 Tiny packs":** buy the *Tiny Dungeon Pack* by
+  [Vryell](https://vryell.itch.io) and unzip it into `game/assets/third_party/tiny_dungeon/`, so that you get
+  `game/assets/third_party/tiny_dungeon/Misc/`, `.../Tilesets/`, `.../Weapons/` and so on.
+- **Before "Replace the third-party deer art with our own walk cycle":** download
+  [*deer walk & running cycle*](https://babisaur.itch.io/assets) by babisaur and put its small walk strip
+  (8 frames of 40x42) in `game/assets/third_party/deer/` as `deer-walk-32x32.png`.
+
+Then open the project in Godot once so it imports the files.
