@@ -9,10 +9,11 @@ using LizardWizard.Players;
 namespace LizardWizard.Util;
 
 /// <summary>
-/// Dev helper for the overworld's secret chest: <c>-- --autoplay-grapple=&lt;folder&gt;</c>. P1 joins as the peacock
-/// (Grappler), stands south of the water, and the check makes sure that: walking can't get across, the grapple pulls
-/// it over to the chest (which opens), a zip interrupted over the water puts it back where it started, and the
-/// grapple brings it back to the near shore. Logs each result and saves screenshots into the folder.
+/// Dev helper for the grapple-only secret chests: <c>-- --autoplay-grapple=&lt;folder&gt;</c> checks the meadow's (add
+/// <c>--room=Swamp</c> for Tailspin Swamp's). P1 joins as the peacock (Grappler), stands on the near shore, and the check
+/// makes sure that: walking can't get across, the grapple pulls it over to the chest (which opens), a zip interrupted
+/// over the water puts it back where it started, the grapple brings it back to the near shore, and walking round the
+/// side (the hedge or rock wall) can't get in. Logs each result and saves screenshots into the folder.
 /// </summary>
 public partial class DevGrappleCheck : Node
 {
@@ -26,6 +27,14 @@ public partial class DevGrappleCheck : Node
     private Vector2 _from;
     private int _shotNumber;
 
+    /// <summary>Where each secret is: the chest, a spot on the near shore, which way is across the water, and a spot
+    /// beside the hedge / rock wall plus which way walks into it.</summary>
+    private static readonly Dictionary<string, (string Chest, Vector2 Shore, Vector2 Across, Vector2 Side, Vector2 Into)> Secrets = new()
+    {
+        ["Overworld"] = ("SecretChest", new Vector2(56, 112), Vector2.Up, new Vector2(124, 40), Vector2.Left),
+        ["Swamp"] = ("SecretChest1", new Vector2(840, 380), Vector2.Down, new Vector2(730, 470), Vector2.Right),
+    };
+
     public static DevGrappleCheck Create(string folder) => new() { _folder = folder, ProcessPhysicsPriority = -20 };
 
     public override void _PhysicsProcess(double delta)
@@ -35,8 +44,9 @@ public partial class DevGrappleCheck : Node
         var hero = PlayerManager.Find(this)!.Players[0];
         var room = Dungeon.Find(this)!.CurrentRoom;
         var since = _time - _stepStart;
-        Vector2 At(float x, float y) => room.GlobalPosition + new Vector2(x, y);
-        var chest = room.GetNode<TreasureChest>("SecretChest");
+        var secret = Secrets[room.Name];
+        Vector2 At(Vector2 p) => room.GlobalPosition + p;
+        var chest = room.GetNode<TreasureChest>(secret.Chest);
 
         switch (_step)
         {
@@ -47,26 +57,26 @@ public partial class DevGrappleCheck : Node
                 if (hero is not null && since > 1.6)
                 {
                     Log($"joined as {hero.DisplayName} ({hero.CurrentClass})");
-                    hero.Teleport(At(56, 112));
-                    hero.Face(Vector2.Up);
+                    hero.Teleport(At(secret.Shore));
+                    hero.Face(secret.Across);
                     Next();
                 }
 
                 break;
 
             case 1:
-                // Hold it there until the camera catches up (it keeps heroes on screen), then walk north into
-                // the water, which mustn't work.
+                // Hold it there until the camera catches up (it keeps heroes on screen), then walk into the water,
+                // which mustn't work.
                 if (since < 0.6)
                 {
-                    hero!.Teleport(At(56, 112));
+                    hero!.Teleport(At(secret.Shore));
                     break;
                 }
 
-                wanted.Add(Key.W);
+                Push(secret.Across, wanted);
                 if (since > 1.6)
                 {
-                    Log($"walking north: y {At(0, 112).Y - room.GlobalPosition.Y:0} -> {hero!.GlobalPosition.Y - room.GlobalPosition.Y:0} (water ends at y=88), chest opened={chest.IsOpened}");
+                    Log($"walking into the water: {secret.Shore:0} -> {hero!.GlobalPosition - room.GlobalPosition:0}, chest opened={chest.IsOpened}");
                     Next();
                 }
 
@@ -76,8 +86,8 @@ public partial class DevGrappleCheck : Node
                 if (since > 0.3)
                 {
                     _from = hero!.GlobalPosition;
-                    hero.Face(Vector2.Up);
-                    Log($"grapple north: started={hero.GetNode<Ability>("Grapple").TryUse()}");
+                    hero.Face(secret.Across);
+                    Log($"grapple across: started={hero.GetNode<Ability>("Grapple").TryUse()}");
                     Shot(0.25, "_flying");
                     Next();
                 }
@@ -88,7 +98,7 @@ public partial class DevGrappleCheck : Node
                 if (since > 1.2)
                 {
                     var p = hero!.GlobalPosition - room.GlobalPosition;
-                    Log($"after the grapple: at {p:0} (nook is y < 56), chest opened={chest.IsOpened}, over water={hero.OverPit(hero.GlobalPosition)}");
+                    Log($"after the grapple: at {p:0}, chest opened={chest.IsOpened}, over water={hero.OverPit(hero.GlobalPosition)}");
                     Shot(0, "_nook");
                     Next();
                 }
@@ -96,11 +106,11 @@ public partial class DevGrappleCheck : Node
                 break;
 
             case 4:
-                // Start back south, and get hit halfway over the water: should land back where it started.
+                // Start back, and get hit halfway over the water: should land back where it started.
                 if (since > 0.3)
                 {
                     _from = hero!.GlobalPosition;
-                    hero.Face(Vector2.Down);
+                    hero.Face(-secret.Across);
                     hero.GetNode<Ability>("Grapple").TryUse();
                     Next();
                 }
@@ -125,8 +135,8 @@ public partial class DevGrappleCheck : Node
             case 6:
                 if (since > 0.8)
                 {
-                    hero!.Face(Vector2.Down);
-                    Log($"grapple south: started={hero.GetNode<Ability>("Grapple").TryUse()}");
+                    hero!.Face(-secret.Across);
+                    Log($"grapple back: started={hero.GetNode<Ability>("Grapple").TryUse()}");
                     Next();
                 }
 
@@ -136,7 +146,7 @@ public partial class DevGrappleCheck : Node
                 if (since > 1.2)
                 {
                     var p = hero!.GlobalPosition - room.GlobalPosition;
-                    Log($"after the grapple back: at {p:0} (near shore is y > 88), over water={hero.OverPit(hero.GlobalPosition)}");
+                    Log($"after the grapple back: at {p:0} (the shore spot was {secret.Shore:0}), over water={hero.OverPit(hero.GlobalPosition)}");
                     Shot(0, "_back");
                     Next();
                 }
@@ -144,16 +154,17 @@ public partial class DevGrappleCheck : Node
                 break;
 
             case 8:
-                // The hedge: walking round the east side mustn't get in either.
-                if (since < 0.1)
+                // The hedge / rock wall: walking round the side mustn't get in either.
+                if (since < 0.6)
                 {
-                    hero!.Teleport(At(124, 40));
+                    hero!.Teleport(At(secret.Side));
+                    break;
                 }
 
-                wanted.Add(Key.A);
-                if (since > 1.2)
+                Push(secret.Into, wanted);
+                if (since > 1.8)
                 {
-                    Log($"walking west into the hedge: x 124 -> {hero!.GlobalPosition.X - room.GlobalPosition.X:0} (hedge at x=104)");
+                    Log($"walking into the side wall: {secret.Side:0} -> {hero!.GlobalPosition - room.GlobalPosition:0}");
                     Next();
                 }
 
@@ -172,6 +183,14 @@ public partial class DevGrappleCheck : Node
         }
 
         bool Press(double at) => since >= at && since < at + 0.1;
+    }
+
+    private static void Push(Vector2 direction, HashSet<Key> wanted)
+    {
+        if (direction.X > 0.5f) wanted.Add(Key.D);
+        if (direction.X < -0.5f) wanted.Add(Key.A);
+        if (direction.Y > 0.5f) wanted.Add(Key.S);
+        if (direction.Y < -0.5f) wanted.Add(Key.W);
     }
 
     private void Next()

@@ -75,6 +75,16 @@ public partial class Door : Node2D, Saving.ISaveable
     /// </summary>
     [Export] public bool Stairs { get; set; }
 
+    /// <summary>
+    /// Not in a wall: a gap in an outdoor area's border (see <see cref="OutdoorBuilder"/>) where a path leads on to
+    /// the next area. Place it on the area's outer edge on its <see cref="Side"/>; walk out through the gap to go
+    /// through. Always open.
+    /// </summary>
+    [Export] public bool Path { get; set; }
+
+    /// <summary>How wide a <see cref="Path"/> gap is, in pixels.</summary>
+    public const float PathWidth = 32f;
+
     /// <summary>The door on the other side.</summary>
     [Export] public NodePath? LeadsTo { get; set; }
 
@@ -85,7 +95,7 @@ public partial class Door : Node2D, Saving.ISaveable
     public Door? Partner => LeadsTo is null || LeadsTo.IsEmpty ? null : GetNodeOrNull<Door>(LeadsTo);
 
     /// <summary>Where heroes appear when they come through this door from the other side (global).</summary>
-    public Vector2 EntryPoint => GlobalPosition + (Stairs ? new Vector2(0, 16) : Side switch
+    public Vector2 EntryPoint => GlobalPosition + (Stairs ? new Vector2(0, 16) : Path ? -Outward * 36f : Side switch
     {
         DoorSide.Top => new Vector2(0, 46),
         DoorSide.Bottom => new Vector2(0, -12),
@@ -110,10 +120,15 @@ public partial class Door : Node2D, Saving.ISaveable
         var layout = room.Layout;
         ZIndex = -1; // part of the wall (or the ground): behind everyone
 
-        if (Stairs)
+        if (Stairs || Path)
         {
+            // Stand where placed; always open. (A path is just a gap the outdoor layout leaves in its border.)
             State = DoorState.Open;
-            AddChild(new Sprite2D { Texture = GD.Load<Texture2D>(StairsTexture), Position = new Vector2(0, -8) });
+            if (Stairs)
+            {
+                AddChild(new Sprite2D { Texture = GD.Load<Texture2D>(StairsTexture), Position = new Vector2(0, -8) });
+            }
+
             Block(Vector2.Zero, Vector2.One);
             Refresh();
             return;
@@ -223,6 +238,14 @@ public partial class Door : Node2D, Saving.ISaveable
             return Mathf.Abs(offset.X) < 7 && offset.Y is > -14 and < 2;
         }
 
+        if (Path)
+        {
+            // Out in the gap, close to the edge of the area.
+            var along = Side is DoorSide.Top or DoorSide.Bottom ? offset.X : offset.Y;
+            var into = offset.Dot(-Outward);
+            return Mathf.Abs(along) < PathWidth / 2 && into < 15;
+        }
+
         return Side switch
         {
             DoorSide.Top => Mathf.Abs(offset.X) < 9 && offset.Y < 24,
@@ -235,7 +258,7 @@ public partial class Door : Node2D, Saving.ISaveable
     public override void _Draw()
     {
         // Side doors have no closed-door art in the tileset: draw a plain wooden door.
-        if (IsOpen || Side is DoorSide.Top or DoorSide.Bottom)
+        if (IsOpen || Path || Side is DoorSide.Top or DoorSide.Bottom)
         {
             return;
         }

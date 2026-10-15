@@ -53,6 +53,11 @@ yellow: that's its kick coming. Works even with the ring menu open.
   mid-flight over water, you land back where you started. Its other class, **Warrior**, shoots a plain gun.
 - **Secret:** in Scalebrook Meadow's top-left corner there's a chest across the water that only a grapple can reach.
 
+**The overworld:** Scalebrook Meadow is in the middle, with paths out through gaps in the bushes (signs show the way):
+west to **Scalebrook Village** (houses and the village painter, no enemies), east to **Antlerwood Forest** (thick
+trees, deer, a chest in a clearing) and on north to **Frosttail Tundra** (snow, snowmen, a frozen lake), and south
+to **Tailspin Swamp** (murky ponds, bare trees, and another chest only a grapple can reach).
+
 **Classes (getting painted):** the lizard can be a **Chameleon** (camouflage, colour change), **Tongue Master**
 (stronger, longer tongue), **Spitter** (special button spits poison; LB / RB pick poison, fire, ice, lightning
 or arcane) or **Illusionist** (below). The fox can be a **Bomb Master**, **Gun Master** (shoots; LB / RB pick the
@@ -135,9 +140,13 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   stampede, totem healing, treant drawing the deer).
   `--autoplay-pick=4,3 "--autoplay-classes=Roller,Grappler"` checks the beetle (roll, shell, tough shell, bounce)
   and the peacock (fire feathers, grapple pull, rocket, zip to a wall).
-- `Godot_console.exe --path game -- --autoplay-grapple=<folder>` checks the meadow's secret chest: the peacock
-  can't walk over the water or through the hedge, grapples over to the chest and back, and lands back on the shore
-  when stopped mid-flight.
+- `Godot_console.exe --path game -- --autoplay-grapple=<folder>` checks the meadow's secret chest (add
+  `--room=Swamp` for the swamp's): the peacock can't walk over the water or round the side, grapples over to the chest
+  and back, and lands back on the shore when stopped mid-flight.
+- `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
+  there and back, and checks each one leads to the right area.
+- New overworld areas are `DungeonRoom`s with an `OutdoorBuilder` layout (Ground: meadow, forest, swamp or snow);
+  a `Door` with Path on the area's edge makes a gap in the border, and `DirtPath` nodes draw extra paths.
 - Bot runs never touch the real save. Add `--save-file=user://test_save.json` to let them save to a test file.
 - `Godot_console.exe --path game res://scenes/rooms/test_room.tscn -- --autoplay=<folder>` runs the test-room bots
   instead: they join and pick characters, test camouflage and colour change, test leaving mid-chase, use the ring

@@ -86,6 +86,11 @@ public partial class DevAutoplay : Node
                 parent.AddChild(DevGrappleCheck.Create(arg[DevGrappleCheck.Flag.Length..]));
             }
 
+            if (arg.StartsWith(DevTourCheck.Flag))
+            {
+                parent.AddChild(DevTourCheck.Create(arg[DevTourCheck.Flag.Length..]));
+            }
+
             if (arg.StartsWith(Flag))
             {
                 // Dungeons get their own script; the test room gets this one.

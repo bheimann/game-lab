@@ -159,7 +159,7 @@ public partial class Dungeon : Node
         // Bombs and smoke stay behind in the old room.
         var heroes = Heroes();
         var actors = heroes.FirstOrDefault()?.GetParent();
-        foreach (var leftover in actors?.GetChildren().Where(c => c is Bomb or SmokeCloud or Lure or Bullet) ?? Enumerable.Empty<Node>())
+        foreach (var leftover in actors?.GetChildren().Where(c => c is Bomb or SmokeCloud or Lure or Bullet or Stampede) ?? Enumerable.Empty<Node>())
         {
             leftover.QueueFree();
         }
@@ -186,8 +186,9 @@ public partial class Dungeon : Node
             CurrentRoom.Visited = true;
             Hud.ShowBanner(CurrentRoom.Area, CurrentRoom.Title, 3f);
         }
-        else if (!CurrentRoom.Visited)
+        else if (!CurrentRoom.Visited || CurrentRoom.Area == "")
         {
+            // A dungeon room's name shows the first time; an overworld area's name shows every time you walk in.
             CurrentRoom.Visited = true;
             if (CurrentRoom.Title != "")
             {

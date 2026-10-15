@@ -117,7 +117,9 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Beetle **Roller** class (roll, shell block, tough shell) and peacock **Grappler** class (elemental
   feathers, grapple gun, RPG), plus a secret chest in the meadow that only the grapple reaches.
 - ✅ 🛠 Moose **Summoner** class: six light summons on X, treant or stampede on Y (B switches), up to 4 at once.
-- 🦎 Design the boss drops and what's next in the overworld.
+- ✅ 🛠 A bigger overworld: Scalebrook Village (with a painter), Antlerwood Forest, Frosttail Tundra and Tailspin
+  Swamp around the meadow, joined by paths.
+- 🦎 Design the boss drops and what goes in the new areas.
 
 ## Later (once the first dungeon is fun)
 More lizards so there are four, more of the overworld, levelling up,

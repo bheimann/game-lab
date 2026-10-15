@@ -11,11 +11,23 @@ public enum PropKind
     Rock2,
     Sign,
     Box,
+    Tree,
+    TreeAutumn,
+    SmallTree,
+    Pine,
+    SnowPine,
+    DeadTree,
+    Mushroom,
+    Snowman,
+    Fence,
+    HouseBlue,
+    HouseRed,
 }
 
 /// <summary>
-/// Something solid that just stands there: a bush, a rock, a crate, a sign. The node's position is where it
-/// touches the ground. A sign with <see cref="Text"/> shows it when a hero walks up to it.
+/// Something solid that just stands there: a bush, a rock, a crate, a sign, a tree, a house. The node's position is
+/// where it touches the ground (the middle of the bottom edge). Only the bottom is solid, so heroes can walk behind
+/// tall things. A sign with <see cref="Text"/> shows it when a hero walks up to it.
 /// </summary>
 public partial class Prop : StaticBody2D
 {
@@ -36,7 +48,8 @@ public partial class Prop : StaticBody2D
         CollisionMask = 0;
         var texture = GD.Load<Texture2D>($"res://assets/kenney/{Kind.ToString().ToLowerInvariant()}.png");
         AddChild(new Sprite2D { Texture = texture, Offset = new Vector2(0, -texture.GetHeight() / 2f + 1) });
-        AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = new Vector2(12, 6) }, Position = new Vector2(0, -3) });
+        var solid = SolidSize(Kind);
+        AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = solid }, Position = new Vector2(0, -solid.Y / 2) });
 
         if (Text != "")
         {
@@ -53,6 +66,17 @@ public partial class Prop : StaticBody2D
             AddChild(_label);
         }
     }
+
+    /// <summary>The solid part at the bottom of each kind.</summary>
+    private static Vector2 SolidSize(PropKind kind) => kind switch
+    {
+        PropKind.Tree or PropKind.TreeAutumn or PropKind.Pine or PropKind.SnowPine or PropKind.DeadTree => new Vector2(8, 5),
+        PropKind.SmallTree or PropKind.Mushroom => new Vector2(8, 4),
+        PropKind.Snowman => new Vector2(10, 5),
+        PropKind.Fence => new Vector2(40, 4),
+        PropKind.HouseBlue or PropKind.HouseRed => new Vector2(62, 20),
+        _ => new Vector2(12, 6),
+    };
 
     public override void _PhysicsProcess(double delta)
     {
