@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
 [ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="2_melee"]
+[ext_resource type="Script" path="res://scripts/Abilities/RollAbility.cs" id="3_roll"]
+[ext_resource type="Script" path="res://scripts/Abilities/ShieldAbility.cs" id="4_shield"]
+[ext_resource type="Script" path="res://scripts/Abilities/ToughnessAbility.cs" id="5_tough"]
 
 [node name="Beetle" type="CharacterBody2D"]
 collision_layer = 2
@@ -9,7 +12,7 @@ collision_mask = 1
 motion_mode = 1
 script = ExtResource("1_hero")
 DisplayName = "Beetle"
-StartingClass = "Warrior"
+StartingClass = "Roller"
 SpritePrefix = "res://assets/sprites/beetle/beetle"
 SideFrameWidth = 20
 Speed = 68.0
@@ -21,3 +24,24 @@ CooldownSeconds = 0.25
 Damage = 4
 Reach = 12.0
 FlashColour = Color(0.6, 0.75, 1, 1)
+
+[node name="Roll" type="Node2D" parent="."]
+script = ExtResource("3_roll")
+Slot = 1
+Classes = "Roller"
+CooldownSeconds = 0.9
+Colour = Color(0.5, 0.33, 0.78, 1)
+
+[node name="ShellShield" type="Node2D" parent="."]
+script = ExtResource("4_shield")
+Slot = 2
+Classes = "Roller"
+CooldownSeconds = 0.6
+BlockSeconds = 0.8
+MoveFactorWhileUp = 0.0
+Shell = true
+ShellColour = Color(0.5, 0.33, 0.78, 1)
+
+[node name="ToughShell" type="Node2D" parent="."]
+script = ExtResource("5_tough")
+Classes = "Roller"

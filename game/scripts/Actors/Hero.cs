@@ -221,6 +221,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         var dt = (float)delta;
         _invulnerable -= dt;
         _dodgeCooldown -= dt;
+        CollisionMask |= Pit.PitLayer; // only a grapple line carries the hero over pits (see below)
 
         if (_down)
         {
@@ -281,11 +282,17 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         var walking = move.Length() > 0.2f;
         StillSeconds = walking || active is not null ? 0 : StillSeconds + dt;
 
-        Velocity = move * Speed + _knockback;
+        // Rolls and grapple zips move the hero themselves; a grapple line also carries it over pits.
+        if (active?.CrossesPits == true)
+        {
+            CollisionMask &= ~Pit.PitLayer;
+        }
+
+        Velocity = (active?.Motion ?? move * Speed) + _knockback;
         _knockback = _knockback.MoveToward(Vector2.Zero, 600f * dt);
         MoveAndSlide();
         StayOnScreen();
-        UpdateLook(walking);
+        UpdateLook(walking || active?.Motion is not null);
     }
 
     /// <summary>Get painted into another class: its abilities switch on, the others switch off.</summary>
@@ -366,6 +373,11 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         _spawnPoint = position;
         _knockback = Vector2.Zero;
         _dodgeTime = -1f;
+        foreach (var ability in _abilities)
+        {
+            ability.Cancel();
+        }
+
         Facing = facing;
         ResetPhysicsInterpolation();
     }
@@ -375,6 +387,35 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     {
         var query = PhysicsRayQueryParameters2D.Create(from, to, collisionMask: 1);
         return GetWorld2D().DirectSpaceState.IntersectRay(query).Count == 0;
+    }
+
+    /// <summary>Turn to face <paramref name="direction"/> (snapped to 8 directions), e.g. the way a roll is going.</summary>
+    public void Face(Vector2 direction)
+    {
+        if (direction != Vector2.Zero)
+        {
+            Facing = Vector2.Right.Rotated(Mathf.Snapped(direction.Angle(), Mathf.Pi / 4));
+        }
+    }
+
+    /// <summary>Would the hero's feet overlap a pit or water if they stood at <paramref name="feet"/>?</summary>
+    public bool OverPit(Vector2 feet)
+    {
+        var query = new PhysicsShapeQueryParameters2D
+        {
+            Shape = new RectangleShape2D { Size = new Vector2(10, 6) },
+            Transform = new Transform2D(0, feet + new Vector2(0, -3)),
+            CollisionMask = Pit.PitLayer,
+        };
+        return GetWorld2D().DirectSpaceState.IntersectShape(query, 1).Count > 0;
+    }
+
+    /// <summary>Put the hero somewhere at once (a grapple that went wrong puts it back where it started).</summary>
+    public void Teleport(Vector2 feet)
+    {
+        GlobalPosition = feet;
+        _knockback = Vector2.Zero;
+        ResetPhysicsInterpolation();
     }
 
     /// <summary>Eat a healing herb, if there's one left and it would help.</summary>
