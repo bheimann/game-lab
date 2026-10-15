@@ -510,6 +510,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
                 AbilitySlot.Primary => Controls.PrimaryPressed,
                 AbilitySlot.Secondary => Controls.SecondaryPressed,
                 AbilitySlot.Special => Controls.SpecialPressed,
+                AbilitySlot.Item => Controls.ItemPressed,
                 _ => false,
             };
             if (pressed)
@@ -524,7 +525,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             quick.Select(quick.Selected + (Controls.NextPressed ? 1 : -1));
         }
 
-        if (Controls.ItemPressed)
+        if (Controls.ItemPressed && !_abilities.Any(a => a.Slot == AbilitySlot.Item))
         {
             UseHerb();
         }

@@ -19,6 +19,10 @@ public enum AbilitySlot
 
     /// <summary>No button: always on (e.g. camouflage).</summary>
     Passive,
+
+    /// <summary>B on a controller, I / M on the keyboard (normally "eat a herb"; a class that uses it eats herbs
+    /// from the ring menu instead).</summary>
+    Item,
 }
 
 /// <summary>

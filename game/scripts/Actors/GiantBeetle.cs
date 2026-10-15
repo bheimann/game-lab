@@ -259,6 +259,11 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, Sa
             {
                 hero.TakeHit(PinchDamage, GlobalPosition);
             }
+
+            foreach (var summon in Enemies.Summons(GetTree()).Where(s => s.HurtCenter.DistanceTo(HurtCenter) < HurtRadius + s.HurtRadius + 8f).ToList())
+            {
+                summon.TakeHit(PinchDamage, GlobalPosition);
+            }
         }
 
         if (_time >= 0.7f)
@@ -285,6 +290,12 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, Sa
         foreach (var hero in Heroes().Where(h => h.CanBeHit && h.HurtCenter.DistanceTo(HurtCenter) < HurtRadius + h.HurtRadius))
         {
             hero.TakeHit(ChargeDamage, GlobalPosition - _chargeDirection * 10f);
+        }
+
+        // Summoned creatures in the way get trampled too (they're briefly unhurtable after a hit, like heroes).
+        foreach (var summon in Enemies.Summons(GetTree()).Where(s => s.HurtCenter.DistanceTo(HurtCenter) < HurtRadius + s.HurtRadius).ToList())
+        {
+            summon.TakeHit(ChargeDamage, GlobalPosition - _chargeDirection * 10f);
         }
 
         if (_time > 1.6f)

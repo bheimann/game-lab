@@ -35,7 +35,14 @@ The lizard also hides (camouflage) by standing still for a moment. Its tongue st
 yellow: that's its kick coming. Works even with the ring menu open.
 
 **More heroes (warriors you helped):** the **moose** (slow, tough, big antler bash), the **peacock** and the
-**beetle**. The moose has only its primary attack and the dodge for now.
+**beetle**.
+- The **moose** is a **Summoner**: A antler bash, X summons a small creature (LB / RB pick: **squirrel swarm**,
+  **spirit wolf**, **bee swarm** (poison), **owl** (swoops), **element wisps** (zap from a distance) or **antler
+  totem** (heals heroes next to it)), Y summons a big one, and **B switches** the big one: the **treant** (a tough
+  walking tree enemies go for first) or the **stampede** (ghost deer charge across, hitting everything). Each
+  summon has a wait before the next one. Up to 4 creatures at once (a new one sends the oldest away); they fight
+  the enemy the moose hit last, follow it through doors, and stay until they're beaten. The Summoner eats herbs from
+  the ring menu (Start), since B switches the big summon.
 - The **beetle** starts as a **Roller**: A horn jab, X **rolls** (a fast ball that rams enemies and bounces off
   walls; steer it a little; hits hurt half as much while rolling), Y **hides in its shell** (blocks every hit for a
   moment), and its tough shell always makes hits hurt less. Its other class, **Warrior**, just jabs.
@@ -124,6 +131,8 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   to make the bots play other characters (0 lizard, 1 fox, 2 moose, 3 peacock, 4 beetle).
 - Add `"--autoplay-classes=Illusionist,Weapon Master"` (test room) to paint the bots into those classes and run a
   scripted check of their moves first (block, javelin, spin, explosive arrow, charm, clones, tail decoy).
+  `--autoplay-pick=2,1 --autoplay-classes=Summoner` checks the moose's summons (wait, limit of 4, B switch,
+  stampede, totem healing, treant drawing the deer).
   `--autoplay-pick=4,3 "--autoplay-classes=Roller,Grappler"` checks the beetle (roll, shell, tough shell, bounce)
   and the peacock (fire feathers, grapple pull, rocket, zip to a wall).
 - `Godot_console.exe --path game -- --autoplay-grapple=<folder>` checks the meadow's secret chest: the peacock

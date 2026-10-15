@@ -75,12 +75,12 @@ how they look, so you can tell classes apart at a glance.
 |---|---|---|---|
 | **Lizard** | Lizard | Chameleon | **First** |
 | **Fox** (red fox) | Fox | Bomb Master | **Second** |
-| **Moose** | Deer | Warrior | Playable; classes to design |
+| **Moose** | Deer | **Summoner** | Playable; more classes to design |
 | **Peacock** | Bird | **Grappler** (also Warrior, with a gun) | Playable; more classes to design |
 | **Beetle** | Bug | **Roller** (also Warrior) | Playable; more classes to design |
 
 - **The moose, peacock and beetle are warriors the heroes helped:** animals freed from Mossimus's trick who
-  join the team. The moose has one attack plus the dodge for now; the designer will come up with its classes.
+  join the team.
 - **Every hero can dodge:** a quick dash you can't be hurt during (RT / Shift / Ctrl).
 
 ### Lizard
@@ -98,6 +98,23 @@ it **sticks to enemies and pulls them in**, though bosses are too heavy; also a 
 - **Armor** can still change how a class works, e.g. *shadow armor* lets a chameleon stay invisible while moving.
 - Earlier species ideas (gecko wall-climbing, frilled-lizard scare, komodo tank, basilisk water-running,
   horned-lizard spikes) could become later classes or friendly lizards in the kingdom.
+
+### Moose
+**Summoner** (starting class): A antler bash. **X** summons a light creature (LB / RB pick which), **Y** summons a
+heavy one, **B** switches the heavy one (herbs come from the ring menu instead: press Start).
+Each summon has its own wait (cooldown). Up to **4** at once; a new one sends the oldest away. They stay until
+they're beaten (enemies can hurt them), go after the enemy the moose hit last, and follow it through doors.
+
+| Summon | Type | What it does | Wait |
+|---|---|---|---|
+| **Squirrel swarm** | Light | Fast little nibbles | 3 s |
+| **Spirit wolf** | Light | Runs at enemies and bites hard | 4 s |
+| **Bee swarm** | Light | Flies, stings with poison | 3 s |
+| **Owl** | Light | Circles the moose and swoops at enemies | 4 s |
+| **Element wisps** | Light | Zap enemies from a distance: fire, ice, lightning, arcane in turn | 4 s |
+| **Antler totem** | Light | Stays put and heals heroes standing next to it | 10 s |
+| **Treant** | Heavy | A big, tough walking tree; enemies go for it first | 15 s |
+| **Stampede** | Heavy | Ghost deer charge across, hitting every enemy in the way, then fade | 12 s |
 
 ### Beetle
 | Class | What it does |
@@ -168,7 +185,7 @@ decides which skills it has. The paint also changes how the fox looks, so each m
 - **Elements:** are elemental versions of weapons and bombs unlocked by bosses too?
 - **The overworld:** what else is in Scalebrook Meadow, and where do the paths lead next (the village, Tailspin Swamp)?
 - **Boss drops:** which new bomb, weapon or gun does each boss drop?
-- **Moose:** its classes, and its second and special buttons. **Peacock and beetle:** more classes? What should the Warrior classes become?
+- **Moose, peacock and beetle:** more classes? What should the peacock and beetle Warrior classes become?
 - **Items and armor:** what else goes in the menu? (So far: healing herb, shadow cloak, ember scales, bomb vest, sturdy vest.)
 - **Combos:** which element orders make which combos?
 - **The first dungeon:** its name ("The Old Burrow" for now), the rooms, the puzzles and the boss are all placeholders to change.

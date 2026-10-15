@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
 [ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="2_melee"]
+[ext_resource type="Script" path="res://scripts/Abilities/SummonAbility.cs" id="3_summon"]
+[ext_resource type="Script" path="res://scripts/Abilities/CycleOptionsAbility.cs" id="4_cycle"]
 
 [node name="Moose" type="CharacterBody2D"]
 collision_layer = 2
@@ -9,7 +11,7 @@ collision_mask = 1
 motion_mode = 1
 script = ExtResource("1_hero")
 DisplayName = "Moose"
-StartingClass = "Warrior"
+StartingClass = "Summoner"
 SpritePrefix = "res://assets/sprites/moose/moose"
 SideFrameWidth = 20
 Speed = 62.0
@@ -24,3 +26,21 @@ Radius = 10.0
 ActiveSeconds = 0.3
 MoveFactorWhileActive = 0.15
 FlashColour = Color(0.93, 0.85, 0.6, 1)
+
+[node name="LightSummon" type="Node2D" parent="."]
+script = ExtResource("3_summon")
+Slot = 1
+Classes = "Summoner"
+
+[node name="HeavySummon" type="Node2D" parent="."]
+script = ExtResource("3_summon")
+Slot = 2
+Classes = "Summoner"
+Summons = "Treant, Stampede"
+OptionsTitle = "Big Summons"
+
+[node name="HeavySwitch" type="Node2D" parent="."]
+script = ExtResource("4_cycle")
+Slot = 4
+Classes = "Summoner"
+Target = NodePath("../HeavySummon")

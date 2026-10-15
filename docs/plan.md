@@ -116,7 +116,8 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Saving: the game saves by itself and picks up where you left off; hold N for a new game.
 - ✅ 🛠 Beetle **Roller** class (roll, shell block, tough shell) and peacock **Grappler** class (elemental
   feathers, grapple gun, RPG), plus a secret chest in the meadow that only the grapple reaches.
-- 🦎 Design the boss drops, the moose classes, and what's next in the overworld.
+- ✅ 🛠 Moose **Summoner** class: six light summons on X, treant or stampede on Y (B switches), up to 4 at once.
+- 🦎 Design the boss drops and what's next in the overworld.
 
 ## Later (once the first dungeon is fun)
 More lizards so there are four, more of the overworld, levelling up,
