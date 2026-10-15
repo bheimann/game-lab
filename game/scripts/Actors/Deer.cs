@@ -440,7 +440,8 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnem
         _sprite.Scale = CurrentMood == Mood.Asleep ? new Vector2(1f, 0.85f) : Vector2.One;
     }
 
-    /// <summary>What to go after: charmed, the nearest other deer; otherwise a decoy in sight, then a hero in sight.</summary>
+    /// <summary>What to go after: charmed, the nearest other deer; otherwise a decoy in sight, then the nearest hero
+    /// or summoned creature in sight.</summary>
     private IEnemyTarget? FindTarget()
     {
         if (IsCharmed)
@@ -452,8 +453,10 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnem
         }
 
         return FindLure() ?? Lizards()
-            .Where(l => l.IsVisibleToEnemies && l.GlobalPosition.DistanceTo(GlobalPosition) <= SightRange)
-            .OrderBy(l => l.GlobalPosition.DistanceTo(GlobalPosition))
+            .Where(l => l.IsVisibleToEnemies).Cast<IEnemyTarget>()
+            .Concat(Enemies.Summons(GetTree()))
+            .Where(t => t.GlobalPosition.DistanceTo(GlobalPosition) <= SightRange)
+            .OrderBy(t => t.GlobalPosition.DistanceTo(GlobalPosition))
             .FirstOrDefault();
     }
 

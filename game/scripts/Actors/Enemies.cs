@@ -70,6 +70,12 @@ public static class Enemies
     /// <summary>Decoys (clones, a dropped tail): enemies go after these before heroes.</summary>
     public const string LureGroup = "lures";
 
+    /// <summary>Creatures the moose summons: enemies go after them like heroes (whichever is closest).</summary>
+    public const string SummonGroup = "summons";
+
+    public static IEnumerable<IEnemyTarget> Summons(SceneTree tree) =>
+        tree.GetNodesInGroup(SummonGroup).OfType<IEnemyTarget>().Where(s => s.IsTargetable);
+
     public static IEnumerable<IEnemyTarget> Lures(SceneTree tree) =>
         tree.GetNodesInGroup(LureGroup).OfType<IEnemyTarget>().Where(l => l.IsTargetable);
 

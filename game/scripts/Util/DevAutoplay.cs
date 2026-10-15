@@ -45,6 +45,7 @@ public partial class DevAutoplay : Node
     private int _abilityHp2;
     private Vector2 _abilityPos;
     private int _rollerStage;
+    private Deer? _summonTarget;
     private int _rollerNextStep;
     private double _time;
     private double _nextShot;
@@ -181,8 +182,11 @@ public partial class DevAutoplay : Node
 
                 if (_gearSpottedAt < 0)
                 {
-                    var nearest = deer.Where(d => d.IsHostile).OrderBy(d => d.GlobalPosition.DistanceTo(lizard.GlobalPosition)).First();
-                    _bots[0].Steer(lizard, nearest.HurtCenter, wanted);
+                    var nearest = deer.Where(d => d.IsHostile).OrderBy(d => d.GlobalPosition.DistanceTo(lizard.GlobalPosition)).FirstOrDefault();
+                    if (nearest is not null)
+                    {
+                        _bots[0].Steer(lizard, nearest.HurtCenter, wanted);
+                    }
                 }
                 else
                 {
@@ -378,6 +382,90 @@ public partial class DevAutoplay : Node
     /// (Written for P1 = Illusionist, P2 = Weapon Master.)
     /// </summary>
     /// <summary>
+    /// The moose's Summoner class: summon the wolf (and check the wait before the next one), add squirrels, bees and
+    /// an owl, watch them fight the deer the moose hit, check that a fifth summon sends the oldest away, switch the
+    /// big summon with B's ability and stampede a deer, then check the totem heals and the treant draws the deer.
+    /// </summary>
+    private void SummonerTest(Hero p1, List<Deer> deer, int step, System.Action<Deer, Hero, float> place, System.Func<Hero, string, Ability> ability)
+    {
+        var light = (SummonAbility)ability(p1, "LightSummon");
+        var heavy = (SummonAbility)ability(p1, "HeavySummon");
+        void Log(string text) => GD.Print($"[autoplay {_time:0.0}s] summoner test: {text}");
+        string Out() => string.Join(", ", Summon.Of(p1).Select(s => $"{s.Kind}"));
+        void Add(SummonKind kind, Vector2 offset)
+        {
+            var summon = new Summon { Caster = p1, Kind = kind };
+            p1.GetParent().AddChild(summon);
+            summon.GlobalPosition = p1.GlobalPosition + offset;
+        }
+
+        // Deer still up for a fight (the summons put the others to sleep quickly).
+        Deer Fresh(int skip = 0) => deer.Where(d => d.IsHostile).Skip(skip).FirstOrDefault() ?? deer[0];
+
+        switch (step)
+        {
+            case 1:
+                p1.Face(Vector2.Right);
+                _summonTarget = Fresh();
+                place(_summonTarget, p1, 22);
+                ability(p1, "AntlerBash").TryUse();
+                break;
+            case 2:
+                light.Select(1);
+                Log($"spirit wolf: started={light.TryUse()}, right again (should wait)={light.TryUse()}");
+                Add(SummonKind.Squirrels, new Vector2(0, 14));
+                Add(SummonKind.Bees, new Vector2(-10, 0));
+                Add(SummonKind.Owl, new Vector2(0, -10));
+                _abilityHp = _summonTarget!.Health.Current;
+                TakeShot(0.3, "_summons");
+                break;
+            case 6:
+                Log($"out: {Out()}; the deer the moose hit: hp {_abilityHp} -> {_summonTarget!.Health.Current}");
+                break;
+            case 11:
+                light.Select(4);
+                Log($"wisps (a 5th): started={light.TryUse()}, out now: {Out()}");
+                TakeShot(0.5, "_wisps");
+                break;
+            case 12:
+                ability(p1, "HeavySwitch").TryUse();
+                p1.Face(Vector2.Right);
+                _summonTarget = Fresh();
+                place(_summonTarget, p1, 50);
+                _abilityHp2 = _summonTarget.Health.Current;
+                Log($"big summon switched to {heavy.Options[heavy.Selected].Name}: started={heavy.TryUse()}");
+                TakeShot(0.4, "_stampede");
+                break;
+            case 15:
+                Log($"stampede: deer hp {_abilityHp2} -> {_summonTarget!.Health.Current}");
+                Add(SummonKind.Totem, new Vector2(10, 4));
+                p1.Health.Damage(4);
+                _abilityHp = p1.Health.Current;
+                break;
+            case 20:
+                Log($"totem: moose hp {_abilityHp} -> {p1.Health.Current} (max {p1.Health.Max})");
+                foreach (var d in deer.Where(d => d.IsHostile))
+                {
+                    d.Respawn();
+                }
+
+                Add(SummonKind.Treant, new Vector2(24, 0));
+                place(Fresh(), p1, 60);
+                TakeShot(0.3, "_treant");
+                break;
+            case 25:
+                var treant = Summon.Of(p1).FirstOrDefault(s => s.Kind == SummonKind.Treant);
+                Log($"treant hp {treant?.HealthLeft}/30, deer chasing the moose={deer.Count(d => d.IsTargeting(p1))}, out: {Out()}");
+                foreach (var summon in Summon.Of(p1))
+                {
+                    summon.Dismiss(); // out of the way of the later tests
+                }
+
+                break;
+        }
+    }
+
+    /// <summary>
     /// The beetle's Roller class, one check at a time; each waits until the beetle isn't busy or flashing from a
     /// deer's kick (a hit cancels a roll): roll into a deer, get hit inside the shell, get hit with the tough shell,
     /// roll into the top wall and bounce.
@@ -491,6 +579,11 @@ public partial class DevAutoplay : Node
         }
 
         // Roller (P1, on the left) tests to its left and upward; Grappler (P2, on the right) to its right and downward.
+        if (p1?.CurrentClass == "Summoner")
+        {
+            SummonerTest(p1, deer, step, Place, A);
+        }
+
         if (p1?.CurrentClass == "Roller")
         {
             RollerTest(p1, deer, step, Place, A);
