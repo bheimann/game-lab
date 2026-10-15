@@ -13,10 +13,11 @@ public partial class Pit : Node2D
 {
     public const uint PitLayer = 16;
 
-    private const string PitTexture = "res://assets/third_party/tiny_dungeon/Tilesets/Pit.png";
-    private const string WaterTexture = "res://assets/third_party/tiny_dungeon/Tilesets/Water.png";
-    private static readonly Rect2 Frame = new(16, 0, 48, 48);
+    private const string PitTexture = "res://assets/kenney/pit.png";
+    private const string WaterTexture = "res://assets/kenney/water.png";
+    private static readonly Rect2 Frame = new(0, 0, 48, 48);
     private const int Border = 6;
+    private const int WaterTop = 12; // the pond's grassy bank is deeper along the top
 
     private StaticBody2D _body = null!;
     private NinePatchRect _patch = null!;
@@ -61,7 +62,7 @@ public partial class Pit : Node2D
             RegionRect = region,
             PatchMarginLeft = EdgeLeft ? Border : 0,
             PatchMarginRight = EdgeRight ? Border : 0,
-            PatchMarginTop = Border,
+            PatchMarginTop = Water ? WaterTop : Border,
             PatchMarginBottom = Border,
             Size = Size,
             AxisStretchHorizontal = NinePatchRect.AxisStretchMode.Tile,

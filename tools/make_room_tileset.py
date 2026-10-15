@@ -1,8 +1,7 @@
-"""Generate game/assets/tilesets/room_tileset.tres from the Tiny Dungeon room sheets.
+"""Generate game/assets/tilesets/room_tileset.tres from the room sheets (made by tools/kenney_art.py).
 
 Each colour sheet becomes one atlas source (8x8 tiles), with a tile for every
-8x8 cell that has at least one visible pixel. Every tile except the floor and the
-arrow floor tiles gets a full-square collision shape on physics layer 1 ("world"). Source IDs match RoomColor in
+8x8 cell that has at least one visible pixel. Every tile except the floor gets a full-square collision shape on physics layer 1 ("world"). Source IDs match RoomColor in
 scripts/Rooms/RoomBuilder.cs. Run from the repo root:  python tools/make_room_tileset.py
 """
 import struct
@@ -12,8 +11,8 @@ from pathlib import Path
 GAME = Path(__file__).resolve().parent.parent / "game"
 SHEETS = ["green", "blue", "brown", "gray", "red"]  # order = source id
 CELL = 8
-# Walkable cells (no collision): the 16x16 floor tile and the arrow floor tiles.
-WALKABLE = {(x, y) for x in (2, 3) for y in (0, 1)} | {(x, y) for x in range(1, 8) for y in range(14, 20)}
+# Walkable cells (no collision): the 16x16 floor tile.
+WALKABLE = {(x, y) for x in (2, 3) for y in (0, 1)}
 SQUARE = "PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)"
 
 
@@ -67,13 +66,13 @@ def opaque_cells(path):
 out = [f'[gd_resource type="TileSet" load_steps={len(SHEETS) * 2 + 1} format=3]', ""]
 for i, name in enumerate(SHEETS):
     out.append(f'[ext_resource type="Texture2D" '
-               f'path="res://assets/third_party/tiny_dungeon/Tilesets/Room/Room_{name}.png" id="tex_{name}"]')
+               f'path="res://assets/kenney/rooms/room_{name}.png" id="tex_{name}"]')
 out.append("")
 for i, name in enumerate(SHEETS):
     out += [f'[sub_resource type="TileSetAtlasSource" id="room_{name}"]',
             f'texture = ExtResource("tex_{name}")',
             f"texture_region_size = Vector2i({CELL}, {CELL})"]
-    for x, y in opaque_cells(GAME / f"assets/third_party/tiny_dungeon/Tilesets/Room/Room_{name}.png"):
+    for x, y in opaque_cells(GAME / f"assets/kenney/rooms/room_{name}.png"):
         out.append(f"{x}:{y}/0 = 0")
         if (x, y) not in WALKABLE:
             out.append(f"{x}:{y}/0/physics_layer_0/polygon_0/points = {SQUARE}")

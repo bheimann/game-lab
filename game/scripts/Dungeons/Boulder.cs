@@ -8,7 +8,7 @@ public partial class Boulder : StaticBody2D
 {
     public const string Group = "bombable";
 
-    private const string Texture = "res://assets/third_party/tiny_dungeon/Misc/Rock.png";
+    private const string Texture = "res://assets/kenney/rock.png";
 
     private float _crumble = -1f;
 

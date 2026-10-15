@@ -69,7 +69,7 @@ public partial class Dungeon : Node
         layer.AddChild(_fade);
 
         var rooms = GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<DungeonRoom>().ToList();
-        CurrentRoom = StartRoom ?? rooms.First();
+        CurrentRoom = DevStartRoom(rooms) ?? StartRoom ?? rooms.First();
         foreach (var room in rooms)
         {
             room.SetActive(room == CurrentRoom);
@@ -79,9 +79,17 @@ public partial class Dungeon : Node
             }
         }
 
-        RespawnPoint = StartPoint?.GlobalPosition ?? CurrentRoom.FloorRect.GetCenter();
+        RespawnPoint = StartPoint is not null && DungeonRoom.Of(StartPoint) == CurrentRoom
+            ? StartPoint.GlobalPosition
+            : CurrentRoom.FloorRect.GetCenter();
         CallDeferred(MethodName.Begin);
     }
+
+    /// <summary>Dev helper: run with <c>-- --room=PuzzleRoom</c> to start in that room (handy with --screenshot).</summary>
+    private static DungeonRoom? DevStartRoom(System.Collections.Generic.List<DungeonRoom> rooms) =>
+        OS.GetCmdlineUserArgs().FirstOrDefault(a => a.StartsWith("--room=")) is { } arg
+            ? rooms.FirstOrDefault(r => r.Name == arg["--room=".Length..])
+            : null;
 
     public override void _PhysicsProcess(double delta)
     {

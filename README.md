@@ -106,6 +106,8 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
 
 ### Dev helpers
 - `Godot_console.exe --path game -- --screenshot=out.png` saves a screenshot after half a second and quits.
+  Add `--screenshot-world` to hide the HUD and menus, and `--room=PuzzleRoom` to start in another room.
+- `python tools/kenney_art.py` then `python tools/make_room_tileset.py` rebuild the world art from the Kenney packs.
 - `Godot_console.exe --path game -- --autoplay=<folder>` lets two bots (P1 on WASD as the lizard, P2 on the
   arrows as the fox) play by pressing the real keys: they clear the meadow, go down the stairs, try every class at
   the test painter, play the dungeon to the boss, and end up back outside. It logs everything and saves a
@@ -124,7 +126,8 @@ If you upgrade Godot, change the `Godot.NET.Sdk/4.7.2` version in the `.csproj` 
 
 ## Credits
 - **Design:** the designer (6th grade) and dad
-- **Dungeon art:** *Tiny Dungeon Pack* by **Vryell**, palette *Rosy 42* by **@PineTreePizza**
+- **World art:** *Tiny Dungeon*, *Tiny Town*, *Tiny Battle*, *Tiny Farm* and *Tiny Ski* by **Kenney** ([kenney.nl](https://www.kenney.nl), CC0)
+- **Palette:** *Rosy 42* by **@PineTreePizza**
 - **Chameleon sprite:** pixelled by Claude from a Grok-generated reference
 
 Full details and licenses: [game/assets/third_party/CREDITS.md](game/assets/third_party/CREDITS.md).

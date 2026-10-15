@@ -38,18 +38,22 @@ public interface ISwitch
 /// </summary>
 public partial class Door : Node2D, Saving.ISaveable
 {
-    // Pieces of the Tiny Dungeon room sheet, in pixels.
-    private static readonly Rect2 ClosedFrame = new(106, 23, 28, 24);
-    private static readonly Rect2 OpenFrame = new(154, 103, 28, 24);
-    private static readonly Rect2 Doorway = new(192, 24, 16, 23);
-    private static readonly Rect2 LeftPost = new(88, 58, 9, 28);
-    private static readonly Rect2 RightPost = new(143, 58, 9, 28);
-    private const string KeyIcon = "res://assets/third_party/tiny_dungeon/Misc/Golden_key.png";
-    private const string StairsTexture = "res://assets/third_party/tiny_dungeon/Misc/Stairs_down_grass.png";
+    // Pieces of the room sheet, in pixels (see DOOR_PIECES in tools/kenney_art.py).
+    // The top door shows a strip of wall above the door; the bottom door is just the door.
+    private static readonly Rect2 ClosedFrame = new(96, 16, 32, 24);
+    private static readonly Rect2 OpenFrame = new(96, 48, 32, 24);
+    private static readonly Rect2 ClosedDoor = new(96, 24, 32, 16);
+    private static readonly Rect2 OpenDoor = new(96, 56, 32, 16);
+    private static readonly Rect2 LeftPost = new(136, 16, 8, 28);
+    private static readonly Rect2 RightPost = new(144, 16, 8, 28);
+    private const string KeyIcon = "res://assets/kenney/key.png";
+    private const string StairsTexture = "res://assets/kenney/stairs_down.png";
 
     private DungeonRoom _room = null!;
     private StaticBody2D _blocker = null!;
     private Sprite2D? _frame;
+    private Rect2 _openRegion;
+    private Rect2 _closedRegion;
     private Sprite2D? _keyIcon;
     private Texture2D _sheet = null!;
     private float _messageCooldown;
@@ -132,8 +136,7 @@ public partial class Door : Node2D, Saving.ISaveable
                     layout.Carve(new Vector2I(midColumn, y));
                 }
 
-                AddPiece(Doorway, new Vector2(-8, 8), flip: false);
-                _frame = AddPiece(ClosedFrame, new Vector2(-14, 7), flip: false);
+                _frame = AddPiece(OpenFrame, ClosedFrame, new Vector2(-16, 8));
                 Block(new Vector2(0, 20), new Vector2(16, 24));
                 break;
 
@@ -145,8 +148,7 @@ public partial class Door : Node2D, Saving.ISaveable
                     layout.Carve(new Vector2I(midColumn, y));
                 }
 
-                AddPiece(Doorway, new Vector2(-8, 1), flip: true);
-                _frame = AddPiece(ClosedFrame, new Vector2(-14, 0), flip: true);
+                _frame = AddPiece(OpenDoor, ClosedDoor, new Vector2(-16, 8));
                 Block(new Vector2(0, 12), new Vector2(16, 24));
                 break;
 
@@ -154,7 +156,7 @@ public partial class Door : Node2D, Saving.ISaveable
                 Position = layout.Position + new Vector2(0, midRow * size);
                 layout.Carve(new Vector2I(0, midRow - 1));
                 layout.Carve(new Vector2I(0, midRow));
-                AddPiece(LeftPost, new Vector2(0, -14), flip: false);
+                AddPiece(LeftPost, LeftPost, new Vector2(0, -14));
                 Block(new Vector2(4, 0), new Vector2(8, 16));
                 break;
 
@@ -162,7 +164,7 @@ public partial class Door : Node2D, Saving.ISaveable
                 Position = layout.Position + new Vector2(layout.Columns * size, midRow * size);
                 layout.Carve(new Vector2I(layout.Columns - 1, midRow - 1));
                 layout.Carve(new Vector2I(layout.Columns - 1, midRow));
-                AddPiece(RightPost, new Vector2(-9, -14), flip: false);
+                AddPiece(RightPost, RightPost, new Vector2(-8, -14));
                 Block(new Vector2(-4, 0), new Vector2(8, 16));
                 break;
         }
@@ -283,7 +285,7 @@ public partial class Door : Node2D, Saving.ISaveable
     {
         if (_frame is not null)
         {
-            ((AtlasTexture)_frame.Texture).Region = IsOpen ? OpenFrame : ClosedFrame;
+            ((AtlasTexture)_frame.Texture).Region = IsOpen ? _openRegion : _closedRegion;
         }
 
         _blocker.GetChild<CollisionShape2D>(0).SetDeferred(CollisionShape2D.PropertyName.Disabled, IsOpen);
@@ -295,14 +297,16 @@ public partial class Door : Node2D, Saving.ISaveable
         QueueRedraw();
     }
 
-    private Sprite2D AddPiece(Rect2 region, Vector2 at, bool flip)
+    /// <summary>Adds a piece of the room sheet; <see cref="Refresh"/> swaps the door frame between its open and closed pictures.</summary>
+    private Sprite2D AddPiece(Rect2 open, Rect2 closed, Vector2 at)
     {
+        _openRegion = open;
+        _closedRegion = closed;
         var sprite = new Sprite2D
         {
-            Texture = new AtlasTexture { Atlas = _sheet, Region = region },
+            Texture = new AtlasTexture { Atlas = _sheet, Region = closed },
             Centered = false,
             Position = at,
-            FlipV = flip,
         };
         AddChild(sprite);
         return sprite;

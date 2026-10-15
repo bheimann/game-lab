@@ -18,7 +18,7 @@ public enum ChestReward
 /// <summary>A chest that opens when a hero walks up to it. It can stay hidden until the room is cleared.</summary>
 public partial class TreasureChest : StaticBody2D, Saving.ISaveable
 {
-    private const string Strip = "res://assets/third_party/tiny_dungeon/Misc/Chest.png";
+    private const string Strip = "res://assets/kenney/chest.png";
 
     private AnimatedSprite2D _sprite = null!;
     private CollisionShape2D _shape = null!;
