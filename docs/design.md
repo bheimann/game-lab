@@ -62,7 +62,7 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 ### The overworld so far
 | Area | Where | What's there |
 |---|---|---|
-| **Scalebrook Meadow** | The middle | The stairs down to The Old Burrow, a grapple-only chest, deer |
+| **Scalebrook Meadow** | The middle | The Old Burrow's temple gate (go in through the arch, from the bottom), a grapple-only chest, deer |
 | **Scalebrook Village** | West of the meadow | Houses, the **village painter**, a herb chest. No enemies |
 | **Antlerwood Forest** | East of the meadow | Thick trees, lots of deer, a chest in a clearing |
 | **Frosttail Tundra** | North of the forest | Snow, snowy pines, snowmen, a frozen lake, deer, a chest |

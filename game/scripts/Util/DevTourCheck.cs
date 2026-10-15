@@ -9,7 +9,7 @@ namespace LizardWizard.Util;
 /// <summary>
 /// Dev helper for the overworld's areas: <c>-- --autoplay-tour=&lt;folder&gt;</c>. P1 joins (as the lizard) and walks
 /// out through every path between the areas, there and back (meadow, village, forest, tundra, swamp), checking each
-/// one lands in the right area. In the village it also stands on the painter's mat and checks it gets painted.
+/// one lands in the right area, and finally goes in through the dungeon gate. In the village it also stands on the painter's mat and checks it gets painted.
 /// Logs each trip and saves a screenshot on arrival.
 /// </summary>
 public partial class DevTourCheck : Node
@@ -28,6 +28,7 @@ public partial class DevTourCheck : Node
         ("Forest", "WestPath", "Overworld"),
         ("Overworld", "SouthPath", "Swamp"),
         ("Swamp", "NorthPath", "Overworld"),
+        ("Overworld", "BurrowStairs", "Entrance"),
     };
 
     private readonly HashSet<Key> _held = new();
@@ -88,6 +89,10 @@ public partial class DevTourCheck : Node
             {
                 // Stand just inside the path gap (held there until the camera catches up).
                 hero.Teleport(door.EntryPoint);
+                if (since < 0.02 && door.Stairs)
+                {
+                    Shot(0.55, $"_{door.Name}");
+                }
             }
             else if (door is not null)
             {
