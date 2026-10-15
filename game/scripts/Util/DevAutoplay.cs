@@ -152,6 +152,19 @@ public partial class DevAutoplay : Node
                 // P2 walks at a deer until it's chased, then holds Delete to drop out.
                 if (manager.Players[1] is { } fox)
                 {
+                    // A Bomb Master first drops a remote bomb: it mustn't be left behind when P2 leaves.
+                    if (inPhase < 0.05 && fox.Abilities.OfType<BombAbility>().FirstOrDefault() is { } bombs)
+                    {
+                        bombs.Select(System.Array.FindIndex(bombs.Options, o => o.Name == "Remote Bomb"));
+                        bombs.TryUse();
+                    }
+
+                    if (inPhase is >= 1.0 and < 1.02)
+                    {
+                        var waiting = fox.GetParent().GetChildren().OfType<Bomb>().Count(b => b.IsWaitingForRemote);
+                        GD.Print($"[autoplay {_time:0.0}s] leave test: P2's remote bombs waiting before leaving={waiting}");
+                    }
+
                     if (_ditchSpottedAt < 0 && deer.Any(d => d.IsTargeting(fox)))
                     {
                         _ditchSpottedAt = _time;
@@ -356,7 +369,8 @@ public partial class DevAutoplay : Node
         if (_phase == Phase.Ditch)
         {
             var lost = deer.Count(d => d.CurrentMood == Deer.Mood.Chasing && !manager.Players.Any(p => p is not null && d.IsTargeting(p)));
-            GD.Print($"[autoplay {_time:0.0}s] leave test: P2 left={manager.Slots[1].IsFree}, deer still chasing a player who left={lost}");
+            var remote = GetTree().CurrentScene.FindChildren("*", nameof(Node2D), true, false).OfType<Bomb>().Count(b => b.Kind == BombKind.Remote);
+            GD.Print($"[autoplay {_time:0.0}s] leave test: P2 left={manager.Slots[1].IsFree}, deer still chasing a player who left={lost}, remote bombs left behind={remote}");
         }
 
         if (_phase is Phase.Join or Phase.Rejoin)

@@ -107,6 +107,15 @@ public partial class Bomb : Node2D
     public override void _PhysicsProcess(double delta)
     {
         _time += (float)delta;
+
+        // Nobody can set off a remote bomb once its thrower has left the game: it fizzles out.
+        if (Kind == BombKind.Remote && _state != State.Blast && Thrower is not null && (!IsInstanceValid(Thrower) || !Thrower.IsInGame))
+        {
+            FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -14), "fizzle", new Color(0.75f, 0.75f, 0.75f), 0.8f, 6f);
+            QueueFree();
+            return;
+        }
+
         switch (_state)
         {
             case State.Flying:
