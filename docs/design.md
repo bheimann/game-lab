@@ -76,11 +76,11 @@ how they look, so you can tell classes apart at a glance.
 | **Lizard** | Lizard | Chameleon | **First** |
 | **Fox** (red fox) | Fox | Bomb Master | **Second** |
 | **Moose** | Deer | Warrior | Playable; classes to design |
-| **Peacock** | Bird | Warrior (with a **gun** instead of a punch) | Playable; classes to design |
-| **Beetle** | Bug | Warrior | Playable; classes to design |
+| **Peacock** | Bird | **Grappler** (also Warrior, with a gun) | Playable; more classes to design |
+| **Beetle** | Bug | **Roller** (also Warrior) | Playable; more classes to design |
 
 - **The moose, peacock and beetle are warriors the heroes helped:** animals freed from Mossimus's trick who
-  join the team. For now each has one attack plus the dodge; the designer will come up with their classes.
+  join the team. The moose has one attack plus the dodge for now; the designer will come up with its classes.
 - **Every hero can dodge:** a quick dash you can't be hurt during (RT / Shift / Ctrl).
 
 ### Lizard
@@ -98,6 +98,21 @@ it **sticks to enemies and pulls them in**, though bosses are too heavy; also a 
 - **Armor** can still change how a class works, e.g. *shadow armor* lets a chameleon stay invisible while moving.
 - Earlier species ideas (gecko wall-climbing, frilled-lizard scare, komodo tank, basilisk water-running,
   horned-lizard spikes) could become later classes or friendly lizards in the kingdom.
+
+### Beetle
+| Class | What it does |
+|---|---|
+| **Roller** (starting class) | A: horn jab. X: **roll** into a ball: fast, steer it a little, rams enemies (5 damage, knocks them away) and **bounces off walls**; hits hurt half as much while rolling. Y: **hide in the shell**, blocking every hit for a moment. Always on: a **tough shell**, so every hit hurts less (40% less) |
+| **Warrior** | Horn jab only |
+
+### Peacock
+| Class | What it does |
+|---|---|
+| **Grappler** (starting class) | A: a fan of three **feathers**; LB / RB pick normal, poison, fire, ice, lightning or arcane. X: **grapple gun**: reels in small enemies, pulls you over to big ones (bosses) and to walls, rocks and bushes, **flying over water and pits**. Y: **RPG**, a rocket with a big explosion |
+| **Warrior** | Shoots a plain gun |
+
+- **Grapple spots:** some places can only be reached by grappling. The first is a chest across the water in
+  Scalebrook Meadow's top-left corner (with rocks on the near shore to grapple back to).
 
 ### Fox
 Player 2 is an ordinary **red fox**. (The arctic fox art is kept for the snow area's foxes.)
@@ -153,7 +168,7 @@ decides which skills it has. The paint also changes how the fox looks, so each m
 - **Elements:** are elemental versions of weapons and bombs unlocked by bosses too?
 - **The overworld:** what else is in Scalebrook Meadow, and where do the paths lead next (the village, Tailspin Swamp)?
 - **Boss drops:** which new bomb, weapon or gun does each boss drop?
-- **Moose, peacock and beetle:** their classes, and their second and special buttons.
+- **Moose:** its classes, and its second and special buttons. **Peacock and beetle:** more classes? What should the Warrior classes become?
 - **Items and armor:** what else goes in the menu? (So far: healing herb, shadow cloak, ember scales, bomb vest, sturdy vest.)
 - **Combos:** which element orders make which combos?
 - **The first dungeon:** its name ("The Old Burrow" for now), the rooms, the puzzles and the boss are all placeholders to change.

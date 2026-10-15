@@ -11,10 +11,12 @@ public enum ShotLook
     Pellet,
     Javelin,
     Arrow,
+    Feather,
+    Rocket,
 }
 
 /// <summary>
-/// A shot: a bullet, spit, a javelin or an arrow. Flies straight, hits the first enemy (or lever) it touches,
+/// A shot: a bullet, spit, a javelin, an arrow, a feather or a rocket. Flies straight, hits the first enemy (or lever) it touches,
 /// and stops at walls. It flies over pits, like the tongue. Explosive shots blow up where they stop.
 /// </summary>
 public partial class Bullet : Node2D
@@ -101,6 +103,24 @@ public partial class Bullet : Node2D
                 DrawLine(new Vector2(-9, 2), new Vector2(-7, 0), _shot.Colour, 1.5f);
                 break;
 
+            case ShotLook.Feather:
+                // A peacock feather: a quill, a vane in the element's colour, and the "eye" near the tip.
+                DrawLine(new Vector2(-9, 0), new Vector2(1, 0), new Color(0.9f, 0.88f, 0.8f), 1f);
+                DrawColoredPolygon(new[] { new Vector2(-7, 0), new Vector2(-3, -2.5f), new Vector2(1, -1.5f), new Vector2(2, 0), new Vector2(1, 1.5f), new Vector2(-3, 2.5f) }, _shot.Colour);
+                DrawCircle(new Vector2(-1, 0), 1.5f, new Color(0.15f, 0.35f, 0.75f));
+                DrawCircle(new Vector2(-1, 0), 0.7f, new Color(0.1f, 0.15f, 0.2f));
+                break;
+
+            case ShotLook.Rocket:
+                // A rocket: a grey body with a red nose and fins, and a flickering flame out the back.
+                var flame = 3f + 2f * Mathf.Sin(_travelled * 0.8f);
+                DrawColoredPolygon(new[] { new Vector2(-6, -1.5f), new Vector2(-6 - flame, 0), new Vector2(-6, 1.5f) }, new Color(1f, 0.6f, 0.2f));
+                DrawRect(new Rect2(-6, -2, 8, 4), new Color(0.6f, 0.65f, 0.6f));
+                DrawColoredPolygon(new[] { new Vector2(2, -2), new Vector2(5, 0), new Vector2(2, 2) }, new Color(0.85f, 0.25f, 0.2f));
+                DrawColoredPolygon(new[] { new Vector2(-6, -2), new Vector2(-8, -4), new Vector2(-4, -2) }, new Color(0.85f, 0.25f, 0.2f));
+                DrawColoredPolygon(new[] { new Vector2(-6, 2), new Vector2(-8, 4), new Vector2(-4, 2) }, new Color(0.85f, 0.25f, 0.2f));
+                break;
+
             default:
                 // A bright pellet with a short streak behind it.
                 DrawLine(new Vector2(-Mathf.Min(6f, _travelled), 0), Vector2.Zero, _shot.Colour with { A = 0.5f }, 1.5f);
@@ -117,6 +137,7 @@ public partial class Bullet : Node2D
             // Bombs measure from their feet, 6 px below the middle of the blast.
             GetParent().AddChild(new Bomb
             {
+                Thrower = _shooter,
                 Instant = true,
                 From = at + new Vector2(0, 6),
                 To = at + new Vector2(0, 6),

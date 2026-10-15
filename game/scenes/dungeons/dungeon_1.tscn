@@ -159,6 +159,70 @@ position = Vector2(112, 300)
 script = ExtResource("prop")
 Kind = 4
 
+[node name="SecretMoat" type="Node2D" parent="World/Overworld"]
+position = Vector2(16, 56)
+script = ExtResource("pit")
+Size = Vector2(112, 32)
+Water = true
+EdgeLeft = false
+
+[node name="Hedge1" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(104, 22)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Hedge2" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(104, 28)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Hedge3" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(104, 34)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Hedge4" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(104, 40)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Hedge5" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(104, 46)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Hedge6" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(104, 52)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Hedge7" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(104, 58)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="SecretChest" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(56, 40)
+script = ExtResource("chest")
+Reward = 1
+
+[node name="ShoreRock1" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(36, 130)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="ShoreRock2" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(84, 126)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="MoatSign" type="StaticBody2D" parent="World/Overworld"]
+position = Vector2(140, 100)
+script = ExtResource("prop")
+Kind = 3
+Text = "A chest across the water!
+A grapple could pull you over."
+
 [node name="Deer1" parent="World/Overworld" instance=ExtResource("deer")]
 position = Vector2(450, 380)
 
