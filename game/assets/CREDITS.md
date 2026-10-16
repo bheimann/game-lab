@@ -10,10 +10,10 @@ appreciated but not required). The packs' tile sheets and licenses are in `art-s
 | Pack | Used for |
 |---|---|
 | *Tiny Dungeon* | room walls and floors (recoloured per room), doors, the pit, treasure chests, the stairs down |
-| *Tiny Town* | bushes, signs, bombs, the key (recoloured gold) |
+| *Tiny Town* | bushes, signs, bombs, the key (recoloured gold), trees (green, autumn and small), mushrooms, fences, the blue and red village houses, the temple gate |
 | *Tiny Battle* | hearts, the pond |
-| *Tiny Farm* | crates, rock piles |
-| *Tiny Ski* | boulders |
+| *Tiny Farm* | crates, rock piles, pine trees, dead trees |
+| *Tiny Ski* | boulders, snowy pines, the snowman |
 
 The lever, the torch and the sparks on lit bombs are drawn by Claude in `tools/kenney_art.py`, in Kenney's colours.
 
