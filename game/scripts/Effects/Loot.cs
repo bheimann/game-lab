@@ -6,8 +6,8 @@ using LizardWizard.Items;
 namespace LizardWizard.Effects;
 
 /// <summary>
-/// Something an enemy dropped when it was beaten: a few coins (most of the time), or an item: a healing herb or one of
-/// the enemy's monster parts (for the moose Tinkerer). A boss also always drops one big boss coin. It pops out
+/// Something an enemy dropped when it was beaten: a few coins (most of the time) or a healing herb, plus each of the
+/// enemy's monster parts (for the moose Tinkerer). A boss also always drops one big boss coin. It pops out
 /// onto the ground, and the first hero to walk over it picks it up (it slides over to a hero who's close).
 /// Coins go into the team's <see cref="Purse"/>, a herb to whoever picked it up. Loot left lying around blinks and
 /// disappears after a while, or when the team leaves the room.
@@ -44,10 +44,16 @@ public partial class Loot : Node2D
     public bool IsHerb => Coins == 0 && !IsBossCoin && Part is null;
 
     /// <summary>Drop <paramref name="rolls"/> pieces of loot around <paramref name="enemy"/>'s feet
-    /// (80% a pile of 1-3 coins, 20% an item: half the time a healing herb, half the time one of <paramref name="parts"/>,
-    /// the enemy's monster parts). With <paramref name="bossCoin"/>, one of them is always a boss coin instead.</summary>
+    /// (80% a pile of 1-3 coins, 20% an item: a healing herb, for now). With <paramref name="bossCoin"/>, one of them is
+    /// always a boss coin instead. On top of that, the enemy always drops one of each of its monster
+    /// <paramref name="parts"/> (a deer: an antler and a hide).</summary>
     public static void DropFrom(Node2D enemy, int rolls = 1, bool bossCoin = false, MonsterPart[]? parts = null)
     {
+        foreach (var part in parts ?? System.Array.Empty<MonsterPart>())
+        {
+            Drop(enemy, enemy.GlobalPosition, 0, part: part);
+        }
+
         if (bossCoin)
         {
             Drop(enemy, enemy.GlobalPosition, 0, bossCoin: true);
@@ -56,18 +62,7 @@ public partial class Loot : Node2D
 
         for (var i = 0; i < rolls; i++)
         {
-            if (GD.Randf() < CoinChance)
-            {
-                Drop(enemy, enemy.GlobalPosition, GD.RandRange(1, 3));
-            }
-            else if (parts is { Length: > 0 } && GD.Randf() < 0.5f)
-            {
-                Drop(enemy, enemy.GlobalPosition, 0, part: parts[GD.RandRange(0, parts.Length - 1)]);
-            }
-            else
-            {
-                Drop(enemy, enemy.GlobalPosition, 0); // a herb
-            }
+            Drop(enemy, enemy.GlobalPosition, GD.Randf() < CoinChance ? GD.RandRange(1, 3) : 0); // 0 coins = a herb
         }
     }
 
