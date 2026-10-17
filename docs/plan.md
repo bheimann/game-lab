@@ -123,7 +123,10 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
   the boss opens an exit portal (stand on it for a second) instead of taking the team out straight away.
 - ✅ 🛠 The team starts in Scalebrook Village, picks a class when joining (up / down), and every class has its
   own look (hats, headband, colours).
+- ✅ 🛠 Loot: beaten enemies drop coins (80%) or a healing herb (20%), and the team has a purse. The peacock's
+  **Thief** class steals gold, gear and abilities (Deer Kick, Beetle Charge).
 - 🦎 Design the boss drops and what goes in the new areas.
+- 🦎 What coins buy (a shop in the village?), and weapons as loot once there are more weapons.
 - 🦎 A start in the village with a story: a mini tutorial and the king, ending with each hero unlocking their first
   class, before they leave the village. Until then everyone can pick any class when joining.
 

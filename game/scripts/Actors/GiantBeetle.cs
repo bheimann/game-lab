@@ -13,7 +13,7 @@ namespace LizardWizard.Actors;
 /// and every few seconds it flashes, then charges in a straight line. Its hard shell shrugs off hits (1 damage),
 /// but if the charge ends in a wall it's dizzy for a moment and takes full damage: dodge the charge, then hit it hard.
 /// </summary>
-public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, Saving.ISaveable
+public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, IStealable, Saving.ISaveable
 {
     private const string Strip = "res://assets/sprites/beetle/giant_beetle.png";
 
@@ -26,6 +26,7 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, Sa
     private float _pinchCooldown;
     private float _hurtFlash;
     private readonly ElementEffects _effects = new();
+    private readonly Pockets _pockets = new();
     private Vector2 _chargeDirection;
     private Vector2 _facing = Vector2.Down;
     private bool _pinchHit;
@@ -178,12 +179,19 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, Sa
 
     private void Defeated()
     {
+        Loot.DropFrom(this, rolls: 5);
         _effects.Clear();
         Enter(State.Asleep);
         _target = null;
         Items.Unlocks.BossBeaten(this, BossName);
         Enemies.CheckCleared(this);
     }
+
+    public string StealableMove => Abilities.StolenMoveAbility.BeetleCharge;
+
+    public int StealableCoins => 10;
+
+    public bool TrySteal(StealKind kind) => _pockets.TryTake(kind);
 
     /// <summary>Bosses stay beaten.</summary>
     public void Respawn()

@@ -10,7 +10,7 @@ namespace LizardWizard.Actors;
 /// A deer tricked into fighting the lizards. Wanders until it spots a lizard, then chases it and kicks.
 /// When its health runs out it falls asleep; once the area is clear it wakes up and says thanks.
 /// </summary>
-public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnemyTarget, ICharmable
+public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnemyTarget, ICharmable, IStealable
 {
     private const string WalkStrip = "res://assets/sprites/deer/deer_walk.png";
 
@@ -37,6 +37,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnem
     private Vector2? _pull;
     private Vector2 _home;
     private readonly ElementEffects _effects = new();
+    private readonly Pockets _pockets = new();
 
     public enum Mood
     {
@@ -228,6 +229,12 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnem
         }
     }
 
+    public string StealableMove => Abilities.StolenMoveAbility.DeerKick;
+
+    public int StealableCoins => 3;
+
+    public bool TrySteal(StealKind kind) => _pockets.TryTake(kind);
+
     public void Charm(float seconds, Hero by)
     {
         _charmLeft = seconds;
@@ -250,6 +257,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnem
     public void Respawn()
     {
         Position = _home;
+        _pockets.Refill();
         _effects.Clear();
         Health.Refill();
         CurrentMood = Mood.Wandering;
@@ -392,6 +400,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnem
 
     private void FallAsleep()
     {
+        Loot.DropFrom(this);
         _effects.Clear();
         _charmLeft = 0;
         CurrentMood = Mood.Asleep;

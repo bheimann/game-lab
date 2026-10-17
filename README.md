@@ -52,7 +52,16 @@ yellow: that's its kick coming. Works even with the ring menu open.
   that also breaks cracked rocks). The grapple **reels in** small enemies, **pulls you over** to big ones (bosses)
   and to **walls, rocks and bushes**, flying you over **water and pits** on the way. If something hits you
   mid-flight over water, you land back where you started. Its other class, **Warrior**, shoots a plain gun.
+- The peacock can also be a **Thief** (bandit mask): A jabs with a dagger, X **steals** from the enemy right in front
+  of you, and LB / RB pick what to steal: **gold** (coins for the team), **gear** (a healing herb, for now) or its
+  **ability**. Only enemies that are awake can be robbed, each one once of each thing. A stolen ability goes on Y for
+  5 uses: a deer gives you the **Deer Kick** (a big kick), the Giant Beetle the **Beetle Charge** (a dash that rams
+  everything in the way). Stealing another ability swaps it.
 - **Secret:** in Scalebrook Meadow's top-left corner there's a chest across the water that only a grapple can reach.
+
+**Loot:** a beaten enemy drops something: usually a few **coins** (8 times out of 10), otherwise a **healing herb**
+(later also weapons). Walk over it to pick it up. Coins go into the team's purse (top middle of the screen, kept in
+the save); there's nothing to buy yet. The boss drops five things. Loot disappears after 30 seconds.
 
 **The overworld:** the team starts in Scalebrook Village. Scalebrook Meadow is in the middle, with the stone temple gate into The Old Burrow at the top
 right (walk in through the arch), and paths out through gaps in the bushes (signs show the way):
