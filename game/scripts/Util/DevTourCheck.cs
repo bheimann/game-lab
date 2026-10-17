@@ -7,8 +7,8 @@ using LizardWizard.Players;
 namespace LizardWizard.Util;
 
 /// <summary>
-/// Dev helper for the overworld's areas: <c>-- --autoplay-tour=&lt;folder&gt;</c>. P1 joins (as the lizard) and walks
-/// out through every path between the areas, there and back (meadow, village, forest, tundra, swamp), checking each
+/// Dev helper for the overworld's areas: <c>-- --autoplay-tour=&lt;folder&gt;</c>. P1 joins (as the lizard) in the village and
+/// walks out through every path between the areas, there and back (village, meadow, forest, tundra, swamp), checking each
 /// one lands in the right area, and finally goes in through the dungeon gate. In the village it also stands on the painter's mat and checks it gets painted.
 /// Logs each trip and saves a screenshot on arrival.
 /// </summary>
@@ -19,8 +19,9 @@ public partial class DevTourCheck : Node
     /// <summary>Each trip: the area to start in, the path to walk out of, the area it should lead to.</summary>
     private static readonly (string From, string Door, string To)[] Trips =
     {
-        ("Overworld", "WestPath", "Village"),
         ("Village", "Painter", "Village"),
+        ("Village", "EastPath", "Overworld"),
+        ("Overworld", "WestPath", "Village"),
         ("Village", "EastPath", "Overworld"),
         ("Overworld", "EastPath", "Forest"),
         ("Forest", "NorthPath", "Tundra"),

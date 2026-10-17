@@ -121,7 +121,11 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
   Swamp around the meadow, joined by paths.
 - ✅ 🛠 The village painter replaces the dungeon's test painter, The Old Burrow gets a temple gate, and beating
   the boss opens an exit portal (stand on it for a second) instead of taking the team out straight away.
+- ✅ 🛠 The team starts in Scalebrook Village, picks a class when joining (up / down), and every class has its
+  own look (hats, headband, colours).
 - 🦎 Design the boss drops and what goes in the new areas.
+- 🦎 A start in the village with a story: a mini tutorial and the king, ending with each hero unlocking their first
+  class, before they leave the village. Until then everyone can pick any class when joining.
 
 ## Later (once the first dungeon is fun)
 More lizards so there are four, more of the overworld, levelling up,

@@ -29,8 +29,8 @@ script = ExtResource("game")
 script = ExtResource("dungeon")
 DungeonName = "The Old Burrow"
 TitleEarned = "Squire"
-StartRoom = NodePath("../World/Overworld")
-StartPoint = NodePath("../World/Overworld/Start")
+StartRoom = NodePath("../World/Village")
+StartPoint = NodePath("../World/Village/Start")
 ReturnDoor = NodePath("../World/Overworld/BurrowStairs")
 
 [node name="World" type="Node2D" parent="."]
@@ -663,6 +663,9 @@ InteriorWidth = 72
 InteriorHeight = 42
 Ground = 0
 PathPoints = PackedVector2Array(608, 200, 460, 200, 300, 200, 128, 200)
+
+[node name="Start" type="Marker2D" parent="World/Village"]
+position = Vector2(290, 236)
 
 [node name="EastPath" type="Node2D" parent="World/Village"]
 position = Vector2(608, 200)

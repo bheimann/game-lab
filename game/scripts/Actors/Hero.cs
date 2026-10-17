@@ -37,6 +37,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     private Vector2 _dodgeDirection;
     private Vector2 _knockback;
     private Vector2 _spawnPoint;
+    private string _joinClass = "";
+    private string _lookClass = "";
     private Vector2 _spriteOffset;
     private RingMenu? _menu;
 
@@ -46,7 +48,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     [Export] public string StartingClass { get; set; } = "";
 
     /// <summary>Sprite strips are "&lt;prefix&gt;_down.png", "_up.png" and "_side.png" (side faces right).
-    /// Each strip is: idle, step A, step B.</summary>
+    /// Each strip is: idle, step A, step B. A class can have its own look: "&lt;prefix&gt;_&lt;class&gt;_down.png" and so on
+    /// (e.g. chameleon_illusionist_down.png); classes without one use the plain strips.</summary>
     [Export] public string SpritePrefix { get; set; } = "res://assets/sprites/chameleon/chameleon";
 
     [Export] public int FrameWidth { get; set; } = 16;
@@ -111,8 +114,11 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     public string CurrentWeapon { get; private set; } = "";
 
     /// <summary>Every class this character can be painted as, starting class first.</summary>
-    public IReadOnlyList<string> ClassNames =>
-        new[] { StartingClass }.Concat(_allAbilities.SelectMany(a => a.Classes.Split(',')).Select(c => c.Trim()))
+    public IReadOnlyList<string> ClassNames => ClassNamesOf(StartingClass, _allAbilities);
+
+    /// <summary>The classes a hero with these abilities can be, starting class first.</summary>
+    public static IReadOnlyList<string> ClassNamesOf(string startingClass, IEnumerable<Ability> abilities) =>
+        new[] { startingClass }.Concat(abilities.SelectMany(a => a.Classes.Split(',')).Select(c => c.Trim()))
             .Where(c => c != "").Distinct().ToArray();
 
     /// <summary>The direction the hero last moved in (one of 8 directions).</summary>
@@ -171,10 +177,12 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         _ => AttackOriginSide with { X = Facing.X < 0 ? -AttackOriginSide.X : AttackOriginSide.X },
     };
 
-    /// <summary>Call before adding the hero to the scene.</summary>
-    public void Setup(int playerIndex, PlayerInput input, Vector2 spawnPoint)
+    /// <summary>Call before adding the hero to the scene. <paramref name="className"/> is the class picked when joining
+    /// (empty for the starting class).</summary>
+    public void Setup(int playerIndex, PlayerInput input, Vector2 spawnPoint, string className = "")
     {
         PlayerIndex = playerIndex;
+        _joinClass = className;
         Controls = input;
         _spawnPoint = spawnPoint;
         Position = spawnPoint;
@@ -198,16 +206,14 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         Herbs = StartingHerbs;
         _menu = RingMenu.Create(this, BuildMenu);
 
-        Sprite = new AnimatedSprite2D { SpriteFrames = BuildAnimations() };
-        Sprite.Offset = _spriteOffset = new Vector2(0, -Sprite.SpriteFrames.GetFrameTexture("idle_down", 0).GetHeight() / 2f);
+        Sprite = new AnimatedSprite2D();
         AddChild(Sprite);
         MoveChild(Sprite, 0); // abilities draw on top of the hero
-        Sprite.Play("idle_down");
 
         // Small box at the feet, so the hero can walk right up to walls and overlap things above it.
         AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = new Vector2(10, 6) }, Position = new Vector2(0, -3) });
 
-        SetClass(StartingClass, starting: true);
+        SetClass(ClassNames.Contains(_joinClass) ? _joinClass : StartingClass, starting: true);
     }
 
     public override void _ExitTree()
@@ -324,6 +330,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     private void SetClass(string className, bool starting)
     {
         CurrentClass = className;
+        UpdateClassLook();
         var before = _abilities;
         var inClass = _allAbilities.Where(a => a.BelongsTo(className)).ToArray();
         if (CurrentWeapon == "")
@@ -676,13 +683,31 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         QueueRedraw();
     }
 
-    private SpriteFrames BuildAnimations()
+    /// <summary>Dress the hero for its class (see <see cref="SpritePrefix"/>), keeping the animation that's playing.</summary>
+    private void UpdateClassLook()
+    {
+        if (_lookClass == CurrentClass)
+        {
+            return;
+        }
+
+        _lookClass = CurrentClass;
+        var animation = Sprite.SpriteFrames is null ? "idle_down" : Sprite.Animation.ToString();
+        var classPrefix = $"{SpritePrefix}_{CurrentClass.ToLowerInvariant().Replace(' ', '_')}";
+        Sprite.SpriteFrames = BuildAnimations(ResourceLoader.Exists($"{classPrefix}_down.png") ? classPrefix : SpritePrefix);
+
+        // Class looks can be taller (hats), so line the feet up with the hero's position again.
+        Sprite.Offset = _spriteOffset = new Vector2(0, -Sprite.SpriteFrames.GetFrameTexture("idle_down", 0).GetHeight() / 2f);
+        Sprite.Play(animation);
+    }
+
+    private SpriteFrames BuildAnimations(string prefix)
     {
         var frames = new SpriteFrames();
         frames.RemoveAnimation("default");
         foreach (var (view, width) in new[] { ("down", FrameWidth), ("up", FrameWidth), ("side", SideFrameWidth) })
         {
-            var strip = GD.Load<Texture2D>($"{SpritePrefix}_{view}.png");
+            var strip = GD.Load<Texture2D>($"{prefix}_{view}.png");
             SpriteSheet.AddFrames(frames, $"idle_{view}", strip, width, 1, new[] { 0 });
             SpriteSheet.AddFrames(frames, $"walk_{view}", strip, width, WalkFps, new[] { 1, 0, 2, 0 });
         }

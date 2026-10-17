@@ -179,7 +179,7 @@ decides which skills it has. The paint also changes how the fox looks, so each m
   For example: ice then lightning = *shatter*, fire then arcane = *explosion*. The designer picks the real combos.
 
 ## Saving
-- The game **saves by itself** and picks up where you left off next time (starting in the overworld).
+- The game **saves by itself** and picks up where you left off next time (starting in Scalebrook Village).
 - Hold N on the start screen for a new game.
 
 ## Enemies

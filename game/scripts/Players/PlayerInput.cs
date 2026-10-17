@@ -51,6 +51,7 @@ public sealed class PlayerInput
     private bool _previousWasHeld;
     private bool _nextWasHeld;
     private int _navigateWas;
+    private int _navigateYWas;
 
     public PlayerInput(InputDevice device)
     {
@@ -88,6 +89,9 @@ public sealed class PlayerInput
 
     /// <summary>-1 or +1 on the frame the stick / keys are pushed left or right (for menus), otherwise 0.</summary>
     public int NavigateX { get; private set; }
+
+    /// <summary>-1 (up) or +1 (down) on the frame the stick / keys are pushed up or down (for menus), otherwise 0.</summary>
+    public int NavigateY { get; private set; }
 
     /// <summary>Any of the buttons that join the game: primary, secondary or Start.</summary>
     public bool JoinPressed { get; private set; }
@@ -157,6 +161,8 @@ public sealed class PlayerInput
 
         var navigate = Move.X > 0.5f ? 1 : Move.X < -0.5f ? -1 : 0;
         NavigateX = navigate != _navigateWas ? navigate : 0;
+        var navigateY = Move.Y > 0.5f ? 1 : Move.Y < -0.5f ? -1 : 0;
+        NavigateY = navigateY != _navigateYWas ? navigateY : 0;
 
         _primaryWasHeld = primary;
         _secondaryWasHeld = secondary;
@@ -167,6 +173,7 @@ public sealed class PlayerInput
         _previousWasHeld = previous;
         _nextWasHeld = next;
         _navigateWas = navigate;
+        _navigateYWas = navigateY;
     }
 
     private static bool Down(Key key) => Input.IsPhysicalKeyPressed(key);

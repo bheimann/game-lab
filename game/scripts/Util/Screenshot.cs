@@ -6,7 +6,8 @@ namespace LizardWizard.Util;
 /// <summary>
 /// Dev helper: run the game with <c>-- --screenshot=out.png</c> to save the screen after a
 /// short delay and quit. Lets us check visuals from the command line.
-/// Add <c>--screenshot-world</c> to hide the HUD and menus (every CanvasLayer) so only the world shows.
+/// Add <c>--screenshot-world</c> to hide the HUD and menus (every CanvasLayer) so only the world shows,
+/// or <c>--screenshot-picking</c> to have P1 and P2 picking a character and class.
 /// </summary>
 public partial class Screenshot : Node
 {
@@ -28,6 +29,13 @@ public partial class Screenshot : Node
 
     public override async void _Process(double delta)
     {
+        if (_framesLeft == 30 && OS.GetCmdlineUserArgs().Contains("--screenshot-picking")
+            && Players.PlayerManager.Find(this) is { } manager)
+        {
+            manager.Claim(new Players.PlayerInput(Players.InputDevice.KeyboardLeft));
+            manager.Claim(new Players.PlayerInput(Players.InputDevice.KeyboardRight));
+        }
+
         if (--_framesLeft != 0)
         {
             return;
