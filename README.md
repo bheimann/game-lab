@@ -61,7 +61,8 @@ yellow: that's its kick coming. Works even with the ring menu open.
 
 **Loot:** a beaten enemy drops something: usually a few **coins** (8 times out of 10), otherwise a **healing herb**
 (later also weapons). Walk over it to pick it up. Coins go into the team's purse (top middle of the screen, kept in
-the save); there's nothing to buy yet. The boss drops five things. Loot disappears after 30 seconds.
+the save); there's nothing to buy yet. The boss drops five things: a big **boss coin** (with a red star; the team's
+boss coins show next to the coins) and four ordinary drops. Loot disappears after 30 seconds.
 
 **The overworld:** the team starts in Scalebrook Village. Scalebrook Meadow is in the middle, with the stone temple gate into The Old Burrow at the top
 right (walk in through the arch), and paths out through gaps in the bushes (signs show the way):
