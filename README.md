@@ -66,7 +66,7 @@ or arcane) or **Illusionist** (below). The fox can be a **Bomb Master**, **Gun M
 element) or **Weapon Master** (below). To change class, visit the **painter in Scalebrook Village**: stand on
 its mat for a moment to switch to your next class (step off and on again for the one after). Each class has its
 own look: the Tongue Master wears a red headband, the Spitter is teal, the Illusionist wears a wizard hat, the Gun
-Master a cowboy hat, the Weapon Master a viking helmet and the peacock Warrior a knight's helmet (made by
+Master a cowboy hat and the peacock Warrior a knight's helmet (made by
 `python tools/class_looks.py`).
 
 **Weapon Master (fox):** LB / RB switch weapons. A attacks with the weapon (instead of biting), X does its trick:
@@ -74,7 +74,7 @@ Master a cowboy hat, the Weapon Master a viking helmet and the peacock Warrior a
 | Weapon | A | X | Y |
 |---|---|---|---|
 | Sword & Shield | Slash | Raise the shield: blocks any attack for a moment | – |
-| Javelin | Long jab | Throw the javelin | – |
+| Javelin | Long jab | Lob the javelin in a high arc: it flies over things close by and lands on the enemy in front of you | – |
 | Flail | Wide swing | Spin attack: hits everything around you | – |
 | Axe & Bow | Chop | Shoot an arrow | Change the arrow: normal, arcane, fire, ice, lightning, poison, explosive (a small blast that also breaks cracked rocks) |
 

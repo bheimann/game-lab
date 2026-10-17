@@ -12,6 +12,8 @@ namespace LizardWizard.Abilities;
 /// bends the shot toward an enemy that's nearly in front of the hero. Shots also flip levers.
 /// With more than one of <see cref="Elements"/>, LB / RB (or the ring menu) switch the element.
 /// "Explosive" is also allowed as an element: the shot makes a small explosion where it lands.
+/// With <see cref="ArcHeight"/> the shot is lobbed instead (the javelin): it arcs over things and comes down on the
+/// enemy the aim assist picked, or at full range.
 /// </summary>
 public partial class GunAbility : Ability, IHasOptions
 {
@@ -52,6 +54,9 @@ public partial class GunAbility : Ability, IHasOptions
 
     /// <summary>Aim assist: shots bend toward an enemy within this many degrees of where the hero faces.</summary>
     [Export] public float AimAssistDegrees { get; set; } = 15f;
+
+    /// <summary>0 = shots fly straight. Otherwise shots are lobbed this high (pixels) and land on the target.</summary>
+    [Export] public float ArcHeight { get; set; }
 
     /// <summary>How long the hero stands still after a shot.</summary>
     [Export] public float ActiveSeconds { get; set; } = 0.12f;
@@ -116,7 +121,9 @@ public partial class GunAbility : Ability, IHasOptions
             .FirstOrDefault();
         var direction = assisted == Vector2.Zero ? Hero.Facing : assisted.Normalized();
 
-        var shot = new Bullet.Shot(BulletSpeed, Range, Damage, Element, ShotColour, Look, IsExplosive ? ExplosionRadius : 0, ExplosionDamage);
+        // A lob comes down just past the enemy it's aimed at (so it hits on the way down), or at full range.
+        var range = ArcHeight > 0 && assisted != Vector2.Zero ? Mathf.Min(Range, assisted.Length() + 6f) : Range;
+        var shot = new Bullet.Shot(BulletSpeed, range, Damage, Element, ShotColour, Look, IsExplosive ? ExplosionRadius : 0, ExplosionDamage, ArcHeight);
         for (var i = 0; i < ShotCount; i++)
         {
             var spread = ShotCount == 1 ? 0 : SpreadDegrees * (i / (ShotCount - 1f) - 0.5f);
