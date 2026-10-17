@@ -171,6 +171,11 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     public bool IsMenuOpen => _menu?.IsOpen == true;
 
+    /// <summary>The tank this hero is riding (see <see cref="Tank"/>), or null.</summary>
+    public Tank? Riding { get; private set; }
+
+    public bool IsDriving => Riding is not null && Riding.Driver == this;
+
     /// <summary>What LB / RB cycle through: the first ability with choices (bombs, colours).</summary>
     public IHasOptions? QuickOptions => _abilities.OfType<IHasOptions>().FirstOrDefault(o => o.Options.Length > 1);
 
@@ -219,6 +224,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     /// <summary>The player dropped out: stop being a target right away, then remove the hero.</summary>
     public void LeaveGame()
     {
+        Dismount();
         _left = true;
         RemoveFromGroup(Group);
         QueueFree();
@@ -274,7 +280,11 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         }
 
         // Dodge works even with the ring menu open (it doesn't pause the game).
-        if (Controls.DodgePressed)
+        if (Controls.DodgePressed && Riding is not null && !IsDriving)
+        {
+            Riding.Leave(this);
+        }
+        else if (Controls.DodgePressed && Riding is null)
         {
             TryDodge();
         }
@@ -282,6 +292,12 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         if (IsDodging)
         {
             Dodge(dt);
+            return;
+        }
+
+        if (Riding is not null)
+        {
+            RideAlong(dt);
             return;
         }
 
@@ -293,7 +309,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         {
             _menu.HandleInput(Controls);
         }
-        else
+        else if (!TryBoardTank())
         {
             UseButtons();
         }
@@ -329,9 +345,84 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         UpdateLook(walking || active?.Motion is not null);
     }
 
+    /// <summary>Climb onto a tank (called by <see cref="Tank.Board"/>).</summary>
+    public void Ride(Tank tank)
+    {
+        foreach (var ability in _abilities)
+        {
+            ability.Cancel();
+        }
+
+        Riding = tank;
+        _dodgeTime = -1f;
+        _knockback = Vector2.Zero;
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), tank.Driver == this ? "Driving!" : "All aboard!", Colors.White, 0.8f, 7f);
+    }
+
+    /// <summary>Hop off a tank, landing at <paramref name="at"/> (called by <see cref="Tank.Leave"/>).</summary>
+    public void StopRiding(Vector2 at)
+    {
+        Riding = null;
+        if (!OverPit(at))
+        {
+            Teleport(at);
+        }
+    }
+
+    /// <summary>Get off any tank first (going through a door, getting painted, leaving).</summary>
+    private void Dismount() => Riding?.Leave(this);
+
+    /// <summary>On a tank: stand on the deck. The driver steers (the tank reads the stick) and X hops out; passengers
+    /// use their own attacks as usual.</summary>
+    private void RideAlong(float dt)
+    {
+        GlobalPosition = Riding!.SeatFor(this);
+        if (Controls.Move.Length() > 0.2f)
+        {
+            Facing = Vector2.Right.Rotated(Mathf.Snapped(Controls.Move.Angle(), Mathf.Pi / 4));
+        }
+
+        if (Controls.MenuPressed && _menu is not null)
+        {
+            if (_menu.IsOpen) _menu.Close(); else _menu.Open();
+        }
+        else if (_menu?.IsOpen == true)
+        {
+            _menu.HandleInput(Controls);
+        }
+        else if (IsDriving)
+        {
+            if (Controls.SecondaryPressed)
+            {
+                Riding.Leave(this);
+            }
+        }
+        else
+        {
+            UseButtons();
+        }
+
+        StillSeconds = 0;
+        UpdateLook(walking: false);
+    }
+
+    /// <summary>A next to a tank with a free seat climbs on instead of attacking.</summary>
+    private bool TryBoardTank()
+    {
+        if (!Controls.PrimaryPressed)
+        {
+            return false;
+        }
+
+        var tank = GetTree().GetNodesInGroup(Tank.Group).OfType<Tank>()
+            .FirstOrDefault(t => t.HasFreeSeat && t.GlobalPosition.DistanceTo(GlobalPosition) < 28f);
+        return tank is not null && tank.Board(this);
+    }
+
     /// <summary>Get painted into another class: its abilities switch on, the others switch off.</summary>
     public void Paint(string className)
     {
+        Dismount();
         _menu?.Close();
         foreach (var ability in _abilities)
         {
@@ -453,6 +544,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     /// <summary>Come into a new room (through a door) at <paramref name="position"/>, facing <paramref name="facing"/>.</summary>
     public void ArriveAt(Vector2 position, Vector2 facing)
     {
+        Dismount();
         GlobalPosition = position;
         _spawnPoint = position;
         _knockback = Vector2.Zero;
@@ -668,6 +760,12 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     public void TakeHit(int damage, Vector2 from, DamageType type = DamageType.Physical)
     {
+        if (Riding is not null)
+        {
+            Riding.TakeHit(damage);
+            return;
+        }
+
         if (!CanBeHit)
         {
             return;

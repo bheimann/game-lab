@@ -131,6 +131,9 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
   and queen, kitchen with a free herb, and a locked armory).
 - ✅ 🛠 Monster parts (antlers, hide, beetle shell) as loot, and the moose **Tinkerer**: fuses parts onto any hero's
   weapon, gun or armor (3 slots each, +1 per boss) and crafts armor for the team.
+- ✅ 🛠 Beetle **Vehicle Master**: builds a tank the whole team can ride (the beetle drives and fires the cannon,
+  passengers keep attacking).
+- 🦎 More vehicles (a boat for water? a glider?).
 - 🦎 What coins buy (a shop in the village?), and weapons as loot once there are more weapons.
 - 🦎 The king and queen's quests (one of them opens the armory), what the weapons & armor shop sells, and unlocking the
   first class in the paint shop (then the painter's mat outside goes away).
