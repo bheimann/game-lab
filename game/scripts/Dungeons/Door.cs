@@ -23,6 +23,9 @@ public enum DoorState
 
     /// <summary>Opens by itself when the room is cleared and / or its switches are on.</summary>
     Shut,
+
+    /// <summary>Stays shut until something in the story opens it (a quest); walking up shows <see cref="Door.BarredMessage"/>.</summary>
+    Barred,
 }
 
 /// <summary>Something that can open a door: a lever, a pressure plate...</summary>
@@ -82,6 +85,15 @@ public partial class Door : Node2D, Saving.ISaveable
     /// </summary>
     [Export] public bool Path { get; set; }
 
+    /// <summary>
+    /// Not in a wall: the front door of a building (a house, a shop, the castle gate), standing where it's placed
+    /// (at the bottom of the building, in front of its door). Walk up into it to go in. Always open; draws nothing.
+    /// </summary>
+    [Export] public bool Doorway { get; set; }
+
+    /// <summary>What a <see cref="DoorState.Barred"/> door says when a hero walks up to it.</summary>
+    [Export] public string BarredMessage { get; set; } = "It won't open";
+
     /// <summary>How wide a <see cref="Path"/> gap is, in pixels.</summary>
     public const float PathWidth = 32f;
 
@@ -95,7 +107,7 @@ public partial class Door : Node2D, Saving.ISaveable
     public Door? Partner => LeadsTo is null || LeadsTo.IsEmpty ? null : GetNodeOrNull<Door>(LeadsTo);
 
     /// <summary>Where heroes appear when they come through this door from the other side (global).</summary>
-    public Vector2 EntryPoint => GlobalPosition + (Stairs ? new Vector2(0, 16) : Path ? -Outward * 36f : Side switch
+    public Vector2 EntryPoint => GlobalPosition + (Stairs ? new Vector2(0, 16) : Doorway ? new Vector2(0, 14) : Path ? -Outward * 36f : Side switch
     {
         DoorSide.Top => new Vector2(0, 46),
         DoorSide.Bottom => new Vector2(0, -12),
@@ -104,7 +116,7 @@ public partial class Door : Node2D, Saving.ISaveable
     });
 
     /// <summary>Which way you walk to go through this door.</summary>
-    public Vector2 Outward => Stairs ? Vector2.Up : Side switch
+    public Vector2 Outward => Stairs || Doorway ? Vector2.Up : Side switch
     {
         DoorSide.Top => Vector2.Up,
         DoorSide.Bottom => Vector2.Down,
@@ -119,6 +131,14 @@ public partial class Door : Node2D, Saving.ISaveable
         _startState = State;
         var layout = room.Layout;
         ZIndex = -1; // part of the wall (or the ground): behind everyone
+
+        if (Doorway)
+        {
+            State = DoorState.Open;
+            Block(Vector2.Zero, Vector2.One);
+            Refresh();
+            return;
+        }
 
         if (Stairs || Path)
         {
@@ -202,6 +222,13 @@ public partial class Door : Node2D, Saving.ISaveable
         {
             TryUnlock();
         }
+
+        if (State == DoorState.Barred && _messageCooldown <= 0
+            && GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().FirstOrDefault(h => !h.IsDown && h.GlobalPosition.DistanceTo(_blocker.GlobalPosition) < 20) is { } hero)
+        {
+            _messageCooldown = 3f;
+            FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), BarredMessage, new Color(1f, 0.85f, 0.4f), 2f, 7f);
+        }
     }
 
     public string? SaveState() => State == _startState ? null : State.ToString();
@@ -238,6 +265,12 @@ public partial class Door : Node2D, Saving.ISaveable
             return Mathf.Abs(offset.X) < 7 && offset.Y is > -14 and < 2;
         }
 
+        if (Doorway)
+        {
+            // Right up against the building's front, walking into it.
+            return Mathf.Abs(offset.X) < 8 && offset.Y is > -10 and < 3 && hero.Controls.Move.Y < -0.5f;
+        }
+
         if (Path)
         {
             // Out in the gap, close to the edge of the area.
@@ -258,7 +291,7 @@ public partial class Door : Node2D, Saving.ISaveable
     public override void _Draw()
     {
         // Side doors have no closed-door art in the tileset: draw a plain wooden door.
-        if (IsOpen || Path || Side is DoorSide.Top or DoorSide.Bottom)
+        if (IsOpen || Path || Doorway || Side is DoorSide.Top or DoorSide.Bottom)
         {
             return;
         }

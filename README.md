@@ -59,6 +59,19 @@ yellow: that's its kick coming. Works even with the ring menu open.
   everything in the way). Stealing another ability swaps it.
 - **Secret:** in Scalebrook Meadow's top-left corner there's a chest across the water that only a grapple can reach.
 
+**Scalebrook Village:** walk up into a shop's door to go in. Each shop has a shopkeeper behind the counter who
+says hello; step up to the counter for a moment to buy (coins come out of the team's purse):
+- **Scalebrook Inn** (top left): a rest fills your hearts, 5 coins.
+- **Herb Shop** (top middle): a healing herb, 10 coins.
+- **Paint Shop** (top right): stand on the paint mat to change class (the painter's mat outside still works too, for
+  playtesting).
+- **Weapons & Armor** (bottom left): nothing to sell yet.
+
+The path north leads to **Scalebrook Castle**. Its **Castle Hall** has knights on guard (some stand, some walk
+about); the top door goes to the **Throne Room** (the king and queen, and four knights; the king, the queen or both
+welcome you), the right door to the **Castle Kitchen** (a cook, and a free herb on the table, once), and the left door
+to the **armory**, which stays locked for now (a quest will open it). Villagers wander around the village.
+
 **Loot:** a beaten enemy drops something: usually a few **coins** (8 times out of 10), otherwise a **healing herb**
 (later also weapons). Walk over it to pick it up. Coins go into the team's purse (top middle of the screen, kept in
 the save); there's nothing to buy yet. The boss drops five things: a big **boss coin** (with a red star; the team's

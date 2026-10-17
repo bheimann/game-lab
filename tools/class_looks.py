@@ -1,5 +1,6 @@
 """Builds each hero's class looks from its plain sprites: a hat, headband or new colours per class, so you can tell
-the classes apart. Reads art-source/<folder>/<name>_<view>.txt, writes art-source/<folder>/<name>_<class>_<view>.txt
+the classes apart. Also builds the townsfolk (king, queen, knights, shopkeepers, villagers) the same way, from the
+heroes' bodies recoloured and dressed up; those go to art-source/npcs/ and game/assets/sprites/npcs/ (see Npc.cs). Reads art-source/<folder>/<name>_<view>.txt, writes art-source/<folder>/<name>_<class>_<view>.txt
 and renders them into game/assets/sprites/<folder>/ (Hero.cs picks them up by class name). A starting class keeps the
 plain sprites. Hats need room above the head, so every class look gets PAD empty rows on top.
 Run: python tools/class_looks.py   (add --preview <file.png> for a big sheet of every look)"""
@@ -17,6 +18,75 @@ VIEWS = ("down", "up", "side")
 # Hats, drawn with the brim on the bottom row. "front" is used for down and up (the back of the hat: "back" recolours
 # it), "side" faces right. '.' keeps whatever is underneath.
 HATS = {
+    "crown": {
+        "front": [
+            ".o..oo..o.",
+            "oYooYYooYo",
+            "oYYYYYYYYo",
+            "oYRYYYYRYo",
+            "oYYYYYYYYo",
+            ".oooooooo.",
+        ],
+        "side": [
+            "o..oo..o",
+            "oYoYYoYo",
+            "oYYYYYYo",
+            "oYYRYYYo",
+            "oYYYYYYo",
+            ".oooooo.",
+        ],
+    },
+    "tiara": {
+        "front": [
+            "...oo...",
+            "..oRRo..",
+            "ooYYYYoo",
+            "oYYYYYYo",
+            ".oooooo.",
+        ],
+        "side": [
+            "..oo..",
+            ".oRRo.",
+            "oYYYYo",
+            ".oooo.",
+        ],
+    },
+    "beret": {
+        "front": [
+            ".....oo.....",
+            "...ooRRoo...",
+            ".ooRRRRRRoo.",
+            "oRRRRRRRRRRo",
+            ".oooooooooo.",
+        ],
+        "side": [
+            "........oo..",
+            "..ooooooRRo.",
+            ".oRRRRRRRRRo",
+            "oRRRRRRRRRo.",
+            ".oooooooooo.",
+        ],
+    },
+    "chef": {
+        "front": [
+            ".oo.oo.oo.",
+            "oWWoWWoWWo",
+            "oWWWWWWWWo",
+            ".oWWWWWWo.",
+            ".oWWWWWWo.",
+            ".oGGGGGGo.",
+            "..oooooo..",
+        ],
+        "side": [
+            ".oo.oo.oo.",
+            "oWWoWWoWWo",
+            "oWWWWWWWWo",
+            ".oWWWWWWo.",
+            ".oWWWWWWo.",
+            ".oGGGGGGo.",
+            "..oooooo..",
+        ],
+    },
     "wizard": {
         "front": [
             "......o.....",
@@ -158,6 +228,8 @@ HEADS = {
     "chameleon": {"down": (8, 4), "up": (8, 4), "side": (8, 3)},
     "red_fox": {"down": (8, 4), "up": (8, 4), "side": (8, 4)},
     "peacock": {"down": (8, 3), "up": (8, 3), "side": (11, 3)},
+    "arctic_fox": {"down": (8, 4), "up": (8, 4), "side": (8, 4)},
+    "beetle": {"down": (8, 5), "up": (8, 5), "side": (12, 6)},
 }
 
 # Spitter: a teal lizard (poison spit).
@@ -171,6 +243,26 @@ LOOKS = [
     ("red_fox", "Gun Master", "cowboy", None, {}),
     ("peacock", "Warrior", "knight", None, {}),
     ("peacock", "Thief", None, PEACOCK_MASK, {}),
+]
+
+
+# Townsfolk: (name, hero body, hat, recolour). Recolours make them clearly not one of the heroes.
+STEEL_FOX = {"F": "G", "f": "g", "n": "b", "k": "g"}
+STEEL_BEETLE = {"V": "g", "v": "b", "A": "G"}
+NPCS = [
+    ("king", "chameleon", "crown", {"L": "B", "B": "M", "M": "D"}),
+    ("queen", "peacock", "tiara", {"U": "V", "u": "v", "C": "A", "c": "v"}),
+    ("knight_fox", "red_fox", "knight", STEEL_FOX),
+    ("knight_beetle", "beetle", "knight", STEEL_BEETLE),
+    ("innkeeper", "moose", None, {"H": "E", "h": "e"}),
+    ("herbalist", "beetle", None, {"V": "B", "v": "M", "A": "L"}),
+    ("paint_seller", "chameleon", "beret", {"L": "Y", "B": "F", "M": "f", "D": "n"}),
+    ("smith", "red_fox", "viking", {"F": "H", "f": "h"}),
+    ("cook", "arctic_fox", "chef", {}),
+    ("villager_fox", "arctic_fox", None, {}),
+    ("villager_moose", "moose", None, {"H": "g", "h": "b"}),
+    ("villager_lizard", "chameleon", None, {"L": "q", "B": "U", "M": "u", "D": "v"}),
+    ("villager_peacock", "peacock", None, {"U": "B", "u": "M", "C": "Y", "c": "f"}),
 ]
 
 
@@ -210,6 +302,18 @@ def main():
             txt.write_text(f"# {name} as a {cls}, facing {view}. Made by tools/class_looks.py from {name}_{view}.txt; edit that"
                            " script, not this file.\n" + "\n\n".join("\n".join(f) for f in frames) + "\n", encoding="utf-8")
             render(txt, SPRITES / name / f"{name}_{slug}_{view}.png")
+            preview.append(frames[0])
+
+    (ART / "npcs").mkdir(exist_ok=True)
+    (SPRITES / "npcs").mkdir(exist_ok=True)
+    for npc, body, hat, recolour in NPCS:
+        for view in VIEWS:
+            frames = dress(body, hat, None, recolour, view)
+            txt = ART / "npcs" / f"{npc}_{view}.txt"
+            txt.write_text(f"# The {npc.replace('_', ' ')} (townsfolk), facing {view}. Made by tools/class_looks.py from"
+                           f" {body}_{view}.txt; edit that script, not this file.\n"
+                           + "\n\n".join("\n".join(f) for f in frames) + "\n", encoding="utf-8")
+            render(txt, SPRITES / "npcs" / f"{npc}_{view}.png")
             preview.append(frames[0])
 
     if "--preview" in sys.argv:

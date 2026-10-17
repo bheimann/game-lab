@@ -126,7 +126,12 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Loot: beaten enemies drop coins (80%) or a healing herb (20%), and the team has a purse. The peacock's
   **Thief** class steals gold, gear and abilities (Deer Kick, Beetle Charge).
 - 🦎 Design the boss drops and what goes in the new areas.
+- ✅ 🛠 A real village: an inn (rest, 5 coins), a herb shop (10 coins), a paint shop, a weapons & armor shop (not
+  open yet), shopkeepers who greet you, villagers, and Scalebrook Castle (hall with knights, throne room with the king
+  and queen, kitchen with a free herb, and a locked armory).
 - 🦎 What coins buy (a shop in the village?), and weapons as loot once there are more weapons.
+- 🦎 The king and queen's quests (one of them opens the armory), what the weapons & armor shop sells, and unlocking the
+  first class in the paint shop (then the painter's mat outside goes away).
 - 🦎 A start in the village with a story: a mini tutorial and the king, ending with each hero unlocking their first
   class, before they leave the village. Until then everyone can pick any class when joining.
 

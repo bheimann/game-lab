@@ -32,8 +32,16 @@ public partial class Painter : Node2D
     /// <summary>How long you stand on the mat before getting painted.</summary>
     [Export] public float StandSeconds { get; set; } = 0.6f;
 
+    /// <summary>The "stand on the mat" label above the mat (the paint shop has a sign on its counter instead).</summary>
+    [Export] public bool ShowLabel { get; set; } = true;
+
     public override void _Ready()
     {
+        if (!ShowLabel)
+        {
+            return;
+        }
+
         AddChild(new Label
         {
             Text = "Painter: stand on\nthe mat to change class",
