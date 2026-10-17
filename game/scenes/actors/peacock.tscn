@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
 [ext_resource type="Script" path="res://scripts/Abilities/GunAbility.cs" id="2_gun"]
 [ext_resource type="Script" path="res://scripts/Abilities/GrappleAbility.cs" id="3_grapple"]
-[ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="4_melee"]
 [ext_resource type="Script" path="res://scripts/Abilities/StealAbility.cs" id="5_steal"]
 [ext_resource type="Script" path="res://scripts/Abilities/StolenMoveAbility.cs" id="6_stolen"]
 
@@ -21,7 +20,7 @@ MaxHealth = 18
 
 [node name="Gun" type="Node2D" parent="."]
 script = ExtResource("2_gun")
-Classes = "Warrior"
+Classes = "Warrior, Thief"
 CooldownSeconds = 0.35
 
 [node name="Feathers" type="Node2D" parent="."]
@@ -57,16 +56,6 @@ ExplosionRadius = 26.0
 ExplosionDamage = 8
 ActiveSeconds = 0.3
 MoveFactorWhileActive = 0.0
-
-[node name="Dagger" type="Node2D" parent="."]
-script = ExtResource("4_melee")
-Classes = "Thief"
-CooldownSeconds = 0.22
-Damage = 3
-Reach = 12.0
-Radius = 7.0
-ActiveSeconds = 0.12
-FlashColour = Color(0.85, 0.9, 1, 1)
 
 [node name="Steal" type="Node2D" parent="."]
 script = ExtResource("5_steal")

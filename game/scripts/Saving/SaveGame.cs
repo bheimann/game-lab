@@ -31,6 +31,9 @@ public sealed class SavedPlayer
     public string? Armor { get; set; }
 
     public int Herbs { get; set; }
+
+    /// <summary>The move a Thief stole last (empty: none).</summary>
+    public string StolenMove { get; set; } = "";
 }
 
 /// <summary>Everything in the save file.</summary>
@@ -194,6 +197,7 @@ public static class SaveGame
                         Weapon = hero.CurrentWeapon,
                         Armor = hero.Armor?.Name,
                         Herbs = hero.Herbs,
+                        StolenMove = hero.GetChildren().OfType<Abilities.StolenMoveAbility>().FirstOrDefault()?.Move ?? "",
                     };
                 }
             }

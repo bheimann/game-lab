@@ -208,7 +208,7 @@ public partial class PlayerManager : Node
             ? character.Classes.ToList().IndexOf(saved.Class)
             : 0;
 
-    /// <summary>Same character as last time? Then the same armor and herbs (and weapon, if it's the same class).</summary>
+    /// <summary>Same character as last time? Then the same armor, herbs and stolen move (and weapon, if it's the same class).</summary>
     private static void Restore(Hero hero, int slot)
     {
         if (Saving.SaveGame.PlayerFor(slot, hero.DisplayName) is not { } saved)
@@ -227,6 +227,11 @@ public partial class PlayerManager : Node
         }
 
         hero.RestoreHerbs(saved.Herbs);
+        if (saved.StolenMove != "" && hero.GetChildren().OfType<Abilities.StolenMoveAbility>().FirstOrDefault() is { } stolen)
+        {
+            stolen.Learn(saved.StolenMove);
+        }
+
         GD.Print($"P{slot + 1} picks up where they left off: {hero.DisplayName} {hero.CurrentClass} {hero.CurrentWeapon}, armor={hero.Armor?.Name ?? "none"}, herbs={hero.Herbs}");
     }
 
