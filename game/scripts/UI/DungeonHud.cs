@@ -6,7 +6,7 @@ using LizardWizard.Dungeons;
 namespace LizardWizard.UI;
 
 /// <summary>
-/// The dungeon's part of the screen: keys carried (top middle), the boss's health bar while it fights,
+/// The dungeon's part of the screen: keys and the team's coins (top middle), the boss's health bar while it fights,
 /// and big banners for room names and "Dungeon complete!".
 /// </summary>
 public partial class DungeonHud : Control
@@ -50,6 +50,20 @@ public partial class DungeonHud : Control
             DrawRect(new Rect2(at - new Vector2(4, 2), new Vector2(44, 18)), Outline with { A = 0.7f });
             DrawTextureRect(_key, new Rect2(at + new Vector2(0, 1), _key.GetSize()), false);
             Text($"x{Dungeon.Keys}", at + new Vector2(20, 12), Colors.White, 10, left: true);
+        }
+
+        // Coins (next to the keys, if there are any).
+        if (Items.Purse.Coins > 0)
+        {
+            var label = $"x{Items.Purse.Coins}";
+            var boxWidth = 24 + font.GetStringSize(label, HorizontalAlignment.Left, -1, 10).X;
+            var at = new Vector2(Dungeon.Keys > 0 ? width / 2 + 32 : width / 2 - boxWidth / 2, 6);
+            DrawRect(new Rect2(at - new Vector2(4, 2), new Vector2(boxWidth + 4, 18)), Outline with { A = 0.7f });
+            var coin = at + new Vector2(6, 7);
+            DrawCircle(coin, 5f, Outline);
+            DrawCircle(coin, 4f, new Color(0.72f, 0.48f, 0.12f));
+            DrawCircle(coin - new Vector2(0.6f, 0.6f), 3f, new Color(0.98f, 0.8f, 0.25f));
+            Text(label, at + new Vector2(16, 12), Colors.White, 10, left: true);
         }
 
         // Boss health.

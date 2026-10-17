@@ -52,6 +52,45 @@ public interface ICharmable
     void Charm(float seconds, Hero by);
 }
 
+/// <summary>What the Thief can try to take from an enemy.</summary>
+public enum StealKind
+{
+    Gold,
+    Gear,
+    Ability,
+}
+
+/// <summary>An enemy the peacock Thief can rob. Each thing can be taken once (until the enemy comes back).</summary>
+public interface IStealable
+{
+    Vector2 HurtCenter { get; }
+
+    float HurtRadius { get; }
+
+    /// <summary>Only an enemy that's awake and fighting can be robbed.</summary>
+    bool IsHostile { get; }
+
+    /// <summary>The move the Thief learns by stealing this enemy's ability (see <see cref="Abilities.StolenMoveAbility"/>).</summary>
+    string StealableMove { get; }
+
+    /// <summary>Coins in its pockets (a boss carries more).</summary>
+    int StealableCoins { get; }
+
+    /// <summary>Take it, if it hasn't been taken already. Returns false if there's nothing left of that kind.</summary>
+    bool TrySteal(StealKind kind);
+}
+
+/// <summary>Keeps track of what's been stolen from one enemy.</summary>
+public sealed class Pockets
+{
+    private readonly HashSet<StealKind> _taken = new();
+
+    public bool TryTake(StealKind kind) => _taken.Add(kind);
+
+    /// <summary>The enemy came back: its pockets are full again.</summary>
+    public void Refill() => _taken.Clear();
+}
+
 /// <summary>A boss: gets a big health bar across the top of the screen while it's fighting.</summary>
 public interface IBoss
 {

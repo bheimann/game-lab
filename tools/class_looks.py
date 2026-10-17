@@ -136,6 +136,23 @@ LIZARD_HEADBAND = {
     ]),
 }
 
+# The Thief's bandit mask, drawn straight onto the peacock: a dark band over the eyes, knotted at the back.
+PEACOCK_MASK = {
+    "down": (5, [
+        "....onnnnnno....",
+        "....nWPnnPWn....",
+    ]),
+    "up": (3, [
+        "......nnnn......",
+        ".......nn.......",
+    ]),
+    "side": (4, [
+        "........onnnnno.....",
+        "......nnonWWPno.....",
+        ".....n..............",
+    ]),
+}
+
 # Where a hat sits on each hero, per view: (middle column, row of the top of the head) in the plain sprite.
 HEADS = {
     "chameleon": {"down": (8, 4), "up": (8, 4), "side": (8, 3)},
@@ -153,6 +170,7 @@ LOOKS = [
     ("chameleon", "Illusionist", "wizard", None, {}),
     ("red_fox", "Gun Master", "cowboy", None, {}),
     ("peacock", "Warrior", "knight", None, {}),
+    ("peacock", "Thief", None, PEACOCK_MASK, {}),
 ]
 
 

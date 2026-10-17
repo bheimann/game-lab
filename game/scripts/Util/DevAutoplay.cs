@@ -425,6 +425,48 @@ public partial class DevAutoplay : Node
     /// (Written for P1 = Illusionist, P2 = Weapon Master.)
     /// </summary>
     /// <summary>
+    /// The peacock's Thief class (P2): steal gold, gear and the ability from one deer, try to rob it again (nothing
+    /// left), kick it with the stolen Deer Kick until it falls asleep, and check its loot gets picked up.
+    /// </summary>
+    private void ThiefTest(Hero p2, List<Deer> deer, int step, System.Action<Deer, Hero, float> place, System.Func<Hero, string, Ability> ability)
+    {
+        var steal = (StealAbility)ability(p2, "Steal");
+        var move = (StolenMoveAbility)ability(p2, "StolenMove");
+        var victim = deer[2];
+        void Log(string text) => GD.Print($"[autoplay {_time:0.0}s] thief test: {text}");
+        string State() => $"coins {Items.Purse.Coins}, herbs {p2.Herbs}, move '{move.Move}' x{move.UsesLeft}, deer hp {victim.Health.Current}";
+
+        switch (step)
+        {
+            case 1:
+                p2.Face(Vector2.Right);
+                place(victim, p2, 14);
+                Log($"before: {State()}, hostile={victim.IsHostile}");
+                steal.Select(0);
+                Log($"steal gold: used={steal.TryUse()} -> {State()}");
+                break;
+            case 2: place(victim, p2, 14); steal.Select(1); Log($"steal gear: used={steal.TryUse()} -> {State()}"); break;
+            case 3: place(victim, p2, 14); steal.Select(2); Log($"steal ability: used={steal.TryUse()} -> {State()}"); break;
+            case 4: place(victim, p2, 14); steal.Select(0); Log($"steal gold again (should be empty): used={steal.TryUse()} -> {State()}"); break;
+            case 5: case 6: case 7:
+                place(victim, p2, 14);
+                Log($"deer kick: used={move.TryUse()} -> {State()}, asleep={victim.IsAsleep}");
+                TakeShot(0.1, "_thief");
+                break;
+            case 9: case 10: case 11:
+                var loot = GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Loot>().ToList();
+                Log($"loot lying around: {string.Join(", ", loot.Select(l => l.IsHerb ? "herb" : $"{l.Coins} coins"))}");
+                if (loot.Count > 0)
+                {
+                    p2.Teleport(loot[0].GlobalPosition);
+                }
+
+                break;
+            case 12: Log($"after picking up: {State()}"); break;
+        }
+    }
+
+    /// <summary>
     /// The moose's Summoner class: summon the wolf (and check the wait before the next one), add squirrels, bees and
     /// an owl, watch them fight the deer the moose hit, check that a fifth summon sends the oldest away, switch the
     /// big summon with B's ability and stampede a deer, then check the totem heals and the treant draws the deer.
@@ -630,6 +672,11 @@ public partial class DevAutoplay : Node
         if (p1?.CurrentClass == "Roller")
         {
             RollerTest(p1, deer, step, Place, A);
+        }
+
+        if (p2?.CurrentClass == "Thief")
+        {
+            ThiefTest(p2, deer, step, Place, A);
         }
 
         if (p2?.CurrentClass == "Grappler")
