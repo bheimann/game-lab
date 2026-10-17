@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
 [ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="2_melee"]
 [ext_resource type="Script" path="res://scripts/Abilities/RollAbility.cs" id="3_roll"]
 [ext_resource type="Script" path="res://scripts/Abilities/ShieldAbility.cs" id="4_shield"]
 [ext_resource type="Script" path="res://scripts/Abilities/ToughnessAbility.cs" id="5_tough"]
+[ext_resource type="Script" path="res://scripts/Abilities/VehicleAbility.cs" id="6_vehicle"]
 
 [node name="Beetle" type="CharacterBody2D"]
 collision_layer = 2
@@ -45,3 +46,9 @@ ShellColour = Color(0.5, 0.33, 0.78, 1)
 [node name="ToughShell" type="Node2D" parent="."]
 script = ExtResource("5_tough")
 Classes = "Roller"
+
+[node name="Vehicle" type="Node2D" parent="."]
+script = ExtResource("6_vehicle")
+Slot = 1
+Classes = "Vehicle Master"
+CooldownSeconds = 0.4

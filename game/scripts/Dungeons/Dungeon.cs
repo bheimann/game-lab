@@ -156,10 +156,10 @@ public partial class Dungeon : Node
         }
         RespawnPoint = door.EntryPoint;
 
-        // Bombs and smoke stay behind in the old room.
+        // Bombs and smoke stay behind in the old room (a tank gets packed away).
         var heroes = Heroes();
         var actors = heroes.FirstOrDefault()?.GetParent();
-        foreach (var leftover in actors?.GetChildren().Where(c => c is Bomb or SmokeCloud or Lure or Bullet or Stampede) ?? Enumerable.Empty<Node>())
+        foreach (var leftover in actors?.GetChildren().Where(c => c is Bomb or SmokeCloud or Lure or Bullet or Stampede or Tank) ?? Enumerable.Empty<Node>())
         {
             leftover.QueueFree();
         }

@@ -46,6 +46,7 @@ public partial class DevAutoplay : Node
     private Vector2 _abilityPos;
     private int _rollerStage;
     private Deer? _summonTarget;
+    private Vector2 _tankAt;
     private int _rollerNextStep;
     private double _time;
     private double _nextShot;
@@ -425,6 +426,56 @@ public partial class DevAutoplay : Node
     /// (Written for P1 = Illusionist, P2 = Weapon Master.)
     /// </summary>
     /// <summary>
+    /// The beetle's Vehicle Master class (P1), with P2: build the tank (the beetle drives), P2 climbs on, fire the
+    /// cannon, drive right for a moment (P1's real D key), P2 gets hit (the tank should take it), P2 hops off and on
+    /// again, then the tank breaks (everyone off) and building another has to wait.
+    /// </summary>
+    private void VehicleTest(Hero p1, Hero p2, int step, System.Func<Hero, string, Ability> ability)
+    {
+        var vehicle = (VehicleAbility)ability(p1, "Vehicle");
+        void Log(string text) => GD.Print($"[autoplay {_time:0.0}s] vehicle test: {text}");
+        var tank = vehicle.Tank;
+
+        switch (step)
+        {
+            case 1:
+                Log($"build: used={vehicle.TryUse()}, tank={vehicle.Tank is not null}, P1 driving={p1.IsDriving}");
+                break;
+            case 2:
+                p2.Teleport(tank!.GlobalPosition + new Vector2(20, 14));
+                Log($"P2 climbs on: {tank.Board(p2)}, riders {tank.Riders.Count()}, P2 riding={p2.Riding is not null}");
+                break;
+            case 3:
+                var before = GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Bullet>().Count();
+                tank!.FireCannon();
+                Log($"cannon: shells {before} -> {GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Bullet>().Count()}");
+                TakeShot(0.15, "_tank");
+                _tankAt = tank.GlobalPosition;
+                Input.ParseInputEvent(new InputEventKey { PhysicalKeycode = Key.D, Keycode = Key.D, Pressed = true });
+                break;
+            case 4:
+                Input.ParseInputEvent(new InputEventKey { PhysicalKeycode = Key.D, Keycode = Key.D, Pressed = false });
+                Log($"drove right: tank moved {tank!.GlobalPosition - _tankAt:0}, P1 on the deck={p1.GlobalPosition.DistanceTo(tank.SeatFor(p1)) < 1}, P2 on the deck={p2.GlobalPosition.DistanceTo(tank.SeatFor(p2)) < 1}");
+                var hp = p2.Health.Current;
+                var tankHp = tank.Health.Current;
+                p2.TakeHit(5, p2.GlobalPosition + Vector2.Left * 10);
+                Log($"P2 hit while riding: P2 hp {hp} -> {p2.Health.Current}, tank hp {tankHp} -> {tank.Health.Current}");
+                break;
+            case 5:
+                tank!.Leave(p2);
+                Log($"P2 hops off: riding={p2.Riding is not null}, riders {tank.Riders.Count()}");
+                break;
+            case 6:
+                tank!.TakeHit(100);
+                Log($"tank broken: P1 riding={p1.Riding is not null}, tank gone={vehicle.Tank is null}");
+                break;
+            case 7:
+                Log($"rebuild straight away: used={vehicle.TryUse()}, tank={vehicle.Tank is not null} (should wait)");
+                break;
+        }
+    }
+
+    /// <summary>
     /// The moose's Tinkerer class (P1), with P2 next to it: fuse an antler onto P2's main attack and check it hits
     /// harder, fuse a shell onto the moose's own armor (more hearts), craft a Hide Vest (P2 can wear it), and fill
     /// P2's weapon slots to check the newest replaces the one in hand.
@@ -745,6 +796,11 @@ public partial class DevAutoplay : Node
         if (p1?.CurrentClass == "Roller")
         {
             RollerTest(p1, deer, step, Place, A);
+        }
+
+        if (p1?.CurrentClass == "Vehicle Master" && p2 is not null)
+        {
+            VehicleTest(p1, p2, step, A);
         }
 
         if (p1?.CurrentClass == "Tinkerer" && p2 is not null)

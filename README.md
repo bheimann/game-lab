@@ -59,6 +59,12 @@ yellow: that's its kick coming. Works even with the ring menu open.
   Every hero has **3 fuse slots** each for guns, weapons and armor (one more of each for every boss beaten); a main
   attack that shoots counts as a gun. Switch between your fused weapons / guns and armor in the **Start** ring menu.
   When the slots are full, a new fusion replaces the one you're using.
+- The beetle can also be a **Vehicle Master** (aviator cap): X **builds a tank** and hops in to drive. Driving: the
+  stick steers, A fires the **cannon** (explosive shells, which also break cracked rocks), X hops out (X next to the
+  tank climbs back in; far from it, a new tank is built right there). Teammates climb on by walking up to the tank and
+  pressing A (up to 3 passengers), keep using their own attacks from the deck, and hop off with dodge. Hits on anyone
+  riding hit the tank instead (it has its own health bar); when it breaks everyone tumbles off, and the beetle needs
+  10 seconds to fix it before building another. Going through a door packs the tank away.
 - The **beetle** starts as a **Roller**: A horn jab, X **rolls** (a fast ball that rams enemies and bounces off
   walls; steer it a little; hits hurt half as much while rolling), Y **hides in its shell** (blocks every hit for a
   moment), and its tough shell always makes hits hurt less. Its other class, **Warrior**, just jabs.

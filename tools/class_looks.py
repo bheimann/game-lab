@@ -18,6 +18,22 @@ VIEWS = ("down", "up", "side")
 # Hats, drawn with the brim on the bottom row. "front" is used for down and up (the back of the hat: "back" recolours
 # it), "side" faces right. '.' keeps whatever is underneath.
 HATS = {
+    "aviator": {
+        "front": [
+            "..oooooo..",
+            ".oHHHHHHo.",
+            "oHHHHHHHHo",
+            "ogCgoogCgo",
+            ".oooooooo.",
+        ],
+        "side": [
+            ".oooooo.",
+            "oHHHHHHo",
+            "oHHHHHHo",
+            "ohhogCgo",
+            ".oooooo.",
+        ],
+    },
     "crown": {
         "front": [
             ".o..oo..o.",
@@ -261,6 +277,7 @@ LOOKS = [
     ("peacock", "Warrior", "knight", None, {}),
     ("peacock", "Thief", None, PEACOCK_MASK, {}),
     ("moose", "Tinkerer", None, MOOSE_GOGGLES, {}),
+    ("beetle", "Vehicle Master", "aviator", None, {}),
 ]
 
 
