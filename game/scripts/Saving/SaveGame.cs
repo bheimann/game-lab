@@ -58,7 +58,7 @@ public sealed class SaveData
 /// Saves the game to <c>user://save.json</c> (on Windows: %APPDATA%\Godot\app_userdata\Lizard Wizard) and loads
 /// it next time. The game saves by itself: going through a door, beating a boss, a player leaving, and closing
 /// the game. Loading puts the world back how it was (doors, levers, chests, broken rocks, bosses, keys) and
-/// starts the team in the overworld. Dev runs (autoplay, screenshots) never touch the save, unless they're given
+/// starts the team in Scalebrook Village. Dev runs (autoplay, screenshots) never touch the save, unless they're given
 /// their own file with <c>--save-file=user://test_save.json</c>.
 /// </summary>
 public static class SaveGame

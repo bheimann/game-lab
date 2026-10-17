@@ -8,7 +8,8 @@ namespace LizardWizard.UI;
 /// <summary>
 /// One player's corner of the HUD: "P1" in the player's colour and Zelda-style hearts (each heart is
 /// 2 HP, so odd damage shows half a heart). Under the hearts: the selected bomb / colour, herbs left
-/// and the armor being worn. While nobody is in that slot it shows how to join.
+/// and the armor being worn. While nobody is in that slot it shows how to join
+/// (and, while picking, the character and class).
 /// </summary>
 public partial class HeartBar : Control
 {
@@ -46,14 +47,23 @@ public partial class HeartBar : Control
 
         if (lizard is null)
         {
-            var hint = slot is { IsChoosing: true }
-                ? $"{label}:  <  {PlayerManager.Characters[slot.Choice].Name}  >   press A / J / . to pick"
+            // Picking: left / right for the character, up / down for its class.
+            var choosing = slot is { IsChoosing: true };
+            var hint = choosing
+                ? $"{label}:  <  {slot!.Character.Name}  >   press A / J / . to start"
                 : $"{label}: press A, J or . to join";
-            var hintAlpha = slot is { IsChoosing: true } ? 1f : 0.6f;
+            var classHint = !choosing ? "" : slot!.Character.Classes.Count > 1 ? $"up / down:  {slot.Class}" : slot.Class;
             var hintWidth = font.GetStringSize(hint, HorizontalAlignment.Left, -1, FontSize).X;
+            var classWidth = classHint == "" ? 0 : font.GetStringSize(classHint, HorizontalAlignment.Left, -1, FontSize).X;
             var hintX = AlignRight ? Size.X - hintWidth : 0;
-            DrawBacking(hintX, hintWidth, hintX, 0);
-            DrawString(font, new Vector2(hintX, FontSize + 2), hint, HorizontalAlignment.Left, -1, FontSize, colour with { A = hintAlpha });
+            var classX = AlignRight ? Size.X - classWidth : 0;
+            DrawBacking(hintX, hintWidth, classX, classWidth);
+            DrawString(font, new Vector2(hintX, FontSize + 2), hint, HorizontalAlignment.Left, -1, FontSize, colour with { A = choosing ? 1f : 0.6f });
+            if (classHint != "")
+            {
+                DrawString(font, new Vector2(classX, FontSize + 19), classHint, HorizontalAlignment.Left, -1, FontSize, Colors.White);
+            }
+
             return;
         }
 

@@ -13,7 +13,8 @@
 
 ### Controls
 Up to 4 players. Each controller is a player, and the keyboard can be two players (left and right halves).
-Press a button to join, pick a character with left / right and confirm with the primary button.
+Press a button to join, pick a character with left / right and its class with up / down, and confirm with the
+primary button. The team starts in **Scalebrook Village**.
 Hold the leave button for a second to drop out.
 
 | | Keyboard (left) | Keyboard (right) | Controller | Lizard | Fox |
@@ -53,7 +54,7 @@ yellow: that's its kick coming. Works even with the ring menu open.
   mid-flight over water, you land back where you started. Its other class, **Warrior**, shoots a plain gun.
 - **Secret:** in Scalebrook Meadow's top-left corner there's a chest across the water that only a grapple can reach.
 
-**The overworld:** Scalebrook Meadow is in the middle, with the stone temple gate into The Old Burrow at the top
+**The overworld:** the team starts in Scalebrook Village. Scalebrook Meadow is in the middle, with the stone temple gate into The Old Burrow at the top
 right (walk in through the arch), and paths out through gaps in the bushes (signs show the way):
 west to **Scalebrook Village** (houses and the village painter, no enemies), east to **Antlerwood Forest** (thick
 trees, deer, a chest in a clearing) and on north to **Frosttail Tundra** (snow, snowmen, a frozen lake), and south
@@ -63,7 +64,10 @@ to **Tailspin Swamp** (murky ponds, bare trees, and another chest only a grapple
 (stronger, longer tongue), **Spitter** (special button spits poison; LB / RB pick poison, fire, ice, lightning
 or arcane) or **Illusionist** (below). The fox can be a **Bomb Master**, **Gun Master** (shoots; LB / RB pick the
 element) or **Weapon Master** (below). To change class, visit the **painter in Scalebrook Village**: stand on
-its mat for a moment to switch to your next class (step off and on again for the one after).
+its mat for a moment to switch to your next class (step off and on again for the one after). Each class has its
+own look: the Tongue Master wears a red headband, the Spitter is teal, the Illusionist wears a wizard hat, the Gun
+Master a cowboy hat, the Weapon Master a viking helmet and the peacock Warrior a knight's helmet (made by
+`python tools/class_looks.py`).
 
 **Weapon Master (fox):** LB / RB switch weapons. A attacks with the weapon (instead of biting), X does its trick:
 

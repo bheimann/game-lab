@@ -14,7 +14,7 @@ Colours (mostly the Rosy 42 palette by @PineTreePizza; art-source/palette.png ha
   H  moose brown      h  dark brown        T  tan (antler)      t  dark tan
   C  teal             c  dark teal         U  blue              u  dark blue
   V  violet           v  dark violet       A  lilac (shine)
-  E  deer fawn         e  dark fawn
+  E  deer fawn         e  dark fawn       q  light teal
 """
 import struct
 import sys
@@ -51,6 +51,7 @@ COLOURS = {
     "A": (196, 168, 240, 255),
     "E": (201, 132, 74, 255),
     "e": (140, 86, 52, 255),
+    "q": (150, 232, 208, 255),
 }
 
 
@@ -86,7 +87,12 @@ def write_png(path, rows):
                 + chunk(b"IDAT", zlib.compress(raw)) + chunk(b"IEND", b""))
 
 
-frames, w, h = read_frames(sys.argv[1])
-rows = [[COLOURS[f[y][x]] for f in frames for x in range(w)] for y in range(h)]
-write_png(sys.argv[2], rows)
-print(f"wrote {sys.argv[2]}: {len(frames)} frame(s) of {w}x{h}")
+def render(src, dst):
+    frames, w, h = read_frames(src)
+    rows = [[COLOURS[f[y][x]] for f in frames for x in range(w)] for y in range(h)]
+    write_png(dst, rows)
+    print(f"wrote {dst}: {len(frames)} frame(s) of {w}x{h}")
+
+
+if __name__ == "__main__":
+    render(sys.argv[1], sys.argv[2])

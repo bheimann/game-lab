@@ -9,7 +9,7 @@ namespace LizardWizard.Util;
 
 /// <summary>
 /// Dev helper for dungeon scenes: <c>-- --autoplay=&lt;folder&gt;</c> and two bots (P1 lizard on WASD, P2 fox on
-/// the arrows) walk from the overworld into the first dungeon and play it to the boss by pressing the real keys. Each room has a
+/// the arrows) walk from the village through the overworld into the first dungeon and play it to the boss by pressing the real keys. Each room has a
 /// little plan: fight, open the chest, walk through the right door, solve the lever puzzle (the fox bombs the rocks
 /// and flips that lever, the lizard tongues the lever across the pit), beat the beetle, and take the exit portal out.
 /// Logs what happens and saves a screenshot every 2 seconds (and on every new room) into the folder.
@@ -116,6 +116,10 @@ public partial class DevDungeonAutoplay : Node
 
         switch (room.Name)
         {
+            case "Village":
+                Exit(room, "EastPath", lizard, fox, wanted);
+                break;
+
             case "Overworld":
                 Exit(room, "BurrowStairs", lizard, fox, wanted);
                 break;

@@ -8,7 +8,26 @@ using LizardWizard.Dungeons;
 namespace LizardWizard.Players;
 
 /// <summary>A character you can pick when joining.</summary>
-public sealed record CharacterOption(string Name, string ScenePath);
+public sealed record CharacterOption(string Name, string ScenePath)
+{
+    private string[]? _classes;
+
+    /// <summary>The classes this character can be (starting class first), read from its scene once.</summary>
+    public IReadOnlyList<string> Classes
+    {
+        get
+        {
+            if (_classes is null)
+            {
+                var hero = GD.Load<PackedScene>(ScenePath).Instantiate<Hero>();
+                _classes = Hero.ClassNamesOf(hero.StartingClass, hero.GetChildren().OfType<Abilities.Ability>()).ToArray();
+                hero.Free();
+            }
+
+            return _classes;
+        }
+    }
+}
 
 /// <summary>One of the four player slots.</summary>
 public sealed class PlayerSlot
@@ -22,6 +41,13 @@ public sealed class PlayerSlot
     /// <summary>Index into <see cref="PlayerManager.Characters"/> of the character being picked / played.</summary>
     public int Choice { get; internal set; }
 
+    /// <summary>Index into the picked character's <see cref="CharacterOption.Classes"/>.</summary>
+    public int ClassChoice { get; internal set; }
+
+    public CharacterOption Character => PlayerManager.Characters[Choice];
+
+    public string Class => Character.Classes[ClassChoice];
+
     public bool IsFree => Input is null;
 
     public bool IsChoosing => Input is not null && Hero is null;
@@ -30,7 +56,7 @@ public sealed class PlayerSlot
 /// <summary>
 /// Drop-in / drop-out co-op for up to 4 players. Every device (each half of the keyboard and each
 /// controller) is watched. Pressing a button on a free device claims a slot; left / right picks a
-/// character and the primary button confirms. Holding the leave button for a second frees the slot.
+/// character, up / down picks its class and the primary button confirms. Holding the leave button for a second frees the slot.
 /// </summary>
 /// <remarks>
 /// Needs a child node "Spawns" with up to 4 Marker2D children (P1..P4 start points).
@@ -114,14 +140,22 @@ public partial class PlayerManager : Node
             }
             else if (slot.IsChoosing)
             {
+                var index = Array.IndexOf(_slots, slot);
                 if (input.NavigateX != 0)
                 {
                     slot.Choice = (slot.Choice + input.NavigateX + Characters.Length) % Characters.Length;
+                    slot.ClassChoice = SavedClassChoice(index, slot.Character);
+                    PlayersChanged?.Invoke();
+                }
+                else if (input.NavigateY != 0)
+                {
+                    var classes = slot.Character.Classes.Count;
+                    slot.ClassChoice = (slot.ClassChoice + input.NavigateY + classes) % classes;
                     PlayersChanged?.Invoke();
                 }
                 else if (input.PrimaryPressed)
                 {
-                    Spawn(Array.IndexOf(_slots, slot));
+                    Spawn(index);
                 }
             }
         }
@@ -137,6 +171,7 @@ public partial class PlayerManager : Node
         }
 
         slot.Input = input;
+        slot.ClassChoice = SavedClassChoice(Array.IndexOf(_slots, slot), slot.Character);
         GD.Print($"P{Array.IndexOf(_slots, slot) + 1} joined with the {input.Device} and is picking a character");
         PlayersChanged?.Invoke();
         return slot;
@@ -156,18 +191,24 @@ public partial class PlayerManager : Node
     private void Spawn(int index)
     {
         var slot = _slots[index];
-        var character = Characters[slot.Choice];
+        var character = slot.Character;
         var hero = GD.Load<PackedScene>(character.ScenePath).Instantiate<Hero>();
         hero.Name = $"P{index + 1}";
-        hero.Setup(index, slot.Input!, SpawnPoint(index));
+        hero.Setup(index, slot.Input!, SpawnPoint(index), slot.Class);
         (ActorsParent ?? GetParent<Node2D>()).AddChild(hero);
         slot.Hero = hero;
         Restore(hero, index);
-        GD.Print($"P{index + 1} is playing as the {character.Name}");
+        GD.Print($"P{index + 1} is playing as the {character.Name} {hero.CurrentClass}");
         PlayersChanged?.Invoke();
     }
 
-    /// <summary>Same character as last time? Then the same class, weapon, armor and herbs.</summary>
+    /// <summary>Which class to offer first: the one this slot played last time with this character, else the starting class.</summary>
+    private static int SavedClassChoice(int slot, CharacterOption character) =>
+        Saving.SaveGame.PlayerFor(slot, character.Name) is { } saved && character.Classes.Contains(saved.Class)
+            ? character.Classes.ToList().IndexOf(saved.Class)
+            : 0;
+
+    /// <summary>Same character as last time? Then the same armor and herbs (and weapon, if it's the same class).</summary>
     private static void Restore(Hero hero, int slot)
     {
         if (Saving.SaveGame.PlayerFor(slot, hero.DisplayName) is not { } saved)
@@ -175,12 +216,7 @@ public partial class PlayerManager : Node
             return;
         }
 
-        if (saved.Class != hero.CurrentClass && hero.ClassNames.Contains(saved.Class))
-        {
-            hero.Paint(saved.Class);
-        }
-
-        if (saved.Weapon != "" && saved.Weapon != hero.CurrentWeapon)
+        if (saved.Class == hero.CurrentClass && saved.Weapon != "" && saved.Weapon != hero.CurrentWeapon)
         {
             hero.SetWeapon(saved.Weapon);
         }
