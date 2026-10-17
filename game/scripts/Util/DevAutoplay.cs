@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using LizardWizard.Dungeons;
 using LizardWizard.Abilities;
 using LizardWizard.Actors;
 using LizardWizard.Effects;
@@ -47,6 +48,7 @@ public partial class DevAutoplay : Node
     private int _rollerStage;
     private Deer? _summonTarget;
     private Vector2 _tankAt;
+    private Pit? _pond;
     private int _rollerNextStep;
     private double _time;
     private double _nextShot;
@@ -426,51 +428,81 @@ public partial class DevAutoplay : Node
     /// (Written for P1 = Illusionist, P2 = Weapon Master.)
     /// </summary>
     /// <summary>
-    /// The beetle's Vehicle Master class (P1), with P2: build the tank (the beetle drives), P2 climbs on, fire the
-    /// cannon, drive right for a moment (P1's real D key), P2 gets hit (the tank should take it), P2 hops off and on
-    /// again, then the tank breaks (everyone off) and building another has to wait.
+    /// The beetle's Vehicle Master class (P1), with P2. A pond is added to the room. Each vehicle is built next to the
+    /// pond and driven toward it with P1's real D key: the cart (and its boost), the boat (should sail onto the water),
+    /// the tank (should stop at the bank), the glider (should fly over) and the plane (P2 climbs on, machine gun). Then
+    /// the tank again: P2 climbs on, gets hit (the tank should take it), hops off, the tank breaks and building another
+    /// has to wait.
     /// </summary>
     private void VehicleTest(Hero p1, Hero p2, int step, System.Func<Hero, string, Ability> ability)
     {
-        var vehicle = (VehicleAbility)ability(p1, "Vehicle");
+        var builder = (VehicleAbility)ability(p1, "Vehicle");
         void Log(string text) => GD.Print($"[autoplay {_time:0.0}s] vehicle test: {text}");
-        var tank = vehicle.Tank;
+        void Key(bool down) => Input.ParseInputEvent(new InputEventKey { PhysicalKeycode = Godot.Key.D, Keycode = Godot.Key.D, Pressed = down });
+        var vehicle = builder.Vehicle;
+        string Where() => vehicle is null ? "none" : $"{vehicle.Kind} moved {vehicle.GlobalPosition - _tankAt:0}, over the pond={new Rect2(_pond!.GlobalPosition, _pond.Size).HasPoint(vehicle.GlobalPosition + new Vector2(0, 12))}";
+
+        void Build(VehicleKind kind)
+        {
+            Key(false);
+            builder.Vehicle?.Break(quietly: true);
+            p1.Teleport(_pond!.GlobalPosition + new Vector2(-34, 14));
+            builder.Select(System.Array.IndexOf(System.Enum.GetValues<VehicleKind>(), kind));
+            builder.TryUse();
+            _tankAt = builder.Vehicle?.GlobalPosition ?? Vector2.Zero;
+            Log($"built {kind}: {builder.Vehicle is not null}, P1 driving={p1.IsDriving}");
+            Key(true);
+        }
 
         switch (step)
         {
             case 1:
-                Log($"build: used={vehicle.TryUse()}, tank={vehicle.Tank is not null}, P1 driving={p1.IsDriving}");
+                _pond = new Pit { Water = true, Size = new Vector2(64, 48) };
+                p1.GetParent().AddChild(_pond);
+                _pond.GlobalPosition = p1.GlobalPosition + new Vector2(60, -40);
+                _pond.ZIndex = 0; // over the test room's floor
+                Build(VehicleKind.Cart);
                 break;
             case 2:
-                p2.Teleport(tank!.GlobalPosition + new Vector2(20, 14));
-                Log($"P2 climbs on: {tank.Board(p2)}, riders {tank.Riders.Count()}, P2 riding={p2.Riding is not null}");
+                Log($"cart: {Where()}");
+                vehicle!.Trick();
+                _tankAt = vehicle.GlobalPosition;
                 break;
-            case 3:
-                var before = GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Bullet>().Count();
-                tank!.FireCannon();
-                Log($"cannon: shells {before} -> {GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Bullet>().Count()}");
-                TakeShot(0.15, "_tank");
-                _tankAt = tank.GlobalPosition;
-                Input.ParseInputEvent(new InputEventKey { PhysicalKeycode = Key.D, Keycode = Key.D, Pressed = true });
+            case 3: Log($"cart after a boost: {Where()}"); Build(VehicleKind.Boat); break;
+            case 4: TakeShot(0, "_boat"); break;
+            case 5: Log($"boat: {Where()}"); Build(VehicleKind.Tank); break;
+            case 7: Log($"tank (should stop at the bank): {Where()}"); Build(VehicleKind.Glider); break;
+            case 8: TakeShot(0, "_glider"); break;
+            case 9: Log($"glider: {Where()}, lift {vehicle!.Lift:0}"); Build(VehicleKind.Plane); break;
+            case 10:
+                Key(false);
+                p2.Teleport(vehicle!.GlobalPosition + new Vector2(20, 14));
+                Log($"plane: {Where()}; P2 climbs on: {vehicle.Board(p2)}, seats taken {vehicle.Riders.Count()}");
+                var shots = GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Bullet>().Count();
+                Input.ParseInputEvent(new InputEventKey { PhysicalKeycode = Godot.Key.W, Keycode = Godot.Key.W, Pressed = true });
+                vehicle.Trick();
+                Log($"machine gun: bullets {shots} -> {GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Bullet>().Count()}");
+                TakeShot(0.05, "_plane");
                 break;
-            case 4:
-                Input.ParseInputEvent(new InputEventKey { PhysicalKeycode = Key.D, Keycode = Key.D, Pressed = false });
-                Log($"drove right: tank moved {tank!.GlobalPosition - _tankAt:0}, P1 on the deck={p1.GlobalPosition.DistanceTo(tank.SeatFor(p1)) < 1}, P2 on the deck={p2.GlobalPosition.DistanceTo(tank.SeatFor(p2)) < 1}");
+            case 11:
+                Input.ParseInputEvent(new InputEventKey { PhysicalKeycode = Godot.Key.W, Keycode = Godot.Key.W, Pressed = false });
+                Build(VehicleKind.Tank);
+                Key(false);
+                vehicle = builder.Vehicle;
+                p2.Teleport(vehicle!.GlobalPosition + new Vector2(20, 14));
+                vehicle.Board(p2);
                 var hp = p2.Health.Current;
-                var tankHp = tank.Health.Current;
+                var tankHp = vehicle.Health.Current;
                 p2.TakeHit(5, p2.GlobalPosition + Vector2.Left * 10);
-                Log($"P2 hit while riding: P2 hp {hp} -> {p2.Health.Current}, tank hp {tankHp} -> {tank.Health.Current}");
+                Log($"P2 hit on the tank: P2 hp {hp} -> {p2.Health.Current}, tank hp {tankHp} -> {vehicle.Health.Current}");
                 break;
-            case 5:
-                tank!.Leave(p2);
-                Log($"P2 hops off: riding={p2.Riding is not null}, riders {tank.Riders.Count()}");
+            case 12:
+                Log($"P2 hops off: {vehicle!.Leave(p2)}, riding={p2.Riding is not null}");
+                vehicle.TakeHit(100);
+                Log($"tank broken: P1 riding={p1.Riding is not null}, gone={builder.Vehicle is null}");
                 break;
-            case 6:
-                tank!.TakeHit(100);
-                Log($"tank broken: P1 riding={p1.Riding is not null}, tank gone={vehicle.Tank is null}");
-                break;
-            case 7:
-                Log($"rebuild straight away: used={vehicle.TryUse()}, tank={vehicle.Tank is not null} (should wait)");
+            case 13:
+                Log($"build again straight away: built={builder.TryUse() && builder.Vehicle is not null} (should have to wait)");
                 break;
         }
     }

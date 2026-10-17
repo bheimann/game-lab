@@ -171,8 +171,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     public bool IsMenuOpen => _menu?.IsOpen == true;
 
-    /// <summary>The tank this hero is riding (see <see cref="Tank"/>), or null.</summary>
-    public Tank? Riding { get; private set; }
+    /// <summary>The vehicle this hero is riding (see <see cref="Vehicle"/>), or null.</summary>
+    public Vehicle? Riding { get; private set; }
 
     public bool IsDriving => Riding is not null && Riding.Driver == this;
 
@@ -309,7 +309,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         {
             _menu.HandleInput(Controls);
         }
-        else if (!TryBoardTank())
+        else if (!TryBoardVehicle())
         {
             UseButtons();
         }
@@ -345,21 +345,21 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         UpdateLook(walking || active?.Motion is not null);
     }
 
-    /// <summary>Climb onto a tank (called by <see cref="Tank.Board"/>).</summary>
-    public void Ride(Tank tank)
+    /// <summary>Climb onto a vehicle (called by <see cref="Vehicle.Board"/>).</summary>
+    public void Ride(Vehicle vehicle)
     {
         foreach (var ability in _abilities)
         {
             ability.Cancel();
         }
 
-        Riding = tank;
+        Riding = vehicle;
         _dodgeTime = -1f;
         _knockback = Vector2.Zero;
-        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), tank.Driver == this ? "Driving!" : "All aboard!", Colors.White, 0.8f, 7f);
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), vehicle.Driver == this ? "Driving!" : "All aboard!", Colors.White, 0.8f, 7f);
     }
 
-    /// <summary>Hop off a tank, landing at <paramref name="at"/> (called by <see cref="Tank.Leave"/>).</summary>
+    /// <summary>Hop off a vehicle, landing at <paramref name="at"/> (called by <see cref="Vehicle.Leave"/>).</summary>
     public void StopRiding(Vector2 at)
     {
         Riding = null;
@@ -369,10 +369,10 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         }
     }
 
-    /// <summary>Get off any tank first (going through a door, getting painted, leaving).</summary>
+    /// <summary>Get off any vehicle first (going through a door, getting painted, leaving).</summary>
     private void Dismount() => Riding?.Leave(this);
 
-    /// <summary>On a tank: stand on the deck. The driver steers (the tank reads the stick) and X hops out; passengers
+    /// <summary>On a vehicle: stand on the deck. The driver steers (the vehicle reads the stick) and X hops out; passengers
     /// use their own attacks as usual.</summary>
     private void RideAlong(float dt)
     {
@@ -406,17 +406,17 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         UpdateLook(walking: false);
     }
 
-    /// <summary>A next to a tank with a free seat climbs on instead of attacking.</summary>
-    private bool TryBoardTank()
+    /// <summary>A next to a vehicle with a free seat climbs on instead of attacking.</summary>
+    private bool TryBoardVehicle()
     {
         if (!Controls.PrimaryPressed)
         {
             return false;
         }
 
-        var tank = GetTree().GetNodesInGroup(Tank.Group).OfType<Tank>()
+        var vehicle = GetTree().GetNodesInGroup(Vehicle.Group).OfType<Vehicle>()
             .FirstOrDefault(t => t.HasFreeSeat && t.GlobalPosition.DistanceTo(GlobalPosition) < 28f);
-        return tank is not null && tank.Board(this);
+        return vehicle is not null && vehicle.Board(this);
     }
 
     /// <summary>Get painted into another class: its abilities switch on, the others switch off.</summary>
