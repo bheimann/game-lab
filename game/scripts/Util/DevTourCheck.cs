@@ -9,7 +9,8 @@ namespace LizardWizard.Util;
 /// <summary>
 /// Dev helper for the overworld's areas: <c>-- --autoplay-tour=&lt;folder&gt;</c>. P1 joins (as the lizard) in the village and
 /// walks out through every path between the areas, there and back (village, meadow, forest, tundra, swamp), checking each
-/// one lands in the right area, and finally goes in through the dungeon gate. In the village it also stands on the painter's mat and checks it gets painted.
+/// one lands in the right area, and finally goes in through the dungeon gate. In the village it also stands on the painter's mat and checks it gets painted,
+/// goes into every shop (resting at the inn, buying a herb, getting painted in the paint shop) and through the castle (the armory door should stay barred).
 /// Logs each trip and saves a screenshot on arrival.
 /// </summary>
 public partial class DevTourCheck : Node
@@ -20,6 +21,24 @@ public partial class DevTourCheck : Node
     private static readonly (string From, string Door, string To)[] Trips =
     {
         ("Village", "Painter", "Village"),
+        ("Village", "InnDoor", "Inn"),
+        ("Inn", "Counter", "Inn"),
+        ("Inn", "DoorBottom", "Village"),
+        ("Village", "HerbShopDoor", "HerbShop"),
+        ("HerbShop", "Counter", "HerbShop"),
+        ("HerbShop", "DoorBottom", "Village"),
+        ("Village", "PaintShopDoor", "PaintShop"),
+        ("PaintShop", "Painter", "PaintShop"),
+        ("PaintShop", "DoorBottom", "Village"),
+        ("Village", "GearShopDoor", "GearShop"),
+        ("GearShop", "DoorBottom", "Village"),
+        ("Village", "CastleDoor", "CastleHall"),
+        ("CastleHall", "DoorTop", "ThroneRoom"),
+        ("ThroneRoom", "DoorBottom", "CastleHall"),
+        ("CastleHall", "DoorLeft", "CastleHall"),
+        ("CastleHall", "DoorRight", "Kitchen"),
+        ("Kitchen", "DoorLeft", "CastleHall"),
+        ("CastleHall", "DoorBottom", "Village"),
         ("Village", "EastPath", "Overworld"),
         ("Overworld", "WestPath", "Village"),
         ("Village", "EastPath", "Overworld"),
@@ -40,6 +59,7 @@ public partial class DevTourCheck : Node
     private int _passed;
     private int _shotNumber;
     private string _classBefore = "";
+    private string _shopBefore = "";
 
     public static DevTourCheck Create(string folder) => new() { _folder = folder, ProcessPhysicsPriority = -20 };
 
@@ -70,6 +90,40 @@ public partial class DevTourCheck : Node
             if (doorName == "Painter")
             {
                 Paint(hero, room, since);
+                return;
+            }
+
+            if (doorName == "Counter")
+            {
+                Shop(hero, room, since);
+                return;
+            }
+
+            if (from == to && room.Name == from && room.GetNodeOrNull<Door>(doorName) is { State: DoorState.Barred } barred)
+            {
+                // A barred door: walk into it, it shouldn't open.
+                if (since < 0.05)
+                {
+                    hero.Teleport(barred.EntryPoint);
+                }
+                else if (since < 1.2)
+                {
+                    Push(barred.Outward, wanted);
+                }
+                else
+                {
+                    var stayed = room.Name == to && barred.State == DoorState.Barred;
+                    _passed += stayed ? 1 : 0;
+                    Log($"{doorName} is barred: {(stayed ? "stayed shut" : "OPENED")}");
+                    Shot(0, $"_{room.Name}_barred");
+                    Next();
+                }
+
+                foreach (var key in new[] { Key.W, Key.A, Key.S, Key.D, Key.J })
+                {
+                    SetKey(key, wanted.Contains(key));
+                }
+
                 return;
             }
 
@@ -138,6 +192,40 @@ public partial class DevTourCheck : Node
         _passed += painted ? 1 : 0;
         Log($"village painter: {_classBefore} -> {hero.CurrentClass} ({(painted ? "painted" : "NOT painted")})");
         hero.Teleport(painter.GlobalPosition + new Vector2(0, 30));
+        Next();
+    }
+
+    /// <summary>Stand at a shop's counter: buy what's on offer (the inn heals a hurt hero, the herb shop sells a herb).</summary>
+    private void Shop(Actors.Hero hero, DungeonRoom room, double since)
+    {
+        var counter = room.GetNode<ShopCounter>("Counter");
+        if (since < 0.05)
+        {
+            Items.Purse.Add(30 - Items.Purse.Coins); // 30 coins to shop with
+            if (counter.Offer == ShopOffer.Rest)
+            {
+                hero.TakeHit(5, hero.GlobalPosition + Vector2.Up);
+            }
+
+            _shopBefore = $"coins {Items.Purse.Coins}, hp {hero.Health.Current}/{hero.Health.Max}, herbs {hero.Herbs}";
+        }
+
+        if (since < 1.6)
+        {
+            hero.Teleport(counter.GlobalPosition + new Vector2(0, 8));
+            if (since is > 1.0 and < 1.02)
+            {
+                Shot(0, $"_{room.Name}_counter");
+            }
+
+            return;
+        }
+
+        var after = $"coins {Items.Purse.Coins}, hp {hero.Health.Current}/{hero.Health.Max}, herbs {hero.Herbs}";
+        var bought = after != _shopBefore;
+        _passed += bought ? 1 : 0;
+        Log($"{room.Name} counter ({counter.Offer}, {counter.Price} coins): {_shopBefore} -> {after}");
+        hero.Teleport(counter.GlobalPosition + new Vector2(0, 40));
         Next();
     }
 

@@ -15,6 +15,18 @@ public static class Purse
 
     public static void AddBossCoin() => BossCoins++;
 
+    /// <summary>Pay <paramref name="coins"/>, if there are enough. Returns false (and pays nothing) if not.</summary>
+    public static bool Spend(int coins)
+    {
+        if (Coins < coins)
+        {
+            return false;
+        }
+
+        Coins -= coins;
+        return true;
+    }
+
     /// <summary>Loading a save, or a new game (0, 0).</summary>
     public static void Restore(int coins, int bossCoins)
     {
