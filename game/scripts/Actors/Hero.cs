@@ -44,6 +44,13 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     private string _lookClass = "";
     private Vector2 _spriteOffset;
     private RingMenu? _menu;
+    private readonly Dictionary<FuseKind, List<Fusion>> _fusions = new()
+    {
+        [FuseKind.Weapon] = new(), [FuseKind.Gun] = new(), [FuseKind.Armor] = new(),
+    };
+
+    /// <summary>Which fusion of each kind is in use (-1 = none: the plain attack or armor).</summary>
+    private readonly Dictionary<FuseKind, int> _held = new() { [FuseKind.Weapon] = -1, [FuseKind.Gun] = -1, [FuseKind.Armor] = -1 };
 
     [Export] public string DisplayName { get; set; } = "Hero";
 
@@ -138,6 +145,24 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     /// <summary>Counts attacks and hits taken; camouflage watches it to know when to break.</summary>
     public int ActionCount { get; private set; }
+
+    /// <summary>The fusions of one kind this hero carries (see <see cref="Fusion"/>).</summary>
+    public IReadOnlyList<Fusion> Fusions(FuseKind kind) => _fusions[kind];
+
+    /// <summary>Which fusion of this kind is in use (-1 = none).</summary>
+    public int HeldFusion(FuseKind kind) => _held[kind];
+
+    /// <summary>What the main attack counts as for fusing: a gun if it shoots, otherwise a weapon.</summary>
+    public FuseKind MainAttackKind => _abilities.FirstOrDefault(a => a.Slot == AbilitySlot.Primary) is GunAbility ? FuseKind.Gun : FuseKind.Weapon;
+
+    /// <summary>The fusion on the main attack right now (null = the plain attack).</summary>
+    public Fusion? Fused => Held(MainAttackKind);
+
+    /// <summary>The fusion on the armor (null = none).</summary>
+    public Fusion? FusedArmor => Held(FuseKind.Armor);
+
+    /// <summary>The name of the main attack (the A button) right now, e.g. "Punch" or "Feathers".</summary>
+    public string MainAttackName => _abilities.FirstOrDefault(a => a.Slot == AbilitySlot.Primary)?.Name ?? "Attack";
 
     /// <summary>What's in the armor slot (null = nothing).</summary>
     public Armor? Armor { get; private set; }
@@ -297,7 +322,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             CollisionMask &= ~Pit.PitLayer;
         }
 
-        Velocity = (active?.Motion ?? move * Speed) + _knockback;
+        Velocity = (active?.Motion ?? move * Speed * (FusedArmor?.Part.SpeedFactor ?? 1f)) + _knockback;
         _knockback = _knockback.MoveToward(Vector2.Zero, 600f * dt);
         MoveAndSlide();
         StayOnScreen();
@@ -364,9 +389,58 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     public void Equip(Armor? armor)
     {
         Armor = armor;
-        Health.SetMax(MaxHealth + (armor?.ExtraHealth ?? 0));
+        UpdateMaxHealth();
         FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), armor?.Name ?? "No armor", Colors.White, 1f, 8f);
     }
+
+    /// <summary>
+    /// Get a new fusion (the moose Tinkerer made it) and start using it. With every slot of its kind full, it replaces
+    /// the one in use (or the oldest, if none is in use). Returns the one it replaced, if any.
+    /// </summary>
+    public Fusion? AddFusion(Fusion fusion)
+    {
+        var list = _fusions[fusion.Kind];
+        Fusion? replaced = null;
+        if (list.Count >= Fusion.Slots)
+        {
+            var index = _held[fusion.Kind] >= 0 ? _held[fusion.Kind] : 0;
+            replaced = list[index];
+            list.RemoveAt(index);
+        }
+
+        list.Add(fusion);
+        _held[fusion.Kind] = list.Count - 1;
+        UpdateMaxHealth();
+        return replaced;
+    }
+
+    /// <summary>Use fusion <paramref name="index"/> of this kind (-1 = none: the plain attack or armor).</summary>
+    public void HoldFusion(FuseKind kind, int index)
+    {
+        _held[kind] = index >= 0 && index < _fusions[kind].Count ? index : -1;
+        UpdateMaxHealth();
+        var name = Held(kind)?.NameFor(MainAttackName) ?? (kind == FuseKind.Armor ? "No fused armor" : MainAttackName);
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), name, Colors.White, 1f, 8f);
+    }
+
+    /// <summary>Loading a save: the fusions this hero had, and which of each kind was in use.</summary>
+    public void RestoreFusions(IEnumerable<Fusion> fusions, IReadOnlyDictionary<FuseKind, int> held)
+    {
+        foreach (var kind in _fusions.Keys)
+        {
+            _fusions[kind].Clear();
+            _fusions[kind].AddRange(fusions.Where(f => f.Kind == kind).Take(Fusion.Slots));
+            var index = held.GetValueOrDefault(kind, -1);
+            _held[kind] = index < _fusions[kind].Count ? index : -1;
+        }
+
+        UpdateMaxHealth();
+    }
+
+    private Fusion? Held(FuseKind kind) => _held[kind] >= 0 && _held[kind] < _fusions[kind].Count ? _fusions[kind][_held[kind]] : null;
+
+    /// <summary>Max health: the hero's own, plus its armor piece, plus fused armor.</summary>
+    private void UpdateMaxHealth() => Health.SetMax(MaxHealth + (Armor?.ExtraHealth ?? 0) + (FusedArmor?.Part.ExtraHealth ?? 0));
 
     public void AddHerbs(int count)
     {
@@ -546,6 +620,23 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         var rings = _abilities.OfType<IHasOptions>().Where(a => a.Options.Length > 1)
             .Select(a => new MenuRing(a.OptionsTitle, a.Options, a.Selected, a.Select))
             .ToList();
+
+        // Fusions (made by the moose Tinkerer): pick which weapon or gun (whichever the main attack is) and armor to use.
+        foreach (var kind in new[] { MainAttackKind, FuseKind.Armor })
+        {
+            var list = _fusions[kind];
+            if (list.Count == 0)
+            {
+                continue;
+            }
+
+            var plain = kind == FuseKind.Armor
+                ? new MenuOption("No fused armor", "Plain armor", null, new Color(0.8f, 0.8f, 0.8f))
+                : new MenuOption(MainAttackName, "Your plain attack", null, new Color(0.8f, 0.8f, 0.8f));
+            var options = new[] { plain }.Concat(list.Select(f => new MenuOption(f.NameFor(MainAttackName), f.Description, f.Part.Icon, Colors.White))).ToArray();
+            var title = kind switch { FuseKind.Gun => "Fused Guns", FuseKind.Armor => "Fused Armor", _ => "Fused Weapons" };
+            rings.Add(new MenuRing($"{title} ({list.Count}/{Fusion.Slots})", options, _held[kind] + 1, i => HoldFusion(kind, i - 1)));
+        }
 
         var armor = Items.Armor.All.Where(a => a.Fits(this)).ToList();
         var armorOptions = new[] { new MenuOption("No armor", "Take your armor off", null, Colors.Transparent) }

@@ -6,8 +6,8 @@ using LizardWizard.Items;
 namespace LizardWizard.Effects;
 
 /// <summary>
-/// Something an enemy dropped when it was beaten: a few coins (most of the time) or a healing herb. A boss also
-/// always drops one big boss coin. It pops out
+/// Something an enemy dropped when it was beaten: a few coins (most of the time), or an item: a healing herb or one of
+/// the enemy's monster parts (for the moose Tinkerer). A boss also always drops one big boss coin. It pops out
 /// onto the ground, and the first hero to walk over it picks it up (it slides over to a hero who's close).
 /// Coins go into the team's <see cref="Purse"/>, a herb to whoever picked it up. Loot left lying around blinks and
 /// disappears after a while, or when the team leaves the room.
@@ -38,12 +38,15 @@ public partial class Loot : Node2D
     /// <summary>A boss's special coin (one per boss).</summary>
     public bool IsBossCoin { get; private set; }
 
-    public bool IsHerb => Coins == 0 && !IsBossCoin;
+    /// <summary>A monster part (goes into the team's bag).</summary>
+    public MonsterPart? Part { get; private set; }
+
+    public bool IsHerb => Coins == 0 && !IsBossCoin && Part is null;
 
     /// <summary>Drop <paramref name="rolls"/> pieces of loot around <paramref name="enemy"/>'s feet
-    /// (80% a pile of 1-3 coins, 20% a healing herb; the only item there is for now). With <paramref name="bossCoin"/>,
-    /// one of them is always a boss coin instead.</summary>
-    public static void DropFrom(Node2D enemy, int rolls = 1, bool bossCoin = false)
+    /// (80% a pile of 1-3 coins, 20% an item: half the time a healing herb, half the time one of <paramref name="parts"/>,
+    /// the enemy's monster parts). With <paramref name="bossCoin"/>, one of them is always a boss coin instead.</summary>
+    public static void DropFrom(Node2D enemy, int rolls = 1, bool bossCoin = false, MonsterPart[]? parts = null)
     {
         if (bossCoin)
         {
@@ -53,15 +56,26 @@ public partial class Loot : Node2D
 
         for (var i = 0; i < rolls; i++)
         {
-            var coins = GD.Randf() < CoinChance ? GD.RandRange(1, 3) : 0;
-            Drop(enemy, enemy.GlobalPosition, coins);
+            if (GD.Randf() < CoinChance)
+            {
+                Drop(enemy, enemy.GlobalPosition, GD.RandRange(1, 3));
+            }
+            else if (parts is { Length: > 0 } && GD.Randf() < 0.5f)
+            {
+                Drop(enemy, enemy.GlobalPosition, 0, part: parts[GD.RandRange(0, parts.Length - 1)]);
+            }
+            else
+            {
+                Drop(enemy, enemy.GlobalPosition, 0); // a herb
+            }
         }
     }
 
-    /// <summary>Drop one pile of <paramref name="coins"/> (0 = a healing herb), or a boss coin, that pops out from <paramref name="at"/>.</summary>
-    public static Loot Drop(Node2D near, Vector2 at, int coins, bool bossCoin = false)
+    /// <summary>Drop one pile of <paramref name="coins"/> (0 = a healing herb), a boss coin or a monster part, that pops
+    /// out from <paramref name="at"/>.</summary>
+    public static Loot Drop(Node2D near, Vector2 at, int coins, bool bossCoin = false, MonsterPart? part = null)
     {
-        var loot = new Loot { Coins = bossCoin ? 0 : coins, IsBossCoin = bossCoin, _from = at };
+        var loot = new Loot { Coins = bossCoin || part is not null ? 0 : coins, IsBossCoin = bossCoin, Part = part, _from = at };
         loot._to = at + Vector2.Right.Rotated(GD.Randf() * Mathf.Tau) * (float)GD.RandRange(8.0, 18.0);
         near.GetParent().AddChild(loot);
         loot.GlobalPosition = at;
@@ -70,7 +84,8 @@ public partial class Loot : Node2D
 
     public override void _Ready()
     {
-        _herb = IsHerb ? GD.Load<Texture2D>(HerbIcon) : null;
+        // Herbs and parts show their icon.
+        _herb = Part?.Icon ?? (IsHerb ? GD.Load<Texture2D>(HerbIcon) : null);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -115,8 +130,13 @@ public partial class Loot : Node2D
 
     private void PickUp(Hero hero)
     {
-        GD.Print($"{hero.Name} picked up {(IsBossCoin ? "the boss coin" : IsHerb ? "a healing herb" : $"{Coins} coin(s)")}");
-        if (IsBossCoin)
+        GD.Print($"{hero.Name} picked up {(IsBossCoin ? "the boss coin" : Part is not null ? $"a part: {Part.Name}" : IsHerb ? "a healing herb" : $"{Coins} coin(s)")}");
+        if (Part is not null)
+        {
+            MonsterParts.Add(Part);
+            FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), $"+1 {Part.Name.ToLowerInvariant()}", new Color(0.93f, 0.85f, 0.6f), 1.2f, 8f);
+        }
+        else if (IsBossCoin)
         {
             Purse.AddBossCoin();
             FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -16), "Boss coin!", BossRed, 2f, 10f);

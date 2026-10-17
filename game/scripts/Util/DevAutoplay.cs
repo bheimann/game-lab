@@ -425,6 +425,74 @@ public partial class DevAutoplay : Node
     /// (Written for P1 = Illusionist, P2 = Weapon Master.)
     /// </summary>
     /// <summary>
+    /// The moose's Tinkerer class (P1), with P2 next to it: fuse an antler onto P2's main attack and check it hits
+    /// harder, fuse a shell onto the moose's own armor (more hearts), craft a Hide Vest (P2 can wear it), and fill
+    /// P2's weapon slots to check the newest replaces the one in hand.
+    /// </summary>
+    private void TinkererTest(Hero p1, Hero p2, List<Deer> deer, int step, System.Action<Deer, Hero, float> place, System.Func<Hero, string, Ability> ability)
+    {
+        var fuse = (FuseAbility)ability(p1, "Fuse");
+        var craft = (CraftAbility)ability(p1, "Craft");
+        void Log(string text) => GD.Print($"[autoplay {_time:0.0}s] tinkerer test: {text}");
+        string Bag() => string.Join(", ", Items.MonsterPart.All.Select(part => $"{part.Name} {Items.MonsterParts.Count(part)}"));
+
+        switch (step)
+        {
+            case 1:
+                Items.MonsterParts.Add(Items.MonsterPart.Antler, 6);
+                Items.MonsterParts.Add(Items.MonsterPart.Hide, 3);
+                Items.MonsterParts.Add(Items.MonsterPart.Shell, 1);
+                p2.Teleport(p1.GlobalPosition + new Vector2(16, 0));
+                Log($"bag: {Bag()}; P2 main attack '{p2.MainAttackName}' ({p2.MainAttackKind}), slots {Items.Fusion.Slots}");
+                fuse.Select(0); // antler weapon
+                Log($"fuse antler onto P2: used={fuse.TryUse()}, P2 holds {p2.Fused?.NameFor(p2.MainAttackName) ?? "nothing"}; bag: {Bag()}");
+                break;
+            case 2:
+                p2.Face(Vector2.Right);
+                place(deer[2], p2, 14);
+                _abilityHp2 = deer[2].Health.Current;
+                ability(p2, p2.MainAttackName).TryUse();
+                break;
+            case 3:
+                Log($"P2's fused {p2.MainAttackName} hit a deer: hp {_abilityHp2} -> {deer[2].Health.Current} (plain damage {((MeleeAbility)ability(p2, p2.MainAttackName)).Damage})");
+                p2.Teleport(p1.GlobalPosition + new Vector2(200, 0));
+                var maxBefore = p1.Health.Max;
+                fuse.Select(5); // shell armor
+                Log($"fuse shell onto own armor: used={fuse.TryUse()}, moose max hp {maxBefore} -> {p1.Health.Max}");
+                break;
+            case 4:
+                craft.Select(0);
+                Log($"craft Hide Vest: P2 can wear it before={Items.Armor.All.Any(a => a.Name == "Hide Vest" && a.Fits(p2))}");
+                craft.TryUse();
+                Log($"after: P2 can wear it={Items.Armor.All.Any(a => a.Name == "Hide Vest" && a.Fits(p2))}; bag: {Bag()}");
+                break;
+            case 5: case 6: case 7: case 8:
+                // Keep fusing antlers onto P2 until the slots are full and one gets replaced.
+                p2.Teleport(p1.GlobalPosition + new Vector2(16, 0));
+                fuse.Select(0);
+                fuse.TryUse();
+                Log($"P2 weapons: {p2.Fusions(p2.MainAttackKind).Count}/{Items.Fusion.Slots}, holding #{p2.HeldFusion(p2.MainAttackKind)}");
+                break;
+            case 9:
+                Log($"loot from deer can be parts: dropping 40 deer loot rolls");
+                var anchor = deer[3];
+                for (var i = 0; i < 40; i++)
+                {
+                    Loot.DropFrom(anchor, parts: new[] { Items.MonsterPart.Antler, Items.MonsterPart.Hide });
+                }
+
+                var drops = GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Loot>().ToList();
+                Log($"drops: coins {drops.Count(l => l.Coins > 0)}, herbs {drops.Count(l => l.IsHerb)}, parts {drops.Count(l => l.Part is not null)} ({string.Join(", ", drops.Where(l => l.Part is not null).GroupBy(l => l.Part!.Name).Select(g => $"{g.Key} {g.Count()}"))})");
+                foreach (var l in drops)
+                {
+                    l.QueueFree();
+                }
+
+                break;
+        }
+    }
+
+    /// <summary>
     /// The peacock's Thief class (P2): steal gold, gear and the ability from one deer, try to rob it again (nothing
     /// left), kick it with the stolen Deer Kick until it falls asleep (the move never runs out), shoot the gun, and check
     /// its loot gets picked up.
@@ -677,6 +745,11 @@ public partial class DevAutoplay : Node
         if (p1?.CurrentClass == "Roller")
         {
             RollerTest(p1, deer, step, Place, A);
+        }
+
+        if (p1?.CurrentClass == "Tinkerer" && p2 is not null)
+        {
+            TinkererTest(p1, p2, deer, step, Place, A);
         }
 
         if (p2?.CurrentClass == "Thief")

@@ -1,0 +1,13 @@
+# Menu icon: shell plate armor (12x12), crafted armor
+............
+..oo....oo..
+.oEEoooooEo.
+oEEoVAAVoEEo
+oEoVAVVVVoEo
+.ooVVVVVVvo.
+..oVVVVVVvo.
+..oVVVVVvvo.
+..ovVVVvvvo.
+...ovvvvvo..
+....ooooo...
+............

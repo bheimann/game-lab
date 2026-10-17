@@ -44,6 +44,21 @@ yellow: that's its kick coming. Works even with the ring menu open.
   summon has a wait before the next one. Up to 4 creatures at once (a new one sends the oldest away); they fight
   the enemy the moose hit last, follow it through doors, and stay until they're beaten. The Summoner eats herbs from
   the ring menu (Start), since B switches the big summon.
+- The moose's other class is the **Tinkerer** (goggles), who works with **monster parts** (beaten enemies sometimes
+  drop them: deer drop **antlers** and **hide**, the Giant Beetle **beetle shell**; they go in the team's bag).
+  A antler bash, X **fuses** a part onto the closest teammate's main attack or armor (or the moose's own if nobody is
+  close), Tears of the Kingdom style, and LB / RB pick the part and whether it goes on the weapon or the armor.
+  Y **crafts** armor for the whole team (pick it in the Start menu's Craft ring): **Hide Vest** (2 hide, +1 heart),
+  **Antler Helm** (2 antlers + 1 hide, +2 hearts), **Shell Plate** (1 shell + 2 hide, +3 hearts).
+  | Part | Fused onto a weapon or gun | Fused onto armor |
+  |---|---|---|
+  | Antler | +2 damage | +1 heart |
+  | Hide | faster attacks | walk faster |
+  | Beetle shell | +4 damage | +2 hearts |
+
+  Every hero has **3 fuse slots** each for guns, weapons and armor (one more of each for every boss beaten); a main
+  attack that shoots counts as a gun. Switch between your fused weapons / guns and armor in the **Start** ring menu.
+  When the slots are full, a new fusion replaces the one you're using.
 - The **beetle** starts as a **Roller**: A horn jab, X **rolls** (a fast ball that rams enemies and bounces off
   walls; steer it a little; hits hurt half as much while rolling), Y **hides in its shell** (blocks every hit for a
   moment), and its tough shell always makes hits hurt less. Its other class, **Warrior**, just jabs.
@@ -72,8 +87,8 @@ about); the top door goes to the **Throne Room** (the king and queen, and four k
 welcome you), the right door to the **Castle Kitchen** (a cook, and a free herb on the table, once), and the left door
 to the **armory**, which stays locked for now (a quest will open it). Villagers wander around the village.
 
-**Loot:** a beaten enemy drops something: usually a few **coins** (8 times out of 10), otherwise a **healing herb**
-(later also weapons). Walk over it to pick it up. Coins go into the team's purse (top middle of the screen, kept in
+**Loot:** a beaten enemy drops something: usually a few **coins** (8 times out of 10), otherwise a **healing herb** or a
+**monster part** (later also weapons). Walk over it to pick it up. Coins go into the team's purse (top middle of the screen, kept in
 the save); there's nothing to buy yet. The boss drops five things: a big **boss coin** (with a red star; the team's
 boss coins show next to the coins) and four ordinary drops. Loot disappears after 30 seconds.
 

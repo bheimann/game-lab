@@ -129,6 +129,8 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 A real village: an inn (rest, 5 coins), a herb shop (10 coins), a paint shop, a weapons & armor shop (not
   open yet), shopkeepers who greet you, villagers, and Scalebrook Castle (hall with knights, throne room with the king
   and queen, kitchen with a free herb, and a locked armory).
+- ✅ 🛠 Monster parts (antlers, hide, beetle shell) as loot, and the moose **Tinkerer**: fuses parts onto any hero's
+  weapon, gun or armor (3 slots each, +1 per boss) and crafts armor for the team.
 - 🦎 What coins buy (a shop in the village?), and weapons as loot once there are more weapons.
 - 🦎 The king and queen's quests (one of them opens the armory), what the weapons & armor shop sells, and unlocking the
   first class in the paint shop (then the painter's mat outside goes away).

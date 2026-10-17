@@ -123,7 +123,7 @@ public partial class GunAbility : Ability, IHasOptions
 
         // A lob comes down just past the enemy it's aimed at (so it hits on the way down), or at full range.
         var range = ArcHeight > 0 && assisted != Vector2.Zero ? Mathf.Min(Range, assisted.Length() + 6f) : Range;
-        var shot = new Bullet.Shot(BulletSpeed, range, Damage, Element, ShotColour, Look, IsExplosive ? ExplosionRadius : 0, ExplosionDamage, ArcHeight);
+        var shot = new Bullet.Shot(BulletSpeed, range, Damage + FusedDamage, Element, ShotColour, Look, IsExplosive ? ExplosionRadius : 0, ExplosionDamage, ArcHeight);
         for (var i = 0; i < ShotCount; i++)
         {
             var spread = ShotCount == 1 ? 0 : SpreadDegrees * (i / (ShotCount - 1f) - 0.5f);

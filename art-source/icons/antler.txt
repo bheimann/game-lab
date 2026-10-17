@@ -1,0 +1,13 @@
+# Menu icon: antler (12x12), a monster part
+............
+.o..o.......
+oTooTo..o...
+oTTTTo.oTo..
+.ottTTooTo..
+..ootTTTTo..
+....otttTTo.
+.....oottTTo
+.......ootTo
+.........oto
+..........o.
+............

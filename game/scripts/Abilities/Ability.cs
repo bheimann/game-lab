@@ -87,7 +87,7 @@ public abstract partial class Ability : Node2D
             return false;
         }
 
-        CooldownLeft = CooldownSeconds;
+        CooldownLeft = CooldownSeconds * (Slot == AbilitySlot.Primary ? Hero.Fused?.Part.CooldownFactor ?? 1f : 1f);
         Hero.NotifyAction();
         Use();
         return true;
@@ -118,6 +118,9 @@ public abstract partial class Ability : Node2D
     public virtual void Cancel()
     {
     }
+
+    /// <summary>Extra damage from a monster part fused onto the hero's main attack (only for A-button abilities).</summary>
+    protected int FusedDamage => Slot == AbilitySlot.Primary ? Hero.Fused?.Part.ExtraDamage ?? 0 : 0;
 
     protected abstract void Use();
 

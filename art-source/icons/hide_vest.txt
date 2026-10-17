@@ -1,0 +1,13 @@
+# Menu icon: hide vest (12x12), crafted armor
+............
+..oo....oo..
+.oEEoooooEo.
+oEEEEeoEEEEo
+oEeEEoWoEeEo
+.ooEEoWoEoo.
+..oEEoWoEo..
+..oEeEoEEEo.
+..oEEEEEeEo.
+..oEEEeEEEo.
+...oooooooo.
+............

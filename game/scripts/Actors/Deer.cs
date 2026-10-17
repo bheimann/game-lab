@@ -400,7 +400,7 @@ public partial class Deer : CharacterBody2D, IHittable, IEnemy, IPullable, IEnem
 
     private void FallAsleep()
     {
-        Loot.DropFrom(this);
+        Loot.DropFrom(this, parts: new[] { Items.MonsterPart.Antler, Items.MonsterPart.Hide });
         _effects.Clear();
         _charmLeft = 0;
         CurrentMood = Mood.Asleep;

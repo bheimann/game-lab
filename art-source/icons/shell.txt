@@ -1,0 +1,13 @@
+# Menu icon: piece of beetle shell (12x12), a monster part
+............
+....oooo....
+..ooVAAVoo..
+.oVVAAVVVvo.
+.oVAVVVVVvo.
+oVAVVVVVVVvo
+oVVVVVVVVvvo
+oVVVVVVVvvvo
+.ovVVVVvvvo.
+..oovvvvoo..
+....oooo....
+............
