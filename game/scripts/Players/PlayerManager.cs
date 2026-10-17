@@ -208,7 +208,7 @@ public partial class PlayerManager : Node
             ? character.Classes.ToList().IndexOf(saved.Class)
             : 0;
 
-    /// <summary>Same character as last time? Then the same armor, herbs and stolen move (and weapon, if it's the same class).</summary>
+    /// <summary>Same character as last time? Then the same armor, herbs, stolen move and fusions (and weapon, if it's the same class).</summary>
     private static void Restore(Hero hero, int slot)
     {
         if (Saving.SaveGame.PlayerFor(slot, hero.DisplayName) is not { } saved)
@@ -231,6 +231,10 @@ public partial class PlayerManager : Node
         {
             stolen.Learn(saved.StolenMove);
         }
+
+        hero.RestoreFusions(saved.Fusions.Select(Items.Fusion.Parse).OfType<Items.Fusion>(),
+            saved.HeldFusions.Where(h => System.Enum.TryParse<Items.FuseKind>(h.Key, out _))
+                .ToDictionary(h => System.Enum.Parse<Items.FuseKind>(h.Key), h => h.Value));
 
         GD.Print($"P{slot + 1} picks up where they left off: {hero.DisplayName} {hero.CurrentClass} {hero.CurrentWeapon}, armor={hero.Armor?.Name ?? "none"}, herbs={hero.Herbs}");
     }

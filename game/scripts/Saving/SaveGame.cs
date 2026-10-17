@@ -34,6 +34,12 @@ public sealed class SavedPlayer
 
     /// <summary>The move a Thief stole last (empty: none).</summary>
     public string StolenMove { get; set; } = "";
+
+    /// <summary>Monster parts fused onto this hero's weapons, guns and armor ("Weapon:Antler", see <see cref="Fusion"/>).</summary>
+    public List<string> Fusions { get; set; } = new();
+
+    /// <summary>Which fusion of each kind was in use (kind → index, -1 = none).</summary>
+    public Dictionary<string, int> HeldFusions { get; set; } = new();
 }
 
 /// <summary>Everything in the save file.</summary>
@@ -50,6 +56,12 @@ public sealed class SaveData
 
     public int BossCoins { get; set; }
 
+    /// <summary>The team's monster parts (name → how many).</summary>
+    public Dictionary<string, int> Parts { get; set; } = new();
+
+    /// <summary>Armor the moose Tinkerer has crafted.</summary>
+    public List<string> CraftedArmor { get; set; } = new();
+
     public bool DungeonComplete { get; set; }
 
     /// <summary>Node path (from the scene root) → saved state.</summary>
@@ -65,7 +77,7 @@ public sealed class SaveData
 /// <summary>
 /// Saves the game to <c>user://save.json</c> (on Windows: %APPDATA%\Godot\app_userdata\Lizard Wizard) and loads
 /// it next time. The game saves by itself: going through a door, beating a boss, a player leaving, and closing
-/// the game. Loading puts the world back how it was (doors, levers, chests, broken rocks, bosses, keys, coins) and
+/// the game. Loading puts the world back how it was (doors, levers, chests, broken rocks, bosses, keys, coins, monster parts, crafted armor) and
 /// starts the team in Scalebrook Village. Dev runs (autoplay, screenshots) never touch the save, unless they're given
 /// their own file with <c>--save-file=user://test_save.json</c>.
 /// </summary>
@@ -140,6 +152,8 @@ public static class SaveGame
 
         Unlocks.Restore(data.BossesBeaten);
         Purse.Restore(data.Coins, data.BossCoins);
+        MonsterParts.Restore(data.Parts);
+        Armor.RestoreCrafted(data.CraftedArmor);
         if (Dungeon.Find(anyNode) is { } dungeon)
         {
             dungeon.Keys = data.Keys;
@@ -166,6 +180,8 @@ public static class SaveGame
             BossesBeaten = Unlocks.BeatenBosses.ToList(),
             Coins = Purse.Coins,
             BossCoins = Purse.BossCoins,
+            Parts = MonsterParts.Snapshot(),
+            CraftedArmor = Armor.Crafted.ToList(),
             Removed = Removed.ToList(),
             Players = new Dictionary<int, SavedPlayer>(Loaded?.Players ?? new()),
         };
@@ -198,6 +214,8 @@ public static class SaveGame
                         Armor = hero.Armor?.Name,
                         Herbs = hero.Herbs,
                         StolenMove = hero.GetChildren().OfType<Abilities.StolenMoveAbility>().FirstOrDefault()?.Move ?? "",
+                        Fusions = System.Enum.GetValues<FuseKind>().SelectMany(hero.Fusions).Select(f => f.ToString()).ToList(),
+                        HeldFusions = System.Enum.GetValues<FuseKind>().ToDictionary(k => k.ToString(), hero.HeldFusion),
                     };
                 }
             }
@@ -224,5 +242,7 @@ public static class SaveGame
         Removed.Clear();
         Unlocks.Restore(Enumerable.Empty<string>());
         Purse.Restore(0, 0);
+        MonsterParts.Restore(null);
+        Armor.RestoreCrafted(Enumerable.Empty<string>());
     }
 }

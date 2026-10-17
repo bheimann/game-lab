@@ -41,7 +41,7 @@ public partial class MeleeAbility : Ability
 
         foreach (var enemy in Hero.EnemyTargets().Where(t => Hits.Touches(t, _hitPoint, Radius)))
         {
-            Hero.Hit(enemy, Damage, Hero.GlobalPosition, DamageType);
+            Hero.Hit(enemy, Damage + FusedDamage, Hero.GlobalPosition, DamageType);
         }
 
         Hero.Lunge(Hero.Facing * 3f);

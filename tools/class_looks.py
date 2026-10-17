@@ -223,6 +223,23 @@ PEACOCK_MASK = {
     ]),
 }
 
+# The Tinkerer's goggles, drawn straight onto the moose; a strap round the back.
+MOOSE_GOGGLES = {
+    "down": (6, [
+        "....ogGoogGo....",
+        "....oCPooPCo....",
+        "....ogGoogGo....",
+    ]),
+    "up": (7, [
+        "...ooggggggoo...",
+    ]),
+    "side": (6, [
+        ".......ogGGo........",
+        "......goCPCo........",
+        ".......ogGGo........",
+    ]),
+}
+
 # Where a hat sits on each hero, per view: (middle column, row of the top of the head) in the plain sprite.
 HEADS = {
     "chameleon": {"down": (8, 4), "up": (8, 4), "side": (8, 3)},
@@ -243,6 +260,7 @@ LOOKS = [
     ("red_fox", "Gun Master", "cowboy", None, {}),
     ("peacock", "Warrior", "knight", None, {}),
     ("peacock", "Thief", None, PEACOCK_MASK, {}),
+    ("moose", "Tinkerer", None, MOOSE_GOGGLES, {}),
 ]
 
 

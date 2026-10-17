@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/Actors/Hero.cs" id="1_hero"]
 [ext_resource type="Script" path="res://scripts/Abilities/MeleeAbility.cs" id="2_melee"]
 [ext_resource type="Script" path="res://scripts/Abilities/SummonAbility.cs" id="3_summon"]
 [ext_resource type="Script" path="res://scripts/Abilities/CycleOptionsAbility.cs" id="4_cycle"]
+[ext_resource type="Script" path="res://scripts/Abilities/FuseAbility.cs" id="5_fuse"]
+[ext_resource type="Script" path="res://scripts/Abilities/CraftAbility.cs" id="6_craft"]
 
 [node name="Moose" type="CharacterBody2D"]
 collision_layer = 2
@@ -44,3 +46,15 @@ script = ExtResource("4_cycle")
 Slot = 4
 Classes = "Summoner"
 Target = NodePath("../HeavySummon")
+
+[node name="Fuse" type="Node2D" parent="."]
+script = ExtResource("5_fuse")
+Slot = 1
+Classes = "Tinkerer"
+CooldownSeconds = 0.5
+
+[node name="Craft" type="Node2D" parent="."]
+script = ExtResource("6_craft")
+Slot = 2
+Classes = "Tinkerer"
+CooldownSeconds = 0.5

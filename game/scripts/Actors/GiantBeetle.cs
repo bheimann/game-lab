@@ -179,7 +179,7 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, IS
 
     private void Defeated()
     {
-        Loot.DropFrom(this, rolls: 5, bossCoin: true);
+        Loot.DropFrom(this, rolls: 5, bossCoin: true, parts: new[] { Items.MonsterPart.Shell });
         _effects.Clear();
         Enter(State.Asleep);
         _target = null;
