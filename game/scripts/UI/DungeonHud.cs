@@ -66,6 +66,18 @@ public partial class DungeonHud : Control
             Text(label, at + new Vector2(16, 12), Colors.White, 10, left: true);
         }
 
+        // Boss coins (to the left of the keys).
+        if (Items.Purse.BossCoins > 0)
+        {
+            var at = new Vector2(width / 2 - 62, 6);
+            DrawRect(new Rect2(at - new Vector2(4, 2), new Vector2(40, 18)), Outline with { A = 0.7f });
+            var coin = at + new Vector2(6, 7);
+            DrawCircle(coin, 6f, Outline);
+            DrawCircle(coin, 5f, new Color(0.98f, 0.8f, 0.25f));
+            DrawCircle(coin, 2f, new Color(1f, 0.35f, 0.35f));
+            Text($"x{Items.Purse.BossCoins}", at + new Vector2(16, 12), Colors.White, 10, left: true);
+        }
+
         // Boss health.
         var boss = Dungeon.CurrentRoom.FindChildren("*", "", true, false).OfType<IBoss>().FirstOrDefault(b => b.IsFighting);
         if (boss is not null)

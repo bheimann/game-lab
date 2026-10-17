@@ -6,7 +6,8 @@ using LizardWizard.Items;
 namespace LizardWizard.Effects;
 
 /// <summary>
-/// Something an enemy dropped when it was beaten: a few coins (most of the time) or a healing herb. It pops out
+/// Something an enemy dropped when it was beaten: a few coins (most of the time) or a healing herb. A boss also
+/// always drops one big boss coin. It pops out
 /// onto the ground, and the first hero to walk over it picks it up (it slides over to a hero who's close).
 /// Coins go into the team's <see cref="Purse"/>, a herb to whoever picked it up. Loot left lying around blinks and
 /// disappears after a while, or when the team leaves the room.
@@ -24,6 +25,7 @@ public partial class Loot : Node2D
     private static readonly Color Gold = new(0.98f, 0.8f, 0.25f);
     private static readonly Color DarkGold = new(0.72f, 0.48f, 0.12f);
     private static readonly Color Outline = new(0.08f, 0.09f, 0.18f);
+    private static readonly Color BossRed = new(1f, 0.35f, 0.35f);
 
     private Vector2 _from;
     private Vector2 _to;
@@ -33,12 +35,22 @@ public partial class Loot : Node2D
     /// <summary>Coins in this pile (0 = it's a healing herb).</summary>
     public int Coins { get; private set; }
 
-    public bool IsHerb => Coins == 0;
+    /// <summary>A boss's special coin (one per boss).</summary>
+    public bool IsBossCoin { get; private set; }
+
+    public bool IsHerb => Coins == 0 && !IsBossCoin;
 
     /// <summary>Drop <paramref name="rolls"/> pieces of loot around <paramref name="enemy"/>'s feet
-    /// (80% a pile of 1-3 coins, 20% a healing herb; the only item there is for now).</summary>
-    public static void DropFrom(Node2D enemy, int rolls = 1)
+    /// (80% a pile of 1-3 coins, 20% a healing herb; the only item there is for now). With <paramref name="bossCoin"/>,
+    /// one of them is always a boss coin instead.</summary>
+    public static void DropFrom(Node2D enemy, int rolls = 1, bool bossCoin = false)
     {
+        if (bossCoin)
+        {
+            Drop(enemy, enemy.GlobalPosition, 0, bossCoin: true);
+            rolls--;
+        }
+
         for (var i = 0; i < rolls; i++)
         {
             var coins = GD.Randf() < CoinChance ? GD.RandRange(1, 3) : 0;
@@ -46,10 +58,10 @@ public partial class Loot : Node2D
         }
     }
 
-    /// <summary>Drop one pile of <paramref name="coins"/> (0 = a healing herb) that pops out from <paramref name="at"/>.</summary>
-    public static Loot Drop(Node2D near, Vector2 at, int coins)
+    /// <summary>Drop one pile of <paramref name="coins"/> (0 = a healing herb), or a boss coin, that pops out from <paramref name="at"/>.</summary>
+    public static Loot Drop(Node2D near, Vector2 at, int coins, bool bossCoin = false)
     {
-        var loot = new Loot { Coins = coins, _from = at };
+        var loot = new Loot { Coins = bossCoin ? 0 : coins, IsBossCoin = bossCoin, _from = at };
         loot._to = at + Vector2.Right.Rotated(GD.Randf() * Mathf.Tau) * (float)GD.RandRange(8.0, 18.0);
         near.GetParent().AddChild(loot);
         loot.GlobalPosition = at;
@@ -103,8 +115,13 @@ public partial class Loot : Node2D
 
     private void PickUp(Hero hero)
     {
-        GD.Print($"{hero.Name} picked up {(IsHerb ? "a healing herb" : $"{Coins} coin(s)")}");
-        if (IsHerb)
+        GD.Print($"{hero.Name} picked up {(IsBossCoin ? "the boss coin" : IsHerb ? "a healing herb" : $"{Coins} coin(s)")}");
+        if (IsBossCoin)
+        {
+            Purse.AddBossCoin();
+            FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -16), "Boss coin!", BossRed, 2f, 10f);
+        }
+        else if (IsHerb)
         {
             hero.AddHerbs(1);
             FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), "+1 herb", new Color(0.5f, 1f, 0.5f), 1f, 8f);
@@ -133,6 +150,28 @@ public partial class Loot : Node2D
         DrawSetTransform(Vector2.Zero, 0, new Vector2(1f, 0.4f));
         DrawCircle(Vector2.Zero, 4f, new Color(0, 0, 0, 0.25f));
         DrawSetTransform(Vector2.Zero, 0, Vector2.One);
+
+        if (IsBossCoin)
+        {
+            // A big gold coin with a red star, bobbing and glinting.
+            var centre = new Vector2(0, -7f - lift - Mathf.Sin(_time * 3f) * 1.5f);
+            DrawCircle(centre, 6.5f, Outline);
+            DrawCircle(centre, 5.5f, DarkGold);
+            DrawCircle(centre - new Vector2(0.6f, 0.6f), 4.5f, Gold);
+            var star = Enumerable.Range(0, 10)
+                .Select(i => centre + Vector2.Up.Rotated(i * Mathf.Pi / 5) * (i % 2 == 0 ? 3.5f : 1.5f)).ToArray();
+            DrawColoredPolygon(star, BossRed);
+            var glint = (_time * 1.5f) % 2f;
+            if (glint < 0.4f)
+            {
+                var at = centre + new Vector2(3, -3);
+                var size = 2.5f * Mathf.Sin(glint / 0.4f * Mathf.Pi);
+                DrawLine(at - new Vector2(size, 0), at + new Vector2(size, 0), Colors.White, 1f);
+                DrawLine(at - new Vector2(0, size), at + new Vector2(0, size), Colors.White, 1f);
+            }
+
+            return;
+        }
 
         if (_herb is not null)
         {

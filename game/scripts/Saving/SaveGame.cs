@@ -45,6 +45,8 @@ public sealed class SaveData
     /// <summary>The team's coins (<see cref="Purse"/>).</summary>
     public int Coins { get; set; }
 
+    public int BossCoins { get; set; }
+
     public bool DungeonComplete { get; set; }
 
     /// <summary>Node path (from the scene root) → saved state.</summary>
@@ -134,7 +136,7 @@ public static class SaveGame
         }
 
         Unlocks.Restore(data.BossesBeaten);
-        Purse.Restore(data.Coins);
+        Purse.Restore(data.Coins, data.BossCoins);
         if (Dungeon.Find(anyNode) is { } dungeon)
         {
             dungeon.Keys = data.Keys;
@@ -160,6 +162,7 @@ public static class SaveGame
         {
             BossesBeaten = Unlocks.BeatenBosses.ToList(),
             Coins = Purse.Coins,
+            BossCoins = Purse.BossCoins,
             Removed = Removed.ToList(),
             Players = new Dictionary<int, SavedPlayer>(Loaded?.Players ?? new()),
         };
@@ -216,6 +219,6 @@ public static class SaveGame
         _loaded = null;
         Removed.Clear();
         Unlocks.Restore(Enumerable.Empty<string>());
-        Purse.Restore(0);
+        Purse.Restore(0, 0);
     }
 }
