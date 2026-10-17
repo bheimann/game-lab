@@ -9,7 +9,7 @@ namespace LizardWizard.Abilities;
 /// <summary>
 /// The peacock Thief's quick grab: robs the enemy right in front of it. LB / RB (or the ring menu) pick what to take:
 /// <b>gold</b> (coins for the team's purse), <b>gear</b> (a healing herb for now) or its <b>ability</b> (the Thief can
-/// then use that enemy's move, see <see cref="StolenMoveAbility"/>). Only enemies that are awake can be robbed, and
+/// then use that enemy's move until it steals another, see <see cref="StolenMoveAbility"/>). Only enemies that are awake can be robbed, and
 /// each one only once of each thing (until it comes back).
 /// </summary>
 public partial class StealAbility : Ability, IHasOptions

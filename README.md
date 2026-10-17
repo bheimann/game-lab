@@ -52,11 +52,11 @@ yellow: that's its kick coming. Works even with the ring menu open.
   that also breaks cracked rocks). The grapple **reels in** small enemies, **pulls you over** to big ones (bosses)
   and to **walls, rocks and bushes**, flying you over **water and pits** on the way. If something hits you
   mid-flight over water, you land back where you started. Its other class, **Warrior**, shoots a plain gun.
-- The peacock can also be a **Thief** (bandit mask): A jabs with a dagger, X **steals** from the enemy right in front
+- The peacock can also be a **Thief** (bandit mask): A shoots its gun, X **steals** from the enemy right in front
   of you, and LB / RB pick what to steal: **gold** (coins for the team), **gear** (a healing herb, for now) or its
-  **ability**. Only enemies that are awake can be robbed, each one once of each thing. A stolen ability goes on Y for
-  5 uses: a deer gives you the **Deer Kick** (a big kick), the Giant Beetle the **Beetle Charge** (a dash that rams
-  everything in the way). Stealing another ability swaps it.
+  **ability**. Only enemies that are awake can be robbed, each one once of each thing. A stolen ability goes on Y and
+  you keep it (it never runs out, and the save remembers it): a deer gives you the **Deer Kick** (a big kick), the
+  Giant Beetle the **Beetle Charge** (a dash that rams everything in the way). Stealing another enemy's ability swaps it.
 - **Secret:** in Scalebrook Meadow's top-left corner there's a chest across the water that only a grapple can reach.
 
 **Scalebrook Village:** walk up into a shop's door to go in. Each shop has a shopkeeper behind the counter who

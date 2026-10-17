@@ -426,7 +426,8 @@ public partial class DevAutoplay : Node
     /// </summary>
     /// <summary>
     /// The peacock's Thief class (P2): steal gold, gear and the ability from one deer, try to rob it again (nothing
-    /// left), kick it with the stolen Deer Kick until it falls asleep, and check its loot gets picked up.
+    /// left), kick it with the stolen Deer Kick until it falls asleep (the move never runs out), shoot the gun, and check
+    /// its loot gets picked up.
     /// </summary>
     private void ThiefTest(Hero p2, List<Deer> deer, int step, System.Action<Deer, Hero, float> place, System.Func<Hero, string, Ability> ability)
     {
@@ -434,7 +435,7 @@ public partial class DevAutoplay : Node
         var move = (StolenMoveAbility)ability(p2, "StolenMove");
         var victim = deer[2];
         void Log(string text) => GD.Print($"[autoplay {_time:0.0}s] thief test: {text}");
-        string State() => $"coins {Items.Purse.Coins}, herbs {p2.Herbs}, move '{move.Move}' x{move.UsesLeft}, deer hp {victim.Health.Current}";
+        string State() => $"coins {Items.Purse.Coins}, herbs {p2.Herbs}, move '{move.Move}', deer hp {victim.Health.Current}";
 
         switch (step)
         {
@@ -452,6 +453,10 @@ public partial class DevAutoplay : Node
                 place(victim, p2, 14);
                 Log($"deer kick: used={move.TryUse()} -> {State()}, asleep={victim.IsAsleep}");
                 TakeShot(0.1, "_thief");
+                break;
+            case 8:
+                var bullets = GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Bullet>().Count();
+                Log($"A shoots the gun: used={ability(p2, "Gun").TryUse()}, bullets flying {bullets} -> {GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Bullet>().Count()}");
                 break;
             case 9: case 10: case 11:
                 var loot = GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<Loot>().ToList();
