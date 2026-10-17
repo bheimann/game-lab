@@ -90,7 +90,9 @@ CooldownSeconds = 0.8
 Damage = 6
 Look = 1
 Range = 140.0
-BulletSpeed = 240.0
+BulletSpeed = 200.0
+AimAssistDegrees = 25.0
+ArcHeight = 26.0
 ActiveSeconds = 0.2
 
 [node name="FlailSwing" type="Node2D" parent="."]

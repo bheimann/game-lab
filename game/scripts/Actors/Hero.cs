@@ -25,6 +25,9 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     private const double WalkFps = 8;
     private const string HerbIcon = "res://assets/sprites/icons/herb.png";
 
+    /// <summary>How far above the hero's position its feet are drawn (the player ring goes there).</summary>
+    private const float RingHeight = 6f;
+
     private Ability[] _allAbilities = System.Array.Empty<Ability>();
     private Ability[] _abilities = System.Array.Empty<Ability>();
     private bool _down;
@@ -563,10 +566,11 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         // Player marker: a coloured ring at the feet and a small arrow over the head.
         if (!IsDown)
         {
-            DrawSetTransform(Vector2.Zero, 0, new Vector2(1f, 0.45f));
+            // The drawings have a few empty rows under the feet, so the ring goes up to where the feet are drawn.
+            DrawSetTransform(new Vector2(0, -RingHeight), 0, new Vector2(1f, 0.45f));
             DrawArc(Vector2.Zero, 8f, 0, Mathf.Tau, 20, PlayerColour, 1.5f);
             DrawSetTransform(Vector2.Zero, 0, Vector2.One);
-            var top = _spriteOffset.Y * 2 - 5;
+            var top = _spriteOffset.Y - Sprite.SpriteFrames.GetFrameTexture("idle_down", 0).GetHeight() / 2f - 5;
             DrawColoredPolygon(new[] { new Vector2(-3, top), new Vector2(3, top), new Vector2(0, top + 3) }, PlayerColour);
         }
     }

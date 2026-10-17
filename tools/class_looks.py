@@ -152,7 +152,6 @@ LOOKS = [
     ("chameleon", "Spitter", None, None, TEAL),
     ("chameleon", "Illusionist", "wizard", None, {}),
     ("red_fox", "Gun Master", "cowboy", None, {}),
-    ("red_fox", "Weapon Master", "viking", None, {}),
     ("peacock", "Warrior", "knight", None, {}),
 ]
 
