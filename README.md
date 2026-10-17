@@ -59,12 +59,20 @@ yellow: that's its kick coming. Works even with the ring menu open.
   Every hero has **3 fuse slots** each for guns, weapons and armor (one more of each for every boss beaten); a main
   attack that shoots counts as a gun. Switch between your fused weapons / guns and armor in the **Start** ring menu.
   When the slots are full, a new fusion replaces the one you're using.
-- The beetle can also be a **Vehicle Master** (aviator cap): X **builds a tank** and hops in to drive. Driving: the
-  stick steers, A fires the **cannon** (explosive shells, which also break cracked rocks), X hops out (X next to the
-  tank climbs back in; far from it, a new tank is built right there). Teammates climb on by walking up to the tank and
-  pressing A (up to 3 passengers), keep using their own attacks from the deck, and hop off with dodge. Hits on anyone
-  riding hit the tank instead (it has its own health bar); when it breaks everyone tumbles off, and the beetle needs
-  10 seconds to fix it before building another. Going through a door packs the tank away.
+- The beetle can also be a **Vehicle Master** (aviator cap): LB / RB pick a vehicle, X **builds it** and hops in to
+  drive (X next to it climbs back in; far from it, or with another vehicle picked, a new one is built right there).
+  Driving: the stick steers, A does the vehicle's trick, X hops out. Teammates climb on by walking up and pressing A,
+  keep using their own attacks from the deck, and hop off with dodge (not over water or a hole). Hits on anyone riding
+  hit the vehicle instead (it has its own health bar); when it breaks everyone tumbles off (back onto dry land), and the
+  beetle needs 10 seconds before building another. Going through a door packs the vehicle away.
+
+  | Vehicle | Seats | Speed | A (driver) | Good for |
+  |---|---|---|---|---|
+  | Tank | 4 | slow | cannon (explosive shells, breaks cracked rocks) | fighting; toughest |
+  | Cart | 4 | fast | speed boost | rams enemies it drives into |
+  | Boat | 4 | fast on water, slow on land | – | crossing water (not holes) |
+  | Glider | 4 | medium | – | flying over water and holes for 8 seconds (a blue bar), then it lands |
+  | Plane | 2 | very fast | machine gun | flying over water and holes as long as you like |
 - The **beetle** starts as a **Roller**: A horn jab, X **rolls** (a fast ball that rams enemies and bounces off
   walls; steer it a little; hits hurt half as much while rolling), Y **hides in its shell** (blocks every hit for a
   moment), and its tough shell always makes hits hurt less. Its other class, **Warrior**, just jabs.
