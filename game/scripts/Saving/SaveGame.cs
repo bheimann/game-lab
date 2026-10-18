@@ -138,6 +138,7 @@ public static class SaveGame
         var data = Loaded;
         if (data is null)
         {
+            Playtest.ApplyNewGame(); // a new game: playtest settings (starting coins...)
             return;
         }
 

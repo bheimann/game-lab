@@ -11,6 +11,10 @@
 2. Click **Import**, choose `game/project.godot`, then open it.
 3. Press **▶** (F5).
 
+**Playtest settings:** `game/playtest.cfg` has values to change for testing, used when a new game starts (hold N on the
+start screen for a new game). For now: `coins`, the coins the team starts with (500, enough for every weapon upgrade
+and plenty of herbs). Heroes always start with no herbs: buy them in the village or find them.
+
 ### Controls
 Up to 4 players. Each controller is a player, and the keyboard can be two players (left and right halves).
 Press a button to join, pick a character with left / right and its class with up / down, and confirm with the

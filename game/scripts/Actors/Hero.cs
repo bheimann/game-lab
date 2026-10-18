@@ -75,8 +75,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     [Export] public int MaxHealth { get; set; } = 20;
 
-    /// <summary>Healing herbs the hero starts with (B / I / M eats one).</summary>
-    [Export] public int StartingHerbs { get; set; } = 3;
+    /// <summary>Healing herbs the hero starts with (B / I / M eats one). None: buy them in the village, or find them.</summary>
+    [Export] public int StartingHerbs { get; set; }
 
     [Export] public int HerbHealing { get; set; } = 6;
 
