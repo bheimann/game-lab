@@ -34,6 +34,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     private bool _left;
     private float _downTime;
     private float _invulnerable;
+    private float _poisonLeft;
+    private float _poisonTick;
     private float _dodgeTime = -1f;
     private float _dodgeCooldown;
     private float _ghostTimer;
@@ -260,6 +262,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     {
         var dt = (float)delta;
         _invulnerable -= dt;
+        TickPoison(dt);
         _dodgeCooldown -= dt;
         CollisionMask |= Pit.PitLayer; // only a grapple line carries the hero over pits (see below)
 
@@ -343,6 +346,36 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         MoveAndSlide();
         StayOnScreen();
         UpdateLook(walking || active?.Motion is not null);
+    }
+
+    /// <summary>Poisoned (a snake bite): lose 1 health every so often for <paramref name="seconds"/>. Never knocks you out.</summary>
+    public void Poison(float seconds)
+    {
+        if (Riding is not null || IsDown || _poisonLeft > 0)
+        {
+            return; // already poisoned: another bite doesn't make it last longer
+        }
+
+        _poisonLeft = seconds;
+        _poisonTick = 0.75f;
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), "Poisoned!", new Color(0.65f, 1f, 0.5f), 1f, 7f);
+    }
+
+    private void TickPoison(float dt)
+    {
+        if (_poisonLeft <= 0)
+        {
+            return;
+        }
+
+        _poisonLeft -= dt;
+        _poisonTick -= dt;
+        if (_poisonTick <= 0 && Health.Current > 1 && !IsDown)
+        {
+            _poisonTick = 0.75f;
+            Health.Damage(1);
+            FloatingText.Spawn(this, HurtCenter + new Vector2(0, -8), "-1", new Color(0.65f, 1f, 0.5f), 0.6f, 7f);
+        }
     }
 
     /// <summary>Climb onto a vehicle (called by <see cref="Vehicle.Board"/>).</summary>

@@ -9,12 +9,17 @@ namespace LizardWizard.Abilities;
 /// <summary>
 /// The peacock Thief uses the move it stole last (see <see cref="StealAbility"/>), as often as it likes. It keeps the
 /// move (the save remembers it) until it steals another enemy's ability, which swaps the move. Moves: the deer's <see cref="DeerKick"/> (a strong kick in front)
-/// and the Giant Beetle's <see cref="BeetleCharge"/> (a dash that rams every enemy in the way).
+/// and the Giant Beetle's <see cref="BeetleCharge"/> (a dash that rams every enemy in the way); also the boar's charge, the arctic
+/// fox's pounce (a short, fast dash), the frog's spit (a poison blob) and the snake's poison bite.
 /// </summary>
 public partial class StolenMoveAbility : Ability
 {
     public const string DeerKick = "Deer Kick";
     public const string BeetleCharge = "Beetle Charge";
+    public const string BoarCharge = "Boar Charge";
+    public const string FoxPounce = "Fox Pounce";
+    public const string FrogSpit = "Frog Spit";
+    public const string PoisonBite = "Poison Bite";
 
     private readonly HashSet<IHittable> _hit = new();
     private float _activeLeft;
@@ -43,7 +48,10 @@ public partial class StolenMoveAbility : Ability
 
     public override float MoveFactor => Move == DeerKick ? 0.2f : 1f;
 
-    public override Vector2? Motion => IsActive && Move == BeetleCharge ? _direction * ChargeSpeed : null;
+    /// <summary>The moves that dash the Thief forward, ramming what's in the way.</summary>
+    private bool IsCharge => Move is BeetleCharge or BoarCharge or FoxPounce;
+
+    public override Vector2? Motion => IsActive && IsCharge ? _direction * (Move == FoxPounce ? ChargeSpeed * 1.4f : ChargeSpeed) : null;
 
     public void Learn(string move) => Move = move;
 
@@ -60,21 +68,31 @@ public partial class StolenMoveAbility : Ability
         _hit.Clear();
         FloatingText.Spawn(this, textAt, Move, new Color(0.8f, 0.5f, 1f), 0.9f, 7f);
 
-        if (Move == BeetleCharge)
+        if (Move == FrogSpit)
         {
-            _activeLeft = ChargeSeconds;
+            // A slime blob that poisons.
+            _activeLeft = 0.2f;
+            Bullet.Fire(Hero, Hero.ToGlobal(Hero.AttackOrigin), Hero.Facing,
+                new Bullet.Shot(220f, 150f, 3, DamageType.Poison, new Color(0.55f, 0.85f, 0.3f), ShotLook.Pellet));
+            return;
+        }
+
+        if (IsCharge)
+        {
+            _activeLeft = Move == FoxPounce ? ChargeSeconds * 0.5f : ChargeSeconds;
             _direction = Hero.Controls.Move.Length() > 0.2f ? Hero.Controls.Move.Normalized() : Hero.Facing;
             Hero.Face(_direction);
             return;
         }
 
-        // Deer Kick: a big hit right in front.
+        // Deer Kick (a big hit right in front) or Poison Bite (a smaller one that poisons).
         _activeLeft = 0.3f;
         _flashLeft = 0.15f;
         _hitPoint = Hero.HurtCenter + Hero.Facing * 14f;
+        var bite = Move == PoisonBite;
         foreach (var enemy in Hero.EnemyTargets().Where(t => Hits.Touches(t, _hitPoint, 11f)))
         {
-            Hero.Hit(enemy, KickDamage, Hero.GlobalPosition, DamageType.Physical);
+            Hero.Hit(enemy, bite ? 3 : KickDamage, Hero.GlobalPosition, bite ? DamageType.Poison : DamageType.Physical);
         }
 
         Hero.Lunge(Hero.Facing * 5f);
@@ -86,7 +104,7 @@ public partial class StolenMoveAbility : Ability
     {
         _activeLeft -= dt;
         _flashLeft -= dt;
-        if (IsActive && Move == BeetleCharge)
+        if (IsActive && IsCharge)
         {
             // Ram everything in the way, once each.
             foreach (var enemy in Hero.EnemyTargets().Where(t => !_hit.Contains(t) && Hits.Touches(t, Hero.HurtCenter, 8f)))
@@ -108,7 +126,7 @@ public partial class StolenMoveAbility : Ability
             DrawArc(at, 9f, 0, Mathf.Tau, 16, new Color(0.8f, 0.5f, 1f), 1.5f);
         }
 
-        if (IsActive && Move == BeetleCharge)
+        if (IsActive && IsCharge)
         {
             // Purple streaks behind the charging peacock.
             for (var i = 1; i <= 3; i++)

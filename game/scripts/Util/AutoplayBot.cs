@@ -91,7 +91,7 @@ internal sealed class AutoplayBot
         var reach = 13f + target.HurtRadius;
         var distance = target.HurtCenter.DistanceTo(hero.HurtCenter);
 
-        if (target is Deer { IsWindingUp: true } && distance <= reach + 8f && !hero.IsDodging)
+        if (target is Beast { IsWindingUp: true } && distance <= reach + 8f && !hero.IsDodging)
         {
             // Dodge sideways, not straight back: straight back can be through a door into the next room.
             var away = (hero.HurtCenter - target.HurtCenter).Normalized();

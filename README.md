@@ -45,16 +45,21 @@ yellow: that's its kick coming. Works even with the ring menu open.
   the enemy the moose hit last, follow it through doors, and stay until they're beaten. The Summoner eats herbs from
   the ring menu (Start), since B switches the big summon.
 - The moose's other class is the **Tinkerer** (goggles), who works with **monster parts** (every beaten enemy drops
-  its parts: a deer an **antler** and a **hide**, the Giant Beetle a **beetle shell**; they go in the team's bag).
+  its parts, below; they go in the team's bag).
   A antler bash, X **fuses** a part onto the closest teammate's main attack or armor (or the moose's own if nobody is
   close), Tears of the Kingdom style, and LB / RB pick the part and whether it goes on the weapon or the armor.
   Y **crafts** armor for the whole team (pick it in the Start menu's Craft ring): **Hide Vest** (2 hide, +1 heart),
-  **Antler Helm** (2 antlers + 1 hide, +2 hearts), **Shell Plate** (1 shell + 2 hide, +3 hearts).
-  | Part | Fused onto a weapon or gun | Fused onto armor |
-  |---|---|---|
-  | Antler | +2 damage | +1 heart |
-  | Hide | faster attacks | walk faster |
-  | Beetle shell | +4 damage | +2 hearts |
+  **Antler Helm** (2 antlers + 1 hide, +2 hearts), **Shell Plate** (1 shell + 2 hide, +3 hearts), **Fur Coat**
+  (3 fur, +2 hearts), **Scale Mail** (3 scales + 1 tusk, +4 hearts).
+  | Part | Dropped by | Fused onto a weapon or gun | Fused onto armor |
+  |---|---|---|---|
+  | Antler | deer | +2 damage | +1 heart |
+  | Hide | deer | faster attacks | walk faster |
+  | Beetle shell | Giant Beetle | +4 damage | +2 hearts |
+  | Tusk | boar | +3 damage | +1 heart |
+  | Fur | arctic fox | faster attacks | +1 heart |
+  | Frog skin | frog | hits poison | walk faster |
+  | Scale | snake | +2 damage | +2 hearts |
 
   Every hero has **3 fuse slots** each for guns, weapons and armor (one more of each for every boss beaten); a main
   attack that shoots counts as a gun. Switch between your fused weapons / guns and armor in the **Start** ring menu.
@@ -100,6 +105,20 @@ The path north leads to **Scalebrook Castle**. Its **Castle Hall** has knights o
 about); the top door goes to the **Throne Room** (the king and queen, and four knights; the king, the queen or both
 welcome you), the right door to the **Castle Kitchen** (a cook, and a free herb on the table, once), and the left door
 to the **armory**, which stays locked for now (a quest will open it). Villagers wander around the village.
+
+**Enemies:** animals tricked by Mossimus. Beat one and it falls asleep, then thanks you once the area is clear.
+They come in mixed groups, and come back when you leave an area and return.
+
+| Enemy | Where | How it fights |
+|---|---|---|
+| **Deer** | everywhere | walks up, flashes yellow, kicks (dodge!) |
+| **Boar** | forest, canyon | the toughest: paws the ground (flashing), then charges in a straight line; after a charge it stops to catch its breath |
+| **Arctic fox** | tundra (in packs) | fast: darts in, bites, runs off, comes back |
+| **Frog** | swamp, lake, canyon | keeps its distance, hopping about, and spits slime blobs |
+| **Snake** | meadow, forest, canyon, swamp, lake | hard to see in the grass until you're close; poison bite (keeps hurting for a few seconds) |
+
+The Thief can steal their moves too: **Boar Charge**, **Fox Pounce** (a short, fast dash), **Frog Spit** (a poison
+blob) and **Poison Bite**.
 
 **Loot:** a beaten enemy drops something: usually a few **coins** (8 times out of 10), otherwise a **healing herb** (later
 also weapons), and always each of its **monster parts** (a deer: an antler and a hide). Walk over it to pick it up. Coins go into the team's purse (top middle of the screen, kept in
@@ -203,6 +222,8 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
 - `Godot_console.exe --path game -- --room=Overworld --autoplay-grapple=<folder>` checks the meadow's secret chest
   (`--room=Swamp` for the swamp's): the peacock can't walk over the water or round the side, grapples over to the chest
   and back, and lands back on the shore when stopped mid-flight.
+- `Godot_console.exe --path game -- --room=Lake --autoplay-beasts=<folder>` puts each kind of enemy next to the fox in
+  turn and logs whether its attack landed and what it dropped.
 - `Godot_console.exe --path game -- --room=Village --screenshot-showcase=village:<file.png>` takes a picture to
   share: four heroes in a scene. Scenes (with their room): `village` (Village), `throne` (ThroneRoom), `battle`
   (Forest), `lake` (Lake), `canyon` (Canyon), `boss` (BossRoom).

@@ -12,8 +12,10 @@ namespace LizardWizard.Items;
 /// <param name="CooldownFactor">Fused onto a weapon or gun: the wait between attacks is multiplied by this (less = faster).</param>
 /// <param name="ExtraHealth">Fused onto armor: this much more health (2 = a heart).</param>
 /// <param name="SpeedFactor">Fused onto armor: walking speed is multiplied by this.</param>
+/// <param name="Element">Fused onto a weapon or gun: its hits do this element instead (frog skin: poison).</param>
 public sealed record MonsterPart(string Name, string Plural, string FuseName, string IconPath, string AttackDescription,
-    string ArmorDescription, int ExtraDamage = 0, float CooldownFactor = 1f, int ExtraHealth = 0, float SpeedFactor = 1f)
+    string ArmorDescription, int ExtraDamage = 0, float CooldownFactor = 1f, int ExtraHealth = 0, float SpeedFactor = 1f,
+    Combat.DamageType? Element = null)
 {
     public static readonly MonsterPart Antler = new("Antler", "antlers", "Antler", "res://assets/sprites/icons/antler.png",
         "+2 damage", "+1 heart", ExtraDamage: 2, ExtraHealth: 2);
@@ -22,7 +24,16 @@ public sealed record MonsterPart(string Name, string Plural, string FuseName, st
     public static readonly MonsterPart Shell = new("Beetle Shell", "beetle shell", "Shell", "res://assets/sprites/icons/shell.png",
         "+4 damage", "+2 hearts", ExtraDamage: 4, ExtraHealth: 4);
 
-    public static readonly MonsterPart[] All = { Antler, Hide, Shell };
+    public static readonly MonsterPart Tusk = new("Tusk", "tusks", "Tusk", "res://assets/sprites/icons/tusk.png",
+        "+3 damage", "+1 heart", ExtraDamage: 3, ExtraHealth: 2);
+    public static readonly MonsterPart Fur = new("Fur", "fur", "Fur", "res://assets/sprites/icons/fur.png",
+        "Faster attacks", "+1 heart", CooldownFactor: 0.8f, ExtraHealth: 2);
+    public static readonly MonsterPart FrogSkin = new("Frog Skin", "frog skin", "Frog", "res://assets/sprites/icons/frog_skin.png",
+        "Poison hits", "Walk faster", SpeedFactor: 1.15f, Element: Combat.DamageType.Poison);
+    public static readonly MonsterPart Scale = new("Scale", "scales", "Scale", "res://assets/sprites/icons/scale.png",
+        "+2 damage", "+2 hearts", ExtraDamage: 2, ExtraHealth: 4);
+
+    public static readonly MonsterPart[] All = { Antler, Hide, Shell, Tusk, Fur, FrogSkin, Scale };
 
     public static MonsterPart? Named(string name) => All.FirstOrDefault(p => p.Name == name);
 

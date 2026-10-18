@@ -7,6 +7,10 @@
 [ext_resource type="TileSet" path="res://assets/tilesets/room_tileset.tres" id="tiles"]
 [ext_resource type="Script" path="res://scripts/Dungeons/Door.cs" id="door"]
 [ext_resource type="PackedScene" path="res://scenes/actors/deer.tscn" id="deer"]
+[ext_resource type="PackedScene" path="res://scenes/actors/boar.tscn" id="boar"]
+[ext_resource type="PackedScene" path="res://scenes/actors/arctic_fox.tscn" id="arctic_fox"]
+[ext_resource type="PackedScene" path="res://scenes/actors/frog.tscn" id="frog"]
+[ext_resource type="PackedScene" path="res://scenes/actors/snake.tscn" id="snake"]
 [ext_resource type="Script" path="res://scripts/Dungeons/TreasureChest.cs" id="chest"]
 [ext_resource type="Script" path="res://scripts/Dungeons/Pit.cs" id="pit"]
 [ext_resource type="Script" path="res://scripts/Dungeons/LeverSwitch.cs" id="lever"]
@@ -12420,3 +12424,114 @@ Kind = 0
 position = Vector2(503, 203)
 script = ExtResource("prop")
 Kind = 0
+
+[node name="Snake1" parent="World/Overworld" instance=ExtResource("snake")]
+position = Vector2(164, 347)
+
+[node name="Snake2" parent="World/Overworld" instance=ExtResource("snake")]
+position = Vector2(141, 365)
+
+[node name="Boar1" parent="World/Forest" instance=ExtResource("boar")]
+position = Vector2(1439, 201)
+
+[node name="Snake1" parent="World/Forest" instance=ExtResource("snake")]
+position = Vector2(1424, 183)
+
+[node name="Snake2" parent="World/Forest" instance=ExtResource("snake")]
+position = Vector2(1474, 218)
+
+[node name="Boar2" parent="World/Forest" instance=ExtResource("boar")]
+position = Vector2(826, 430)
+
+[node name="Snake3" parent="World/Forest" instance=ExtResource("snake")]
+position = Vector2(859, 418)
+
+[node name="Boar3" parent="World/Forest" instance=ExtResource("boar")]
+position = Vector2(541, 302)
+
+[node name="ArcticFox1" parent="World/Tundra" instance=ExtResource("arctic_fox")]
+position = Vector2(1230, 76)
+
+[node name="ArcticFox2" parent="World/Tundra" instance=ExtResource("arctic_fox")]
+position = Vector2(1205, 73)
+
+[node name="ArcticFox3" parent="World/Tundra" instance=ExtResource("arctic_fox")]
+position = Vector2(1252, 82)
+
+[node name="ArcticFox4" parent="World/Tundra" instance=ExtResource("arctic_fox")]
+position = Vector2(819, 338)
+
+[node name="ArcticFox5" parent="World/Tundra" instance=ExtResource("arctic_fox")]
+position = Vector2(841, 341)
+
+[node name="ArcticFox6" parent="World/Tundra" instance=ExtResource("arctic_fox")]
+position = Vector2(793, 367)
+
+[node name="ArcticFox7" parent="World/Tundra" instance=ExtResource("arctic_fox")]
+position = Vector2(1035, 265)
+
+[node name="ArcticFox8" parent="World/Tundra" instance=ExtResource("arctic_fox")]
+position = Vector2(1010, 240)
+
+[node name="Boar1" parent="World/Canyon" instance=ExtResource("boar")]
+position = Vector2(1175, 604)
+
+[node name="Snake1" parent="World/Canyon" instance=ExtResource("snake")]
+position = Vector2(1170, 626)
+
+[node name="Boar2" parent="World/Canyon" instance=ExtResource("boar")]
+position = Vector2(843, 752)
+
+[node name="Snake2" parent="World/Canyon" instance=ExtResource("snake")]
+position = Vector2(862, 749)
+
+[node name="Snake3" parent="World/Canyon" instance=ExtResource("snake")]
+position = Vector2(870, 731)
+
+[node name="Boar3" parent="World/Canyon" instance=ExtResource("boar")]
+position = Vector2(539, 251)
+
+[node name="Frog1" parent="World/Canyon" instance=ExtResource("frog")]
+position = Vector2(552, 268)
+
+[node name="Frog1" parent="World/Swamp" instance=ExtResource("frog")]
+position = Vector2(695, 487)
+
+[node name="Frog2" parent="World/Swamp" instance=ExtResource("frog")]
+position = Vector2(721, 488)
+
+[node name="Snake1" parent="World/Swamp" instance=ExtResource("snake")]
+position = Vector2(668, 491)
+
+[node name="Frog3" parent="World/Swamp" instance=ExtResource("frog")]
+position = Vector2(1006, 449)
+
+[node name="Snake2" parent="World/Swamp" instance=ExtResource("snake")]
+position = Vector2(1031, 454)
+
+[node name="Snake3" parent="World/Swamp" instance=ExtResource("snake")]
+position = Vector2(979, 470)
+
+[node name="Frog4" parent="World/Swamp" instance=ExtResource("frog")]
+position = Vector2(605, 235)
+
+[node name="Frog5" parent="World/Swamp" instance=ExtResource("frog")]
+position = Vector2(572, 241)
+
+[node name="Frog1" parent="World/Lake" instance=ExtResource("frog")]
+position = Vector2(1517, 194)
+
+[node name="Frog2" parent="World/Lake" instance=ExtResource("frog")]
+position = Vector2(1487, 200)
+
+[node name="Snake1" parent="World/Lake" instance=ExtResource("snake")]
+position = Vector2(1544, 221)
+
+[node name="Frog3" parent="World/Lake" instance=ExtResource("frog")]
+position = Vector2(701, 431)
+
+[node name="Snake2" parent="World/Lake" instance=ExtResource("snake")]
+position = Vector2(666, 405)
+
+[node name="Frog4" parent="World/Lake" instance=ExtResource("frog")]
+position = Vector2(130, 750)

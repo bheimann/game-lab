@@ -159,7 +159,7 @@ public partial class Dungeon : Node
         // Bombs and smoke stay behind in the old room (a vehicle gets packed away).
         var heroes = Heroes();
         var actors = heroes.FirstOrDefault()?.GetParent();
-        foreach (var leftover in actors?.GetChildren().Where(c => c is Bomb or SmokeCloud or Lure or Bullet or Stampede or Vehicle) ?? Enumerable.Empty<Node>())
+        foreach (var leftover in actors?.GetChildren().Where(c => c is Bomb or SmokeCloud or Lure or Bullet or EnemyShot or Stampede or Vehicle) ?? Enumerable.Empty<Node>())
         {
             leftover.QueueFree();
         }
