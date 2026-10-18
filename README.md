@@ -78,6 +78,7 @@ yellow: that's its kick coming. Works even with the ring menu open.
   | Boat | 4 | fast on water, slow on land | – | crossing water (not holes) |
   | Glider | 4 | medium | – | flying over water and holes for 8 seconds (a blue bar), then it lands |
   | Plane | 2 | very fast | machine gun | flying over water and holes as long as you like |
+  | Hoversled | 4 | very fast on ice, normal on water, slow on land | – | a hovercraft snowmobile for frozen lakes and icy floors; **unlocked by beating Frostfang Fortress** |
 - The **beetle** starts as a **Roller**: A horn jab, X **rolls** (a fast ball that rams enemies and bounces off
   walls; steer it a little; hits hurt half as much while rolling), Y **hides in its shell** (blocks every hit for a
   moment), and its tough shell always makes hits hurt less. Its other class is the **Vehicle Master** (above).
@@ -107,6 +108,14 @@ The path north leads to **Scalebrook Castle**. Its **Castle Hall** has knights o
 about); the top door goes to the **Throne Room** (the king and queen, and four knights; the king, the queen or both
 welcome you), the right door to the **Castle Kitchen** (a cook, and a free herb on the table, once), and the left door
 to the **armory**, which stays locked for now (a quest will open it). Villagers wander around the village.
+
+**Frostfang Fortress** (the second dungeon): the temple gate in Frosttail Tundra's bottom-right corner. Inside: the
+**Frozen Gate** (arctic foxes; the door opens once they're beaten), the **Ice Hall** (on ice you slide until you bump
+into something, and the key is out on the ice: plan your slides), the **Frozen River** (hit the lever to make a bridge;
+the door on is locked, so bring the key) and **the Frost Den**, where two bosses fight together: **Frostmane the
+Moose** stomps the floor, sending out a ring of frost that slows you down (dodge through it!), and **Tusker the Boar**
+charges whoever is slowed. Beat one and the other gets angry. Beating both gives a boss coin, one more fuse slot of each
+kind, the title Knight, the beetle's **Hoversled**, and a portal back out to the tundra.
 
 **Enemies:** animals tricked by Mossimus. Beat one and it falls asleep, then thanks you once the area is clear.
 They come in mixed groups, and come back when you leave an area and return.
@@ -224,6 +233,9 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
 - `Godot_console.exe --path game -- --room=Overworld --autoplay-grapple=<folder>` checks the meadow's secret chest
   (`--room=Swamp` for the swamp's): the peacock can't walk over the water or round the side, grapples over to the chest
   and back, and lands back on the shore when stopped mid-flight.
+- `Godot_console.exe --path game -- --room=FrostEntrance --autoplay=<folder>` plays Frostfang Fortress through (the
+  bots are put on the ice key; they can't plan slides) and the boss fight, and goes out through the portal.
+  `--room=IceHall --autoplay-ice=<folder>` solves the Ice Hall's slide puzzle with the real keys.
 - `Godot_console.exe --path game -- --room=Lake --autoplay-beasts=<folder>` puts each kind of enemy next to the fox in
   turn and logs whether its attack landed and what it dropped.
 - `Godot_console.exe --path game -- --room=Village --screenshot-showcase=village:<file.png>` takes a picture to

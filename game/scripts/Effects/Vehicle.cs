@@ -25,6 +25,19 @@ public enum VehicleKind
 
     /// <summary>Very fast and flies over water and holes as long as it likes; only one passenger; A fires a machine gun.</summary>
     Plane,
+
+    /// <summary>A hovercraft snowmobile: very fast on ice, normal speed over water, slow on land. Can't go over holes.
+    /// Unlocked by beating Frostfang Fortress.</summary>
+    Hoversled,
+}
+
+/// <summary>What's under a vehicle.</summary>
+public enum Surface
+{
+    Ground,
+    Water,
+    Ice,
+    Hole,
 }
 
 /// <summary>
@@ -92,7 +105,8 @@ public partial class Vehicle : CharacterBody2D
         VehicleKind.Cart => "Fast, rams enemies. A: speed boost",
         VehicleKind.Boat => "Sails across water",
         VehicleKind.Glider => "Flies over water and holes for a while",
-        _ => "Fast, flies anywhere, one passenger. A: machine gun",
+        VehicleKind.Plane => "Fast, flies anywhere, one passenger. A: machine gun",
+        _ => "Zooms over ice, crosses water, slow on land",
     };
 
     public override void _Ready()
@@ -104,14 +118,15 @@ public partial class Vehicle : CharacterBody2D
             VehicleKind.Cart => 18,
             VehicleKind.Boat => 20,
             VehicleKind.Glider => 12,
+            VehicleKind.Hoversled => 18,
             _ => 16,
         });
         _riders = new Hero?[SeatOffsets.Length];
         _lastGround = GlobalPosition;
 
-        // Walls stop everything; holes and water stop wheels (the boat checks for itself, flyers go over).
+        // Walls stop everything; holes and water stop wheels (the boat and hoversled check for themselves, flyers go over).
         CollisionLayer = 0;
-        CollisionMask = Flies || Kind == VehicleKind.Boat ? 1u : 1u | Pit.PitLayer;
+        CollisionMask = Flies || Kind is VehicleKind.Boat or VehicleKind.Hoversled ? 1u : 1u | Pit.PitLayer;
         MotionMode = MotionModeEnum.Floating;
         AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = new Vector2(36, 10) }, Position = new Vector2(0, 12) });
     }
@@ -224,8 +239,9 @@ public partial class Vehicle : CharacterBody2D
         Velocity = move * Speed();
         MoveAndSlide();
 
-        // A boat sails on water but not into holes (or onto thin ice).
-        if (Kind == VehicleKind.Boat && OverHole(GlobalPosition + new Vector2(0, 12), waterToo: false))
+        // A boat sails on water but not into holes (or onto thin ice); a hoversled glides over water and ice, not holes.
+        var under = SurfaceAt(GlobalPosition + new Vector2(0, 12));
+        if ((Kind == VehicleKind.Boat && under is Surface.Hole or Surface.Ice) || (Kind == VehicleKind.Hoversled && under == Surface.Hole))
         {
             GlobalPosition = before;
         }
@@ -296,6 +312,12 @@ public partial class Vehicle : CharacterBody2D
         VehicleKind.Cart => 105f * (_boost > 0 ? 1.8f : 1f),
         VehicleKind.Boat => OverHole(GlobalPosition + new Vector2(0, 12), waterToo: true) ? 85f : 35f,
         VehicleKind.Glider => 70f,
+        VehicleKind.Hoversled => SurfaceAt(GlobalPosition + new Vector2(0, 12)) switch
+        {
+            Surface.Ice => 160f,
+            Surface.Water => 85f,
+            _ => 35f,
+        },
         _ => 115f,
     };
 
@@ -340,6 +362,30 @@ public partial class Vehicle : CharacterBody2D
         QueueFree();
     }
 
+    /// <summary>What's at <paramref name="point"/>: plain ground, water, ice (a frozen lake, or an icy floor), or a hole.</summary>
+    private Surface SurfaceAt(Vector2 point)
+    {
+        var query = new PhysicsPointQueryParameters2D { Position = point, CollisionMask = Pit.PitLayer };
+        var pits = GetWorld2D().DirectSpaceState.IntersectPoint(query, 4)
+            .Select(hit => (hit["collider"].AsGodotObject() as Node)?.GetParent() as Pit).OfType<Pit>().ToList();
+        if (pits.Any(p => p.Ice))
+        {
+            return Surface.Ice;
+        }
+
+        if (pits.Any(p => p.Water))
+        {
+            return Surface.Water;
+        }
+
+        if (pits.Count > 0)
+        {
+            return Surface.Hole;
+        }
+
+        return IceFloor.At(GetTree(), point) is not null ? Surface.Ice : Surface.Ground;
+    }
+
     /// <summary>Is <paramref name="point"/> over a hole (or thin ice), or with <paramref name="waterToo"/> over water too?</summary>
     private bool OverHole(Vector2 point, bool waterToo)
     {
@@ -377,6 +423,9 @@ public partial class Vehicle : CharacterBody2D
                 break;
             case VehicleKind.Plane:
                 DrawPlane(hurt);
+                break;
+            case VehicleKind.Hoversled:
+                DrawHoversled(hurt);
                 break;
         }
 
@@ -472,6 +521,28 @@ public partial class Vehicle : CharacterBody2D
         DrawColoredPolygon(new[] { new Vector2(-34, -6), new Vector2(0, -16), new Vector2(34, -6), new Vector2(0, -2) }, Outline);
         DrawColoredPolygon(new[] { new Vector2(-31, -7), new Vector2(0, -15), new Vector2(31, -7), new Vector2(0, -4) }, hurt ? Colors.White : Cloth);
         DrawLine(new Vector2(0, -15), new Vector2(0, -3), Red, 2f);
+    }
+
+    private void DrawHoversled(bool hurt)
+    {
+        // A hovercraft snowmobile: a black rubber skirt puffing air, a blue body with a windscreen, skis at the front
+        // and a big fan at the back. It bobs a little as it hovers.
+        var bob = Mathf.Sin(_time * 8f) * 1f;
+        DrawSetTransform(new Vector2(0, 14), 0, new Vector2(1f, 0.35f));
+        DrawCircle(Vector2.Zero, 20f, new Color(0.9f, 0.95f, 1f, 0.35f)); // spray
+        DrawSetTransform(new Vector2(0, bob), 0, Vector2.One);
+        Box(new Rect2(-20, 8, 40, 9), new Color(0.15f, 0.15f, 0.2f));
+        Box(new Rect2(-17, -2, 34, 13), hurt ? Colors.White : new Color(0.25f, 0.55f, 0.9f));
+        DrawRect(new Rect2(-17, -2, 34, 3), new Color(0.6f, 0.82f, 1f));
+        Box(new Rect2(8, -7, 8, 6), new Color(0.75f, 0.9f, 1f, 0.8f)); // windscreen
+        DrawLine(new Vector2(14, 18), new Vector2(24, 18), Outline, 2f); // ski
+        DrawLine(new Vector2(22, 18), new Vector2(25, 15), Outline, 2f);
+        var fan = new Vector2(-15, 2);
+        DrawCircle(fan, 7f, Outline);
+        DrawCircle(fan, 6f, new Color(0.3f, 0.32f, 0.38f));
+        var blade = Vector2.Right.Rotated(_time * 30f) * 5f;
+        DrawLine(fan - blade, fan + blade, new Color(0.85f, 0.88f, 0.95f), 2f);
+        DrawSetTransform(Vector2.Zero, 0, Vector2.One);
     }
 
     private void DrawPlane(bool hurt)

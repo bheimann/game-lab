@@ -37,6 +37,12 @@ public static class Unlocks
             return;
         }
 
+        if (boss == Actors.FrostMoose.Boss)
+        {
+            FloatingText.Spawn(where, where.GlobalPosition + new Vector2(0, -70), "The beetle can now build the Hoversled!",
+                new Color(0.6f, 0.85f, 1f), 4f, 7f);
+        }
+
         var rewards = BombAbility.UnlockedBy(boss).ToList();
         if (rewards.Count > 0)
         {
