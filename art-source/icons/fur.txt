@@ -1,0 +1,13 @@
+# Menu icon: arctic fox fur (12x12), a monster part
+............
+...oo..oo...
+..oWWooWWo..
+.oWWWWWWWGo.
+oWWGWWWWWWGo
+oWWWWWGWWWWo
+oGWWWWWWWGWo
+.oWWGWWWWWo.
+.oWWWWWGWWo.
+..oGWWWWWo..
+...ooooooo..
+............

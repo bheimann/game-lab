@@ -1,0 +1,13 @@
+# Menu icon: frog skin (12x12), a monster part
+............
+..oo....oo..
+.oBBoooooBo.
+.oBLBBBBBBo.
+..oBBMBBLo..
+..oBBBBMBo..
+..oBMBBBBo..
+..oBBBLBBo..
+.oBBBBBBMBo.
+.oBLoooooBo.
+..oo....oo..
+............

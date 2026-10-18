@@ -104,8 +104,8 @@ little, and step up to the counter (and stay) when a hero is there. Stand at the
   (a deer: an antler and a hide). Walk over loot to pick it up; it disappears after 30 seconds.
 - **Coins** go into the team's purse (shown at the top). **Bosses** drop five things, always including a **boss coin**
   (a special coin, counted on its own).
-- **Monster parts** go into the team's bag, for the moose Tinkerer: antler, hide, beetle shell. **Planned:** each new
-  enemy brings its own part (tusk, fur, frog skin, scale).
+- **Monster parts** go into the team's bag, for the moose Tinkerer: antler and hide (deer), beetle shell (Giant
+  Beetle), tusk (boar), fur (arctic fox), frog skin (frog), scale (snake).
 
 ## Combat numbers (starting values, to be tuned)
 | | Damage | Health |
@@ -182,12 +182,18 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
 | Antler | +2 damage | +1 heart |
 | Hide | Faster attacks | Walk faster |
 | Beetle shell | +4 damage | +2 hearts |
+| Tusk | +3 damage | +1 heart |
+| Fur | Faster attacks | +1 heart |
+| Frog skin | Hits poison | Walk faster |
+| Scale | +2 damage | +2 hearts |
 
 | Crafted armor | Needs | Gives |
 |---|---|---|
 | Hide Vest | 2 hide | +1 heart |
 | Antler Helm | 2 antlers, 1 hide | +2 hearts |
 | Shell Plate | 1 beetle shell, 2 hide | +3 hearts |
+| Fur Coat | 3 fur | +2 hearts |
+| Scale Mail | 3 scales, 1 tusk | +4 hearts |
 
 - **Fuse slots:** every hero has **3 each for guns, weapons and armor**, plus one more of each per boss beaten.
   A main attack that shoots counts as a gun. Switch fused weapons / armor in the Start menu; when the slots are
@@ -198,7 +204,7 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
 |---|---|
 | **Grappler** | A: a fan of three **feathers** (LB / RB pick the element). X: **grapple gun**: reels in small enemies, pulls you to big ones and to walls, rocks and bushes, **flying over water and pits**. Y: **RPG** rocket |
 | **Warrior** | Shoots a plain gun |
-| **Thief** | A: shoots its gun. X: **steals** from the enemy in front (LB / RB: **gold** for the team, **gear** = a herb for now, or its **ability**). Awake enemies only, each thing once per enemy. Y: the **stolen ability** (deer: **Deer Kick**; Giant Beetle: **Beetle Charge**), kept until you steal another |
+| **Thief** | A: shoots its gun. X: **steals** from the enemy in front (LB / RB: **gold** for the team, **gear** = a herb for now, or its **ability**). Awake enemies only, each thing once per enemy. Y: the **stolen ability** (deer: Deer Kick; Giant Beetle: Beetle Charge; boar: Boar Charge; arctic fox: Fox Pounce; frog: Frog Spit; snake: Poison Bite), kept until you steal another |
 
 - **Grapple spots:** chests only a grapple (or flying) reaches, in the meadow, the swamp, the canyon and the lake.
 
@@ -235,17 +241,18 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
 
 ## Enemies
 - **Enemies come back** when you leave an area and walk back in. Bosses stay beaten.
-- **Regular enemies are animals, starting with deer.** Deer are about twice as tall as a lizard,
-  so even ordinary enemies feel big.
-- **Bosses are different animals**: the **Giant Beetle** guards The Old Burrow. The **final boss is Mossimus Maximus**.
-- **Planned, one per area, each with its own monster part:**
+- **Regular enemies are animals.** They come in **mixed groups** (e.g. frogs spitting from behind while snakes sneak
+  in close). The **boar** is the toughest.
 
-  | Area | Enemy | How it fights | Drops |
-  |---|---|---|---|
-  | Antlerwood Forest | Boar | Charges in a straight line | Tusk |
-  | Frosttail Tundra | Arctic fox | Fast; darts in, bites, runs off | Fur |
-  | Tailspin Swamp | Frog | Hops around, spits from a distance | Frog skin |
-  | Swamp or Meadow | Snake | Sneaks up, poison bite | Scale |
+  | Enemy | Where | How it fights | Health | Drops |
+  |---|---|---|---|---|
+  | Deer | Everywhere | Walks up, flashes, kicks (3) | 10–15 | Antler, hide |
+  | Boar | Forest, canyon | Paws the ground, then charges in a straight line (5); rests after a charge | 24–30 | Tusk |
+  | Arctic fox | Tundra, in packs | Fast; darts in, bites (2), runs off | 7–9 | Fur |
+  | Frog | Swamp, lake, canyon | Keeps its distance, hops, spits slime (2) | 6–8 | Frog skin |
+  | Snake | Meadow, forest, canyon, swamp, lake | Faint until you're close; poison bite (2, then poison) | 8–10 | Scale |
+
+- **Bosses are different animals**: the **Giant Beetle** guards The Old Burrow. The **final boss is Mossimus Maximus**.
 
 ## Questions for the designer
 - **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?

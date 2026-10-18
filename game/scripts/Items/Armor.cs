@@ -45,6 +45,14 @@ public sealed record Armor(string Name, string Description, string IconPath)
         {
             ExtraHealth = 6, Recipe = new() { [MonsterPart.Shell] = 1, [MonsterPart.Hide] = 2 },
         },
+        new("Fur Coat", "+2 hearts", "res://assets/sprites/icons/fur_coat.png")
+        {
+            ExtraHealth = 4, Recipe = new() { [MonsterPart.Fur] = 3 },
+        },
+        new("Scale Mail", "+4 hearts", "res://assets/sprites/icons/scale_mail.png")
+        {
+            ExtraHealth = 8, Recipe = new() { [MonsterPart.Scale] = 3, [MonsterPart.Tusk] = 1 },
+        },
     };
 
     private static readonly HashSet<string> CraftedNames = new();
