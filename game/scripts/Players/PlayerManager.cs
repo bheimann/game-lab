@@ -188,6 +188,21 @@ public partial class PlayerManager : Node
         PlayersChanged?.Invoke();
     }
 
+    /// <summary>Dev helpers (screenshots): join with <paramref name="input"/> as character <paramref name="character"/>
+    /// in class <paramref name="className"/> straight away.</summary>
+    internal Hero? JoinForDev(PlayerInput input, int character, string className)
+    {
+        if (Claim(input) is not { } slot)
+        {
+            return null;
+        }
+
+        slot.Choice = character;
+        slot.ClassChoice = System.Math.Max(0, slot.Character.Classes.ToList().IndexOf(className));
+        Spawn(System.Array.IndexOf(_slots, slot));
+        return slot.Hero;
+    }
+
     private void Spawn(int index)
     {
         var slot = _slots[index];
