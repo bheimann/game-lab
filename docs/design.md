@@ -9,36 +9,42 @@ work together, because some paths need one character's power and some need anoth
 Menus never pause the game: when one player is swapping spells, everyone else keeps playing.
 
 Inspired by: Cat Quest 2/3 (feel, simple RPG), Secret of Mana (real-time menus, co-op),
-Zelda / Four Swords (dungeons, puzzles, co-op).
+Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
 
 ## Story
 - The players are **ordinary lizards** who become **knights of the Lizard King** over the course of the game,
   earning **titles** as they go: each boss they defeat moves the story along and earns a new title.
+- The **king and queen** live in **Scalebrook Castle**, at the top of Scalebrook Village, where the game starts.
 - **Mossimus Maximus**, a deer with bad intentions, is turning the kingdoms against the lizards.
   He's the **final boss**.
 - The deer and bugs you fight **aren't bad**. They've been **deceived**, and Mossimus convinces more
   animals to join him as the game goes on.
 - **Beating a deceived animal breaks the trick.** It falls **asleep** until the area is clear
   (no enemies left awake), then wakes up and **thanks the heroes**.
-- Other animals are **friendly**: they run shops and give quests.
+- Other animals are **friendly**: they run shops and (later) give quests.
+- **Planned:** before the heroes leave the village for the first time, a mini **tutorial and story with the king**,
+  ending with each hero unlocking their **first class** in the paint shop. Until then, everyone picks any class when
+  they join.
 
 ## Rules we've decided
 - **Local co-op only.** One computer, one screen, one controller (or the keyboard) per player. No online play.
 - **Shared camera.** It zooms out to keep every player in view, up to a limit. Players can't walk off-screen.
-- **Drop in / drop out.** Press a button on a controller to join the game.
+  Big areas scroll.
+- **Drop in / drop out.** Press a button to join: left / right picks the character, up / down its class.
 - **No friendly fire.** Players can't hurt each other.
 - **Menus don't pause.** The game keeps running for everyone. Only the player with the menu open
   is affected: **if they're in a fight, their character slows down**; otherwise it moves at normal speed.
   - **"In a fight"** means an enemy can see you and is targeting you, even if nobody has been hit yet.
 - **Don't make players open the menu if we can help it.** Common menu actions (switching powers,
-  using a potion, and so on) should also have a button or quick-swap, so the menu is for managing
+  using a herb, and so on) also have a button or quick-swap (LB / RB), so the menu (Start) is for managing
   gear, not for surviving a fight.
-- **Art:** free pixel-art packs for now (16×16 tiles). We might switch to hand-drawn later.
+- **Shared team stuff:** keys, coins, boss coins and monster parts belong to the whole team.
+- **Art:** our own pixel art (drawn as text grids, see `tools/`) plus Kenney's free "Tiny" packs.
 
 ## The world: five kingdoms
 | Kingdom | Types | Possible area |
 |---|---|---|
-| 🦎 **Lizard** | (the players' home) | ? |
+| 🦎 **Lizard** | (the players' home) | Scalebrook |
 | 🦌 **Deer** | White-tailed deer, reindeer, moose | Forest; reindeer in the snow |
 | 🦊 **Fox** | Red fox, arctic fox | Woods/hills; arctic foxes in the snow |
 | 🦚 **Bird** | Peacocks | ? |
@@ -46,75 +52,115 @@ Zelda / Four Swords (dungeons, puzzles, co-op).
 
 - Some kingdoms have a few types of their animal, and a type can live somewhere different from
   the rest of its kingdom (e.g. **a snow area with arctic foxes and reindeer**).
-- The "Possible area" column is Claude's guess. The designer decides.
 - **Each kingdom has a king.** **Place names include the animal that lives there**:
 
 | Kingdom | Places | King's home |
 |---|---|---|
-| 🦎 Lizard | Scalebrook, **Tailspin Swamp** | Tailspin Swamp |
+| 🦎 Lizard | Scalebrook, **Tailspin Swamp** | **Scalebrook Castle** |
 | 🦌 Deer | Antlerwood Forest, Hoofhollow | ? |
 | 🦊 Fox | Foxglove Hills, Frosttail Tundra (snow: arctic foxes and reindeer) | ? |
 | 🦚 Bird | Plume Peaks, **Peacock Palace** | Peacock Palace |
 | 🪲 Bug | Scarab Desert | ? |
 
-- **Every village has a painter.** Getting painted changes your **class**, for every character.
-
 ### The overworld so far
-| Area | Where | What's there |
-|---|---|---|
-| **Scalebrook Meadow** | The middle | The Old Burrow's temple gate (go in through the arch, from the bottom), a grapple-only chest, deer |
-| **Scalebrook Village** | West of the meadow | Houses, the **village painter**, a herb chest. No enemies |
-| **Antlerwood Forest** | East of the meadow | Thick trees, lots of deer, a chest in a clearing |
-| **Frosttail Tundra** | North of the forest | Snow, snowy pines, snowmen, a frozen lake, deer, a chest |
-| **Tailspin Swamp** | South of the meadow | Murky ponds, bare trees, deer, a grapple-only chest |
+```
+                 Frosttail Tundra
+                        |
+Village -- Meadow -- Antlerwood Forest -- Red Rock Canyon
+             |
+       Tailspin Swamp
+             |
+        Glimmer Lake
+```
+
+| Area | What's there |
+|---|---|
+| **Scalebrook Village** (start) | Shops, villagers, **Scalebrook Castle** up north, a painter's mat (for playtesting). No enemies |
+| **Scalebrook Meadow** | The Old Burrow's temple gate (the first dungeon), a grapple-only chest, deer |
+| **Antlerwood Forest** (big) | Thick trees, lots of deer, chests in clearings |
+| **Frosttail Tundra** (big) | Snow, snowy pines, snowmen, two frozen lakes, deer, chests |
+| **Red Rock Canyon** | A long chasm with one rock bridge; a high ledge with a chest that only flying (glider, plane) or a grapple reaches |
+| **Tailspin Swamp** (big) | Murky ponds, bare trees, deer, chests, one only a grapple reaches |
+| **Glimmer Lake** | A sandy beach, and a wide lake; a chest on the far shore (boat, fly, or grapple to a bush) |
 
 (These are first versions made by Claude from the place names above. The designer decides what really goes in each.)
+
+### Scalebrook Village and Castle
+Walk up into a shop's door to go in. Each shop has a **shopkeeper** behind the counter who greets you; they wander a
+little, and step up to the counter (and stay) when a hero is there. Stand at the counter a moment to buy.
+
+| Place | What it does |
+|---|---|
+| **Scalebrook Inn** | Rest: full hearts, **5 coins** |
+| **Herb Shop** | A healing herb, **10 coins** |
+| **Paint Shop** | A paint mat to change class (later: where you unlock your first class) |
+| **Weapons & Armor** | Not open yet. **Planned:** weapon upgrades (below) |
+| **Castle Hall** | Knights (some guard, some walk about). Doors: up to the throne room, right to the kitchen, left to the **armory** (locked until a quest opens it) |
+| **Throne Room** | The **king** (a lizard) and **queen** (a peahen), and four knights. The king, the queen or both welcome you. **Later:** quests |
+| **Castle Kitchen** | A cook, and a **free herb** (once) |
+
+## Loot and money
+- A beaten enemy drops **coins** (8 times out of 10) or a **healing herb**, plus **each of its monster parts**
+  (a deer: an antler and a hide). Walk over loot to pick it up; it disappears after 30 seconds.
+- **Coins** go into the team's purse (shown at the top). **Bosses** drop five things, always including a **boss coin**
+  (a special coin, counted on its own).
+- **Monster parts** go into the team's bag, for the moose Tinkerer: antler, hide, beetle shell. **Planned:** each new
+  enemy brings its own part (tusk, fur, frog skin, scale).
 
 ## Combat numbers (starting values, to be tuned)
 | | Damage | Health |
 |---|---|---|
 | Lizard **punch** | 5 | |
 | Lizard **tongue** | 1 | |
-| Starting enemies (e.g. deer) | ? | 10–15 (2–3 punches) |
-| Players | | ? (Claude will start with 20) |
+| Deer | kick 3 | 10–15 (2–3 punches) |
+| Players | | 18–26 depending on the hero |
 
 ## Playable characters
-Both playable characters change **class** by getting **painted in any village**. The paint also changes
-how they look, so you can tell classes apart at a glance.
+Each character has a few **classes**. Pick the class when joining; the **paint shop** (or the painter's mat outside)
+switches to the next one. **Each class looks different** (a hat, a mask, a new colour...).
 
-| Character | Kingdom | Starting class | Status |
-|---|---|---|---|
-| **Lizard** | Lizard | Chameleon | **First** |
-| **Fox** (red fox) | Fox | Bomb Master | **Second** |
-| **Moose** | Deer | **Summoner** | Playable; more classes to design |
-| **Peacock** | Bird | **Grappler** (also Warrior, with a gun) | Playable; more classes to design |
-| **Beetle** | Bug | **Roller** (also Warrior) | Playable; more classes to design |
+| Character | Kingdom | Classes (starting class first) |
+|---|---|---|
+| **Lizard** | Lizard | Chameleon, Tongue Master (red headband), Spitter (teal), Illusionist (wizard hat) |
+| **Fox** (red fox) | Fox | Bomb Master, Gun Master (cowboy hat), Weapon Master |
+| **Moose** | Deer | Summoner, **Tinkerer** (goggles) |
+| **Peacock** | Bird | Grappler, Warrior (knight's helmet), **Thief** (bandit mask) |
+| **Beetle** | Bug | Roller, **Vehicle Master** (aviator cap) |
 
 - **The moose, peacock and beetle are warriors the heroes helped:** animals freed from Mossimus's trick who
   join the team.
 - **Every hero can dodge:** a quick dash you can't be hurt during (RT / Shift / Ctrl).
+- **Classes still to build** (ideas): lizard **Healer** (learned from the bugs); fox **Element Master** and
+  **Wand Master** (elements on the right stick, combos).
 
 ### Lizard
 Every lizard can **punch** (5 damage, the main attack) and use its **tongue** (1 damage, longer reach;
-it **sticks to enemies and pulls them in**, though bosses are too heavy; also a tool for grabbing and swinging in later puzzles).
+it **sticks to enemies and pulls them in**, though bosses are too heavy).
 
-| Class | What it does | How you get it |
-|---|---|---|
-| **Chameleon** | **Camouflage:** hidden while standing still, seen when moving. **Colour change** for damage resistance: 🔵 blue = ice, 🔴 red = fire, 🟡 yellow = lightning, 🟣 purple = arcane | **Starting class** |
-| **Tongue Master** | More tongue damage, **spiked tongue**, **elemental** tongue attacks, longer range | Learned from the **deer** |
-| **Illusionist** (like Loki) | 10 **illusionist energy** that fills back up over time. **Clones** (5 energy; they attack the enemy you hit last), a **tail decoy** (4), **charm** enemies (2 each); every spell lasts 5 seconds | Learned from the **peacocks** |
-| **Spitter** | Spits **poison** or **elements** | Learned from the **moose** |
-| **Healer** | Heals and protects the team, and has **extra HP** | Learned from the **bugs** |
+| Class | What it does |
+|---|---|
+| **Chameleon** | **Camouflage:** hidden while standing still. **Colour change** for damage resistance: 🔵 blue = ice, 🔴 red = fire, 🟡 yellow = lightning, 🟣 purple = arcane |
+| **Tongue Master** | A stronger, longer tongue |
+| **Spitter** | Spits **poison** or **elements** (LB / RB pick) |
+| **Illusionist** (like Loki) | 10 **illusionist energy** that fills back up. **Clones** (5 energy; they attack the enemy you hit last), a **tail decoy** (4), **charm** enemies (2 each); every spell lasts 5 seconds |
 
-- **Armor** can still change how a class works, e.g. *shadow armor* lets a chameleon stay invisible while moving.
-- Earlier species ideas (gecko wall-climbing, frilled-lizard scare, komodo tank, basilisk water-running,
-  horned-lizard spikes) could become later classes or friendly lizards in the kingdom.
+- **Armor** can change how a class works, e.g. the *shadow cloak* lets a chameleon stay hidden while moving.
+
+### Fox
+| Class | What it does |
+|---|---|
+| **Bomb Master** | Bombs, LB / RB switch type (below) |
+| **Gun Master** | Shoots from a distance; LB / RB pick the element |
+| **Weapon Master** | LB / RB switch weapons: **sword & shield** (X blocks), **javelin** (X **lobs it in a high arc** over things close by, landing on the enemy in front), **flail** (X spin attack), **axe & bow** (X shoots, Y changes the arrow: arcane, fire, ice, lightning, poison, explosive) |
+
+- **Bomb types:** bomb, smoke bomb (enemies can't see through it), sticky bomb, time bomb, remote bomb (Y sets them
+  all off; 2 out at once, 3 with the bomb vest). Maybe: proximity bomb.
+- **Each boss is meant to unlock something new for the fox** (weapons, guns or bombs). Which boss drops what is
+  still to be designed.
 
 ### Moose
-**Summoner** (starting class): A antler bash. **X** summons a light creature (LB / RB pick which), **Y** summons a
-heavy one, **B** switches the heavy one (herbs come from the ring menu instead: press Start).
-Each summon has its own wait (cooldown). Up to **4** at once; a new one sends the oldest away. They stay until
-they're beaten (enemies can hurt them), go after the enemy the moose hit last, and follow it through doors.
+**Summoner:** A antler bash. **X** summons a light creature (LB / RB pick), **Y** a heavy one, **B** switches the heavy
+one. Up to **4** at once; they go after the enemy the moose hit last.
 
 | Summon | Type | What it does | Wait |
 |---|---|---|---|
@@ -123,83 +169,90 @@ they're beaten (enemies can hurt them), go after the enemy the moose hit last, a
 | **Bee swarm** | Light | Flies, stings with poison | 3 s |
 | **Owl** | Light | Circles the moose and swoops at enemies | 4 s |
 | **Element wisps** | Light | Zap enemies from a distance: fire, ice, lightning, arcane in turn | 4 s |
-| **Antler totem** | Light | Stays put and heals heroes standing next to it | 10 s |
+| **Antler totem** | Light | Stays put and heals heroes next to it | 10 s |
 | **Treant** | Heavy | A big, tough walking tree; enemies go for it first | 15 s |
-| **Stampede** | Heavy | Ghost deer charge across, hitting every enemy in the way, then fade | 12 s |
+| **Stampede** | Heavy | Ghost deer charge across, hitting every enemy in the way | 12 s |
 
-### Beetle
-| Class | What it does |
-|---|---|
-| **Roller** (starting class) | A: horn jab. X: **roll** into a ball: fast, steer it a little, rams enemies (5 damage, knocks them away) and **bounces off walls**; hits hurt half as much while rolling. Y: **hide in the shell**, blocking every hit for a moment. Always on: a **tough shell**, so every hit hurts less (40% less) |
-| **Warrior** | Horn jab only |
+**Tinkerer:** A antler bash. **X fuses** a monster part onto the closest teammate's **main attack or armor** (or its
+own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y crafts** armor for the whole team
+(picked in the Start menu).
+
+| Part | Fused onto a weapon or gun | Fused onto armor |
+|---|---|---|
+| Antler | +2 damage | +1 heart |
+| Hide | Faster attacks | Walk faster |
+| Beetle shell | +4 damage | +2 hearts |
+
+| Crafted armor | Needs | Gives |
+|---|---|---|
+| Hide Vest | 2 hide | +1 heart |
+| Antler Helm | 2 antlers, 1 hide | +2 hearts |
+| Shell Plate | 1 beetle shell, 2 hide | +3 hearts |
+
+- **Fuse slots:** every hero has **3 each for guns, weapons and armor**, plus one more of each per boss beaten.
+  A main attack that shoots counts as a gun. Switch fused weapons / armor in the Start menu; when the slots are
+  full, a new fusion replaces the one in use.
 
 ### Peacock
 | Class | What it does |
 |---|---|
-| **Grappler** (starting class) | A: a fan of three **feathers**; LB / RB pick normal, poison, fire, ice, lightning or arcane. X: **grapple gun**: reels in small enemies, pulls you over to big ones (bosses) and to walls, rocks and bushes, **flying over water and pits**. Y: **RPG**, a rocket with a big explosion |
+| **Grappler** | A: a fan of three **feathers** (LB / RB pick the element). X: **grapple gun**: reels in small enemies, pulls you to big ones and to walls, rocks and bushes, **flying over water and pits**. Y: **RPG** rocket |
 | **Warrior** | Shoots a plain gun |
+| **Thief** | A: shoots its gun. X: **steals** from the enemy in front (LB / RB: **gold** for the team, **gear** = a herb for now, or its **ability**). Awake enemies only, each thing once per enemy. Y: the **stolen ability** (deer: **Deer Kick**; Giant Beetle: **Beetle Charge**), kept until you steal another |
 
-- **Grapple spots:** some places can only be reached by grappling: a chest across the water in Scalebrook Meadow's
-  top-left corner, and one behind water and a rock wall in Tailspin Swamp's bottom-right corner (each with rocks on
-  the near shore to grapple back to).
+- **Grapple spots:** chests only a grapple (or flying) reaches, in the meadow, the swamp, the canyon and the lake.
 
-### Fox
-Player 2 is an ordinary **red fox**. (The arctic fox art is kept for the snow area's foxes.)
+### Beetle
+| Class | What it does |
+|---|---|
+| **Roller** | A: horn jab. X: **roll** into a ball (fast, rams enemies, bounces off walls; hits hurt half as much). Y: **hide in the shell** (blocks every hit for a moment). Always on: a **tough shell** (hits hurt 40% less) |
+| **Vehicle Master** | LB / RB pick a vehicle, X **builds it** and drives. Teammates climb on with A, keep attacking from the deck, hop off with dodge. Hits on riders hit the vehicle; when it breaks, 10 seconds before the next |
 
-**One fox that changes masteries.** To switch, the fox gets **painted in any village**, and the paint
-decides which skills it has. The paint also changes how the fox looks, so each mastery is easy to spot.
+| Vehicle | Seats | A (driver) | Good for |
+|---|---|---|---|
+| **Tank** | 4 | Cannon (explosive shells) | Fighting; toughest |
+| **Cart** | 4 | Speed boost | Fast; rams enemies |
+| **Boat** | 4 | – | Crossing water |
+| **Glider** | 4 | – | Flying over water and holes for 8 seconds |
+| **Plane** | 2 | Machine gun | Flying anywhere, fast |
 
-| Mastery | What it does | How you get it |
-|---|---|---|
-| **Bomb Master** | Throws bombs that hit groups of enemies and break walls (Tiny Dungeon has bomb art). **Switch between bomb types** (below) | **Starting mastery** |
-| **Weapon Master** | Switches between weapons: **sword & shield** (X blocks), **javelin** (X throws it), **flail** (X spin attack), **axe & bow** (X shoots, Y changes the arrow: arcane, fire, ice, lightning, poison, explosive) | Learned from the **reindeer** (Deer kingdom) |
-| **Gun Master** | Shoots from a distance | Learned from the **peacocks** |
-| **Element Master** | **Spells** of fire, ice, lightning and arcane | Learned from the **moose** |
-| **Wand Master** | A **ranged wand**; the **right stick** changes its element (fire, ice, lightning, arcane) | Learned from the **bugs** |
+## Elements
+- Guns, weapons, bombs and spells come in **normal, poison, fire, ice, lightning and arcane** versions.
+- **Poison** and **fire** keep doing damage over time, **ice** slows enemies down, **lightning** and **arcane** do
+  double damage. (Poison 1 damage every half second for 3 s, fire the same for 2 s, ice half speed for 2 s.)
 
-- **Elements for everything:** guns, weapons and bombs each come in **normal, fire, ice, lightning and arcane**
-  versions (the same elements as the chameleon's colours and the spells).
-- **What elements do:** **poison** and **fire** keep doing damage over time, **ice** slows enemies down,
-  **lightning** and **arcane** do a lot more damage. (Starting numbers: poison 1 damage every half second for
-  3 s, fire the same for 2 s, ice half speed for 2 s, lightning and arcane double damage.)
-- **Each boss unlocks something new for the fox**: new weapons, guns or bombs. The fox **starts with the original
-  ones** (all the bombs below); boss drops add new ones. Which boss drops what is still to be designed.
-- **Bomb types** (the Bomb Master switches between them):
-
-  | Bomb | What it does |
-  |---|---|
-  | **Bomb** | The normal bomb: short fuse, then a blast |
-  | **Smoke bomb** | A cloud enemies can't see through (hides the team, like camouflage) |
-  | **Sticky bomb** | Sticks to the enemy it hits and blows up on them |
-  | **Time bomb** | A much longer fuse, for traps and setting up ahead |
-  | **Remote bomb** | Doesn't go off until you press **Y**, which sets off every remote bomb you have out (up to 2 out at once, 3 with the bomb vest) |
-  | **Proximity bomb** (maybe) | Sits on the ground and blows up when an enemy walks near |
-
-- **Combos:** casting spells (Element Master) or wand shots (Wand Master) **in a certain order** sets off a combo.
-  For example: ice then lightning = *shatter*, fire then arcane = *explosion*. The designer picks the real combos.
+## Items and gear
+- **Healing herbs** (B, or the Start menu): found in chests, dropped as loot, sold in the herb shop.
+- **Armor** (one slot): shadow cloak, ember scales, bomb vest, sturdy vest, and the Tinkerer's crafted armor.
+- **Planned: weapon upgrades** at the Weapons & Armor shop: **wood → copper → iron → steel → mithril**, each tier
+  hitting harder.
 
 ## Saving
-- The game **saves by itself** and picks up where you left off next time (starting in Scalebrook Village).
+- The game **saves by itself** and picks up where you left off next time (starting in Scalebrook Village):
+  the world (doors, chests, levers, broken rocks, bosses), keys, coins, boss coins, monster parts, crafted armor,
+  and each player's class, weapon, armor, herbs, stolen ability and fusions.
 - Hold N on the start screen for a new game.
 
 ## Enemies
-- **Enemies come back** when you leave a room (or overworld area) and walk back in. Bosses stay beaten.
+- **Enemies come back** when you leave an area and walk back in. Bosses stay beaten.
 - **Regular enemies are animals, starting with deer.** Deer are about twice as tall as a lizard,
-  so even ordinary enemies feel big. Our deer art only faces sideways; we flip it to face
-  left or right and use it for walking up and down too.
-- **Bosses are different animals**, e.g. a giant beetle from the bug kingdom.
-  The **final boss is Mossimus Maximus**.
-- There isn't much free animal pixel art, so expect to draw some of these ourselves.
-  The Tiny Dungeon pack's slimes, bats, rats and skeletons can fill gaps.
+  so even ordinary enemies feel big.
+- **Bosses are different animals**: the **Giant Beetle** guards The Old Burrow. The **final boss is Mossimus Maximus**.
+- **Planned, one per area, each with its own monster part:**
+
+  | Area | Enemy | How it fights | Drops |
+  |---|---|---|---|
+  | Antlerwood Forest | Boar | Charges in a straight line | Tusk |
+  | Frosttail Tundra | Arctic fox | Fast; darts in, bites, runs off | Fur |
+  | Tailspin Swamp | Frog | Hops around, spits from a distance | Frog skin |
+  | Swamp or Meadow | Snake | Sneaks up, poison bite | Scale |
 
 ## Questions for the designer
 - **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?
-- **Elements:** are elemental versions of weapons and bombs unlocked by bosses too?
-- **The overworld:** what should the village, forest, tundra and swamp have in them (shops, friendly animals,
-  quests, new enemies, dungeons)? Where do the other kingdoms go (Foxglove Hills, Plume Peaks, Scarab Desert)?
+- **The king's tutorial and quests:** what happens in the story at the start, and what quest opens the armory?
+- **Weapon upgrades:** what does each tier cost (coins? boss coins? monster parts?) and how much harder does it hit?
+- **The second dungeon:** where is it, and who's the boss?
 - **Boss drops:** which new bomb, weapon or gun does each boss drop?
-- **Moose, peacock and beetle:** more classes? What should the peacock and beetle Warrior classes become?
-- **Items and armor:** what else goes in the menu? (So far: healing herb, shadow cloak, ember scales, bomb vest, sturdy vest.)
-- **Combos:** which element orders make which combos?
-- **The first dungeon:** its name ("The Old Burrow" for now), the rooms, the puzzles and the boss are all placeholders to change.
-- **Kings' homes:** where do the deer, fox and bug kings live? (Names should include the animal, like the other places.)
+- **Where the other kingdoms go:** Foxglove Hills, Plume Peaks, Scarab Desert, and the deer, fox and bug kings' homes.
+- **Combos:** which element orders make which combos (for the Element / Wand Master)?
+- **The first dungeon:** its name ("The Old Burrow" for now), the rooms, the puzzles and the boss are placeholders.
