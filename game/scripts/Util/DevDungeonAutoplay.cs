@@ -33,6 +33,9 @@ public partial class DevDungeonAutoplay : Node
     private DungeonRoom? _lastRoom;
     private double _completeAt = -1;
 
+    /// <summary>The dungeon being played (the area of the last dungeon room the team was in).</summary>
+    private string _area = "";
+
     public static DevDungeonAutoplay Create(string folder) => new() { _folder = folder, ProcessPhysicsPriority = -20 };
 
     public override void _PhysicsProcess(double delta)
@@ -86,7 +89,12 @@ public partial class DevDungeonAutoplay : Node
             TakeShot(0);
         }
 
-        if (dungeon.IsComplete && _completeAt < 0)
+        if (room.Area != "")
+        {
+            _area = room.Area;
+        }
+
+        if (_area != "" && dungeon.IsDungeonComplete(_area) && _completeAt < 0)
         {
             _completeAt = _time;
             GD.Print($"[dungeon {_time:0.0}s] DUNGEON COMPLETE");
@@ -94,10 +102,10 @@ public partial class DevDungeonAutoplay : Node
         }
 
         // After the boss, wait until the team is back out in the overworld.
-        var backOutside = room.Name == "Overworld" && _time - _completeAt > 1.5;
+        var backOutside = room.Area == "" && _time - _completeAt > 1.5;
         if ((_completeAt >= 0 && (backOutside || _time - _completeAt > 25)) || _time > MaxSeconds)
         {
-            GD.Print($"[dungeon {_time:0.0}s] done: complete={dungeon.IsComplete}, back in {room.Name}");
+            GD.Print($"[dungeon {_time:0.0}s] done: {_area} complete={dungeon.IsDungeonComplete(_area)}, back in {room.Name}");
             TakeShot(0);
             GetTree().CreateTimer(0.3).Timeout += () => GetTree().Quit();
             SetPhysicsProcess(false);
@@ -150,7 +158,72 @@ public partial class DevDungeonAutoplay : Node
                 Puzzle(room, lizard, fox, wanted);
                 break;
 
+            case "FrostEntrance":
+                Exit(room, "DoorTop", lizard, fox, wanted);
+                break;
+
+            case "IceHall":
+                // The bots can't plan slides (the ice check covers the puzzle), so P1 is put on the key, then both
+                // walk round the edge of the ice to the locked top door.
+                var key = room.GetNode<Node2D>("IceKey");
+                if (dungeon.Keys == 0 && key.Visible)
+                {
+                    GD.Print($"[dungeon {_time:0.0}s] ice hall: putting P1 on the key");
+                    lizard.Teleport(key.GlobalPosition);
+                }
+                else if (lizard.GlobalPosition.Y > room.GlobalPosition.Y + 60 || fox.GlobalPosition.Y > room.GlobalPosition.Y + 60)
+                {
+                    lizard.Teleport(room.GlobalPosition + new Vector2(140, 46));
+                    fox.Teleport(room.GlobalPosition + new Vector2(166, 46));
+                }
+                else
+                {
+                    Exit(room, "DoorTop", lizard, fox, wanted);
+                }
+
+                break;
+
+            case "FrozenRiver":
+                var lever = room.GetNode<LeverSwitch>("RiverLever");
+                if (!lever.IsOn)
+                {
+                    // P2 (the fox) walks up to the lever and bites it; P1 waits by the river.
+                    var spot = lever.GlobalPosition + new Vector2(-14, 0);
+                    if (fox.GlobalPosition.DistanceTo(spot) > 4)
+                    {
+                        _bots[1].Steer(fox, spot, wanted, slack: 2f, feet: true);
+                    }
+                    else if (fox.Facing.Dot(Vector2.Right) < 0.9f)
+                    {
+                        wanted.Add(_bots[1].Right);
+                    }
+                    else
+                    {
+                        _bots[1].Tap(_bots[1].Primary, wanted);
+                    }
+                }
+                else
+                {
+                    // Over the bridge (in the middle) and out the top.
+                    foreach (var (bot, hero) in new[] { (_bots[0], lizard), (_bots[1], fox) })
+                    {
+                        var x = room.GlobalPosition.X + 152;
+                        if (Mathf.Abs(hero.GlobalPosition.X - x) > 3 && hero.GlobalPosition.Y > room.GlobalPosition.Y + 90)
+                        {
+                            bot.Steer(hero, new Vector2(x, room.GlobalPosition.Y + 150), wanted, slack: 2f, feet: true);
+                        }
+                        else
+                        {
+                            bot.Steer(hero, new Vector2(x, hero.GlobalPosition.Y), wanted, slack: 2f, feet: true);
+                            wanted.Add(bot.Up);
+                        }
+                    }
+                }
+
+                break;
+
             case "BossRoom":
+            case "FrostBoss":
                 // Cleared: the team stays until someone uses the exit portal. After a few seconds, P1 stands on it
                 // (P2 waits nearby) until it takes them out.
                 var portal = room.GetNode<ExitPortal>("ExitPortal");

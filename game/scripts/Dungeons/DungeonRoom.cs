@@ -25,6 +25,13 @@ public partial class DungeonRoom : Node2D
     /// <summary>Beating this room's enemies completes the dungeon.</summary>
     [Export] public bool IsBossRoom { get; set; }
 
+    /// <summary>Boss rooms: where the exit portal takes the team (the dungeon's entrance outside). Empty = the
+    /// <see cref="Dungeon"/>'s own <see cref="Dungeon.ReturnDoor"/>.</summary>
+    [Export] public Door? ReturnDoor { get; set; }
+
+    /// <summary>Boss rooms: the title beating it earns. Empty = the <see cref="Dungeon"/>'s <see cref="Dungeon.TitleEarned"/>.</summary>
+    [Export] public string TitleEarned { get; set; } = "";
+
     /// <summary>Raised once, when the last enemy in the room is beaten.</summary>
     public event Action? Cleared;
 

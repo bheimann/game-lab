@@ -35,6 +35,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     private float _downTime;
     private float _invulnerable;
     private float _poisonLeft;
+    private Vector2 _slide;
+    private float _chillLeft;
     private float _poisonTick;
     private float _dodgeTime = -1f;
     private float _dodgeCooldown;
@@ -266,6 +268,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         var dt = (float)delta;
         _invulnerable -= dt;
         TickPoison(dt);
+        _chillLeft -= dt;
         _dodgeCooldown -= dt;
         CollisionMask |= Pit.PitLayer; // only a grapple line carries the hero over pits (see below)
 
@@ -307,6 +310,11 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             return;
         }
 
+        if (SlideOnIce())
+        {
+            return;
+        }
+
         if (Controls.MenuPressed && _menu is not null)
         {
             if (_menu.IsOpen) _menu.Close(); else _menu.Open();
@@ -344,11 +352,29 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             CollisionMask &= ~Pit.PitLayer;
         }
 
-        Velocity = (active?.Motion ?? move * Speed * (FusedArmor?.Part.SpeedFactor ?? 1f)) + _knockback;
+        Velocity = (active?.Motion ?? move * Speed * (FusedArmor?.Part.SpeedFactor ?? 1f) * (IsChilled ? 0.5f : 1f)) + _knockback;
         _knockback = _knockback.MoveToward(Vector2.Zero, 600f * dt);
         MoveAndSlide();
         StayOnScreen();
         UpdateLook(walking || active?.Motion is not null);
+    }
+
+    /// <summary>Frozen stiff for a moment (the frost moose's stomp): walks at half speed.</summary>
+    public bool IsChilled => _chillLeft > 0;
+
+    public void Chill(float seconds)
+    {
+        if (Riding is not null)
+        {
+            return;
+        }
+
+        if (!IsChilled)
+        {
+            FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), "Brrr!", new Color(0.7f, 0.9f, 1f), 1f, 7f);
+        }
+
+        _chillLeft = Mathf.Max(_chillLeft, seconds);
     }
 
     /// <summary>Poisoned (a snake bite): lose 1 health every so often for <paramref name="seconds"/>. Never knocks you out.</summary>
@@ -379,6 +405,43 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             Health.Damage(1);
             FloatingText.Spawn(this, HurtCenter + new Vector2(0, -8), "-1", new Color(0.65f, 1f, 0.5f), 0.6f, 7f);
         }
+    }
+
+    /// <summary>Speed when sliding on ice, pixels per second.</summary>
+    private const float SlideSpeed = 150f;
+
+    /// <summary>
+    /// On an <see cref="IceFloor"/>: pushing the stick sets the hero sliding in a straight line (up, down, left or right,
+    /// lined up with the ice's cells) until it bumps into something or slides off the ice. Returns true while sliding.
+    /// </summary>
+    private bool SlideOnIce()
+    {
+        if (_slide == Vector2.Zero)
+        {
+            if (Controls.Move.Length() < 0.5f || IsMenuOpen || _abilities.Any(a => a.IsActive)
+                || IceFloor.At(GetTree(), GlobalPosition) is not { } ice)
+            {
+                return false;
+            }
+
+            var move = Controls.Move;
+            // A diagonal (two keys at once) slides sideways.
+            _slide = Mathf.Abs(move.X) >= Mathf.Abs(move.Y) - 0.01f ? new Vector2(Mathf.Sign(move.X), 0) : new Vector2(0, Mathf.Sign(move.Y));
+            var center = ice.Floor.CellCenter(ice.Cell);
+            GlobalPosition = _slide.X != 0 ? GlobalPosition with { Y = center.Y } : GlobalPosition with { X = center.X };
+            Facing = _slide;
+        }
+
+        Velocity = _slide * SlideSpeed + _knockback;
+        MoveAndSlide();
+        if (GetSlideCollisionCount() > 0 || IceFloor.At(GetTree(), GlobalPosition) is null)
+        {
+            _slide = Vector2.Zero; // bumped into something, or slid off the ice
+        }
+
+        StayOnScreen();
+        UpdateLook(walking: true);
+        return true;
     }
 
     /// <summary>Climb onto a vehicle (called by <see cref="Vehicle.Board"/>).</summary>
@@ -581,6 +644,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     public void ArriveAt(Vector2 position, Vector2 facing)
     {
         Dismount();
+        _slide = Vector2.Zero;
         GlobalPosition = position;
         _spawnPoint = position;
         _knockback = Vector2.Zero;
@@ -625,6 +689,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     /// <summary>Put the hero somewhere at once (a grapple that went wrong puts it back where it started).</summary>
     public void Teleport(Vector2 feet)
     {
+        _slide = Vector2.Zero;
         GlobalPosition = feet;
         _knockback = Vector2.Zero;
         ResetPhysicsInterpolation();
@@ -908,7 +973,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         // Flicker (faint / solid) while invulnerable, but never disappear completely; abilities can fade the hero too.
         var faint = _invulnerable > 0 && (int)(_invulnerable * 15) % 2 == 1;
         var alpha = (faint ? 0.35f : 1f) * _abilities.Aggregate(1f, (a, ability) => a * ability.SpriteAlpha);
-        Sprite.Modulate = Colors.White with { A = alpha };
+        Sprite.Modulate = (IsChilled ? new Color(0.7f, 0.85f, 1f) : Colors.White) with { A = alpha };
         QueueRedraw();
     }
 

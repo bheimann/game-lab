@@ -37,7 +37,7 @@ public partial class DevBeastCheck : Node
         {
             if (_time > 0.2)
             {
-                manager.JoinForDev(new PlayerInput(InputDevice.KeyboardLeft), 1, "Bomb Master"); // the fox (a still chameleon would be hidden)
+                manager.JoinForDev(InputDevice.KeyboardLeft, 1, "Bomb Master"); // the fox (a still chameleon would be hidden)
             }
 
             return;

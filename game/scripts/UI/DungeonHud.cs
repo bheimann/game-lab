@@ -86,15 +86,19 @@ public partial class DungeonHud : Control
         }
 
         // Boss health.
-        var boss = Dungeon.CurrentRoom.FindChildren("*", "", true, false).OfType<IBoss>().FirstOrDefault(b => b.IsFighting);
-        if (boss is not null)
+        var bosses = Dungeon.CurrentRoom.FindChildren("*", "", true, false).OfType<IBoss>().Where(b => b.IsFighting).Take(2).ToList();
+        for (var i = 0; i < bosses.Count; i++)
         {
+            var boss = bosses[i];
+            DrawSetTransform(new Vector2(0, (i - bosses.Count + 1) * 18), 0, Vector2.One); // stacked, the last at the bottom
             var bar = new Rect2(width / 2 - 110, 334, 220, 6);
             Text(boss.BossName, new Vector2(width / 2, 330), new Color(1f, 0.85f, 0.4f), 10);
             DrawRect(bar.Grow(2), Outline with { A = 0.85f });
             DrawRect(bar, new Color(0.25f, 0.1f, 0.15f));
             DrawRect(new Rect2(bar.Position, new Vector2(bar.Size.X * boss.Health.Current / boss.Health.Max, bar.Size.Y)), new Color(0.85f, 0.25f, 0.3f));
         }
+
+        DrawSetTransform(Vector2.Zero, 0, Vector2.One);
 
         // Banner: fades in, stays, fades out.
         if (_bannerAge < _bannerSeconds)

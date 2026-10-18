@@ -65,7 +65,11 @@ public sealed class SaveData
     /// <summary>Armor the moose Tinkerer has crafted.</summary>
     public List<string> CraftedArmor { get; set; } = new();
 
+    /// <summary>Older saves: The Old Burrow was beaten (now in <see cref="CompletedDungeons"/>).</summary>
     public bool DungeonComplete { get; set; }
+
+    /// <summary>The dungeons beaten so far (their area names).</summary>
+    public List<string> CompletedDungeons { get; set; } = new();
 
     /// <summary>Node path (from the scene root) → saved state.</summary>
     public Dictionary<string, string> World { get; set; } = new();
@@ -161,7 +165,7 @@ public static class SaveGame
         if (Dungeon.Find(anyNode) is { } dungeon)
         {
             dungeon.Keys = data.Keys;
-            dungeon.RestoreComplete(data.DungeonComplete);
+            dungeon.RestoreCompleted(data.DungeonComplete ? data.CompletedDungeons.Append(dungeon.DungeonName) : data.CompletedDungeons);
         }
 
         foreach (var room in scene.FindChildren("*", "", true, false).OfType<DungeonRoom>())
@@ -202,7 +206,7 @@ public static class SaveGame
         if (Dungeon.Find(anyNode) is { } dungeon)
         {
             data.Keys = dungeon.Keys;
-            data.DungeonComplete = dungeon.IsComplete;
+            data.CompletedDungeons = dungeon.CompletedDungeons.ToList();
         }
 
         if (PlayerManager.Find(anyNode) is { } manager)

@@ -76,13 +76,13 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
     /// <summary>Charmed ones go after the other enemies.</summary>
     public bool IsTargetable => IsHostile && !IsCharmed;
 
-    public bool CanBeCharmed => IsHostile && !IsCharmed;
+    public virtual bool CanBeCharmed => IsHostile && !IsCharmed;
 
     public Vector2 HurtCenter => GlobalPosition + new Vector2(0, -BodyHeight / 2);
 
     public virtual float HurtRadius => 11f;
 
-    public bool CanBePulled => true;
+    public virtual bool CanBePulled => true;
 
     /// <summary>Flashing yellow, about to attack: the moment to dodge.</summary>
     public bool IsWindingUp => WindUp >= 0;
@@ -110,6 +110,22 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
 
     /// <summary>Faint while hidden (a snake in the grass).</summary>
     protected virtual float Alpha => 1f;
+
+    /// <summary>How big it's drawn (bosses are bigger), and its colour when nothing else is tinting it.</summary>
+    protected virtual Vector2 SpriteScale => Vector2.One;
+
+    protected virtual Color BaseTint => Colors.White;
+
+    /// <summary>Beaten: what it drops (one of each of its parts, and coins or a herb). Bosses drop more.</summary>
+    protected virtual void DropLoot() => Loot.DropFrom(this, parts: Parts);
+
+    /// <summary>Loading a save: it was already beaten, so it's back to its friendly self.</summary>
+    protected void SetBeaten()
+    {
+        CurrentMood = Mood.Thankful;
+        StopAttack();
+        QueueRedraw();
+    }
 
     /// <summary>The attack: with a hero (or decoy) to go after, return how to move this frame.</summary>
     protected abstract Vector2 Fight(float dt, IEnemyTarget target);
@@ -275,7 +291,7 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
         _knockback = Vector2.Zero;
     }
 
-    public void Respawn()
+    public virtual void Respawn()
     {
         Position = _home;
         _pockets.Refill();
@@ -409,7 +425,7 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
 
     private void FallAsleep()
     {
-        Loot.DropFrom(this, parts: Parts);
+        DropLoot();
         _effects.Clear();
         _charmLeft = 0;
         StopAttack();
@@ -455,8 +471,8 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
             : _hurtFlash > 0 ? new Color(1f, 0.45f, 0.45f)
             : WindUp >= 0 ? new Color(1f, 1f, 0.55f)
             : IsCharmed ? new Color(1f, 0.7f, 0.9f)
-            : _effects.Tint ?? Colors.White) with { A = IsHostile ? Alpha : 1f };
-        _sprite.Scale = CurrentMood == Mood.Asleep ? new Vector2(1f, 0.85f) : Vector2.One;
+            : _effects.Tint ?? BaseTint) with { A = IsHostile ? Alpha : 1f };
+        _sprite.Scale = SpriteScale * (CurrentMood == Mood.Asleep ? new Vector2(1f, 0.85f) : Vector2.One);
     }
 
     /// <summary>What to go after: charmed, the nearest other enemy; otherwise a decoy in sight, then the nearest hero
