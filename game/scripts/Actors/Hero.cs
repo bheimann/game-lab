@@ -75,9 +75,6 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     [Export] public int MaxHealth { get; set; } = 20;
 
-    /// <summary>Healing herbs the hero starts with (B / I / M eats one). None: buy them in the village, or find them.</summary>
-    [Export] public int StartingHerbs { get; set; }
-
     [Export] public int HerbHealing { get; set; } = 6;
 
     /// <summary>Walking speed while the menu is open and an enemy is after you (1 = no slowdown).</summary>
@@ -174,7 +171,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     /// <summary>What's in the armor slot (null = nothing).</summary>
     public Armor? Armor { get; private set; }
 
-    public int Herbs { get; private set; }
+    /// <summary>The team's healing herbs (shared: see <see cref="Purse.Herbs"/>). B / I / M eats one.</summary>
+    public int Herbs => Purse.Herbs;
 
     public bool IsMenuOpen => _menu?.IsOpen == true;
 
@@ -244,7 +242,6 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         MotionMode = MotionModeEnum.Floating;
         CollisionMask |= Pit.PitLayer; // can't walk over pits
         _allAbilities = GetChildren().OfType<Ability>().ToArray();
-        Herbs = StartingHerbs;
         _menu = RingMenu.Create(this, BuildMenu);
 
         Sprite = new AnimatedSprite2D();
@@ -632,13 +629,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     /// <summary>Max health: the hero's own, plus its armor piece, plus fused armor.</summary>
     private void UpdateMaxHealth() => Health.SetMax(MaxHealth + (Armor?.ExtraHealth ?? 0) + (FusedArmor?.Part.ExtraHealth ?? 0));
 
-    public void AddHerbs(int count)
-    {
-        Herbs += count;
-    }
-
-    /// <summary>Loading a save: the herbs this hero had.</summary>
-    public void RestoreHerbs(int count) => Herbs = count;
+    /// <summary>Herbs for the team (they're shared).</summary>
+    public void AddHerbs(int count) => Purse.AddHerbs(count);
 
     /// <summary>Come into a new room (through a door) at <paramref name="position"/>, facing <paramref name="facing"/>.</summary>
     public void ArriveAt(Vector2 position, Vector2 facing)
@@ -710,7 +702,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             return;
         }
 
-        Herbs--;
+        Purse.TakeHerb();
         var healed = Health.Heal(HerbHealing);
         FloatingText.Spawn(this, HurtCenter + new Vector2(0, -10), $"+{healed}", new Color(0.45f, 1f, 0.45f));
     }

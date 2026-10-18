@@ -13,7 +13,8 @@
 
 **Playtest settings:** `game/playtest.cfg` has values to change for testing, used when a new game starts (hold N on the
 start screen for a new game). For now: `coins`, the coins the team starts with (500, enough for every weapon upgrade
-and plenty of herbs). Heroes always start with no herbs: buy them in the village or find them.
+and plenty of herbs). Heroes always start with no herbs: buy them in the village or find them. **Herbs are shared by the team** (like
+coins): whoever picks one up, it goes in the team's supply, and any hero can eat one (B, or the Start menu).
 
 ### Controls
 Up to 4 players. Each controller is a player, and the keyboard can be two players (left and right halves).
