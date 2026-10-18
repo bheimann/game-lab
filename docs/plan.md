@@ -138,7 +138,8 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
   ledge) and Glimmer Lake (boat to the far shore).
 - ✅ 🛠 New enemies in mixed groups: boar (the toughest), arctic fox (packs), frog, snake, each with its own monster
   part, fusions, armor recipes and a move the Thief can steal.
-- 🛠 Next: weapon upgrades (wood, copper, iron, steel, mithril), then a second dungeon.
+- ✅ 🛠 Weapon upgrades for the whole team at the Weapons & Armor shop: wood, copper, iron, steel, mithril (coins).
+- 🛠 Next: a second dungeon (with a new boss).
 - 🦎 What coins buy (a shop in the village?), and weapons as loot once there are more weapons.
 - 🦎 The king and queen's quests (one of them opens the armory), what the weapons & armor shop sells, and unlocking the
   first class in the paint shop (then the painter's mat outside goes away).

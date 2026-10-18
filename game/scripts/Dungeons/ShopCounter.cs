@@ -20,8 +20,11 @@ public enum ShopOffer
     /// <summary>A healing herb.</summary>
     Herb,
 
-    /// <summary>Not open for business yet (the weapon and armor shop).</summary>
+    /// <summary>Not open for business yet.</summary>
     ComingSoon,
+
+    /// <summary>The next weapon material for the whole team (see <see cref="WeaponTier"/>).</summary>
+    WeaponUpgrade,
 }
 
 /// <summary>
@@ -61,14 +64,16 @@ public partial class ShopCounter : StaticBody2D
     /// <summary>A hero is standing at the counter.</summary>
     public bool HasCustomer { get; private set; }
 
+    private Label? _sign;
+
     public override void _Ready()
     {
         CollisionLayer = 1;
         CollisionMask = 0;
         AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = new Vector2(Width, 12) }, Position = new Vector2(0, -6) });
-        if (SignText != "")
+        if (SignText != "" || Offer == ShopOffer.WeaponUpgrade)
         {
-            AddChild(new Label
+            AddChild(_sign = new Label
             {
                 Text = SignText,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -79,8 +84,18 @@ public partial class ShopCounter : StaticBody2D
         }
     }
 
+    /// <summary>What the sign says right now (the weapon upgrade's changes as you buy).</summary>
+    private string CurrentSign => Offer != ShopOffer.WeaponUpgrade ? SignText
+        : WeaponTier.Next is { } next ? $"Step up: {next.Name} weapons for the team, {next.Price} coins"
+        : "Your weapons are mithril, the best there is!";
+
     public override void _PhysicsProcess(double delta)
     {
+        if (_sign is not null)
+        {
+            _sign.Text = CurrentSign;
+        }
+
         var heroes = PlayerManager.Find(this)?.Players.OfType<Hero>().Where(h => h.IsInGame && !h.IsDown).ToList() ?? new List<Hero>();
         HasCustomer = false;
         foreach (var hero in heroes)
@@ -125,6 +140,20 @@ public partial class ShopCounter : StaticBody2D
 
             case ShopOffer.ComingSoon:
                 Speak(hero, "New weapons and armor are on the way. Come back soon!");
+                break;
+
+            case ShopOffer.WeaponUpgrade when WeaponTier.Next is not { } next:
+                Speak(hero, "Mithril! Nothing I can make is better than that.");
+                break;
+
+            case ShopOffer.WeaponUpgrade when WeaponTier.Upgrade():
+                Speak(hero, $"There! Everyone's weapons are {WeaponTier.Current.Name} now!");
+                FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), $"{WeaponTier.Current.Name} weapons! -{WeaponTier.Current.Price} coins",
+                    WeaponTier.Current.Colour, 2f, 8f);
+                break;
+
+            case ShopOffer.WeaponUpgrade:
+                Speak(hero, $"{WeaponTier.Next!.Name} costs {WeaponTier.Next.Price} coins. You have {Purse.Coins}.");
                 break;
         }
     }

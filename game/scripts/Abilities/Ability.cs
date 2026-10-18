@@ -119,8 +119,9 @@ public abstract partial class Ability : Node2D
     {
     }
 
-    /// <summary>Extra damage from a monster part fused onto the hero's main attack (only for A-button abilities).</summary>
-    protected int FusedDamage => Slot == AbilitySlot.Primary ? Hero.Fused?.Part.ExtraDamage ?? 0 : 0;
+    /// <summary>Extra damage for the hero's main attack (only A-button abilities): the team's weapon material
+    /// (<see cref="Items.WeaponTier"/>) plus any monster part fused onto it.</summary>
+    protected int BonusDamage => Slot == AbilitySlot.Primary ? Items.WeaponTier.Current.ExtraDamage + (Hero.Fused?.Part.ExtraDamage ?? 0) : 0;
 
     /// <summary>The element hits do: a fused part's element (frog skin: poison) on A-button abilities, otherwise <paramref name="normal"/>.</summary>
     protected DamageType FusedElement(DamageType normal) =>

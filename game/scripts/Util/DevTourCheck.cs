@@ -10,7 +10,7 @@ namespace LizardWizard.Util;
 /// Dev helper for the overworld's areas: <c>-- --autoplay-tour=&lt;folder&gt;</c>. P1 joins (as the lizard) in the village and
 /// walks out through every path between the areas, there and back (village, meadow, forest, tundra, canyon, swamp, lake), checking each
 /// one lands in the right area, and finally goes in through the dungeon gate. In the village it also stands on the painter's mat and checks it gets painted,
-/// goes into every shop (resting at the inn, buying a herb, getting painted in the paint shop) and through the castle (the armory door should stay barred).
+/// goes into every shop (resting at the inn, buying a herb, getting painted in the paint shop, upgrading the weapons) and through the castle (the armory door should stay barred).
 /// Logs each trip and saves a screenshot on arrival.
 /// </summary>
 public partial class DevTourCheck : Node
@@ -31,6 +31,7 @@ public partial class DevTourCheck : Node
         ("PaintShop", "Painter", "PaintShop"),
         ("PaintShop", "DoorBottom", "Village"),
         ("Village", "GearShopDoor", "GearShop"),
+        ("GearShop", "Counter", "GearShop"),
         ("GearShop", "DoorBottom", "Village"),
         ("Village", "CastleDoor", "CastleHall"),
         ("CastleHall", "DoorTop", "ThroneRoom"),
@@ -211,7 +212,7 @@ public partial class DevTourCheck : Node
                 hero.TakeHit(5, hero.GlobalPosition + Vector2.Up);
             }
 
-            _shopBefore = $"coins {Items.Purse.Coins}, hp {hero.Health.Current}/{hero.Health.Max}, herbs {hero.Herbs}";
+            _shopBefore = $"coins {Items.Purse.Coins}, hp {hero.Health.Current}/{hero.Health.Max}, herbs {hero.Herbs}, weapons {Items.WeaponTier.Current.Name}";
         }
 
         if (since < 1.6)
@@ -225,7 +226,7 @@ public partial class DevTourCheck : Node
             return;
         }
 
-        var after = $"coins {Items.Purse.Coins}, hp {hero.Health.Current}/{hero.Health.Max}, herbs {hero.Herbs}";
+        var after = $"coins {Items.Purse.Coins}, hp {hero.Health.Current}/{hero.Health.Max}, herbs {hero.Herbs}, weapons {Items.WeaponTier.Current.Name} ({hero.WeaponName})";
         var bought = after != _shopBefore;
         _passed += bought ? 1 : 0;
         Log($"{room.Name} counter ({counter.Offer}, {counter.Price} coins): {_shopBefore} -> {after}");

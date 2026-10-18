@@ -66,6 +66,13 @@ public partial class DungeonHud : Control
             Text(label, at + new Vector2(16, 12), Colors.White, 10, left: true);
         }
 
+        // The team's weapon material, under the coins.
+        if (Items.WeaponTier.Level > 0)
+        {
+            var tier = Items.WeaponTier.Current;
+            Text($"{tier.Name} weapons", new Vector2(width / 2, 34), tier.Colour, 8);
+        }
+
         // Boss coins (to the left of the keys).
         if (Items.Purse.BossCoins > 0)
         {

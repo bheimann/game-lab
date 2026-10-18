@@ -41,7 +41,7 @@ public partial class MeleeAbility : Ability
 
         foreach (var enemy in Hero.EnemyTargets().Where(t => Hits.Touches(t, _hitPoint, Radius)))
         {
-            Hero.Hit(enemy, Damage + FusedDamage, Hero.GlobalPosition, FusedElement(DamageType));
+            Hero.Hit(enemy, Damage + BonusDamage, Hero.GlobalPosition, FusedElement(DamageType));
         }
 
         Hero.Lunge(Hero.Facing * 3f);
@@ -62,7 +62,9 @@ public partial class MeleeAbility : Ability
         {
             var at = ToLocal(_hitPoint);
             DrawCircle(at, 5f, new Color(1, 1, 1, 0.8f));
-            DrawArc(at, 7f, 0, Mathf.Tau, 16, FlashColour, 1f);
+            // The main attack's flash takes the colour of the team's weapon material (once it's better than wood).
+            var colour = Slot == AbilitySlot.Primary && Items.WeaponTier.Level > 0 ? Items.WeaponTier.Current.Colour : FlashColour;
+            DrawArc(at, 7f, 0, Mathf.Tau, 16, colour, 1.5f);
         }
     }
 }

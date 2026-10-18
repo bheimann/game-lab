@@ -166,6 +166,9 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     /// <summary>The name of the main attack (the A button) right now, e.g. "Punch" or "Feathers".</summary>
     public string MainAttackName => _abilities.FirstOrDefault(a => a.Slot == AbilitySlot.Primary)?.Name ?? "Attack";
 
+    /// <summary>The main attack with the team's weapon material, e.g. "Iron Punch" (just "Punch" while it's wood).</summary>
+    public string WeaponName => Items.WeaponTier.Level > 0 ? $"{Items.WeaponTier.Current.Name} {MainAttackName}" : MainAttackName;
+
     /// <summary>What's in the armor slot (null = nothing).</summary>
     public Armor? Armor { get; private set; }
 
@@ -543,7 +546,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     {
         _held[kind] = index >= 0 && index < _fusions[kind].Count ? index : -1;
         UpdateMaxHealth();
-        var name = Held(kind)?.NameFor(MainAttackName) ?? (kind == FuseKind.Armor ? "No fused armor" : MainAttackName);
+        var name = Held(kind)?.NameFor(WeaponName) ?? (kind == FuseKind.Armor ? "No fused armor" : WeaponName);
         FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), name, Colors.White, 1f, 8f);
     }
 
@@ -757,8 +760,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
             var plain = kind == FuseKind.Armor
                 ? new MenuOption("No fused armor", "Plain armor", null, new Color(0.8f, 0.8f, 0.8f))
-                : new MenuOption(MainAttackName, "Your plain attack", null, new Color(0.8f, 0.8f, 0.8f));
-            var options = new[] { plain }.Concat(list.Select(f => new MenuOption(f.NameFor(MainAttackName), f.Description, f.Part.Icon, Colors.White))).ToArray();
+                : new MenuOption(WeaponName, "Your plain attack", null, new Color(0.8f, 0.8f, 0.8f));
+            var options = new[] { plain }.Concat(list.Select(f => new MenuOption(f.NameFor(WeaponName), f.Description, f.Part.Icon, Colors.White))).ToArray();
             var title = kind switch { FuseKind.Gun => "Fused Guns", FuseKind.Armor => "Fused Armor", _ => "Fused Weapons" };
             rings.Add(new MenuRing($"{title} ({list.Count}/{Fusion.Slots})", options, _held[kind] + 1, i => HoldFusion(kind, i - 1)));
         }

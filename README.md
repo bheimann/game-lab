@@ -99,7 +99,9 @@ says hello; step up to the counter for a moment to buy (coins come out of the te
 - **Herb Shop** (top middle): a healing herb, 10 coins.
 - **Paint Shop** (top right): stand on the paint mat to change class (the painter's mat outside still works too, for
   playtesting).
-- **Weapons & Armor** (bottom left): nothing to sell yet.
+- **Weapons & Armor** (bottom left): **weapon upgrades for the whole team**: every hero's main attack (A) hits
+  harder. Wood → **Copper** (20 coins, +1 damage) → **Iron** (40, +2) → **Steel** (80, +3) → **Mithril** (160, +5).
+  The counter's sign shows the next one; the attack's name shows it ("Iron Punch"), and so does the top of the screen.
 
 The path north leads to **Scalebrook Castle**. Its **Castle Hall** has knights on guard (some stand, some walk
 about); the top door goes to the **Throne Room** (the king and queen, and four knights; the king, the queen or both
