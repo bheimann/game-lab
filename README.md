@@ -108,9 +108,12 @@ boss coins show next to the coins) and four ordinary drops. Loot disappears afte
 
 **The overworld:** the team starts in Scalebrook Village. Scalebrook Meadow is in the middle, with the stone temple gate into The Old Burrow at the top
 right (walk in through the arch), and paths out through gaps in the bushes (signs show the way):
-west to **Scalebrook Village** (houses and the village painter, no enemies), east to **Antlerwood Forest** (thick
-trees, deer, a chest in a clearing) and on north to **Frosttail Tundra** (snow, snowmen, a frozen lake), and south
-to **Tailspin Swamp** (murky ponds, bare trees, and another chest only a grapple can reach).
+west to **Scalebrook Village** (shops and the castle, no enemies), east to **Antlerwood Forest** (thick trees, deer,
+chests in clearings), from there north to **Frosttail Tundra** (snow, snowmen, two frozen lakes) and east to
+**Red Rock Canyon** (a long chasm with one rock bridge, and a high ledge with a chest that only flying or a grapple
+reaches), and south to **Tailspin Swamp** (murky ponds, bare trees, a chest only a grapple can reach) and on south to
+**Glimmer Lake** (a sandy beach and a wide lake; a chest waits on the far shore: take the boat, fly, or grapple to a
+bush). The forest, tundra and swamp are big: the camera scrolls around them.
 
 **Classes (getting painted):** the lizard can be a **Chameleon** (camouflage, colour change), **Tongue Master**
 (stronger, longer tongue), **Spitter** (special button spits poison; LB / RB pick poison, fire, ice, lightning
@@ -197,8 +200,8 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   stampede, totem healing, treant drawing the deer).
   `--autoplay-pick=4,3 "--autoplay-classes=Roller,Grappler"` checks the beetle (roll, shell, tough shell, bounce)
   and the peacock (fire feathers, grapple pull, rocket, zip to a wall).
-- `Godot_console.exe --path game -- --autoplay-grapple=<folder>` checks the meadow's secret chest (add
-  `--room=Swamp` for the swamp's): the peacock can't walk over the water or round the side, grapples over to the chest
+- `Godot_console.exe --path game -- --room=Overworld --autoplay-grapple=<folder>` checks the meadow's secret chest
+  (`--room=Swamp` for the swamp's): the peacock can't walk over the water or round the side, grapples over to the chest
   and back, and lands back on the shore when stopped mid-flight.
 - `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
   there and back, and checks each one leads to the right area (and that the village painter paints you).

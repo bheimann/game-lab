@@ -134,6 +134,10 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Beetle **Vehicle Master**: builds a tank the whole team can ride (the beetle drives and fires the cannon,
   passengers keep attacking).
 - ✅ 🛠 More vehicles for the Vehicle Master: cart, boat, glider and plane.
+- ✅ 🛠 A bigger map: the forest, tundra and swamp are about twice as big, plus two new areas, Red Rock Canyon (glider
+  ledge) and Glimmer Lake (boat to the far shore).
+- 🛠 Next: new enemies for each area (boar, arctic fox, frog, snake) with their own monster parts, then weapon
+  upgrades (wood, copper, iron, steel, mithril), then a second dungeon.
 - 🦎 What coins buy (a shop in the village?), and weapons as loot once there are more weapons.
 - 🦎 The king and queen's quests (one of them opens the armory), what the weapons & armor shop sells, and unlocking the
   first class in the paint shop (then the painter's mat outside goes away).

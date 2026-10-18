@@ -8,7 +8,7 @@ namespace LizardWizard.Util;
 
 /// <summary>
 /// Dev helper for the overworld's areas: <c>-- --autoplay-tour=&lt;folder&gt;</c>. P1 joins (as the lizard) in the village and
-/// walks out through every path between the areas, there and back (village, meadow, forest, tundra, swamp), checking each
+/// walks out through every path between the areas, there and back (village, meadow, forest, tundra, canyon, swamp, lake), checking each
 /// one lands in the right area, and finally goes in through the dungeon gate. In the village it also stands on the painter's mat and checks it gets painted,
 /// goes into every shop (resting at the inn, buying a herb, getting painted in the paint shop) and through the castle (the armory door should stay barred).
 /// Logs each trip and saves a screenshot on arrival.
@@ -45,8 +45,12 @@ public partial class DevTourCheck : Node
         ("Overworld", "EastPath", "Forest"),
         ("Forest", "NorthPath", "Tundra"),
         ("Tundra", "SouthPath", "Forest"),
+        ("Forest", "EastPath", "Canyon"),
+        ("Canyon", "WestPath", "Forest"),
         ("Forest", "WestPath", "Overworld"),
         ("Overworld", "SouthPath", "Swamp"),
+        ("Swamp", "SouthPath", "Lake"),
+        ("Lake", "NorthPath", "Swamp"),
         ("Swamp", "NorthPath", "Overworld"),
         ("Overworld", "BurrowStairs", "Entrance"),
     };
