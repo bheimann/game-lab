@@ -203,6 +203,9 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
 - `Godot_console.exe --path game -- --room=Overworld --autoplay-grapple=<folder>` checks the meadow's secret chest
   (`--room=Swamp` for the swamp's): the peacock can't walk over the water or round the side, grapples over to the chest
   and back, and lands back on the shore when stopped mid-flight.
+- `Godot_console.exe --path game -- --room=Village --screenshot-showcase=village:<file.png>` takes a picture to
+  share: four heroes in a scene. Scenes (with their room): `village` (Village), `throne` (ThroneRoom), `battle`
+  (Forest), `lake` (Lake), `canyon` (Canyon), `boss` (BossRoom).
 - `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
   there and back, and checks each one leads to the right area (and that the village painter paints you).
 - New overworld areas are `DungeonRoom`s with an `OutdoorBuilder` layout (Ground: meadow, forest, swamp or snow);
