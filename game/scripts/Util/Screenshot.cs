@@ -8,6 +8,7 @@ namespace LizardWizard.Util;
 /// short delay and quit. Lets us check visuals from the command line.
 /// Add <c>--screenshot-world</c> to hide the HUD and menus (every CanvasLayer) so only the world shows,
 /// or <c>--screenshot-picking</c> to have P1 and P2 picking a character and class.
+/// Add <c>--screenshot-zoom=0.4</c> to zoom out (e.g. a whole big area, with <c>--room=Canyon</c>).
 /// </summary>
 public partial class Screenshot : Node
 {
@@ -34,6 +35,12 @@ public partial class Screenshot : Node
         {
             manager.Claim(new Players.PlayerInput(Players.InputDevice.KeyboardLeft));
             manager.Claim(new Players.PlayerInput(Players.InputDevice.KeyboardRight));
+        }
+
+        if (_framesLeft == 30 && OS.GetCmdlineUserArgs().FirstOrDefault(a => a.StartsWith("--screenshot-zoom=")) is { } zoomArg
+            && Players.CoopCamera.Find(this) is { } camera)
+        {
+            camera.MinZoom = float.Parse(zoomArg["--screenshot-zoom=".Length..], System.Globalization.CultureInfo.InvariantCulture);
         }
 
         if (--_framesLeft != 0)

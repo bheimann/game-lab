@@ -19,6 +19,12 @@ public enum Ground
 
     /// <summary>Snow, packed-snow paths and a ring of snowy pines.</summary>
     Snow,
+
+    /// <summary>Sand (a beach), and a ring of palm-green bushes.</summary>
+    Sand,
+
+    /// <summary>Red rock, dusty paths and a ring of boulders.</summary>
+    Canyon,
 }
 
 /// <summary>
@@ -51,6 +57,8 @@ public partial class OutdoorBuilder : RoomBuilder
         Ground.Forest => (Godot.Color.Color8(104, 172, 90), Godot.Color.Color8(78, 140, 74)),
         Ground.Swamp => (Godot.Color.Color8(112, 146, 84), Godot.Color.Color8(86, 116, 70)),
         Ground.Snow => (Godot.Color.Color8(236, 243, 250), Godot.Color.Color8(196, 214, 236)),
+        Ground.Sand => (Godot.Color.Color8(240, 218, 160), Godot.Color.Color8(222, 192, 132)),
+        Ground.Canyon => (Godot.Color.Color8(200, 128, 92), Godot.Color.Color8(170, 102, 76)),
         _ => (Godot.Color.Color8(132, 198, 105), Godot.Color.Color8(101, 165, 86)),
     };
 
@@ -59,6 +67,8 @@ public partial class OutdoorBuilder : RoomBuilder
     {
         Ground.Swamp => (Godot.Color.Color8(128, 104, 74), Godot.Color.Color8(98, 78, 58)),
         Ground.Snow => (Godot.Color.Color8(212, 224, 240), Godot.Color.Color8(180, 196, 222)),
+        Ground.Sand => (Godot.Color.Color8(250, 236, 196), Godot.Color.Color8(230, 210, 162)),
+        Ground.Canyon => (Godot.Color.Color8(226, 170, 122), Godot.Color.Color8(204, 146, 104)),
         _ => (Godot.Color.Color8(234, 165, 108), Godot.Color.Color8(207, 130, 84)),
     };
 
@@ -66,10 +76,17 @@ public partial class OutdoorBuilder : RoomBuilder
     {
         Ground.Forest => "res://assets/kenney/tree.png",
         Ground.Snow => "res://assets/kenney/snowpine.png",
+        Ground.Canyon => "res://assets/kenney/rock.png",
         _ => "res://assets/kenney/bush.png",
     };
 
-    private Color BorderTint => Ground == Ground.Swamp ? new Color(0.65f, 0.72f, 0.5f) : Colors.White;
+    private Color BorderTint => Ground switch
+    {
+        Ground.Swamp => new Color(0.65f, 0.72f, 0.5f),
+        Ground.Sand => new Color(0.9f, 1f, 0.75f),
+        Ground.Canyon => new Color(1f, 0.75f, 0.65f),
+        _ => Colors.White,
+    };
 
     public override void _Ready()
     {

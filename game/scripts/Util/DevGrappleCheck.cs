@@ -9,8 +9,8 @@ using LizardWizard.Players;
 namespace LizardWizard.Util;
 
 /// <summary>
-/// Dev helper for the grapple-only secret chests: <c>-- --autoplay-grapple=&lt;folder&gt;</c> checks the meadow's (add
-/// <c>--room=Swamp</c> for Tailspin Swamp's). P1 joins as the peacock (Grappler), stands on the near shore, and the check
+/// Dev helper for the grapple-only secret chests: <c>-- --room=Overworld --autoplay-grapple=&lt;folder&gt;</c> checks the
+/// meadow's (<c>--room=Swamp</c> for Tailspin Swamp's). P1 joins as the peacock (Grappler), stands on the near shore, and the check
 /// makes sure that: walking can't get across, the grapple pulls it over to the chest (which opens), a zip interrupted
 /// over the water puts it back where it started, the grapple brings it back to the near shore, and walking round the
 /// side (the hedge or rock wall) can't get in. Logs each result and saves screenshots into the folder.
@@ -44,7 +44,15 @@ public partial class DevGrappleCheck : Node
         var hero = PlayerManager.Find(this)!.Players[0];
         var room = Dungeon.Find(this)!.CurrentRoom;
         var since = _time - _stepStart;
-        var secret = Secrets[room.Name];
+        if (!Secrets.TryGetValue(room.Name, out var secret))
+        {
+            // The game starts in the village: say where to start the check, and stop.
+            GD.Print($"[grapple] no grapple secret in {room.Name}: add --room=Overworld (the meadow) or --room=Swamp");
+            SetPhysicsProcess(false);
+            GetTree().Quit();
+            return;
+        }
+
         Vector2 At(Vector2 p) => room.GlobalPosition + p;
         var chest = room.GetNode<TreasureChest>(secret.Chest);
 
