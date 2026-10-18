@@ -75,7 +75,7 @@ yellow: that's its kick coming. Works even with the ring menu open.
   | Plane | 2 | very fast | machine gun | flying over water and holes as long as you like |
 - The **beetle** starts as a **Roller**: A horn jab, X **rolls** (a fast ball that rams enemies and bounces off
   walls; steer it a little; hits hurt half as much while rolling), Y **hides in its shell** (blocks every hit for a
-  moment), and its tough shell always makes hits hurt less. Its other class, **Warrior**, just jabs.
+  moment), and its tough shell always makes hits hurt less. Its other class is the **Vehicle Master** (below).
 - The **peacock** starts as a **Grappler**: A shoots a fan of three **feathers** (LB / RB pick normal, poison,
   fire, ice, lightning or arcane), X fires the **grapple gun**, Y fires an **RPG** (a rocket with a big explosion
   that also breaks cracked rocks). The grapple **reels in** small enemies, **pulls you over** to big ones (bosses)
