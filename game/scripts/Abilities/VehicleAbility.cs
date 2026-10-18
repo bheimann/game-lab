@@ -13,7 +13,9 @@ namespace LizardWizard.Abilities;
 /// </summary>
 public partial class VehicleAbility : Ability, IHasOptions
 {
-    private static readonly VehicleKind[] Kinds = System.Enum.GetValues<VehicleKind>();
+    /// <summary>What the beetle can build: everything, but the hoversled only once Frostfang Fortress is beaten.</summary>
+    private static VehicleKind[] Kinds => System.Enum.GetValues<VehicleKind>()
+        .Where(k => k != VehicleKind.Hoversled || Unlocks.IsBeaten(Actors.FrostMoose.Boss)).ToArray();
 
     private Vehicle? _vehicle;
     private float _rebuildLeft;
@@ -24,7 +26,17 @@ public partial class VehicleAbility : Ability, IHasOptions
 
     public Vehicle? Vehicle => _vehicle is not null && IsInstanceValid(_vehicle) && !_vehicle.IsQueuedForDeletion() ? _vehicle : null;
 
-    public VehicleKind Kind => Kinds[_selected];
+    public VehicleKind Kind => Kinds[Mathf.Min(_selected, Kinds.Length - 1)];
+
+    /// <summary>Pick a vehicle by kind (if the beetle can build it).</summary>
+    public void Choose(VehicleKind kind)
+    {
+        var index = System.Array.IndexOf(Kinds, kind);
+        if (index >= 0)
+        {
+            Select(index);
+        }
+    }
 
     public string OptionsTitle => "Vehicles";
 
@@ -73,6 +85,7 @@ public partial class VehicleAbility : Ability, IHasOptions
         VehicleKind.Cart => new Color(0.66f, 0.42f, 0.26f),
         VehicleKind.Boat => new Color(0.4f, 0.7f, 1f),
         VehicleKind.Glider => new Color(0.95f, 0.85f, 0.55f),
+        VehicleKind.Hoversled => new Color(0.6f, 0.85f, 1f),
         _ => new Color(0.85f, 0.27f, 0.25f),
     };
 }

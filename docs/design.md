@@ -78,7 +78,7 @@ Village -- Meadow -- Antlerwood Forest -- Red Rock Canyon
 | **Scalebrook Village** (start) | Shops, villagers, **Scalebrook Castle** up north, a painter's mat (for playtesting). No enemies |
 | **Scalebrook Meadow** | The Old Burrow's temple gate (the first dungeon), a grapple-only chest, deer |
 | **Antlerwood Forest** (big) | Thick trees, lots of deer, chests in clearings |
-| **Frosttail Tundra** (big) | Snow, snowy pines, snowmen, two frozen lakes, deer, chests |
+| **Frosttail Tundra** (big) | Snow, snowy pines, snowmen, two frozen lakes, arctic fox packs, chests, and the gate to **Frostfang Fortress** |
 | **Red Rock Canyon** | A long chasm with one rock bridge; a high ledge with a chest that only flying (glider, plane) or a grapple reaches |
 | **Tailspin Swamp** (big) | Murky ponds, bare trees, deer, chests, one only a grapple reaches |
 | **Glimmer Lake** | A sandy beach, and a wide lake; a chest on the far shore (boat, fly, or grapple to a bush) |
@@ -98,6 +98,15 @@ little, and step up to the counter (and stay) when a hero is there. Stand at the
 | **Castle Hall** | Knights (some guard, some walk about). Doors: up to the throne room, right to the kitchen, left to the **armory** (locked until a quest opens it) |
 | **Throne Room** | The **king** (a lizard) and **queen** (a peahen), and four knights. The king, the queen or both welcome you. **Later:** quests |
 | **Castle Kitchen** | A cook, and a **free herb** (once) |
+
+## Dungeons
+| Dungeon | Where | Rooms | Boss | Reward |
+|---|---|---|---|---|
+| **The Old Burrow** | Scalebrook Meadow | Entrance, key hall, side room, a lever-and-bridge puzzle | **Giant Beetle** | Title: Squire |
+| **Frostfang Fortress** | Frosttail Tundra | Frozen Gate (foxes), **Ice Hall** (slide puzzle: on ice you slide until you bump into something; the key is out on the ice), **Frozen River** (a lever makes a bridge), the Frost Den | **Frostmane the Moose** and **Tusker the Boar**, together: the moose's stomp sends out a ring of frost that slows heroes, and the boar charges whoever is slowed; beat one and the other gets angry | Title: Knight, the **Hoversled** |
+
+Every boss also gives a **boss coin** and **one more fuse slot** of each kind; a portal appears in the boss room to go
+back out.
 
 ## Loot and money
 - A beaten enemy drops **coins** (8 times out of 10) or a **healing herb**, plus **each of its monster parts**
@@ -221,6 +230,7 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
 | **Boat** | 4 | – | Crossing water |
 | **Glider** | 4 | – | Flying over water and holes for 8 seconds |
 | **Plane** | 2 | Machine gun | Flying anywhere, fast |
+| **Hoversled** | 4 | – | A hovercraft snowmobile: very fast on ice, normal on water, slow on land. **Unlocked by beating Frostfang Fortress** |
 
 ## Elements
 - Guns, weapons, bombs and spells come in **normal, poison, fire, ice, lightning and arcane** versions.
@@ -259,12 +269,13 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
   | Frog | Swamp, lake, canyon | Keeps its distance, hops, spits slime (2) | 6–8 | Frog skin |
   | Snake | Meadow, forest, canyon, swamp, lake | Faint until you're close; poison bite (2, then poison) | 8–10 | Scale |
 
-- **Bosses are different animals**: the **Giant Beetle** guards The Old Burrow. The **final boss is Mossimus Maximus**.
+- **Bosses are different animals**: the **Giant Beetle** guards The Old Burrow, **Frostmane and Tusker** guard
+  Frostfang Fortress. The **final boss is Mossimus Maximus**.
 
 ## Questions for the designer
 - **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?
 - **The king's tutorial and quests:** what happens in the story at the start, and what quest opens the armory?
-- **The second dungeon:** where is it, and who's the boss?
+- **Titles after Knight**, and what the next dungeon is (where, which boss, what it unlocks)?
 - **Boss drops:** which new bomb, weapon or gun does each boss drop?
 - **Where the other kingdoms go:** Foxglove Hills, Plume Peaks, Scarab Desert, and the deer, fox and bug kings' homes.
 - **Combos:** which element orders make which combos (for the Element / Wand Master)?

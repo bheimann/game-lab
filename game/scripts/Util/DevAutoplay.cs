@@ -462,7 +462,7 @@ public partial class DevAutoplay : Node
             Key(false);
             builder.Vehicle?.Break(quietly: true);
             p1.Teleport(_pond!.GlobalPosition + new Vector2(-34, 14));
-            builder.Select(System.Array.IndexOf(System.Enum.GetValues<VehicleKind>(), kind));
+            builder.Choose(kind);
             builder.TryUse();
             _tankAt = builder.Vehicle?.GlobalPosition ?? Vector2.Zero;
             Log($"built {kind}: {builder.Vehicle is not null}, P1 driving={p1.IsDriving}");
@@ -476,6 +476,7 @@ public partial class DevAutoplay : Node
                 p1.GetParent().AddChild(_pond);
                 _pond.GlobalPosition = p1.GlobalPosition + new Vector2(60, -40);
                 _pond.ZIndex = 0; // over the test room's floor
+                Log($"before Frostfang: can build {string.Join(", ", builder.Options.Select(o => o.Name))}");
                 Build(VehicleKind.Cart);
                 break;
             case 2:
@@ -501,6 +502,14 @@ public partial class DevAutoplay : Node
                 break;
             case 11:
                 Input.ParseInputEvent(new InputEventKey { PhysicalKeycode = Godot.Key.W, Keycode = Godot.Key.W, Pressed = false });
+                Items.Unlocks.Restore(new[] { FrostMoose.Boss });
+                Log($"after Frostfang: can build {string.Join(", ", builder.Options.Select(o => o.Name))}");
+                Build(VehicleKind.Hoversled);
+                break;
+            case 13: Log($"hoversled: {Where()}"); TakeShot(0, "_hoversled"); break;
+            case 14:
+                Log($"hoversled half a second later (faster on the water): {Where()}");
+                Input.ParseInputEvent(new InputEventKey { PhysicalKeycode = Godot.Key.W, Keycode = Godot.Key.W, Pressed = false });
                 Build(VehicleKind.Tank);
                 Key(false);
                 vehicle = builder.Vehicle;
@@ -511,12 +520,12 @@ public partial class DevAutoplay : Node
                 p2.TakeHit(5, p2.GlobalPosition + Vector2.Left * 10);
                 Log($"P2 hit on the tank: P2 hp {hp} -> {p2.Health.Current}, tank hp {tankHp} -> {vehicle.Health.Current}");
                 break;
-            case 12:
+            case 15:
                 Log($"P2 hops off: {vehicle!.Leave(p2)}, riding={p2.Riding is not null}");
                 vehicle.TakeHit(100);
                 Log($"tank broken: P1 riding={p1.Riding is not null}, gone={builder.Vehicle is null}");
                 break;
-            case 13:
+            case 16:
                 Log($"build again straight away: built={builder.TryUse() && builder.Vehicle is not null} (should have to wait)");
                 break;
         }
