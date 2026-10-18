@@ -1,5 +1,5 @@
 """Builds the walk strips for the new enemies (side view, facing right; the game mirrors them for left):
-boar, arctic fox (on four legs), frog and snake. Writes art-source/<name>/<name>_walk.txt and renders them into
+boar, arctic fox (on four legs), frog, snake, and the Frostfang Fortress boss moose. Writes art-source/<name>/<name>_walk.txt and renders them into
 game/assets/sprites/<name>/<name>_walk.png. Each body is drawn once; the legs (or the snake's wiggle) change per frame.
 Run: python tools/beast_frames.py"""
 from pathlib import Path
@@ -152,3 +152,32 @@ def snake(phase):
 
 
 save("snake", [snake(0), snake(1), snake(2)], "Snake enemy facing right, 28x12, wiggling.")
+
+
+# ---- Frost moose (a boss): a big dark moose with wide flat antlers and a frosty beard. 44x36.
+MOOSE = [
+    "...................................T.T",
+    "........................T.T.T....TTTTT.T",
+    ".........................TTTTT..TTTTTTTT",
+    "........................TTTTTTooTTTTTTto",
+    ".........................ttTTTTTTTTTtto",
+    "...................ooo......oottohhoo",
+    "..........oooooooohhhho......ohhhhooo",
+    "........oohhhhhhhhhhhhhooooooohhhhhhhhoo",
+    ".......ohhHHHHHHHHHHHhhhhhhhhhhhhPhhhhhhho",
+    "......ohHHHHHHHHHHHHHHHHHhhhhhhhhhhhhhhhhho",
+    ".....ohHHHHHHHHHHHHHHHHHHHHhhhhhhhhhhhhhkko",
+    ".....ohHHHHHHHHHHHHHHHHHHHHHhhhhhooooooooo",
+    ".....ohHHHHHHHHHHHHHHHHHHHHHhhhho",
+    ".....ohhHHHHHHHHHHHHHHHHHHHHhhhGo",
+    "......ohhhHHHHHHHHHHHHHHHHHhhhhGGo",
+    ".......ohhhhhhhhhhhhhhhhhhhhhhoGGo",
+    "........ohhhhhhhhhhhhhhhhhhhhhooGo",
+    ".........oooooooooooooooooooooo.oo",
+]
+frames = []
+for shifts in ((0, 0, 0, 0), (1, -1, 1, -1), (-1, 1, -1, 1)):
+    g = grid(MOOSE, 44, 36)
+    legs(g, 18, (11, 15, 25, 29), shifts, "h", "n", 14)
+    frames.append(g)
+save("frost_moose", frames, "Frost moose boss facing right, 44x36, hooves on the bottom row.")

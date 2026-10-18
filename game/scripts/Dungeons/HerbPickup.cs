@@ -6,12 +6,14 @@ using LizardWizard.Effects;
 namespace LizardWizard.Dungeons;
 
 /// <summary>
-/// A healing herb left out for the heroes (the castle kitchen's free herb). The first hero to walk up takes it.
+/// A healing herb left out for the heroes (the castle kitchen's free herb), or with <see cref="Key"/> a dungeon key
+/// lying on the floor (the Ice Hall's, out on the ice). The first hero to walk up (or slide over it) takes it.
 /// It's only there once: the save remembers it's been taken.
 /// </summary>
 public partial class HerbPickup : Node2D, Saving.ISaveable
 {
     private const string HerbIcon = "res://assets/sprites/icons/herb.png";
+    private const string KeyIcon = "res://assets/kenney/key.png";
 
     private Texture2D _herb = null!;
     private bool _taken;
@@ -19,7 +21,10 @@ public partial class HerbPickup : Node2D, Saving.ISaveable
 
     [Export] public string Message { get; set; } = "A free herb!";
 
-    public override void _Ready() => _herb = GD.Load<Texture2D>(HerbIcon);
+    /// <summary>A key for the team (for a locked door) instead of a herb.</summary>
+    [Export] public bool Key { get; set; }
+
+    public override void _Ready() => _herb = GD.Load<Texture2D>(Key ? KeyIcon : HerbIcon);
 
     public override void _PhysicsProcess(double delta)
     {
@@ -34,7 +39,15 @@ public partial class HerbPickup : Node2D, Saving.ISaveable
         if (hero is not null)
         {
             _taken = true;
-            hero.AddHerbs(1);
+            if (Key && Dungeon.Find(this) is { } dungeon)
+            {
+                dungeon.Keys++;
+            }
+            else
+            {
+                hero.AddHerbs(1);
+            }
+
             FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), Message, new Color(0.5f, 1f, 0.5f), 1.5f, 8f);
             Hide();
         }

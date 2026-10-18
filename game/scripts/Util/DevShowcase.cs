@@ -44,7 +44,7 @@ public partial class DevShowcase : Node
                 : new[] { (0, "Illusionist"), (1, "Weapon Master"), (2, "Tinkerer"), (3, "Grappler") };
             for (var i = 0; i < team.Length; i++)
             {
-                manager.JoinForDev(new PlayerInput(i == 0 ? InputDevice.KeyboardLeft : InputDevice.Gamepad(90 + i)), team[i].Item1, team[i].Item2);
+                manager.JoinForDev(i == 0 ? InputDevice.KeyboardLeft : InputDevice.Gamepad(90 + i), team[i].Item1, team[i].Item2);
             }
         }
         else if (_stage == 1 && _time > 0.5)

@@ -34,7 +34,7 @@ public partial class ExitPortal : Node2D
     {
         var dt = (float)delta;
         _time += dt;
-        if (Dungeon.Find(this) is not { } dungeon || !dungeon.IsComplete)
+        if (Dungeon.Find(this) is not { } dungeon || DungeonRoom.Of(this) is not { } room || !dungeon.IsDungeonComplete(room.Area))
         {
             return;
         }

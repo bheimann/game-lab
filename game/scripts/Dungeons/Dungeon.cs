@@ -11,7 +11,9 @@ namespace LizardWizard.Dungeons;
 /// <summary>
 /// Runs the world: which room (or overworld area) the team is in, the keys they've found (shared by everyone),
 /// and moving the whole team through doors. When the boss room is cleared the dungeon is complete, the team earns
-/// a title, and an <see cref="ExitPortal"/> opens in the boss room that takes them back out to <see cref="ReturnDoor"/>.
+/// a title, and an <see cref="ExitPortal"/> opens in the boss room that takes them back out to the dungeon's entrance.
+/// There can be several dungeons: each one's rooms share an <see cref="DungeonRoom.Area"/> name, and its boss room says
+/// where the portal goes and which title it gives (falling back to <see cref="ReturnDoor"/> and <see cref="TitleEarned"/>).
 /// </summary>
 public partial class Dungeon : Node
 {
@@ -21,7 +23,7 @@ public partial class Dungeon : Node
 
     private ColorRect _fade = null!;
     private bool _moving;
-    private bool _complete;
+    private readonly System.Collections.Generic.HashSet<string> _completed = new();
 
     /// <summary>Shown when the dungeon starts.</summary>
     [Export] public string DungeonName { get; set; } = "Dungeon";
@@ -45,10 +47,18 @@ public partial class Dungeon : Node
     /// <summary>Where knocked-out or newly joined heroes appear: where the team came into this room.</summary>
     public Vector2 RespawnPoint { get; private set; }
 
-    public bool IsComplete => _complete;
+    /// <summary>Is the dungeon these rooms belong to (by <see cref="DungeonRoom.Area"/>) beaten?</summary>
+    public bool IsDungeonComplete(string area) => _completed.Contains(area);
+
+    /// <summary>Every dungeon beaten so far (by area name).</summary>
+    public System.Collections.Generic.IEnumerable<string> CompletedDungeons => _completed;
 
     /// <summary>Loading a save: the boss was already beaten.</summary>
-    public void RestoreComplete(bool complete) => _complete = complete;
+    public void RestoreCompleted(System.Collections.Generic.IEnumerable<string> areas)
+    {
+        _completed.Clear();
+        _completed.UnionWith(areas);
+    }
 
     public DungeonHud Hud { get; private set; } = null!;
 
@@ -201,8 +211,9 @@ public partial class Dungeon : Node
     {
         // Let the boss wake up and say thanks first.
         await ToSignal(GetTree().CreateTimer(4.5), SceneTreeTimer.SignalName.Timeout);
-        _complete = true;
-        Hud.ShowBanner("Dungeon complete!", $"The heroes earned a title: {TitleEarned}", 6f);
+        _completed.Add(room.Area);
+        var title = room.TitleEarned != "" ? room.TitleEarned : TitleEarned;
+        Hud.ShowBanner($"{room.Area} complete!", $"The heroes earned a title: {title}", 6f);
         SaveGame.Save(this);
 
         // An exit portal opens in the boss room (see ExitPortal); the heroes leave when they're ready.
@@ -211,9 +222,10 @@ public partial class Dungeon : Node
     /// <summary>A hero stood on the exit portal: take the whole team back out to the overworld.</summary>
     public void LeaveThroughPortal()
     {
-        if (!_moving && ReturnDoor is not null)
+        var back = CurrentRoom.ReturnDoor ?? ReturnDoor;
+        if (!_moving && back is not null)
         {
-            MoveTo(ReturnDoor);
+            MoveTo(back);
         }
     }
 

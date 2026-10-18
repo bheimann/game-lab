@@ -188,10 +188,17 @@ public partial class PlayerManager : Node
         PlayersChanged?.Invoke();
     }
 
-    /// <summary>Dev helpers (screenshots): join with <paramref name="input"/> as character <paramref name="character"/>
-    /// in class <paramref name="className"/> straight away.</summary>
-    internal Hero? JoinForDev(PlayerInput input, int character, string className)
+    /// <summary>Dev helpers (screenshots, checks): join with <paramref name="device"/> as character
+    /// <paramref name="character"/> in class <paramref name="className"/> straight away. The hero gets that device's
+    /// real input, so pressing its keys moves it.</summary>
+    internal Hero? JoinForDev(InputDevice device, int character, string className)
     {
+        if (!_devices.TryGetValue(device, out var input))
+        {
+            input = new PlayerInput(device);
+            _devices[device] = input;
+        }
+
         if (Claim(input) is not { } slot)
         {
             return null;

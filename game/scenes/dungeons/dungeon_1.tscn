@@ -7,6 +7,8 @@
 [ext_resource type="TileSet" path="res://assets/tilesets/room_tileset.tres" id="tiles"]
 [ext_resource type="Script" path="res://scripts/Dungeons/Door.cs" id="door"]
 [ext_resource type="PackedScene" path="res://scenes/actors/deer.tscn" id="deer"]
+[ext_resource type="PackedScene" path="res://scenes/actors/frost_moose.tscn" id="frost_moose"]
+[ext_resource type="PackedScene" path="res://scenes/actors/tusker_boar.tscn" id="tusker_boar"]
 [ext_resource type="PackedScene" path="res://scenes/actors/boar.tscn" id="boar"]
 [ext_resource type="PackedScene" path="res://scenes/actors/arctic_fox.tscn" id="arctic_fox"]
 [ext_resource type="PackedScene" path="res://scenes/actors/frog.tscn" id="frog"]
@@ -25,6 +27,7 @@
 [ext_resource type="Script" path="res://scripts/Rooms/DirtPath.cs" id="dirtpath"]
 [ext_resource type="Script" path="res://scripts/Dungeons/DungeonGate.cs" id="gate"]
 [ext_resource type="Script" path="res://scripts/Dungeons/ExitPortal.cs" id="portal"]
+[ext_resource type="Script" path="res://scripts/Dungeons/IceFloor.cs" id="ice"]
 [ext_resource type="Script" path="res://scripts/Actors/Npc.cs" id="npc"]
 [ext_resource type="Script" path="res://scripts/Dungeons/ShopCounter.cs" id="counter"]
 [ext_resource type="Script" path="res://scripts/Dungeons/Decor.cs" id="decor"]
@@ -6728,10 +6731,6 @@ position = Vector2(664, 701)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="Grown23" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1029, 669)
-script = ExtResource("prop")
-Kind = 9
 
 [node name="Grown24" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(1059, 272)
@@ -6803,15 +6802,7 @@ position = Vector2(49, 528)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="Grown38" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1237, 589)
-script = ExtResource("prop")
-Kind = 1
 
-[node name="Grown39" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1229, 668)
-script = ExtResource("prop")
-Kind = 9
 
 [node name="Grown40" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(743, 583)
@@ -6848,10 +6839,6 @@ position = Vector2(321, 674)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="Grown47" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1171, 613)
-script = ExtResource("prop")
-Kind = 9
 
 [node name="Grown48" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(1329, 420)
@@ -7018,10 +7005,6 @@ position = Vector2(189, 613)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="Grown81" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1179, 667)
-script = ExtResource("prop")
-Kind = 9
 
 [node name="Grown82" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(1161, 293)
@@ -7268,10 +7251,6 @@ position = Vector2(1272, 641)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="Grown131" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1108, 660)
-script = ExtResource("prop")
-Kind = 9
 
 [node name="Grown132" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(1054, 50)
@@ -7493,10 +7472,6 @@ position = Vector2(960, 713)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="Grown176" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1201, 637)
-script = ExtResource("prop")
-Kind = 9
 
 [node name="Grown177" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(948, 610)
@@ -7803,10 +7778,6 @@ position = Vector2(30, 636)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="Grown238" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1070, 672)
-script = ExtResource("prop")
-Kind = 1
 
 [node name="Grown239" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(70, 719)
@@ -7843,10 +7814,6 @@ position = Vector2(510, 587)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="Grown246" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1140, 691)
-script = ExtResource("prop")
-Kind = 1
 
 [node name="Grown247" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(907, 43)
@@ -7888,10 +7855,6 @@ position = Vector2(586, 585)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="Grown255" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1143, 640)
-script = ExtResource("prop")
-Kind = 12
 
 [node name="Grown256" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(183, 689)
@@ -8013,10 +7976,6 @@ position = Vector2(1169, 574)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="Grown280" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(1236, 625)
-script = ExtResource("prop")
-Kind = 9
 
 [node name="Grown281" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(769, 613)
@@ -12535,3 +12494,238 @@ position = Vector2(666, 405)
 
 [node name="Frog4" parent="World/Lake" instance=ExtResource("frog")]
 position = Vector2(130, 750)
+
+[node name="FrostfangPath" type="Node2D" parent="World/Tundra"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(1000, 640, 1110, 676, 1200, 668)
+
+[node name="FrostfangGate" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(1200, 650)
+script = ExtResource("gate")
+
+[node name="FrostfangStairs" type="Node2D" parent="World/Tundra"]
+position = Vector2(1200, 650)
+script = ExtResource("door")
+Stairs = true
+LeadsTo = NodePath("../../FrostEntrance/DoorBottom")
+
+[node name="FrostfangSign" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(1134, 670)
+script = ExtResource("prop")
+Kind = 3
+Text = "Frostfang Fortress\nSlippery inside!"
+
+[node name="FrostEntrance" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(3600, 0)
+script = ExtResource("room")
+Title = "Frozen Gate"
+Area = "Frostfang Fortress"
+
+[node name="Layout" type="Node2D" parent="World/FrostEntrance"]
+z_index = -1
+script = ExtResource("layout")
+Color = 1
+InteriorWidth = 36
+InteriorHeight = 16
+
+[node name="Floor" type="TileMapLayer" parent="World/FrostEntrance/Layout"]
+modulate = Color(0.62, 0.78, 1, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FrostEntrance/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/FrostEntrance"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Tundra/FrostfangStairs")
+
+[node name="DoorTop" type="Node2D" parent="World/FrostEntrance"]
+script = ExtResource("door")
+Side = 0
+State = 2
+LeadsTo = NodePath("../../IceHall/DoorBottom")
+OpensWhenCleared = true
+
+[node name="ArcticFox1" parent="World/FrostEntrance" instance=ExtResource("arctic_fox")]
+position = Vector2(80, 80)
+
+[node name="ArcticFox2" parent="World/FrostEntrance" instance=ExtResource("arctic_fox")]
+position = Vector2(210, 76)
+
+[node name="ArcticFox3" parent="World/FrostEntrance" instance=ExtResource("arctic_fox")]
+position = Vector2(150, 110)
+
+[node name="IceHall" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(3600, -400)
+script = ExtResource("room")
+Title = "Ice Hall"
+Area = "Frostfang Fortress"
+
+[node name="Layout" type="Node2D" parent="World/IceHall"]
+z_index = -1
+script = ExtResource("layout")
+Color = 1
+InteriorWidth = 36
+InteriorHeight = 20
+
+[node name="Floor" type="TileMapLayer" parent="World/IceHall/Layout"]
+modulate = Color(0.62, 0.78, 1, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/IceHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/IceHall"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../FrostEntrance/DoorTop")
+
+[node name="DoorTop" type="Node2D" parent="World/IceHall"]
+script = ExtResource("door")
+Side = 0
+State = 1
+LeadsTo = NodePath("../../FrozenRiver/DoorBottom")
+
+[node name="Ice" type="Node2D" parent="World/IceHall"]
+position = Vector2(40, 56)
+script = ExtResource("ice")
+Map = ".........#.#..\n..............\n..............\n.#..#.....#..#\n.......#...#..\n.......#.##..#\n..#.....#....."
+
+[node name="IceKey" type="Node2D" parent="World/IceHall"]
+position = Vector2(208, 132)
+script = ExtResource("herbpickup")
+Key = true
+Message = "You found a key!"
+
+[node name="IceSign" type="StaticBody2D" parent="World/IceHall"]
+position = Vector2(272, 180)
+script = ExtResource("prop")
+Kind = 3
+Text = "On ice you slide until you bump into something.\nThe key is out there!"
+
+[node name="FrozenRiver" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(3600, -800)
+script = ExtResource("room")
+Title = "Frozen River"
+Area = "Frostfang Fortress"
+
+[node name="Layout" type="Node2D" parent="World/FrozenRiver"]
+z_index = -1
+script = ExtResource("layout")
+Color = 1
+InteriorWidth = 36
+InteriorHeight = 22
+
+[node name="Floor" type="TileMapLayer" parent="World/FrozenRiver/Layout"]
+modulate = Color(0.62, 0.78, 1, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FrozenRiver/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/FrozenRiver"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../IceHall/DoorTop")
+
+[node name="DoorTop" type="Node2D" parent="World/FrozenRiver"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../FrostBoss/DoorBottom")
+
+[node name="RiverLeft" type="Node2D" parent="World/FrozenRiver"]
+position = Vector2(8, 96)
+script = ExtResource("pit")
+Size = Vector2(128, 40)
+Water = true
+EdgeRight = false
+Tint = Color(0.8, 0.9, 1, 1)
+
+[node name="RiverBridge" type="Node2D" parent="World/FrozenRiver"]
+position = Vector2(136, 96)
+script = ExtResource("pit")
+Size = Vector2(32, 40)
+Water = true
+EdgeLeft = false
+EdgeRight = false
+Tint = Color(0.8, 0.9, 1, 1)
+Switches = Array[NodePath]([NodePath("../RiverLever")])
+
+[node name="RiverRight" type="Node2D" parent="World/FrozenRiver"]
+position = Vector2(168, 96)
+script = ExtResource("pit")
+Size = Vector2(128, 40)
+Water = true
+EdgeLeft = false
+Tint = Color(0.8, 0.9, 1, 1)
+
+[node name="RiverLever" type="Node2D" parent="World/FrozenRiver"]
+position = Vector2(260, 170)
+script = ExtResource("lever")
+
+[node name="RiverSign" type="StaticBody2D" parent="World/FrozenRiver"]
+position = Vector2(40, 176)
+script = ExtResource("prop")
+Kind = 3
+Text = "Hit the lever to make a bridge"
+
+[node name="RiverIce" type="Node2D" parent="World/FrozenRiver"]
+position = Vector2(56, 152)
+script = ExtResource("ice")
+Map = "........\n..#....."
+
+[node name="ArcticFox1" parent="World/FrozenRiver" instance=ExtResource("arctic_fox")]
+position = Vector2(220, 190)
+
+[node name="ArcticFox2" parent="World/FrozenRiver" instance=ExtResource("arctic_fox")]
+position = Vector2(100, 70)
+
+[node name="Deer1" parent="World/FrozenRiver" instance=ExtResource("deer")]
+position = Vector2(220, 60)
+
+[node name="FrostBoss" type="Node2D" parent="World" node_paths=PackedStringArray("ReturnDoor")]
+y_sort_enabled = true
+position = Vector2(3600, -1260)
+script = ExtResource("room")
+Title = "The Frost Den"
+Area = "Frostfang Fortress"
+IsBossRoom = true
+TitleEarned = "Knight"
+ReturnDoor = NodePath("../Tundra/FrostfangStairs")
+
+[node name="Layout" type="Node2D" parent="World/FrostBoss"]
+z_index = -1
+script = ExtResource("layout")
+Color = 1
+InteriorWidth = 40
+InteriorHeight = 24
+
+[node name="Floor" type="TileMapLayer" parent="World/FrostBoss/Layout"]
+modulate = Color(0.62, 0.78, 1, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FrostBoss/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/FrostBoss"]
+script = ExtResource("door")
+Side = 1
+State = 2
+LeadsTo = NodePath("../../FrozenRiver/DoorTop")
+OpensWhenCleared = true
+
+[node name="ExitPortal" type="Node2D" parent="World/FrostBoss"]
+position = Vector2(168, 150)
+script = ExtResource("portal")
+
+[node name="Frostmane" parent="World/FrostBoss" instance=ExtResource("frost_moose")]
+position = Vector2(120, 100)
+Partner = NodePath("../Tusker")
+
+[node name="Tusker" parent="World/FrostBoss" instance=ExtResource("tusker_boar")]
+position = Vector2(230, 100)
+Partner = NodePath("../Frostmane")

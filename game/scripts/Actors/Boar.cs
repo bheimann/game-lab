@@ -48,6 +48,12 @@ public partial class Boar : Beast
 
     public override int StealableCoins => 5;
 
+    /// <summary>Who to charge at, when the charge starts (normally whoever it's chasing).</summary>
+    protected virtual IEnemyTarget ChargeAt(IEnemyTarget target) => target;
+
+    /// <summary>For bosses: true once it's charging (or catching its breath after).</summary>
+    protected bool IsCharging => _charging >= 0;
+
     protected override void StopAttack()
     {
         base.StopAttack();
@@ -93,7 +99,7 @@ public partial class Boar : Beast
                 WindUp = -1f;
                 _charging = 0f;
                 _hitThisCharge = false;
-                _chargeDirection = (target.GlobalPosition - GlobalPosition).Normalized();
+                _chargeDirection = (ChargeAt(target).GlobalPosition - GlobalPosition).Normalized();
             }
 
             return Vector2.Zero;
