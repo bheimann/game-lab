@@ -56,6 +56,9 @@ public sealed class SaveData
 
     public int BossCoins { get; set; }
 
+    /// <summary>The team's weapon material (0 = wood, see <see cref="WeaponTier"/>).</summary>
+    public int WeaponTier { get; set; }
+
     /// <summary>The team's monster parts (name → how many).</summary>
     public Dictionary<string, int> Parts { get; set; } = new();
 
@@ -77,7 +80,7 @@ public sealed class SaveData
 /// <summary>
 /// Saves the game to <c>user://save.json</c> (on Windows: %APPDATA%\Godot\app_userdata\Lizard Wizard) and loads
 /// it next time. The game saves by itself: going through a door, beating a boss, a player leaving, and closing
-/// the game. Loading puts the world back how it was (doors, levers, chests, broken rocks, bosses, keys, coins, monster parts, crafted armor) and
+/// the game. Loading puts the world back how it was (doors, levers, chests, broken rocks, bosses, keys, coins, monster parts, crafted armor, weapon material) and
 /// starts the team in Scalebrook Village. Dev runs (autoplay, screenshots) never touch the save, unless they're given
 /// their own file with <c>--save-file=user://test_save.json</c>.
 /// </summary>
@@ -152,6 +155,7 @@ public static class SaveGame
 
         Unlocks.Restore(data.BossesBeaten);
         Purse.Restore(data.Coins, data.BossCoins);
+        Items.WeaponTier.Restore(data.WeaponTier);
         MonsterParts.Restore(data.Parts);
         Armor.RestoreCrafted(data.CraftedArmor);
         if (Dungeon.Find(anyNode) is { } dungeon)
@@ -180,6 +184,7 @@ public static class SaveGame
             BossesBeaten = Unlocks.BeatenBosses.ToList(),
             Coins = Purse.Coins,
             BossCoins = Purse.BossCoins,
+            WeaponTier = Items.WeaponTier.Level,
             Parts = MonsterParts.Snapshot(),
             CraftedArmor = Armor.Crafted.ToList(),
             Removed = Removed.ToList(),
@@ -242,6 +247,7 @@ public static class SaveGame
         Removed.Clear();
         Unlocks.Restore(Enumerable.Empty<string>());
         Purse.Restore(0, 0);
+        Items.WeaponTier.Restore(0);
         MonsterParts.Restore(null);
         Armor.RestoreCrafted(Enumerable.Empty<string>());
     }

@@ -94,7 +94,7 @@ little, and step up to the counter (and stay) when a hero is there. Stand at the
 | **Scalebrook Inn** | Rest: full hearts, **5 coins** |
 | **Herb Shop** | A healing herb, **10 coins** |
 | **Paint Shop** | A paint mat to change class (later: where you unlock your first class) |
-| **Weapons & Armor** | Not open yet. **Planned:** weapon upgrades (below) |
+| **Weapons & Armor** | **Weapon upgrades** for the whole team (below) |
 | **Castle Hall** | Knights (some guard, some walk about). Doors: up to the throne room, right to the kitchen, left to the **armory** (locked until a quest opens it) |
 | **Throne Room** | The **king** (a lizard) and **queen** (a peahen), and four knights. The king, the queen or both welcome you. **Later:** quests |
 | **Castle Kitchen** | A cook, and a **free herb** (once) |
@@ -230,8 +230,15 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
 ## Items and gear
 - **Healing herbs** (B, or the Start menu): found in chests, dropped as loot, sold in the herb shop.
 - **Armor** (one slot): shadow cloak, ember scales, bomb vest, sturdy vest, and the Tinkerer's crafted armor.
-- **Planned: weapon upgrades** at the Weapons & Armor shop: **wood → copper → iron → steel → mithril**, each tier
-  hitting harder.
+- **Weapon upgrades** at the Weapons & Armor shop, for coins, and one upgrade covers the **whole team's** main attacks:
+
+  | Material | Price | Main attacks |
+  |---|---|---|
+  | Wood | (start) | – |
+  | Copper | 20 coins | +1 damage |
+  | Iron | 40 coins | +2 damage |
+  | Steel | 80 coins | +3 damage |
+  | Mithril | 160 coins | +5 damage |
 
 ## Saving
 - The game **saves by itself** and picks up where you left off next time (starting in Scalebrook Village):
@@ -257,7 +264,6 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
 ## Questions for the designer
 - **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?
 - **The king's tutorial and quests:** what happens in the story at the start, and what quest opens the armory?
-- **Weapon upgrades:** what does each tier cost (coins? boss coins? monster parts?) and how much harder does it hit?
 - **The second dungeon:** where is it, and who's the boss?
 - **Boss drops:** which new bomb, weapon or gun does each boss drop?
 - **Where the other kingdoms go:** Foxglove Hills, Plume Peaks, Scarab Desert, and the deer, fox and bug kings' homes.

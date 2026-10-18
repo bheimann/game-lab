@@ -1295,9 +1295,9 @@ LeadsTo = NodePath("../../Village/GearShopDoor")
 position = Vector2(104, 76)
 script = ExtResource("counter")
 Width = 72.0
-Offer = 3
+Offer = 4
 Price = 0
-SignText = "New weapons and armor coming soon"
+SignText = ""
 
 [node name="Keeper" type="CharacterBody2D" parent="World/GearShop"]
 position = Vector2(104, 62)
@@ -1305,7 +1305,7 @@ script = ExtResource("npc")
 SpritePrefix = "res://assets/sprites/npcs/smith"
 Behaviour = 2
 RoamDistance = 30.0
-Greeting = "Welcome! My forge is still cold... come back soon!"
+Greeting = "Welcome! I can make the whole team's weapons stronger."
 Counter = NodePath("../Counter")
 
 [node name="Furniture1" type="StaticBody2D" parent="World/GearShop"]
