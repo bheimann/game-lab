@@ -38,7 +38,8 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
 - **Don't make players open the menu if we can help it.** Common menu actions (switching powers,
   using a herb, and so on) also have a button or quick-swap (LB / RB), so the menu (Start) is for managing
   gear, not for surviving a fight.
-- **Shared team stuff:** keys, coins, boss coins and monster parts belong to the whole team.
+- **Shared team stuff:** keys, coins, boss coins, **healing herbs** and monster parts belong to the whole team, so
+  nobody can grab them all for themselves. Any hero can eat one of the team's herbs. Heroes start with none.
 - **Art:** our own pixel art (drawn as text grids, see `tools/`) plus Kenney's free "Tiny" packs.
 
 ## The world: five kingdoms

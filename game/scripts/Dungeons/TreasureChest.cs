@@ -11,7 +11,7 @@ public enum ChestReward
     /// <summary>A key for a locked door (shared by the team).</summary>
     Key,
 
-    /// <summary>A healing herb for every hero.</summary>
+    /// <summary>Healing herbs for the team: one for every hero playing.</summary>
     Herbs,
 }
 
@@ -106,8 +106,9 @@ public partial class TreasureChest : StaticBody2D, Saving.ISaveable
                 break;
 
             case ChestReward.Herbs:
-                heroes.ForEach(h => h.AddHerbs(1));
-                FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -22), "Healing herbs for everyone!", new Color(0.5f, 1f, 0.5f), 2f, 10f);
+                var herbs = System.Math.Max(1, heroes.Count);
+                Items.Purse.AddHerbs(herbs);
+                FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -22), $"Healing herbs for the team! (+{herbs})", new Color(0.5f, 1f, 0.5f), 2f, 10f);
                 break;
         }
     }

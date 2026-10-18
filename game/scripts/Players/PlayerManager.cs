@@ -230,7 +230,7 @@ public partial class PlayerManager : Node
             ? character.Classes.ToList().IndexOf(saved.Class)
             : 0;
 
-    /// <summary>Same character as last time? Then the same armor, herbs, stolen move and fusions (and weapon, if it's the same class).</summary>
+    /// <summary>Same character as last time? Then the same armor, stolen move and fusions (and weapon, if it's the same class).</summary>
     private static void Restore(Hero hero, int slot)
     {
         if (Saving.SaveGame.PlayerFor(slot, hero.DisplayName) is not { } saved)
@@ -248,7 +248,6 @@ public partial class PlayerManager : Node
             hero.Equip(armor);
         }
 
-        hero.RestoreHerbs(saved.Herbs);
         if (saved.StolenMove != "" && hero.GetChildren().OfType<Abilities.StolenMoveAbility>().FirstOrDefault() is { } stolen)
         {
             stolen.Learn(saved.StolenMove);
@@ -258,7 +257,7 @@ public partial class PlayerManager : Node
             saved.HeldFusions.Where(h => System.Enum.TryParse<Items.FuseKind>(h.Key, out _))
                 .ToDictionary(h => System.Enum.Parse<Items.FuseKind>(h.Key), h => h.Value));
 
-        GD.Print($"P{slot + 1} picks up where they left off: {hero.DisplayName} {hero.CurrentClass} {hero.CurrentWeapon}, armor={hero.Armor?.Name ?? "none"}, herbs={hero.Herbs}");
+        GD.Print($"P{slot + 1} picks up where they left off: {hero.DisplayName} {hero.CurrentClass} {hero.CurrentWeapon}, armor={hero.Armor?.Name ?? "none"}");
     }
 
     private Vector2 SpawnPoint(int index)
