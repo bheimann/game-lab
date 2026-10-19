@@ -11,6 +11,7 @@ namespace LizardWizard.Util;
 /// walks out through every path between the areas, there and back (village, meadow, forest, tundra, canyon, swamp, lake), checking each
 /// one lands in the right area, and finally goes in through the dungeon gate. In the village it also stands on the painter's mat and checks it gets painted,
 /// goes into every shop (resting at the inn, buying a herb, getting painted in the paint shop, upgrading the weapons) and through the castle (the armory door should stay barred).
+/// In the swamp it walks into Mossmire Keep's stairs, which should stay sealed (unless unlock_final_dungeon is on).
 /// Logs each trip and saves a screenshot on arrival.
 /// </summary>
 public partial class DevTourCheck : Node
@@ -57,6 +58,7 @@ public partial class DevTourCheck : Node
         ("Village", "EastPath", "Swamp"),
         ("Swamp", "WestPath", "Village"),
         ("Village", "EastPath", "Swamp"),
+        ("Swamp", "MossmireStairs", "Swamp"),
         ("Swamp", "NorthPath", "Overworld"),
         ("Overworld", "EastPath", "Forest"),
         ("Forest", "NorthPath", "Tundra"),
@@ -164,9 +166,17 @@ public partial class DevTourCheck : Node
                 return;
             }
 
-            if (from == to && room.Name == from && room.GetNodeOrNull<Door>(doorName) is { State: DoorState.Barred } barred)
+            if (from == to && room.Name == from && room.GetNodeOrNull<Door>(doorName) is { SealedUntilOtherDungeons: true, IsSealed: false })
             {
-                // A barred door: walk into it, it shouldn't open.
+                _passed++;
+                Log($"{doorName} is sealed until the other dungeons are beaten, but open now (unlock_final_dungeon in playtest.cfg)");
+                Next();
+                return;
+            }
+
+            if (from == to && room.Name == from && room.GetNodeOrNull<Door>(doorName) is { } barred && (barred.State == DoorState.Barred || barred.IsSealed))
+            {
+                // A barred door (or sealed stairs): walk into it, it shouldn't open.
                 if (since < 0.05)
                 {
                     hero.Teleport(barred.EntryPoint);
@@ -177,9 +187,9 @@ public partial class DevTourCheck : Node
                 }
                 else
                 {
-                    var stayed = room.Name == to && barred.State == DoorState.Barred;
+                    var stayed = room.Name == to && (barred.State == DoorState.Barred || barred.IsSealed);
                     _passed += stayed ? 1 : 0;
-                    Log($"{doorName} is barred: {(stayed ? "stayed shut" : "OPENED")}");
+                    Log($"{doorName} is {(barred.Stairs ? "sealed" : "barred")}: {(stayed ? "stayed shut" : "OPENED")}");
                     Shot(0, $"_{room.Name}_barred");
                     Next();
                 }

@@ -10,7 +10,7 @@ namespace LizardWizard.Util;
 /// <summary>
 /// Dev helper for dungeon scenes: <c>-- --autoplay=&lt;folder&gt;</c> and two bots (P1 lizard on WASD, P2 fox on
 /// the arrows) walk from the village through the swamp and the meadow into the first dungeon and play it to the boss by pressing the real keys. Each room has a
-/// little plan: fight, open the chest, walk through the right door, solve the lever puzzle (the fox bombs the rocks
+/// little plan (Frostfang Fortress and Mossmire Keep too, starting with --room=FrostEntrance or --room=MossEntrance): fight, open the chest, walk through the right door, solve the lever puzzle (the fox bombs the rocks
 /// and flips that lever, the lizard tongues the lever across the pit), beat the beetle, and take the exit portal out.
 /// Logs what happens and saves a screenshot every 2 seconds (and on every new room) into the folder.
 /// </summary>
@@ -231,8 +231,18 @@ public partial class DevDungeonAutoplay : Node
 
                 break;
 
+            case "MossEntrance":
+            case "MossHall":
+                Exit(room, "DoorTop", lizard, fox, wanted);
+                break;
+
+            case "MossBog":
+                Bog(room, dungeon, lizard, fox, wanted);
+                break;
+
             case "BossRoom":
             case "FrostBoss":
+            case "MossBoss":
                 // Cleared: the team stays until someone uses the exit portal. After a few seconds, P1 stands on it
                 // (P2 waits nearby) until it takes them out.
                 var portal = room.GetNode<ExitPortal>("ExitPortal");
@@ -249,6 +259,58 @@ public partial class DevDungeonAutoplay : Node
                 }
 
                 break;
+        }
+    }
+
+    /// <summary>Mossmire Keep's Bog Hall: open the key chest, the lizard tongues the lever across the bog for the
+    /// bridge, then both cross in the middle and unlock the top door.</summary>
+    private void Bog(DungeonRoom room, Dungeon dungeon, Hero lizard, Hero fox, HashSet<Key> wanted)
+    {
+        var chest = room.GetNode<TreasureChest>("BogChest");
+        if (!chest.IsOpened)
+        {
+            _bots[0].Steer(lizard, chest.GlobalPosition, wanted, feet: true);
+            _bots[1].Steer(fox, chest.GlobalPosition, wanted, feet: true);
+            return;
+        }
+
+        var lever = room.GetNode<LeverSwitch>("BogLever");
+        if (!lever.IsOn)
+        {
+            var spot = new Vector2(lever.GlobalPosition.X, room.GlobalPosition.Y + 140);
+            if (lizard.GlobalPosition.DistanceTo(spot) > 4)
+            {
+                _bots[0].Steer(lizard, spot, wanted, slack: 2f, feet: true);
+            }
+            else if (lizard.Facing.Dot(Vector2.Up) < 0.9f)
+            {
+                wanted.Add(_bots[0].Up);
+            }
+            else
+            {
+                _bots[0].Tap(_bots[0].Secondary, wanted);
+            }
+
+            return;
+        }
+
+        foreach (var (bot, hero) in new[] { (_bots[0], lizard), (_bots[1], fox) })
+        {
+            var x = room.GlobalPosition.X + 152;
+            if (hero.GlobalPosition.Y > room.GlobalPosition.Y + 90 && Mathf.Abs(hero.GlobalPosition.X - x) > 3)
+            {
+                bot.Steer(hero, new Vector2(x, room.GlobalPosition.Y + 150), wanted, slack: 2f, feet: true);
+            }
+            else if (hero.GlobalPosition.Y > room.GlobalPosition.Y + 90)
+            {
+                bot.Steer(hero, new Vector2(x, hero.GlobalPosition.Y), wanted, slack: 2f, feet: true);
+                wanted.Add(bot.Up);
+            }
+        }
+
+        if (lizard.GlobalPosition.Y < room.GlobalPosition.Y + 90 && fox.GlobalPosition.Y < room.GlobalPosition.Y + 90)
+        {
+            Exit(room, "DoorTop", lizard, fox, wanted);
         }
     }
 

@@ -61,6 +61,10 @@ public partial class Door : Node2D, Saving.ISaveable
     private Texture2D _sheet = null!;
     private float _messageCooldown;
     private DoorState _startState;
+    private StaticBody2D? _seal;
+    private Node2D? _sealArt;
+    private string[]? _otherDungeons;
+    private float _time;
 
     [Export] public DoorSide Side { get; set; } = DoorSide.Top;
 
@@ -91,6 +95,12 @@ public partial class Door : Node2D, Saving.ISaveable
     /// </summary>
     [Export] public bool Doorway { get; set; }
 
+    /// <summary>
+    /// Stairs into the last dungeon: sealed by Mossimus's moss until every other dungeon is beaten (or the
+    /// <c>unlock_final_dungeon</c> playtest setting is on). Walking up to them says how many dungeons are left.
+    /// </summary>
+    [Export] public bool SealedUntilOtherDungeons { get; set; }
+
     /// <summary>What a <see cref="DoorState.Barred"/> door says when a hero walks up to it.</summary>
     [Export] public string BarredMessage { get; set; } = "It won't open";
 
@@ -103,6 +113,25 @@ public partial class Door : Node2D, Saving.ISaveable
     public DungeonRoom Room => _room;
 
     public bool IsOpen => State == DoorState.Open;
+
+    /// <summary>Sealed stairs (see <see cref="SealedUntilOtherDungeons"/>): how many other dungeons still need beating.</summary>
+    public int DungeonsLeft
+    {
+        get
+        {
+            if (!SealedUntilOtherDungeons || Saving.Playtest.UnlockFinalDungeon || Dungeon.Find(this) is not { } dungeon)
+            {
+                return 0;
+            }
+
+            // Every dungeon in the world (by area name) but the one these stairs lead into.
+            _otherDungeons ??= GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<DungeonRoom>()
+                .Select(r => r.Area).Where(a => a != "" && a != (Partner?.Room.Area ?? "")).Distinct().ToArray();
+            return _otherDungeons.Count(a => !dungeon.IsDungeonComplete(a));
+        }
+    }
+
+    public bool IsSealed => DungeonsLeft > 0;
 
     public Door? Partner => LeadsTo is null || LeadsTo.IsEmpty ? null : GetNodeOrNull<Door>(LeadsTo);
 
@@ -147,6 +176,16 @@ public partial class Door : Node2D, Saving.ISaveable
             if (Stairs)
             {
                 AddChild(new Sprite2D { Texture = GD.Load<Texture2D>(StairsTexture), Position = new Vector2(0, -8) });
+                if (SealedUntilOtherDungeons)
+                {
+                    // Blocks the stairs while they're sealed (drawn by _Draw, over the gate's arch).
+                    _seal = new StaticBody2D { CollisionLayer = 1, CollisionMask = 0, Position = new Vector2(0, -6) };
+                    _seal.AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = new Vector2(20, 14) } });
+                    AddChild(_seal);
+                    _sealArt = new Node2D { ZIndex = 3 }; // in front of the gate's arch
+                    _sealArt.Draw += DrawSeal;
+                    AddChild(_sealArt);
+                }
             }
 
             Block(Vector2.Zero, Vector2.One);
@@ -212,6 +251,10 @@ public partial class Door : Node2D, Saving.ISaveable
     public override void _PhysicsProcess(double delta)
     {
         _messageCooldown -= (float)delta;
+        if (_seal is not null)
+        {
+            UpdateSeal((float)delta);
+        }
 
         if (State == DoorState.Shut && ShouldOpen())
         {
@@ -254,7 +297,7 @@ public partial class Door : Node2D, Saving.ISaveable
     /// <summary>Is <paramref name="hero"/> walking out through this (open) door?</summary>
     public bool IsLeaving(Hero hero)
     {
-        if (!IsOpen || hero.IsDown)
+        if (!IsOpen || hero.IsDown || (SealedUntilOtherDungeons && IsSealed))
         {
             return false;
         }
@@ -301,6 +344,50 @@ public partial class Door : Node2D, Saving.ISaveable
         DrawRect(rect, new Color(0.08f, 0.09f, 0.18f), false, 1f);
         DrawLine(rect.Position + new Vector2(0, 5), rect.Position + new Vector2(8, 5), new Color(0.35f, 0.18f, 0.2f));
         DrawLine(rect.Position + new Vector2(0, 11), rect.Position + new Vector2(8, 11), new Color(0.35f, 0.18f, 0.2f));
+    }
+
+    /// <summary>Sealed stairs: block the way and tell heroes who walk up how many dungeons are left; open once they're all beaten.</summary>
+    private void UpdateSeal(float dt)
+    {
+        _time += dt;
+        var left = DungeonsLeft;
+        var sealedNow = left > 0;
+        _seal!.GetChild<CollisionShape2D>(0).Disabled = !sealedNow;
+        if (sealedNow && _messageCooldown <= 0
+            && GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().FirstOrDefault(h => !h.IsDown && h.GlobalPosition.DistanceTo(GlobalPosition) < 26) is { } hero)
+        {
+            _messageCooldown = 4f;
+            var more = left == 1 ? "1 more dungeon" : $"{left} more dungeons";
+            FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), $"Mossimus's moss seals the way!\nFree {more} first.",
+                new Color(0.7f, 1f, 0.55f), 2.5f, 7f);
+        }
+
+        _sealArt!.QueueRedraw();
+    }
+
+    /// <summary>Thick moss over the stairs, with a glowing violet rune in the middle (gone once the seal breaks).</summary>
+    private void DrawSeal()
+    {
+        if (!IsSealed)
+        {
+            return;
+        }
+
+        var art = _sealArt!;
+        var moss = new Color(0.25f, 0.45f, 0.2f);
+        var light = new Color(0.45f, 0.7f, 0.3f);
+        art.DrawRect(new Rect2(-10, -16, 20, 17), moss);
+        for (var x = -9; x <= 9; x += 3)
+        {
+            var sway = Mathf.Sin(_time * 1.5f + x) * 0.8f;
+            art.DrawLine(new Vector2(x, -16), new Vector2(x + sway, 1), light, 1f);
+        }
+
+        var glow = 0.55f + 0.45f * Mathf.Sin(_time * 3f);
+        var rune = new Color(0.8f, 0.5f, 1f, glow);
+        art.DrawArc(new Vector2(0, -8), 4.5f, 0, Mathf.Tau, 16, rune, 1.2f);
+        art.DrawLine(new Vector2(0, -12), new Vector2(0, -4), rune, 1.2f);
+        art.DrawLine(new Vector2(-3, -9), new Vector2(3, -7), rune, 1.2f);
     }
 
     private bool ShouldOpen()

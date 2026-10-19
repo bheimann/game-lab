@@ -128,6 +128,9 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
 
     protected virtual Color BaseTint => Colors.White;
 
+    /// <summary>What it might say when it wakes up after being beaten (one picked at random).</summary>
+    protected virtual string[] ThankLines => Thanks;
+
     /// <summary>Beaten: what it drops (one of each of its parts, and coins or a herb). Bosses drop more.</summary>
     protected virtual void DropLoot() => Loot.DropFrom(this, parts: Parts);
 
@@ -534,7 +537,8 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
         CurrentMood = Mood.Thankful;
         _wanderTimer = 2.5f; // stand still while talking
         _wanderDirection = Vector2.Zero;
-        var line = Thanks[Rng.RandiRange(0, Thanks.Length - 1)];
+        var lines = ThankLines;
+        var line = lines[Rng.RandiRange(0, lines.Length - 1)];
         FloatingText.Spawn(this, TextAt, line, Colors.White, 2.5f, 6f);
     }
 

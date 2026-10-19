@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://scenes/actors/arctic_fox.tscn" id="arctic_fox"]
 [ext_resource type="PackedScene" path="res://scenes/actors/frog.tscn" id="frog"]
 [ext_resource type="PackedScene" path="res://scenes/actors/snake.tscn" id="snake"]
+[ext_resource type="PackedScene" path="res://scenes/actors/mossimus.tscn" id="mossimus"]
 [ext_resource type="Script" path="res://scripts/Dungeons/TreasureChest.cs" id="chest"]
 [ext_resource type="Script" path="res://scripts/Dungeons/Pit.cs" id="pit"]
 [ext_resource type="Script" path="res://scripts/Dungeons/LeverSwitch.cs" id="lever"]
@@ -7917,11 +7918,6 @@ position = Vector2(435, 566)
 script = ExtResource("prop")
 Kind = 0
 
-[node name="Grown2" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1107, 693)
-script = ExtResource("prop")
-Kind = 10
-
 [node name="Grown3" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(258, 710)
 script = ExtResource("prop")
@@ -7966,11 +7962,6 @@ Kind = 11
 position = Vector2(142, 539)
 script = ExtResource("prop")
 Kind = 10
-
-[node name="Grown13" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1162, 758)
-script = ExtResource("prop")
-Kind = 11
 
 [node name="Grown14" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(1036, 158)
@@ -8082,11 +8073,6 @@ position = Vector2(364, 591)
 script = ExtResource("prop")
 Kind = 10
 
-[node name="Grown36" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1079, 760)
-script = ExtResource("prop")
-Kind = 10
-
 [node name="Grown37" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(847, 748)
 script = ExtResource("prop")
@@ -8116,11 +8102,6 @@ Kind = 0
 position = Vector2(1175, 117)
 script = ExtResource("prop")
 Kind = 2
-
-[node name="Grown43" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1157, 706)
-script = ExtResource("prop")
-Kind = 10
 
 [node name="Grown44" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(1605, 662)
@@ -8287,11 +8268,6 @@ position = Vector2(1068, 584)
 script = ExtResource("prop")
 Kind = 2
 
-[node name="Grown78" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1133, 653)
-script = ExtResource("prop")
-Kind = 10
-
 [node name="Grown79" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(111, 516)
 script = ExtResource("prop")
@@ -8337,11 +8313,6 @@ position = Vector2(1457, 49)
 script = ExtResource("prop")
 Kind = 2
 
-[node name="Grown88" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1199, 471)
-script = ExtResource("prop")
-Kind = 0
-
 [node name="Grown89" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(1021, 766)
 script = ExtResource("prop")
@@ -8376,11 +8347,6 @@ Kind = 0
 position = Vector2(1434, 467)
 script = ExtResource("prop")
 Kind = 2
-
-[node name="Grown96" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1195, 390)
-script = ExtResource("prop")
-Kind = 10
 
 [node name="Grown97" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(923, 78)
@@ -8477,11 +8443,6 @@ position = Vector2(563, 606)
 script = ExtResource("prop")
 Kind = 10
 
-[node name="Grown116" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1233, 700)
-script = ExtResource("prop")
-Kind = 0
-
 [node name="Grown117" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(1407, 496)
 script = ExtResource("prop")
@@ -8516,11 +8477,6 @@ Kind = 0
 position = Vector2(269, 617)
 script = ExtResource("prop")
 Kind = 10
-
-[node name="Grown124" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1242, 556)
-script = ExtResource("prop")
-Kind = 2
 
 [node name="Grown125" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(589, 727)
@@ -8897,11 +8853,6 @@ position = Vector2(325, 802)
 script = ExtResource("prop")
 Kind = 2
 
-[node name="Grown200" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1205, 664)
-script = ExtResource("prop")
-Kind = 10
-
 [node name="Grown201" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(1590, 711)
 script = ExtResource("prop")
@@ -8951,11 +8902,6 @@ Kind = 0
 position = Vector2(1400, 284)
 script = ExtResource("prop")
 Kind = 11
-
-[node name="Grown211" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1253, 632)
-script = ExtResource("prop")
-Kind = 10
 
 [node name="Grown212" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(1288, 81)
@@ -9177,11 +9123,6 @@ position = Vector2(403, 599)
 script = ExtResource("prop")
 Kind = 2
 
-[node name="Grown256" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1122, 741)
-script = ExtResource("prop")
-Kind = 2
-
 [node name="Grown257" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(390, 745)
 script = ExtResource("prop")
@@ -9347,11 +9288,6 @@ position = Vector2(1337, 200)
 script = ExtResource("prop")
 Kind = 0
 
-[node name="Grown291" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1230, 512)
-script = ExtResource("prop")
-Kind = 10
-
 [node name="Grown292" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(651, 611)
 script = ExtResource("prop")
@@ -9452,11 +9388,6 @@ position = Vector2(455, 782)
 script = ExtResource("prop")
 Kind = 11
 
-[node name="Grown312" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1167, 669)
-script = ExtResource("prop")
-Kind = 10
-
 [node name="Grown313" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(335, 725)
 script = ExtResource("prop")
@@ -9484,11 +9415,6 @@ Kind = 2
 
 [node name="Grown318" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(738, 526)
-script = ExtResource("prop")
-Kind = 10
-
-[node name="Grown319" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1201, 732)
 script = ExtResource("prop")
 Kind = 10
 
@@ -9562,11 +9488,6 @@ position = Vector2(1591, 77)
 script = ExtResource("prop")
 Kind = 10
 
-[node name="Grown334" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1076, 671)
-script = ExtResource("prop")
-Kind = 2
-
 [node name="Grown335" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(371, 550)
 script = ExtResource("prop")
@@ -9579,11 +9500,6 @@ Kind = 11
 
 [node name="Grown337" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(785, 714)
-script = ExtResource("prop")
-Kind = 10
-
-[node name="Grown338" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1202, 429)
 script = ExtResource("prop")
 Kind = 10
 
@@ -23161,3 +23077,320 @@ script = ExtResource("door")
 Side = 3
 Path = true
 LeadsTo = NodePath("../../Hivehold/WestPath")
+
+[node name="MossmirePath" type="Node2D" parent="World/Swamp"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(1200, 332, 1210, 480, 1240, 640, 1225, 715, 1150, 718)
+
+[node name="MossmireGate" type="StaticBody2D" parent="World/Swamp"]
+modulate = Color(0.7, 0.9, 0.62, 1)
+position = Vector2(1150, 700)
+script = ExtResource("gate")
+
+[node name="MossmireStairs" type="Node2D" parent="World/Swamp"]
+position = Vector2(1150, 700)
+script = ExtResource("door")
+Stairs = true
+LeadsTo = NodePath("../../MossEntrance/DoorBottom")
+SealedUntilOtherDungeons = true
+
+[node name="MossmireSign" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(1084, 724)
+script = ExtResource("prop")
+Kind = 3
+Text = "Mossmire Keep\nMossimus Maximus waits below..."
+
+[node name="MossEntrance" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(-6000, 0)
+script = ExtResource("room")
+Title = "The Sunken Gate"
+Area = "Mossmire Keep"
+
+[node name="Layout" type="Node2D" parent="World/MossEntrance"]
+z_index = -1
+script = ExtResource("layout")
+Color = 0
+InteriorWidth = 36
+InteriorHeight = 16
+
+[node name="Floor" type="TileMapLayer" parent="World/MossEntrance/Layout"]
+modulate = Color(0.72, 0.88, 0.62, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/MossEntrance/Layout"]
+modulate = Color(0.85, 0.95, 0.8, 1)
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/MossEntrance"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Swamp/MossmireStairs")
+
+[node name="DoorTop" type="Node2D" parent="World/MossEntrance"]
+script = ExtResource("door")
+Side = 0
+State = 2
+LeadsTo = NodePath("../../MossBog/DoorBottom")
+OpensWhenCleared = true
+
+[node name="Frog1" parent="World/MossEntrance" instance=ExtResource("frog")]
+position = Vector2(70, 70)
+
+[node name="Frog2" parent="World/MossEntrance" instance=ExtResource("frog")]
+position = Vector2(230, 70)
+
+[node name="Snake1" parent="World/MossEntrance" instance=ExtResource("snake")]
+position = Vector2(150, 100)
+
+[node name="Snake2" parent="World/MossEntrance" instance=ExtResource("snake")]
+position = Vector2(90, 120)
+
+[node name="Mushroom1" type="StaticBody2D" parent="World/MossEntrance"]
+position = Vector2(30, 150)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom2" type="StaticBody2D" parent="World/MossEntrance"]
+position = Vector2(278, 46)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="EntranceSign" type="StaticBody2D" parent="World/MossEntrance"]
+position = Vector2(200, 146)
+script = ExtResource("prop")
+Kind = 3
+Text = "Mossimus is near...\nFree everyone to open the door"
+
+[node name="MossBog" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(-6000, -400)
+script = ExtResource("room")
+Title = "The Bog Hall"
+Area = "Mossmire Keep"
+
+[node name="Layout" type="Node2D" parent="World/MossBog"]
+z_index = -1
+script = ExtResource("layout")
+Color = 0
+InteriorWidth = 36
+InteriorHeight = 22
+
+[node name="Floor" type="TileMapLayer" parent="World/MossBog/Layout"]
+modulate = Color(0.72, 0.88, 0.62, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/MossBog/Layout"]
+modulate = Color(0.85, 0.95, 0.8, 1)
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/MossBog"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../MossEntrance/DoorTop")
+
+[node name="DoorTop" type="Node2D" parent="World/MossBog"]
+script = ExtResource("door")
+Side = 0
+State = 1
+LeadsTo = NodePath("../../MossHall/DoorBottom")
+
+[node name="BogLeft" type="Node2D" parent="World/MossBog"]
+position = Vector2(8, 100)
+script = ExtResource("pit")
+Size = Vector2(128, 32)
+Water = true
+EdgeRight = false
+Tint = Color(0.6, 0.8, 0.5, 1)
+
+[node name="BogBridge" type="Node2D" parent="World/MossBog"]
+position = Vector2(136, 100)
+script = ExtResource("pit")
+Size = Vector2(32, 32)
+Water = true
+EdgeLeft = false
+EdgeRight = false
+Tint = Color(0.6, 0.8, 0.5, 1)
+Switches = Array[NodePath]([NodePath("../BogLever")])
+
+[node name="BogRight" type="Node2D" parent="World/MossBog"]
+position = Vector2(168, 100)
+script = ExtResource("pit")
+Size = Vector2(128, 32)
+Water = true
+EdgeLeft = false
+Tint = Color(0.6, 0.8, 0.5, 1)
+
+[node name="BogLever" type="Node2D" parent="World/MossBog"]
+position = Vector2(240, 94)
+script = ExtResource("lever")
+
+[node name="BogChest" type="StaticBody2D" parent="World/MossBog"]
+position = Vector2(40, 176)
+script = ExtResource("chest")
+AppearsWhenCleared = true
+
+[node name="BogSign" type="StaticBody2D" parent="World/MossBog"]
+position = Vector2(270, 196)
+script = ExtResource("prop")
+Kind = 3
+Text = "The lever is across the bog.\nCan you reach it from here?"
+
+[node name="Deer1" parent="World/MossBog" instance=ExtResource("deer")]
+position = Vector2(70, 170)
+
+[node name="Boar1" parent="World/MossBog" instance=ExtResource("boar")]
+position = Vector2(220, 180)
+
+[node name="Frog1" parent="World/MossBog" instance=ExtResource("frog")]
+position = Vector2(150, 160)
+
+[node name="Snake1" parent="World/MossBog" instance=ExtResource("snake")]
+position = Vector2(100, 60)
+
+[node name="DeadTree1" type="StaticBody2D" parent="World/MossBog"]
+position = Vector2(30, 60)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="DeadTree2" type="StaticBody2D" parent="World/MossBog"]
+position = Vector2(280, 160)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="MossHall" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(-6000, -800)
+script = ExtResource("room")
+Title = "The Hall of Tricks"
+Area = "Mossmire Keep"
+
+[node name="Layout" type="Node2D" parent="World/MossHall"]
+z_index = -1
+script = ExtResource("layout")
+Color = 0
+InteriorWidth = 40
+InteriorHeight = 22
+
+[node name="Floor" type="TileMapLayer" parent="World/MossHall/Layout"]
+modulate = Color(0.72, 0.88, 0.62, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/MossHall/Layout"]
+modulate = Color(0.85, 0.95, 0.8, 1)
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/MossHall"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../MossBog/DoorTop")
+
+[node name="DoorTop" type="Node2D" parent="World/MossHall"]
+script = ExtResource("door")
+Side = 0
+State = 2
+LeadsTo = NodePath("../../MossBoss/DoorBottom")
+OpensWhenCleared = true
+
+[node name="HallSign" type="StaticBody2D" parent="World/MossHall"]
+position = Vector2(40, 196)
+script = ExtResource("prop")
+Kind = 3
+Text = "Mossimus tricked animals\nfrom every kingdom!"
+
+[node name="ArcticFox1" parent="World/MossHall" instance=ExtResource("arctic_fox")]
+position = Vector2(70, 80)
+
+[node name="ArcticFox2" parent="World/MossHall" instance=ExtResource("arctic_fox")]
+position = Vector2(270, 80)
+
+[node name="Deer1" parent="World/MossHall" instance=ExtResource("deer")]
+position = Vector2(120, 130)
+
+[node name="Deer2" parent="World/MossHall" instance=ExtResource("deer")]
+position = Vector2(220, 130)
+
+[node name="Boar1" parent="World/MossHall" instance=ExtResource("boar")]
+position = Vector2(170, 70)
+
+[node name="Frog1" parent="World/MossHall" instance=ExtResource("frog")]
+position = Vector2(300, 170)
+
+[node name="Pillar1" type="StaticBody2D" parent="World/MossHall"]
+position = Vector2(80, 150)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Pillar2" type="StaticBody2D" parent="World/MossHall"]
+position = Vector2(260, 150)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Pillar3" type="StaticBody2D" parent="World/MossHall"]
+position = Vector2(120, 60)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Pillar4" type="StaticBody2D" parent="World/MossHall"]
+position = Vector2(220, 60)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="MossBoss" type="Node2D" parent="World" node_paths=PackedStringArray("ReturnDoor")]
+y_sort_enabled = true
+position = Vector2(-6000, -1300)
+script = ExtResource("room")
+Title = "Mossimus's Throne"
+Area = "Mossmire Keep"
+IsBossRoom = true
+TitleEarned = "Hero of the Kingdoms"
+ReturnDoor = NodePath("../Swamp/MossmireStairs")
+
+[node name="Layout" type="Node2D" parent="World/MossBoss"]
+z_index = -1
+script = ExtResource("layout")
+Color = 0
+InteriorWidth = 44
+InteriorHeight = 26
+
+[node name="Floor" type="TileMapLayer" parent="World/MossBoss/Layout"]
+modulate = Color(0.72, 0.88, 0.62, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/MossBoss/Layout"]
+modulate = Color(0.85, 0.95, 0.8, 1)
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/MossBoss"]
+script = ExtResource("door")
+Side = 1
+State = 2
+LeadsTo = NodePath("../../MossHall/DoorTop")
+OpensWhenCleared = true
+
+[node name="ExitPortal" type="Node2D" parent="World/MossBoss"]
+position = Vector2(184, 200)
+script = ExtResource("portal")
+
+[node name="Mossimus" parent="World/MossBoss" instance=ExtResource("mossimus")]
+position = Vector2(184, 100)
+
+[node name="Mushroom1" type="StaticBody2D" parent="World/MossBoss"]
+position = Vector2(30, 50)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom2" type="StaticBody2D" parent="World/MossBoss"]
+position = Vector2(338, 50)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom3" type="StaticBody2D" parent="World/MossBoss"]
+position = Vector2(30, 230)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Mushroom4" type="StaticBody2D" parent="World/MossBoss"]
+position = Vector2(338, 230)
+script = ExtResource("prop")
+Kind = 11

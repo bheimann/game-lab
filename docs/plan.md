@@ -144,6 +144,9 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 The map matches the designer's overworld (Scalebrook beside the swamp, the lake between swamp and forest), plus
   Plume Peaks, Scarab Desert and Foxglove Hills, and a village for every kingdom (Hoofhollow, Foxden, Peacock Palace,
   Hivehold) with shops, a castle, a king and queen, and a teleport room (crystals and pads between villages).
+- ✅ 🛠 The final dungeon, Mossmire Keep, in Tailspin Swamp, with Mossimus Maximus as the boss. Its stairs stay sealed
+  until every other dungeon is beaten (`unlock_final_dungeon` in `playtest.cfg` opens it for playtesting; release
+  builds turn it off).
 - 🦎 The next dungeon: where, which boss, what it unlocks.
 - 🦎 What coins buy (a shop in the village?), and weapons as loot once there are more weapons.
 - 🦎 The king and queen's quests (one of them opens the armory), what the weapons & armor shop sells, and unlocking the
