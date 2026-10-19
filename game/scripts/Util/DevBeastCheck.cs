@@ -10,7 +10,8 @@ namespace LizardWizard.Util;
 /// <summary>
 /// Dev helper for the wild animals: <c>-- --room=Lake --autoplay-beasts=&lt;folder&gt;</c>. P1 joins (as the fox) and
 /// stands still while each kind of animal (deer, boar, arctic fox, frog, snake) is put next to it in turn: the log
-/// says whether its attack landed (P1's health, poison), then it's knocked out and the log says what it dropped.
+/// says how it takes fire, ice and lightning (its climate's weakness), whether its attack landed (P1's health), then it's
+/// knocked out and the log says what it dropped.
 /// Saves a screenshot of each one mid-attack.
 /// </summary>
 public partial class DevBeastCheck : Node
@@ -81,6 +82,19 @@ public partial class DevBeastCheck : Node
         room.AddChild(_beast);
         _beast.GlobalPosition = hero.GlobalPosition + (_kind == 3 ? new Vector2(-88, 18) : new Vector2(-50, 10));
         GD.Print($"[beasts {_time:0.0}s] {Kinds[_kind]}: health {_beast.Health.Current}");
+
+        // Elements: 4 damage each of fire, ice and lightning (lightning always hits double); the log shows what got through.
+        var hits = new System.Collections.Generic.List<string>();
+        foreach (var type in new[] { Combat.DamageType.Fire, Combat.DamageType.Ice, Combat.DamageType.Lightning })
+        {
+            _beast.Health.Refill();
+            var before = _beast.Health.Current;
+            _beast.TakeHit(4, _beast.GlobalPosition + Vector2.Left * 10, type);
+            hits.Add($"{type} -{before - _beast.Health.Current}");
+        }
+
+        GD.Print($"[beasts {_time:0.0}s] {Kinds[_kind]} ({_beast.Climate}): {string.Join(", ", hits)}");
+        _beast.Health.Refill();
     }
 
     private void Finish(Hero hero)

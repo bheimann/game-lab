@@ -62,6 +62,12 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
 
     public Health Health { get; private set; } = null!;
 
+    /// <summary>Where it lives: decides the element it's weak to and the one it resists (see <see cref="Climates"/>).</summary>
+    public Climate Climate { get; private set; }
+
+    /// <summary>Animals that always come from somewhere (arctic foxes are cold wherever they are); null = the area's.</summary>
+    protected virtual Climate? NativeClimate => null;
+
     public Mood CurrentMood { get; private set; } = Mood.Wandering;
 
     public bool IsHostile => CurrentMood is Mood.Wandering or Mood.Chasing;
@@ -142,6 +148,7 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
         Rng.Seed = (ulong)GetInstanceId() ^ Time.GetTicksUsec();
         Health = new Health(Rng.RandiRange(MinHealth, MaxHealth));
         Health.Changed += QueueRedraw;
+        Climate = NativeClimate ?? Climates.Of(this);
         MotionMode = MotionModeEnum.Floating;
         CollisionMask |= Dungeons.Pit.PitLayer | Rooms.OutdoorBuilder.EnemyWallLayer; // stay out of pits and in their area
 
@@ -241,10 +248,28 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
             return;
         }
 
+        // Its weak element hurts double; the one it resists hurts half and doesn't burn or slow it.
         var boosted = ElementEffects.Boost(damage, type);
-        _effects.Hit(type);
+        var weak = type == Climates.Weakness(Climate);
+        var resists = type == Climates.Resistance(Climate);
+        if (weak)
+        {
+            boosted *= 2;
+        }
+        else if (resists)
+        {
+            boosted = Mathf.Max(1, boosted / 2);
+        }
+
+        if (!resists)
+        {
+            _effects.Hit(type);
+        }
+
         var dealt = Health.Damage(boosted);
-        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -10), boosted > damage ? $"-{dealt}!" : $"-{dealt}", Colors.White);
+        var text = weak ? $"Weak! -{dealt}" : resists ? $"Resist -{dealt}" : boosted > damage ? $"-{dealt}!" : $"-{dealt}";
+        var colour = weak ? new Color(1f, 0.6f, 0.2f) : resists ? new Color(0.7f, 0.7f, 0.75f) : Colors.White;
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -10), text, colour);
         _hurtFlash = 0.15f;
 
         // Winding up an attack, it's braced: hits don't stop it or push it back. Dodge instead!

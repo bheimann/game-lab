@@ -25,6 +25,9 @@ public partial class ArcticFoxEnemy : Beast
         SightRange = 110f;
     }
 
+    /// <summary>From the snow: weak to fire, resists ice, wherever it is.</summary>
+    protected override Combat.Climate? NativeClimate => Combat.Climate.Cold;
+
     protected override float BodyHeight => 18f;
 
     public override float HurtRadius => 9f;
