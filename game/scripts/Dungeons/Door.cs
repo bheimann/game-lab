@@ -37,7 +37,8 @@ public interface ISwitch
 /// <summary>
 /// A doorway in one of the room's walls, leading to a door in another room. Cuts a gap in the wall
 /// tiles, draws the door frame from the room's tileset, and blocks the way while it's locked or shut.
-/// Walking through an open door takes the whole team to the next room.
+/// Walking through an open door takes you to the next room. The door into a boss room also stays shut until every
+/// hero has gathered in front of it (see <see cref="LeadsToBoss"/>).
 /// </summary>
 public partial class Door : Node2D, Saving.ISaveable
 {
@@ -65,6 +66,7 @@ public partial class Door : Node2D, Saving.ISaveable
     private Node2D? _sealArt;
     private string[]? _otherDungeons;
     private float _time;
+    private bool _waitingForTeam;
 
     [Export] public DoorSide Side { get; set; } = DoorSide.Top;
 
@@ -112,7 +114,16 @@ public partial class Door : Node2D, Saving.ISaveable
 
     public DungeonRoom Room => _room;
 
-    public bool IsOpen => State == DoorState.Open;
+    public bool IsOpen => State == DoorState.Open && !_waitingForTeam;
+
+    /// <summary>
+    /// The way into a boss room that's still to be beaten: it stays shut until every hero is in this room (or already
+    /// in the boss room), so the team takes on the boss together. Once the boss is beaten it's an ordinary door.
+    /// </summary>
+    public bool LeadsToBoss => _room is { IsBossRoom: false } && Partner?.Room is { IsBossRoom: true, IsCleared: false };
+
+    /// <summary>Open, but waiting for everyone to gather before the boss (see <see cref="LeadsToBoss"/>).</summary>
+    public bool IsWaitingForTeam => _waitingForTeam;
 
     /// <summary>Sealed stairs (see <see cref="SealedUntilOtherDungeons"/>): how many other dungeons still need beating.</summary>
     public int DungeonsLeft
@@ -266,6 +277,16 @@ public partial class Door : Node2D, Saving.ISaveable
             TryUnlock();
         }
 
+        if (State == DoorState.Open && LeadsToBoss)
+        {
+            WaitForTeam();
+        }
+        else if (_waitingForTeam)
+        {
+            _waitingForTeam = false;
+            Refresh();
+        }
+
         if (State == DoorState.Barred && _messageCooldown <= 0
             && GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().FirstOrDefault(h => !h.IsDown && h.GlobalPosition.DistanceTo(_blocker.GlobalPosition) < 20) is { } hero)
         {
@@ -395,6 +416,36 @@ public partial class Door : Node2D, Saving.ISaveable
         var switchesOn = Switches.All(p => GetNodeOrNull(p) is not ISwitch s || s.IsOn);
         var cleared = !OpensWhenCleared || _room.IsCleared;
         return switchesOn && cleared;
+    }
+
+    /// <summary>The boss door: shut while someone's missing (walking up to it says who), open once everyone's here.</summary>
+    private void WaitForTeam()
+    {
+        if (Dungeon.Find(this) is not { } dungeon)
+        {
+            return;
+        }
+
+        var heroes = GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(h => h.IsInGame).ToList();
+        var missing = heroes.Where(h => dungeon.RoomOf(h) != _room && dungeon.RoomOf(h) != Partner!.Room).ToList();
+        var waiting = missing.Count > 0;
+        if (waiting != _waitingForTeam)
+        {
+            _waitingForTeam = waiting;
+            Refresh();
+            if (!waiting && heroes.Count > 1)
+            {
+                FloatingText.Spawn(this, GlobalPosition + EntryOffset(10), "Everyone's here: the door opens!", new Color(1f, 0.9f, 0.5f), 1.8f, 8f);
+            }
+        }
+
+        if (waiting && _messageCooldown <= 0
+            && heroes.FirstOrDefault(h => !h.IsDown && dungeon.RoomOf(h) == _room && h.GlobalPosition.DistanceTo(_blocker.GlobalPosition) < 24) is { } hero)
+        {
+            _messageCooldown = 3f;
+            FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), $"The boss is through here.\nWait for {string.Join(" and ", missing.Select(h => h.Name))}!",
+                new Color(1f, 0.85f, 0.4f), 2.2f, 7f);
+        }
     }
 
     private void TryUnlock()
