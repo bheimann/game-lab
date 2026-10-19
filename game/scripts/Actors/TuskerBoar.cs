@@ -38,6 +38,9 @@ public partial class TuskerBoar : Boar, IBoss, Saving.ISaveable
 
     public override float HurtRadius => 15f;
 
+    /// <summary>From the snow: weak to fire, resists ice, wherever it is.</summary>
+    protected override Combat.Climate? NativeClimate => Combat.Climate.Cold;
+
     protected override float BodyHeight => 30f;
 
     protected override Vector2 SpriteScale => new(1.5f, 1.5f);

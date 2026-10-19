@@ -45,6 +45,9 @@ public partial class FrostMoose : Beast, IBoss, Saving.ISaveable
 
     public override float HurtRadius => 18f;
 
+    /// <summary>From the snow: weak to fire, resists ice, wherever it is.</summary>
+    protected override Combat.Climate? NativeClimate => Combat.Climate.Cold;
+
     protected override float BodyHeight => 54f;
 
     protected override string WalkStrip => "res://assets/sprites/frost_moose/frost_moose_walk.png";

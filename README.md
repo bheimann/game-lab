@@ -133,6 +133,16 @@ They come in mixed groups, and come back when you leave an area and return.
 | **Frog** | swamp, lake, canyon | keeps its distance, hopping about, and spits slime blobs |
 | **Snake** | meadow, forest, canyon, swamp, lake | hard to see in the grass until you're close; poison bite (keeps hurting for a few seconds) |
 
+**Elements and where animals live:** an animal's home decides what hurts it most. A hit on its weakness does double
+damage (it says **Weak!**); the element it resists does half and doesn't burn or slow it (**Resist**).
+
+| Where it lives | Weak to | Resists |
+|---|---|---|
+| Cold: Frosttail Tundra, Frostfang Fortress (and arctic foxes and the Frostfang bosses anywhere) | fire | ice |
+| Hot: Red Rock Canyon | ice | fire |
+| Wet: Tailspin Swamp, Glimmer Lake | lightning | fire |
+| The meadow and the forest | – | – |
+
 The Thief can steal their moves too: **Boar Charge**, **Fox Pounce** (a short, fast dash), **Frog Spit** (a poison
 blob) and **Poison Bite**.
 

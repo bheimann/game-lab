@@ -237,6 +237,15 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
 - Guns, weapons, bombs and spells come in **normal, poison, fire, ice, lightning and arcane** versions.
 - **Poison** and **fire** keep doing damage over time, **ice** slows enemies down, **lightning** and **arcane** do
   double damage. (Poison 1 damage every half second for 3 s, fire the same for 2 s, ice half speed for 2 s.)
+- **Weaknesses come from where an animal lives.** Its weakness does double damage ("Weak!"); the element it resists
+  does half and doesn't burn or slow it ("Resist"):
+
+  | Climate | Where | Weak to | Resists |
+  |---|---|---|---|
+  | Cold | Tundra, Frostfang Fortress; arctic foxes and the Frostfang bosses anywhere | Fire | Ice |
+  | Hot | Red Rock Canyon (and a future desert) | Ice | Fire |
+  | Wet | Swamp, lake | Lightning | Fire |
+  | Normal | Meadow, forest | – | – |
 
 ## Items and gear
 - **Healing herbs** (B, or the Start menu): found in chests, dropped as loot, sold in the herb shop.
