@@ -32,6 +32,7 @@ public partial class Game : Node2D
             }
         }
 
+        SplitScreen.Attach(this);
         Screenshot.AttachIfRequested(this);
         DevAutoplay.AttachIfRequested(this);
     }

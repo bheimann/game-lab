@@ -29,6 +29,8 @@ Up to 4 players. Each controller is a player, and the keyboard can be two player
 Press a button to join, pick a character with left / right and its class with up / down, and confirm with the
 primary button. The team starts in **Scalebrook Village**.
 Hold the leave button for a second to drop out.
+**Split screen:** each hero gets their own part of the screen (2 players: left / right; 3: P1 top left, P2 right,
+P3 bottom left; 4: quarters), with their hearts in their own corner. Boss fights go back to one shared screen.
 
 | | Keyboard (left) | Keyboard (right) | Controller | Lizard | Fox |
 |---|---|---|---|---|---|
@@ -175,7 +177,7 @@ The Thief can steal their moves too: **Boar Charge**, **Fox Pounce** (a short, f
 blob) and **Poison Bite**.
 
 **Loot:** a beaten enemy drops something: usually a few **coins** (8 times out of 10), otherwise a **healing herb** (later
-also weapons), and always each of its **monster parts** (a deer: an antler and a hide). Walk over it to pick it up. Coins go into the team's purse (top middle of the screen, kept in
+also weapons), and always each of its **monster parts** (a deer: an antler and a hide). Walk over it to pick it up. Coins go into the team's purse (top middle of the screen, or the very middle with 3-4 players; kept in
 the save); there's nothing to buy yet. The boss drops five things: a big **boss coin** (with a red star; the team's
 boss coins show next to the coins) and four ordinary drops. Loot disappears after 30 seconds.
 
@@ -300,7 +302,7 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   turn and logs whether its attack landed, how it takes fire / ice / lightning, and what it dropped; last, a deer behind a
   fence has to find its way round.
 - `Godot_console.exe --path game -- --room=Village --screenshot-showcase=village:<file.png>` takes a picture to
-  share: four heroes in a scene. Scenes (with their room): `village` (Village), `throne` (ThroneRoom), `battle`
+  share: four heroes in a scene (add `--showcase-heroes=2` for fewer, to see the split-screen layouts). Scenes (with their room): `village` (Village), `throne` (ThroneRoom), `battle`
   (Forest), `lake` (Lake), `canyon` (Canyon), `snowplane` (Tundra), `boss` (BossRoom).
 - `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
   there and back, and checks each one leads to the right area (and that the village painter paints you, and that

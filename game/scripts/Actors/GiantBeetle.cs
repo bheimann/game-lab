@@ -136,7 +136,7 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, IS
         {
             // Smashed into a wall: dizzy and open to attack.
             Enter(State.Dizzy);
-            CoopCamera.Find(this)?.Shake(5f);
+            CoopCamera.ShakeAll(this, 5f);
             FloatingText.Spawn(this, HurtCenter + new Vector2(0, -18), "Dizzy!", new Color(1f, 0.9f, 0.4f), 1.2f, 8f);
         }
 

@@ -6,8 +6,9 @@ using LizardWizard.Dungeons;
 namespace LizardWizard.UI;
 
 /// <summary>
-/// The dungeon's part of the screen: keys and the team's coins (top middle), the boss's health bar while it fights,
-/// and big banners for room names and "Dungeon complete!".
+/// The dungeon's part of the screen: keys and the team's coins (top middle; the very middle, where the views meet,
+/// with 3 or 4 split-screen views), the boss's health bar while it fights, and big banners for room names and
+/// "Dungeon complete!".
 /// </summary>
 public partial class DungeonHud : Control
 {
@@ -42,11 +43,12 @@ public partial class DungeonHud : Control
     {
         var font = ThemeDB.FallbackFont;
         var width = GetViewportRect().Size.X;
+        var top = Players.SplitScreen.Find(this) is { ViewCount: >= 3 } ? GetViewportRect().Size.Y / 2 - 9 : 6;
 
         // Keys.
         if (Dungeon.Keys > 0)
         {
-            var at = new Vector2(width / 2 - 18, 6);
+            var at = new Vector2(width / 2 - 18, top);
             DrawRect(new Rect2(at - new Vector2(4, 2), new Vector2(44, 18)), Outline with { A = 0.7f });
             DrawTextureRect(_key, new Rect2(at + new Vector2(0, 1), _key.GetSize()), false);
             Text($"x{Dungeon.Keys}", at + new Vector2(20, 12), Colors.White, 10, left: true);
@@ -57,7 +59,7 @@ public partial class DungeonHud : Control
         {
             var label = $"x{Items.Purse.Coins}";
             var boxWidth = 24 + font.GetStringSize(label, HorizontalAlignment.Left, -1, 10).X;
-            var at = new Vector2(Dungeon.Keys > 0 ? width / 2 + 32 : width / 2 - boxWidth / 2, 6);
+            var at = new Vector2(Dungeon.Keys > 0 ? width / 2 + 32 : width / 2 - boxWidth / 2, top);
             DrawRect(new Rect2(at - new Vector2(4, 2), new Vector2(boxWidth + 4, 18)), Outline with { A = 0.7f });
             var coin = at + new Vector2(6, 7);
             DrawCircle(coin, 5f, Outline);
@@ -70,13 +72,13 @@ public partial class DungeonHud : Control
         if (Items.WeaponTier.Level > 0)
         {
             var tier = Items.WeaponTier.Current;
-            Text($"{tier.Name} weapons", new Vector2(width / 2, 34), tier.Colour, 8);
+            Text($"{tier.Name} weapons", new Vector2(width / 2, top + 28), tier.Colour, 8);
         }
 
         // Boss coins (to the left of the keys).
         if (Items.Purse.BossCoins > 0)
         {
-            var at = new Vector2(width / 2 - 62, 6);
+            var at = new Vector2(width / 2 - 62, top);
             DrawRect(new Rect2(at - new Vector2(4, 2), new Vector2(40, 18)), Outline with { A = 0.7f });
             var coin = at + new Vector2(6, 7);
             DrawCircle(coin, 6f, Outline);

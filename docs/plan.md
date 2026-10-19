@@ -40,7 +40,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Press a button to join (up to 4 players); hold Back / Backspace / Delete for a second to leave.
   Unplugging a controller also removes that player.
 - ✅ 🛠 Shared camera: zooms from 2× (together) out to 1× (spread out), never shows past the room's edges,
-  and stops players walking off-screen once it's fully zoomed out.
+  and stops players walking off-screen once it's fully zoomed out. (Now only for boss fights: see split screen below.)
 - ✅ 🛠 Player colours (P1 blue, P2 red, P3 yellow, P4 pink): a ring at the feet, an arrow over the head, and a HUD corner each.
 - ✅ 🛠 A knocked-out lizard gets back up next to a teammate who's still standing.
 - ✅ 🦎 Decide whether players can hurt each other: **no**.
@@ -156,7 +156,17 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 
 ## Later (once the first dungeon is fun)
 More lizards so there are four, more of the overworld, levelling up,
-more dungeons, hand-drawn art, and maybe split-screen.
+more dungeons, hand-drawn art.
+
+## Split screen
+- ✅ 🛠 Every hero gets their own view (1: full screen, 2: left / right, 3: P1 top left, P2 right half, P3 bottom left,
+  4: quarters), even when they're together. Keys and coins in the middle with 3-4 players. Boss rooms: one shared view.
+- 🛠 Heroes can be in different rooms: doors and teleports take just the hero who used them; a room runs while anyone's
+  in it; a dungeon's beaten enemies stay beaten while anyone is inside (back as soon as the last hero leaves).
+- 🛠 The boss door stays shut until every hero is in the room before it.
+- 🛠 A foyer (no enemies) at the start of each dungeon. A marker on the floor of each foyer and teleport room: a hero
+  waiting on it can be joined from the others' menus ("Join P1"). Loading a save puts the team together in the
+  last foyer / village.
 
 ## How we work with Claude
 1. Pick one item from the current milestone.

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using LizardWizard.Actors;
@@ -6,9 +7,10 @@ using LizardWizard.Rooms;
 namespace LizardWizard.Players;
 
 /// <summary>
-/// One camera for everyone: centres on the players and zooms out as they spread apart, down to
-/// <see cref="MinZoom"/>. At that point <see cref="AllowedRect"/> stops players walking off-screen.
-/// The view never shows past the edges of the room.
+/// The camera for one part of the screen (see <see cref="SplitScreen"/>). With <see cref="Follow"/> set it follows
+/// that one hero (a split-screen view); without it, it's the shared view: it centres on all the players and zooms out
+/// as they spread apart, down to <see cref="MinZoom"/>. At that point <see cref="AllowedRect"/> stops players walking
+/// off-screen. The view never shows past the edges of the room.
 /// </summary>
 public partial class CoopCamera : Camera2D
 {
@@ -32,11 +34,39 @@ public partial class CoopCamera : Camera2D
 
     [Export] public RoomBuilder? Room { get; set; }
 
-    /// <summary>Players are kept inside this rectangle (world coordinates).</summary>
-    public Rect2 AllowedRect { get; private set; } = new(-1e6f, -1e6f, 2e6f, 2e6f);
+    /// <summary>The hero this view belongs to (split screen), or null to show everyone (the shared view).</summary>
+    public Hero? Follow { get; set; }
 
+    /// <summary>Players are kept inside this rectangle (world coordinates). Only the shared view holds them back.</summary>
+    public Rect2 AllowedRect { get; private set; } = Everywhere;
+
+    private static readonly Rect2 Everywhere = new(-1e6f, -1e6f, 2e6f, 2e6f);
+
+    /// <summary>The first view's camera (P1's, or the shared one).</summary>
     public static CoopCamera? Find(Node anyNode) =>
         anyNode.GetTree().GetFirstNodeInGroup(Group) as CoopCamera;
+
+    public static IEnumerable<CoopCamera> All(Node anyNode) =>
+        anyNode.GetTree().GetNodesInGroup(Group).OfType<CoopCamera>();
+
+    /// <summary>Shake every view by up to <paramref name="pixels"/> (e.g. 3 for a bomb).</summary>
+    public static void ShakeAll(Node anyNode, float pixels)
+    {
+        foreach (var camera in All(anyNode))
+        {
+            camera.Shake(pixels);
+        }
+    }
+
+    /// <summary>Every view now looks at <paramref name="room"/> (the team moved), straight away.</summary>
+    public static void ShowRoom(Node anyNode, RoomBuilder room)
+    {
+        foreach (var camera in All(anyNode))
+        {
+            camera.Room = room;
+            camera.Snap();
+        }
+    }
 
     public override void _Ready()
     {
@@ -65,6 +95,12 @@ public partial class CoopCamera : Camera2D
     /// <summary>The widest view the players are allowed to stretch: the min-zoom view around the players.</summary>
     private void UpdateAllowedRect()
     {
+        if (Follow is not null)
+        {
+            AllowedRect = Everywhere;
+            return;
+        }
+
         var maxView = ViewSize(MinZoom);
         AllowedRect = new Rect2(_targetCenter - maxView / 2, maxView).Grow(-10f);
     }
@@ -80,12 +116,19 @@ public partial class CoopCamera : Camera2D
         ResetPhysicsInterpolation();
     }
 
-    /// <summary>Shake the screen by up to <paramref name="pixels"/> (e.g. 3 for a bomb).</summary>
+    /// <summary>Shake this view by up to <paramref name="pixels"/>.</summary>
     public void Shake(float pixels) => _shake = Mathf.Max(_shake, pixels);
 
     private (Vector2 Center, float Zoom) Target()
     {
-        var players = GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(l => !l.IsDown).ToList();
+        if (Follow is not null && !IsInstanceValid(Follow))
+        {
+            Follow = null;
+        }
+
+        var players = Follow is not null
+            ? new List<Hero> { Follow }
+            : GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(l => !l.IsDown).ToList();
         if (players.Count == 0)
         {
             var roomCenter = Room is null ? Position : Room.GlobalPosition + Room.SizeInPixels / 2;

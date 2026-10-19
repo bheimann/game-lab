@@ -115,10 +115,15 @@ public partial class RingMenu : Node2D
         var diff = Mathf.PosMod(_selected - _turn + count / 2f, count) - count / 2f;
         _turn += diff * Mathf.Min(1f, dt * 14f);
 
-        var screen = GetViewport().GetCanvasTransform() * (_hero.GlobalPosition + new Vector2(0, -12));
-        var view = GetViewportRect().Size;
+        // Around the hero, kept inside the hero's own part of the screen (split screen).
+        var at = _hero.GlobalPosition + new Vector2(0, -12);
+        var mine = SplitScreen.Find(this)?.ViewOf(_hero);
+        var screen = mine?.ToScreen(at) ?? GetViewport().GetCanvasTransform() * at;
+        var view = mine?.ScreenRect ?? GetViewportRect();
         var reach = RingRadius + 12f;
-        Position = new Vector2(Mathf.Clamp(screen.X, reach + 40, view.X - reach - 40), Mathf.Clamp(screen.Y, reach + 18, view.Y - reach - 40));
+        Position = new Vector2(
+            Mathf.Clamp(screen.X, view.Position.X + reach + 40, view.End.X - reach - 40),
+            Mathf.Clamp(screen.Y, view.Position.Y + reach + 18, view.End.Y - reach - 40));
         QueueRedraw();
     }
 

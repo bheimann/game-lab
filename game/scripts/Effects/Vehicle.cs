@@ -206,7 +206,7 @@ public partial class Vehicle : CharacterBody2D
         if (!quietly)
         {
             FloatingText.Spawn(this, GlobalPosition + new Vector2(0, -10), $"The {Kind.ToString().ToLowerInvariant()} broke!", new Color(1f, 0.6f, 0.4f), 1.6f, 9f);
-            CoopCamera.Find(this)?.Shake(4f);
+            CoopCamera.ShakeAll(this, 4f);
             Broken?.Invoke();
         }
 
@@ -289,7 +289,7 @@ public partial class Vehicle : CharacterBody2D
                 _cooldown = 1.1f;
                 Bullet.Fire(driver, GlobalPosition + new Vector2(0, -2) + _aim * 20f, _aim,
                     new Bullet.Shot(230f, 170f, 6, DamageType.Physical, new Color(1f, 0.6f, 0.2f), ShotLook.Rocket, 22f, 8));
-                CoopCamera.Find(this)?.Shake(1.5f);
+                CoopCamera.ShakeAll(this, 1.5f);
                 break;
 
             case VehicleKind.Cart:
