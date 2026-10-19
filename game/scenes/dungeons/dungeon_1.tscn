@@ -1382,32 +1382,32 @@ Kind = 4
 [node name="Knight1" type="CharacterBody2D" parent="World/CastleHall"]
 position = Vector2(162, 58)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_lizard"
 FacingDirection = Vector2(0, 1)
 
 [node name="Knight2" type="CharacterBody2D" parent="World/CastleHall"]
 position = Vector2(206, 58)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+SpritePrefix = "res://assets/sprites/npcs/knight_lizard"
 FacingDirection = Vector2(0, 1)
 
 [node name="Knight3" type="CharacterBody2D" parent="World/CastleHall"]
 position = Vector2(34, 96)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_lizard"
 FacingDirection = Vector2(1, 0)
 
 [node name="Knight4" type="CharacterBody2D" parent="World/CastleHall"]
 position = Vector2(100, 160)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+SpritePrefix = "res://assets/sprites/npcs/knight_lizard"
 Behaviour = 1
 RoamDistance = 50.0
 
 [node name="Knight5" type="CharacterBody2D" parent="World/CastleHall"]
 position = Vector2(280, 150)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_lizard"
 Behaviour = 1
 RoamDistance = 50.0
 
@@ -1488,25 +1488,25 @@ GreetsOnEnter = false
 [node name="Knight1" type="CharacterBody2D" parent="World/ThroneRoom"]
 position = Vector2(40, 80)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_lizard"
 FacingDirection = Vector2(1, 0)
 
 [node name="Knight2" type="CharacterBody2D" parent="World/ThroneRoom"]
 position = Vector2(40, 130)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+SpritePrefix = "res://assets/sprites/npcs/knight_lizard"
 FacingDirection = Vector2(1, 0)
 
 [node name="Knight3" type="CharacterBody2D" parent="World/ThroneRoom"]
 position = Vector2(232, 80)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_lizard"
 FacingDirection = Vector2(-1, 0)
 
 [node name="Knight4" type="CharacterBody2D" parent="World/ThroneRoom"]
 position = Vector2(232, 130)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+SpritePrefix = "res://assets/sprites/npcs/knight_lizard"
 FacingDirection = Vector2(-1, 0)
 
 [node name="Kitchen" type="Node2D" parent="World"]
@@ -19926,19 +19926,19 @@ Kind = 4
 [node name="Knight1" type="CharacterBody2D" parent="World/HoofCastleHall"]
 position = Vector2(130, 58)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_moose"
 FacingDirection = Vector2(0, 1)
 
 [node name="Knight2" type="CharacterBody2D" parent="World/HoofCastleHall"]
 position = Vector2(174, 58)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+SpritePrefix = "res://assets/sprites/npcs/knight_moose"
 FacingDirection = Vector2(0, 1)
 
 [node name="Knight3" type="CharacterBody2D" parent="World/HoofCastleHall"]
 position = Vector2(230, 130)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_moose"
 Behaviour = 1
 RoamDistance = 40.0
 
@@ -20015,13 +20015,13 @@ GreetsOnEnter = false
 [node name="Knight1" type="CharacterBody2D" parent="World/HoofThrone"]
 position = Vector2(40, 100)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_moose"
 FacingDirection = Vector2(1, 0)
 
 [node name="Knight2" type="CharacterBody2D" parent="World/HoofThrone"]
 position = Vector2(200, 100)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+SpritePrefix = "res://assets/sprites/npcs/knight_moose"
 FacingDirection = Vector2(-1, 0)
 
 [node name="HoofTeleport" type="Node2D" parent="World"]
@@ -20892,7 +20892,7 @@ FacingDirection = Vector2(0, 1)
 [node name="Knight2" type="CharacterBody2D" parent="World/FoxCastleHall"]
 position = Vector2(174, 58)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
 FacingDirection = Vector2(0, 1)
 
 [node name="Knight3" type="CharacterBody2D" parent="World/FoxCastleHall"]
@@ -20981,7 +20981,7 @@ FacingDirection = Vector2(1, 0)
 [node name="Knight2" type="CharacterBody2D" parent="World/FoxThrone"]
 position = Vector2(200, 100)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
 FacingDirection = Vector2(-1, 0)
 
 [node name="FoxTeleport" type="Node2D" parent="World"]
@@ -21891,19 +21891,19 @@ Kind = 4
 [node name="Knight1" type="CharacterBody2D" parent="World/BirdCastleHall"]
 position = Vector2(130, 58)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_peacock"
 FacingDirection = Vector2(0, 1)
 
 [node name="Knight2" type="CharacterBody2D" parent="World/BirdCastleHall"]
 position = Vector2(174, 58)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+SpritePrefix = "res://assets/sprites/npcs/knight_peacock"
 FacingDirection = Vector2(0, 1)
 
 [node name="Knight3" type="CharacterBody2D" parent="World/BirdCastleHall"]
 position = Vector2(230, 130)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_peacock"
 Behaviour = 1
 RoamDistance = 40.0
 
@@ -21980,13 +21980,13 @@ GreetsOnEnter = false
 [node name="Knight1" type="CharacterBody2D" parent="World/BirdThrone"]
 position = Vector2(40, 100)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_peacock"
 FacingDirection = Vector2(1, 0)
 
 [node name="Knight2" type="CharacterBody2D" parent="World/BirdThrone"]
 position = Vector2(200, 100)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+SpritePrefix = "res://assets/sprites/npcs/knight_peacock"
 FacingDirection = Vector2(-1, 0)
 
 [node name="BirdTeleport" type="Node2D" parent="World"]
@@ -22861,7 +22861,7 @@ Kind = 4
 [node name="Knight1" type="CharacterBody2D" parent="World/BugCastleHall"]
 position = Vector2(130, 58)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
 FacingDirection = Vector2(0, 1)
 
 [node name="Knight2" type="CharacterBody2D" parent="World/BugCastleHall"]
@@ -22873,7 +22873,7 @@ FacingDirection = Vector2(0, 1)
 [node name="Knight3" type="CharacterBody2D" parent="World/BugCastleHall"]
 position = Vector2(230, 130)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
 Behaviour = 1
 RoamDistance = 40.0
 
@@ -22950,7 +22950,7 @@ GreetsOnEnter = false
 [node name="Knight1" type="CharacterBody2D" parent="World/BugThrone"]
 position = Vector2(40, 100)
 script = ExtResource("npc")
-SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
 FacingDirection = Vector2(1, 0)
 
 [node name="Knight2" type="CharacterBody2D" parent="World/BugThrone"]
