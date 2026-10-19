@@ -30,10 +30,12 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
 - **Local co-op only.** One computer, one screen, one controller (or the keyboard) per player. No online play.
 - **Split screen.** Every player gets their own part of the screen, even when standing together: 1 player the whole
   screen, 2 left / right halves, 3 (P1 top left, P2 the right half, P3 bottom left), 4 a quarter each. The team's
-  keys and coins sit in the middle with 3 or 4 players. **Boss fights** are on one shared screen (it zooms out to
-  keep everyone in view and nobody can walk off it). Big areas scroll.
-  Coming next: heroes going their own ways (separate rooms), a room before each boss where everyone has to gather,
-  and dungeon foyers / teleport rooms with a marker for calling the others to you.
+  keys and coins sit in the middle with 3 or 4 players. Big areas scroll.
+- **Heroes go their own ways.** Doors, teleport pads and exit portals take just the heroes who use them; every room
+  with a hero in it runs. **Boss fights** are on one shared screen once everyone's in the boss room (it zooms out to
+  keep everyone in view and nobody can walk off it); the screen splits again when the boss is beaten.
+  Coming next: a room before each boss where everyone has to gather, and dungeon foyers / teleport rooms with a
+  marker for calling the others to you.
 - **Drop in / drop out.** Press a button to join: left / right picks the character, up / down its class.
 - **No friendly fire.** Players can't hurt each other.
 - **Menus don't pause.** The game keeps running for everyone. Only the player with the menu open
@@ -107,7 +109,7 @@ king and queen, and a **teleport room**.
 
 **Teleporting:** each teleport room has the village's **crystal** and a **pad for every village**. Touching a crystal
 wakes that village's teleport for the whole team; its pad then glows in every teleport room, and standing on it for a
-second takes the team there. (Playtesting: `unlock_all_teleports` in `game/playtest.cfg` wakes them all.)
+second takes you (and anyone else on it) there. (Playtesting: `unlock_all_teleports` in `game/playtest.cfg` wakes them all.)
 
 ### Scalebrook Village and Castle
 Walk up into a shop's door to go in. Each shop has a **shopkeeper** behind the counter who greets you; they wander a
@@ -291,7 +293,8 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
 - Hold N on the start screen for a new game.
 
 ## Enemies
-- **Enemies come back** when you leave an area and walk back in. Bosses stay beaten.
+- **Enemies come back.** A dungeon's beaten enemies stay beaten while any hero is inside, and are all back once the
+  last hero leaves. An overworld area's animals are back when someone walks into it while it's empty. Bosses stay beaten.
 - **Regular enemies are animals.** They come in **mixed groups** (e.g. frogs spitting from behind while snakes sneak
   in close). The **boar** is the toughest.
 

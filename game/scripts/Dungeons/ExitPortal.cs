@@ -8,7 +8,7 @@ namespace LizardWizard.Dungeons;
 /// <summary>
 /// The way out of a beaten dungeon: a swirling portal that appears in the boss room once the dungeon is complete
 /// (and is still there when the heroes come back, or after loading a save). Any hero who stands on it for
-/// <see cref="StandSeconds"/> takes the whole team back out to the overworld. Until then they can keep exploring.
+/// <see cref="StandSeconds"/> goes back out to the overworld (with anyone else standing on it). Until then they can keep exploring.
 /// </summary>
 public partial class ExitPortal : Node2D
 {
@@ -43,7 +43,7 @@ public partial class ExitPortal : Node2D
         {
             _shown = true;
             Visible = true;
-            if (dungeon.CurrentRoom == DungeonRoom.Of(this) && _time > 1f)
+            if (room.IsActive && _time > 1f)
             {
                 // Just beaten (not loaded from a save): make a bit of a show of it.
                 Scale = new Vector2(0.1f, 0.1f);
@@ -52,13 +52,14 @@ public partial class ExitPortal : Node2D
             }
         }
 
-        var onIt = GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>()
-            .Any(h => h.IsInGame && !h.IsDown && h.GlobalPosition.DistanceTo(GlobalPosition) <= Radius);
+        var standingOnIt = GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>()
+            .Where(h => h.IsInGame && !h.IsDown && h.GlobalPosition.DistanceTo(GlobalPosition) <= Radius).ToList();
+        var onIt = standingOnIt.Count > 0;
         _standing = onIt ? _standing + dt : 0;
         if (_standing >= StandSeconds && !_used)
         {
             _used = true;
-            dungeon.LeaveThroughPortal();
+            dungeon.LeaveThroughPortal(room, standingOnIt);
         }
         else if (!onIt)
         {

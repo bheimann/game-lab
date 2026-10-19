@@ -931,9 +931,11 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     private void GetBackUp()
     {
-        // Get back up next to a teammate who's still standing, or where the team came into the room.
-        var buddy = GetTree().GetNodesInGroup(Group).OfType<Hero>().FirstOrDefault(h => h != this && !h.IsDown);
-        GlobalPosition = buddy?.GlobalPosition ?? Dungeon.Find(this)?.RespawnPoint ?? _spawnPoint;
+        // Get back up next to a teammate in this room who's still standing, or where this hero came into the room.
+        var dungeon = Dungeon.Find(this);
+        var buddy = GetTree().GetNodesInGroup(Group).OfType<Hero>()
+            .FirstOrDefault(h => h != this && h.IsInGame && !h.IsDown && (dungeon is null || dungeon.RoomOf(h) == dungeon.RoomOf(this)));
+        GlobalPosition = buddy?.GlobalPosition ?? dungeon?.RespawnPointFor(this) ?? _spawnPoint;
         Health.Refill();
         _down = false;
         _knockback = Vector2.Zero;

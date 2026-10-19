@@ -9,7 +9,7 @@ namespace LizardWizard.Dungeons;
 
 /// <summary>
 /// One room of a dungeon. Needs a child <see cref="RoomBuilder"/> called "Layout"; doors, enemies, switches
-/// and treasure are its other children. Only the room the players are in runs and is shown; the others wait.
+/// and treasure are its other children. Only the rooms the players are in run and are shown; the others wait.
 /// </summary>
 public partial class DungeonRoom : Node2D
 {
@@ -40,6 +40,9 @@ public partial class DungeonRoom : Node2D
     public bool IsActive { get; private set; } = true;
 
     public bool Visited { get; set; }
+
+    /// <summary>The whole room (walls too), in global coordinates.</summary>
+    public Rect2 Bounds => new(Layout.GlobalPosition, Layout.SizeInPixels);
 
     /// <summary>The walkable floor, in global coordinates.</summary>
     public Rect2 FloorRect => new(Layout.GlobalPosition + Layout.FloorRect.Position, Layout.FloorRect.Size);
@@ -87,7 +90,7 @@ public partial class DungeonRoom : Node2D
     /// <summary>After loading a save: a room that's already cleared doesn't announce it again.</summary>
     public void SyncCleared() => _wasCleared = IsCleared;
 
-    /// <summary>Only the players' room runs and is drawn.</summary>
+    /// <summary>Only rooms with players in them run and are drawn.</summary>
     public void SetActive(bool active)
     {
         IsActive = active;

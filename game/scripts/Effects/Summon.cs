@@ -100,7 +100,7 @@ public partial class Summon : CharacterBody2D, IEnemyTarget
         CollisionLayer = 0;
         CollisionMask = _stats.Flies ? 0 : 1 | Pit.PitLayer;
         AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = new Vector2(8, 4) }, Position = new Vector2(0, -2) });
-        _room = Dungeon.Find(this)?.CurrentRoom;
+        _room = Dungeon.Find(this)?.RoomOf(Caster);
 
         // Pop in with a little puff.
         Scale = new Vector2(0.2f, 0.2f);
@@ -172,10 +172,10 @@ public partial class Summon : CharacterBody2D, IEnemyTarget
         QueueFree();
     }
 
-    /// <summary>The team went through a door: turn up next to the moose in the new room.</summary>
+    /// <summary>The moose went through a door: turn up next to it in the new room.</summary>
     private void FollowThroughDoors()
     {
-        var room = Dungeon.Find(this)?.CurrentRoom;
+        var room = Dungeon.Find(this)?.RoomOf(Caster);
         if (room is not null && room != _room)
         {
             _room = room;

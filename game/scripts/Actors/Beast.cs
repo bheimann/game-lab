@@ -593,6 +593,11 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
             .OrderBy(l => l.GlobalPosition.DistanceTo(GlobalPosition))
             .FirstOrDefault();
 
-    protected Hero[] Heroes() =>
-        GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(l => l.IsInGame && !l.IsDown).ToArray();
+    /// <summary>The heroes in this room who are still standing.</summary>
+    protected Hero[] Heroes()
+    {
+        var dungeon = Dungeons.Dungeon.Find(this);
+        return GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>()
+            .Where(l => l.IsInGame && !l.IsDown && (dungeon is null || dungeon.SharesRoom(l, this))).ToArray();
+    }
 }

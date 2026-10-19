@@ -80,7 +80,7 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 **Done when:** one player can change their gear mid-fight while the other keeps fighting.
 
 ## M5: First dungeon ✅
-- ✅ 🛠 Moving between rooms (the whole team goes through together), doors (open, locked, opening when the
+- ✅ 🛠 Moving between rooms (the whole team went through together; now each hero on their own, see split screen), doors (open, locked, opening when the
   room is cleared or when levers are on), keys (shared by the team), levers, chests, pits and a bridge.
 - ✅ 🛠 A puzzle that needs both characters' powers: the lizard's tongue reaches a lever across a pit, and the
   fox's bombs break the rocks in front of the other lever.
@@ -160,9 +160,11 @@ more dungeons, hand-drawn art.
 
 ## Split screen
 - ✅ 🛠 Every hero gets their own view (1: full screen, 2: left / right, 3: P1 top left, P2 right half, P3 bottom left,
-  4: quarters), even when they're together. Keys and coins in the middle with 3-4 players. Boss rooms: one shared view.
-- 🛠 Heroes can be in different rooms: doors and teleports take just the hero who used them; a room runs while anyone's
-  in it; a dungeon's beaten enemies stay beaten while anyone is inside (back as soon as the last hero leaves).
+  4: quarters), even when they're together. Keys and coins in the middle with 3-4 players. Boss rooms: one shared view
+  while everyone's in there fighting; split again once the boss is beaten.
+- ✅ 🛠 Heroes can be in different rooms: doors and teleports take just the hero who used them; a room runs while anyone's
+  in it; a dungeon's beaten enemies stay beaten while anyone is inside (back as soon as the last hero leaves). Room
+  names, boss bars, damage numbers and door fades show in the view of the hero they're about.
 - 🛠 The boss door stays shut until every hero is in the room before it.
 - 🛠 A foyer (no enemies) at the start of each dungeon. A marker on the floor of each foyer and teleport room: a hero
   waiting on it can be joined from the others' menus ("Join P1"). Loading a save puts the team together in the

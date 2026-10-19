@@ -381,6 +381,11 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, IS
             : _effects.Tint ?? Colors.White;
     }
 
-    private Hero[] Heroes() =>
-        GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(h => h.IsInGame && !h.IsDown).ToArray();
+    /// <summary>The heroes in the boss room who are still standing.</summary>
+    private Hero[] Heroes()
+    {
+        var dungeon = Dungeon.Find(this);
+        return GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>()
+            .Where(h => h.IsInGame && !h.IsDown && (dungeon is null || dungeon.SharesRoom(h, this))).ToArray();
+    }
 }
