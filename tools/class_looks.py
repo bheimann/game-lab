@@ -285,11 +285,18 @@ LOOKS = [
 # Townsfolk: (name, hero body, hat, recolour). Recolours make them clearly not one of the heroes.
 STEEL_FOX = {"F": "G", "f": "g", "n": "b", "k": "g"}
 STEEL_BEETLE = {"V": "g", "v": "b", "A": "G"}
+STEEL_LIZARD = {"B": "G", "M": "g", "L": "b"}
+STEEL_MOOSE = {"H": "G", "h": "g", "n": "b"}
+STEEL_PEACOCK = {"U": "G", "u": "g", "c": "b"}
+# Each kingdom's castle is guarded by knights of its own kind.
 NPCS = [
     ("king", "chameleon", "crown", {"L": "B", "B": "M", "M": "D"}),
     ("queen", "peacock", "tiara", {"U": "V", "u": "v", "C": "A", "c": "v"}),
     ("knight_fox", "red_fox", "knight", STEEL_FOX),
     ("knight_beetle", "beetle", "knight", STEEL_BEETLE),
+    ("knight_lizard", "chameleon", "knight", STEEL_LIZARD),
+    ("knight_moose", "moose", "knight", STEEL_MOOSE),
+    ("knight_peacock", "peacock", "knight", STEEL_PEACOCK),
     ("innkeeper", "moose", None, {"H": "E", "h": "e"}),
     ("herbalist", "beetle", None, {"V": "B", "v": "M", "A": "L"}),
     ("paint_seller", "chameleon", "beret", {"L": "Y", "B": "F", "M": "f", "D": "n"}),
