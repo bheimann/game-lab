@@ -35,6 +35,9 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
     private Vector2? _pull;
     private Vector2 _home;
     private readonly ElementEffects _effects = new();
+    private System.Collections.Generic.List<Vector2> _path = new();
+    private float _pathLeft;
+    private float _stuckFor;
     private readonly Pockets _pockets = new();
 
     public enum Mood
@@ -59,6 +62,9 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
 
     /// <summary>How far away a hero has to get for it to give up the chase.</summary>
     [Export] public float LoseSightRange { get; set; } = 150f;
+
+    /// <summary>How long it can be stuck (behind a tree, a rock, water) before it looks for a way round.</summary>
+    [Export] public float StuckSeconds { get; set; } = 0.75f;
 
     public Health Health { get; private set; } = null!;
 
@@ -209,10 +215,65 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
             _ => Wander(dt, lookForHeroes: false),
         };
 
+        desired = FollowPath(dt, desired);
+        var before = GlobalPosition;
         Velocity = desired * _effects.SpeedFactor + _knockback;
         _knockback = _knockback.MoveToward(Vector2.Zero, 500f * dt);
         MoveAndSlide();
+        CheckStuck(dt, desired, GlobalPosition - before);
         UpdateLook();
+    }
+
+    /// <summary>
+    /// While it has a way round something, walking toward the target goes along it instead (only plain walking toward
+    /// the target: charges, hops and dashes are left alone). The way is dropped after a few seconds, or at its end.
+    /// </summary>
+    private Vector2 FollowPath(float dt, Vector2 desired)
+    {
+        _pathLeft -= dt;
+        if (_path.Count == 0 || _pathLeft <= 0 || CurrentMood != Mood.Chasing || _target is null)
+        {
+            _path.Clear();
+            return desired;
+        }
+
+        var toTarget = _target.GlobalPosition - GlobalPosition;
+        var walkingAtIt = desired.Length() > 1f && desired.Normalized().Dot(toTarget.Normalized()) > 0.7f;
+        if (!walkingAtIt)
+        {
+            return desired;
+        }
+
+        while (_path.Count > 0 && _path[0].DistanceTo(GlobalPosition) < 6f)
+        {
+            _path.RemoveAt(0);
+        }
+
+        return _path.Count == 0 ? desired : (_path[0] - GlobalPosition).Normalized() * desired.Length();
+    }
+
+    /// <summary>Trying to move but hardly getting anywhere for <see cref="StuckSeconds"/>: chasing, find a way round;
+    /// wandering, pick another direction.</summary>
+    private void CheckStuck(float dt, Vector2 desired, Vector2 moved)
+    {
+        var trying = desired.Length() > 5f && _knockback.Length() < 1f;
+        _stuckFor = trying && moved.Length() < desired.Length() * dt * 0.3f ? _stuckFor + dt : 0f;
+        if (_stuckFor < StuckSeconds)
+        {
+            return;
+        }
+
+        _stuckFor = 0f;
+        if (CurrentMood == Mood.Chasing && _target is not null)
+        {
+            var feet = new Vector2(Mathf.Min(18, FrameSize.X - 4), 6);
+            _path = GridPath.Find(this, GlobalPosition, _target.GlobalPosition, feet, CollisionMask);
+            _pathLeft = 4f;
+        }
+        else if (CurrentMood == Mood.Wandering)
+        {
+            _wanderTimer = 0f; // try somewhere else
+        }
     }
 
     /// <summary>Where floating text over its head goes.</summary>
@@ -330,6 +391,8 @@ public abstract partial class Beast : CharacterBody2D, IHittable, IEnemy, IPulla
         _knockback = Vector2.Zero;
         _pull = null;
         _wanderTimer = 0;
+        _path.Clear();
+        _stuckFor = 0;
         ResetPhysicsInterpolation();
         QueueRedraw();
     }
