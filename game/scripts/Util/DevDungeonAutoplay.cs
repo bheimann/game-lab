@@ -9,7 +9,7 @@ namespace LizardWizard.Util;
 
 /// <summary>
 /// Dev helper for dungeon scenes: <c>-- --autoplay=&lt;folder&gt;</c> and two bots (P1 lizard on WASD, P2 fox on
-/// the arrows) walk from the village through the overworld into the first dungeon and play it to the boss by pressing the real keys. Each room has a
+/// the arrows) walk from the village through the swamp and the meadow into the first dungeon and play it to the boss by pressing the real keys. Each room has a
 /// little plan: fight, open the chest, walk through the right door, solve the lever puzzle (the fox bombs the rocks
 /// and flips that lever, the lizard tongues the lever across the pit), beat the beetle, and take the exit portal out.
 /// Logs what happens and saves a screenshot every 2 seconds (and on every new room) into the folder.
@@ -115,7 +115,12 @@ public partial class DevDungeonAutoplay : Node
     private void Play(DungeonRoom room, Dungeon dungeon, Hero lizard, Hero fox, HashSet<Key> wanted)
     {
         var enemies = room.Enemies.OfType<Node2D>().ToList();
-        if (!room.IsCleared)
+
+        // Outdoors, only fight what's close (or attacking); otherwise walk on through.
+        var heroes = new[] { lizard, fox };
+        var fight = room.Area != "" || enemies.OfType<IEnemy>().Any(e => e.IsHostile && heroes.Any(h => e.IsTargeting(h)))
+            || enemies.Any(e => e is IEnemy { IsHostile: true } && heroes.Any(h => h.GlobalPosition.DistanceTo(e.GlobalPosition) < 60));
+        if (!room.IsCleared && fight)
         {
             _bots[0].Fight(lizard, enemies, wanted);
             _bots[1].Fight(fox, enemies, wanted);
@@ -126,6 +131,10 @@ public partial class DevDungeonAutoplay : Node
         {
             case "Village":
                 Exit(room, "EastPath", lizard, fox, wanted);
+                break;
+
+            case "Swamp":
+                Exit(room, "NorthPath", lizard, fox, wanted);
                 break;
 
             case "Overworld":

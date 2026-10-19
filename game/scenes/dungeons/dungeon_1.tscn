@@ -610,13 +610,6 @@ text = "Lizard Wizard
 Press A on a controller, or J / . on the keyboard, to join"
 horizontal_alignment = 1
 
-[node name="WestPath" type="Node2D" parent="World/Overworld"]
-position = Vector2(0, 440)
-script = ExtResource("door")
-Side = 2
-Path = true
-LeadsTo = NodePath("../../Village/EastPath")
-
 [node name="EastPath" type="Node2D" parent="World/Overworld"]
 position = Vector2(928, 300)
 script = ExtResource("door")
@@ -631,10 +624,6 @@ Side = 1
 Path = true
 LeadsTo = NodePath("../../Swamp/NorthPath")
 
-[node name="PathWest" type="Node2D" parent="World/Overworld"]
-script = ExtResource("dirtpath")
-Points = PackedVector2Array(140, 440, 0, 440)
-
 [node name="PathEast" type="Node2D" parent="World/Overworld"]
 script = ExtResource("dirtpath")
 Points = PackedVector2Array(700, 300, 928, 300)
@@ -642,12 +631,6 @@ Points = PackedVector2Array(700, 300, 928, 300)
 [node name="PathSouth" type="Node2D" parent="World/Overworld"]
 script = ExtResource("dirtpath")
 Points = PackedVector2Array(330, 420, 330, 512)
-
-[node name="WestSign" type="StaticBody2D" parent="World/Overworld"]
-position = Vector2(40, 420)
-script = ExtResource("prop")
-Kind = 3
-Text = "West: Scalebrook Village"
 
 [node name="EastSign" type="StaticBody2D" parent="World/Overworld"]
 position = Vector2(880, 282)
@@ -683,7 +666,7 @@ position = Vector2(608, 200)
 script = ExtResource("door")
 Side = 3
 Path = true
-LeadsTo = NodePath("../../Overworld/WestPath")
+LeadsTo = NodePath("../../Swamp/WestPath")
 
 [node name="House1" type="StaticBody2D" parent="World/Village"]
 position = Vector2(120, 150)
@@ -3979,16 +3962,6 @@ position = Vector2(844, 32)
 script = ExtResource("prop")
 Kind = 2
 
-[node name="DeadTree2" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(227, 71)
-script = ExtResource("prop")
-Kind = 10
-
-[node name="DeadTree3" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(279, 87)
-script = ExtResource("prop")
-Kind = 10
-
 [node name="DeadTree4" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(389, 63)
 script = ExtResource("prop")
@@ -4023,11 +3996,6 @@ Kind = 0
 position = Vector2(881, 85)
 script = ExtResource("prop")
 Kind = 11
-
-[node name="DeadTree8" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(189, 94)
-script = ExtResource("prop")
-Kind = 10
 
 [node name="DeadTree9" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(233, 119)
@@ -5466,11 +5434,6 @@ position = Vector2(1086, 146)
 script = ExtResource("prop")
 Kind = 5
 
-[node name="Grown176" type="StaticBody2D" parent="World/Forest"]
-position = Vector2(794, 806)
-script = ExtResource("prop")
-Kind = 6
-
 [node name="Grown177" type="StaticBody2D" parent="World/Forest"]
 position = Vector2(1172, 733)
 script = ExtResource("prop")
@@ -6450,11 +6413,6 @@ Kind = 5
 position = Vector2(1006, 287)
 script = ExtResource("prop")
 Kind = 11
-
-[node name="Grown373" type="StaticBody2D" parent="World/Forest"]
-position = Vector2(794, 768)
-script = ExtResource("prop")
-Kind = 8
 
 [node name="Grown374" type="StaticBody2D" parent="World/Forest"]
 position = Vector2(1240, 144)
@@ -7989,18 +7947,11 @@ Kind = 9
 
 [node name="NewPath1" type="Node2D" parent="World/Swamp"]
 script = ExtResource("dirtpath")
-Points = PackedVector2Array(720, 250, 900, 400, 820, 620, 800, 832)
+Points = PackedVector2Array(720, 250, 900, 400)
 
 [node name="NewPath2" type="Node2D" parent="World/Swamp"]
 script = ExtResource("dirtpath")
-Points = PackedVector2Array(900, 400, 1200, 330, 1480, 330)
-
-[node name="SouthPath" type="Node2D" parent="World/Swamp"]
-position = Vector2(800, 832)
-script = ExtResource("door")
-Side = 1
-Path = true
-LeadsTo = NodePath("../../Lake/NorthPath")
+Points = PackedVector2Array(900, 400, 1200, 330, 1480, 330, 1632, 300)
 
 [node name="Pond6" type="Node2D" parent="World/Swamp"]
 position = Vector2(1100, 140)
@@ -8029,11 +7980,10 @@ script = ExtResource("chest")
 Reward = 1
 
 [node name="LakeSign" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(860, 790)
+position = Vector2(1560, 270)
 script = ExtResource("prop")
 Kind = 3
-Text = "Glimmer Lake
-(south)"
+Text = "Glimmer Lake\n(east)"
 
 [node name="Grown1" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(435, 566)
@@ -8089,11 +8039,6 @@ Kind = 11
 position = Vector2(142, 539)
 script = ExtResource("prop")
 Kind = 10
-
-[node name="Grown12" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1533, 336)
-script = ExtResource("prop")
-Kind = 2
 
 [node name="Grown13" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(1162, 758)
@@ -8374,11 +8319,6 @@ Kind = 2
 position = Vector2(1500, 379)
 script = ExtResource("prop")
 Kind = 11
-
-[node name="Grown69" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1531, 296)
-script = ExtResource("prop")
-Kind = 1
 
 [node name="Grown70" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(1106, 325)
@@ -9390,11 +9330,6 @@ position = Vector2(97, 572)
 script = ExtResource("prop")
 Kind = 2
 
-[node name="Grown272" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1570, 313)
-script = ExtResource("prop")
-Kind = 0
-
 [node name="Grown273" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(149, 737)
 script = ExtResource("prop")
@@ -9727,11 +9662,6 @@ Kind = 10
 
 [node name="Grown339" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(1559, 422)
-script = ExtResource("prop")
-Kind = 11
-
-[node name="Grown340" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(1606, 328)
 script = ExtResource("prop")
 Kind = 11
 
@@ -11661,7 +11591,7 @@ position = Vector2(800, 0)
 script = ExtResource("door")
 Side = 0
 Path = true
-LeadsTo = NodePath("../../Swamp/SouthPath")
+LeadsTo = NodePath("../../Forest/SouthPath")
 
 [node name="Lake1" type="Node2D" parent="World/Lake"]
 position = Vector2(16, 470)
@@ -11686,8 +11616,7 @@ Reward = 1
 position = Vector2(860, 120)
 script = ExtResource("prop")
 Kind = 3
-Text = "Glimmer Lake
-The far shore is across the water"
+Text = "Glimmer Lake\nNorth: Antlerwood Forest. West: Tailspin Swamp.\nThe far shore is across the water"
 
 [node name="Dock1" type="StaticBody2D" parent="World/Lake"]
 position = Vector2(560, 452)
@@ -12144,11 +12073,6 @@ position = Vector2(1370, 325)
 script = ExtResource("prop")
 Kind = 7
 
-[node name="Grown85" type="StaticBody2D" parent="World/Lake"]
-position = Vector2(144, 361)
-script = ExtResource("prop")
-Kind = 7
-
 [node name="Grown86" type="StaticBody2D" parent="World/Lake"]
 position = Vector2(173, 204)
 script = ExtResource("prop")
@@ -12253,11 +12177,6 @@ Kind = 7
 position = Vector2(1125, 184)
 script = ExtResource("prop")
 Kind = 2
-
-[node name="Grown107" type="StaticBody2D" parent="World/Lake"]
-position = Vector2(216, 369)
-script = ExtResource("prop")
-Kind = 7
 
 [node name="Grown108" type="StaticBody2D" parent="World/Lake"]
 position = Vector2(101, 454)
@@ -12729,3 +12648,61 @@ Partner = NodePath("../Tusker")
 [node name="Tusker" parent="World/FrostBoss" instance=ExtResource("tusker_boar")]
 position = Vector2(230, 100)
 Partner = NodePath("../Frostmane")
+
+[node name="WestPath" type="Node2D" parent="World/Swamp"]
+position = Vector2(0, 110)
+script = ExtResource("door")
+Side = 2
+Path = true
+LeadsTo = NodePath("../../Village/EastPath")
+
+[node name="PathWest" type="Node2D" parent="World/Swamp"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(0, 110, 140, 100, 260, 70, 330, 40)
+
+[node name="VillageSign" type="StaticBody2D" parent="World/Swamp"]
+position = Vector2(50, 90)
+script = ExtResource("prop")
+Kind = 3
+Text = "West: Scalebrook Village"
+
+[node name="SwampSign" type="StaticBody2D" parent="World/Village"]
+position = Vector2(586, 228)
+script = ExtResource("prop")
+Kind = 3
+Text = "East: Tailspin Swamp\n(the meadow is just north of it)"
+
+[node name="EastPath" type="Node2D" parent="World/Swamp"]
+position = Vector2(1632, 300)
+script = ExtResource("door")
+Side = 3
+Path = true
+LeadsTo = NodePath("../../Lake/WestPath")
+
+[node name="WestPath" type="Node2D" parent="World/Lake"]
+position = Vector2(0, 300)
+script = ExtResource("door")
+Side = 2
+Path = true
+LeadsTo = NodePath("../../Swamp/EastPath")
+
+[node name="PathWest" type="Node2D" parent="World/Lake"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(0, 300, 300, 380)
+
+[node name="SouthPath" type="Node2D" parent="World/Forest"]
+position = Vector2(800, 832)
+script = ExtResource("door")
+Side = 1
+Path = true
+LeadsTo = NodePath("../../Lake/NorthPath")
+
+[node name="PathSouth" type="Node2D" parent="World/Forest"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(800, 738, 800, 832)
+
+[node name="LakeSign" type="StaticBody2D" parent="World/Forest"]
+position = Vector2(840, 800)
+script = ExtResource("prop")
+Kind = 3
+Text = "South: Glimmer Lake"
