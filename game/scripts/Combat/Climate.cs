@@ -40,7 +40,7 @@ public static class Climates
     };
 
     /// <summary>The climate of the area <paramref name="node"/> is in: the tundra, the mountains and Frostfang Fortress are
-    /// cold, the canyon and the desert are hot, the swamp and the lake are wet.</summary>
+    /// cold, the canyon and the desert are hot, the swamp, the lake and Mossmire Keep are wet.</summary>
     public static Climate Of(Node node)
     {
         if (DungeonRoom.Of(node) is not { } room)
@@ -51,6 +51,11 @@ public static class Climates
         if (room.Area == "Frostfang Fortress")
         {
             return Climate.Cold;
+        }
+
+        if (room.Area == Actors.Mossimus.Boss)
+        {
+            return Climate.Wet; // Mossmire Keep, under the swamp
         }
 
         return room.GetNodeOrNull<OutdoorBuilder>("Layout")?.Ground switch

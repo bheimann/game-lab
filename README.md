@@ -20,7 +20,8 @@ Builds always play like the normal game (the build turns `playtest.cfg`'s settin
 **Playtest settings:** `game/playtest.cfg` has values to change for testing, used when a new game starts (hold N on the
 start screen for a new game). `coins` is the coins the team starts with (500, enough for every weapon upgrade and plenty
 of herbs); `unlock_all_teleports` (used every time the game starts) wakes every village's teleport, so you can jump
-around the villages straight away. Heroes always start with no herbs: buy them in the village or find them. **Herbs are shared by the team** (like
+around the villages straight away; `unlock_final_dungeon` (also every time) opens Mossmire Keep before the other
+dungeons are beaten. Heroes always start with no herbs: buy them in the village or find them. **Herbs are shared by the team** (like
 coins): whoever picks one up, it goes in the team's supply, and any hero can eat one (B, or the Start menu).
 
 ### Controls
@@ -137,6 +138,16 @@ the door on is locked, so bring the key) and **the Frost Den**, where two bosses
 Moose** stomps the floor, sending out a ring of frost that slows you down (dodge through it!), and **Tusker the Boar**
 charges whoever is slowed. Beat one and the other gets angry. Beating both gives a boss coin, one more fuse slot of each
 kind, the title Knight, the beetle's **Hoversled**, and a portal back out to the tundra.
+
+**Mossmire Keep** (the final dungeon): the mossy temple gate at the bottom of Tailspin Swamp (follow the path south
+from the one to Glimmer Lake). Its stairs are **sealed with Mossimus's moss until every other dungeon is beaten**;
+walking up to them says how many are left. Inside: the **Sunken Gate** (frogs and snakes; the door opens once they're
+beaten), the **Bog Hall** (beat the guards and a key chest appears; the lever is across the bog, so reach it from the
+near bank, with the tongue or a gun, to make a bridge; the top door is locked), the **Hall of Tricks** (animals from
+every kingdom) and **Mossimus's Throne**, where **Mossimus Maximus** himself waits: he keeps his distance and throws a
+fan of moss bolts, vanishes in a puff of smoke and pops up somewhere else, and kicks up close. At half health he gets
+angry: faster, more bolts, and a ring of bolts all round him. He's weak to lightning. Beating him gives a boss coin,
+one more fuse slot of each kind, the title Hero of the Kingdoms, and a portal back out to the swamp.
 
 **Enemies:** animals tricked by Mossimus. Beat one and it falls asleep, then thanks you once the area is clear.
 They come in mixed groups, and come back when you leave an area and return. An animal that gets stuck behind a tree,
@@ -284,6 +295,7 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
 - `Godot_console.exe --path game -- --room=FrostEntrance --autoplay=<folder>` plays Frostfang Fortress through (the
   bots are put on the ice key; they can't plan slides) and the boss fight, and goes out through the portal.
   `--room=IceHall --autoplay-ice=<folder>` solves the Ice Hall's slide puzzle with the real keys.
+  `--room=MossEntrance --autoplay=<folder>` plays Mossmire Keep through, Mossimus too.
 - `Godot_console.exe --path game -- --room=Lake --autoplay-beasts=<folder>` puts each kind of enemy next to the fox in
   turn and logs whether its attack landed, how it takes fire / ice / lightning, and what it dropped; last, a deer behind a
   fence has to find its way round.
@@ -291,7 +303,8 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   share: four heroes in a scene. Scenes (with their room): `village` (Village), `throne` (ThroneRoom), `battle`
   (Forest), `lake` (Lake), `canyon` (Canyon), `snowplane` (Tundra), `boss` (BossRoom).
 - `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
-  there and back, and checks each one leads to the right area (and that the village painter paints you).
+  there and back, and checks each one leads to the right area (and that the village painter paints you, and that
+  Mossmire Keep's stairs stay sealed: set `unlock_final_dungeon=false` in `playtest.cfg` to check that).
 - New overworld areas are `DungeonRoom`s with an `OutdoorBuilder` layout (Ground: meadow, forest, swamp or snow);
   a `Door` with Path on the area's edge makes a gap in the border, and `DirtPath` nodes draw extra paths.
 - Bot runs never touch the real save. Add `--save-file=user://test_save.json` to let them save to a test file.

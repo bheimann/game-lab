@@ -77,7 +77,7 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
 |---|---|
 | **Scalebrook Village** (start) | The lizards' village (below), west of the swamp |
 | **Scalebrook Meadow** | The Old Burrow's temple gate (the first dungeon), a grapple-only chest, deer, snakes |
-| **Tailspin Swamp** (big) | Murky ponds, bare trees, frogs and snakes, a grapple-only chest |
+| **Tailspin Swamp** (big) | Murky ponds, bare trees, frogs and snakes, a grapple-only chest, the gate to **Mossmire Keep** (bottom) |
 | **Antlerwood Forest** (big) | Thick trees, deer and boars, chests in clearings |
 | **Glimmer Lake** | East of the swamp, south of the forest: a beach and a wide lake; a chest on the far shore |
 | **Frosttail Tundra** (big) | Snow, frozen lakes, arctic fox packs, chests, the gate to **Frostfang Fortress**; **Hoofhollow** to the west |
@@ -124,6 +124,7 @@ little, and step up to the counter (and stay) when a hero is there. Stand at the
 |---|---|---|---|---|
 | **The Old Burrow** | Scalebrook Meadow | Entrance, key hall, side room, a lever-and-bridge puzzle | **Giant Beetle** | Title: Squire |
 | **Frostfang Fortress** | Frosttail Tundra | Frozen Gate (foxes), **Ice Hall** (slide puzzle: on ice you slide until you bump into something; the key is out on the ice), **Frozen River** (a lever makes a bridge), the Frost Den | **Frostmane the Moose** and **Tusker the Boar**, together: the moose's stomp sends out a ring of frost that slows heroes, and the boar charges whoever is slowed; beat one and the other gets angry | Title: Knight, the **Hoversled** |
+| **Mossmire Keep** (final) | Tailspin Swamp; **sealed until every other dungeon is beaten** (playtesting: `unlock_final_dungeon` in `game/playtest.cfg`) | Sunken Gate (frogs, snakes), **Bog Hall** (key chest once the guards are beaten; a lever across the bog makes a bridge), **Hall of Tricks** (animals from every kingdom), Mossimus's Throne | **Mossimus Maximus**: fans of moss bolts, vanishes and pops up elsewhere, kicks up close; at half health angrier, with rings of bolts | Title: Hero of the Kingdoms |
 
 Every boss also gives a **boss coin** and **one more fuse slot** of each kind; a portal appears in the boss room to go
 back out.
@@ -299,12 +300,14 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
   | Snake | Meadow, forest, canyon, swamp, lake | Faint until you're close; poison bite (2, then poison) | 8–10 | Scale |
 
 - **Bosses are different animals**: the **Giant Beetle** guards The Old Burrow, **Frostmane and Tusker** guard
-  Frostfang Fortress. The **final boss is Mossimus Maximus**.
+  Frostfang Fortress. The **final boss is Mossimus Maximus**, in Mossmire Keep under Tailspin Swamp.
 
 ## Questions for the designer
 - **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?
 - **The king's tutorial and quests:** what happens in the story at the start, and what quests do the kings give?
 - **Titles after Knight**, and what the next dungeon is (where, which boss, what it unlocks)?
+- **Mossmire Keep** (the final dungeon): its name, rooms and Mossimus's attacks are first versions by Claude. What
+  happens after he's beaten (an ending?), and what does he give?
 - **Boss drops:** which new bomb, weapon or gun does each boss drop?
 - **The new villages:** what's special about each one (Hoofhollow, Foxden, Peacock Palace, Hivehold)? Right now they
   all have the same shops.

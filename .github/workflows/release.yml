@@ -39,6 +39,7 @@ jobs:
         run: |
           sed -i 's/^coins=.*/coins=0/' game/playtest.cfg
           sed -i 's/^unlock_all_teleports=.*/unlock_all_teleports=false/' game/playtest.cfg
+          sed -i 's/^unlock_final_dungeon=.*/unlock_final_dungeon=false/' game/playtest.cfg
 
       - name: Export for Windows
         run: |
