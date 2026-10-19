@@ -141,6 +141,9 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Weapon upgrades for the whole team at the Weapons & Armor shop: wood, copper, iron, steel, mithril (coins).
 - ✅ 🛠 A second dungeon, Frostfang Fortress, in the tundra: ice slide puzzle, a frozen river, and two bosses that
   fight together (Frostmane the moose and Tusker the boar). Beating it unlocks the beetle's Hoversled.
+- ✅ 🛠 The map matches the designer's overworld (Scalebrook beside the swamp, the lake between swamp and forest), plus
+  Plume Peaks, Scarab Desert and Foxglove Hills, and a village for every kingdom (Hoofhollow, Foxden, Peacock Palace,
+  Hivehold) with shops, a castle, a king and queen, and a teleport room (crystals and pads between villages).
 - 🦎 The next dungeon: where, which boss, what it unlocks.
 - 🦎 What coins buy (a shop in the village?), and weapons as loot once there are more weapons.
 - 🦎 The king and queen's quests (one of them opens the armory), what the weapons & armor shop sells, and unlocking the
