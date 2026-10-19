@@ -49,7 +49,7 @@ jobs:
         run: |
           cd build/windows && zip -qr ../LizardWizard-windows.zip .
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: LizardWizard-windows
           path: build/LizardWizard-windows.zip
