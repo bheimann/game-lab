@@ -12,7 +12,7 @@ namespace LizardWizard.Util;
 /// Dev helper for nice screenshots to share: <c>-- --room=Village --screenshot-showcase=village:path.png</c>. Four heroes
 /// join in the room (lizard, fox, moose and peacock or beetle), get set up for the scene, and a moment later the screen
 /// is saved and the game quits. Scenes: village, throne, battle, lake, canyon, snowplane (Tundra), boss (start in the
-/// matching room).
+/// matching room). Add <c>--showcase-heroes=2</c> for fewer heroes (to see the split-screen layouts).
 /// (Starts with --screenshot, so the real save is never touched.)
 /// </summary>
 public partial class DevShowcase : Node
@@ -44,7 +44,10 @@ public partial class DevShowcase : Node
             var team = _scene is "lake" or "canyon" or "snowplane"
                 ? new[] { (4, "Vehicle Master"), (0, "Illusionist"), (1, "Gun Master"), (3, "Thief") }
                 : new[] { (0, "Illusionist"), (1, "Weapon Master"), (2, "Tinkerer"), (3, "Grappler") };
-            for (var i = 0; i < team.Length; i++)
+            var count = OS.GetCmdlineUserArgs().FirstOrDefault(a => a.StartsWith("--showcase-heroes=")) is { } heroesArg
+                ? System.Math.Clamp(int.Parse(heroesArg["--showcase-heroes=".Length..]), 1, team.Length)
+                : team.Length;
+            for (var i = 0; i < count; i++)
             {
                 manager.JoinForDev(i == 0 ? InputDevice.KeyboardLeft : InputDevice.Gamepad(90 + i), team[i].Item1, team[i].Item2);
             }
@@ -82,7 +85,10 @@ public partial class DevShowcase : Node
                 heroes[i].Teleport(spots[i]);
             }
 
-            CoopCamera.Find(this)?.Snap(); // so nobody gets held back at the old edge of the screen
+            foreach (var camera in CoopCamera.All(this))
+            {
+                camera.Snap(); // so nobody gets held back at the old edge of the screen
+            }
         }
 
         // No area-name banner over the picture.

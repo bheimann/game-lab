@@ -294,6 +294,6 @@ public partial class Bomb : Node2D
             boulder.Break();
         }
 
-        CoopCamera.Find(this)?.Shake(Kind == BombKind.Time ? 5f : 3f);
+        CoopCamera.ShakeAll(this, Kind == BombKind.Time ? 5f : 3f);
     }
 }

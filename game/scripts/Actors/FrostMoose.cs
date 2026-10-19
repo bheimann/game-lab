@@ -93,7 +93,7 @@ public partial class FrostMoose : Beast, IBoss, Saving.ISaveable
                 var wave = new IceWave { MaxRadius = _angry ? 130f : 100f };
                 GetParent().AddChild(wave);
                 wave.GlobalPosition = GlobalPosition;
-                Players.CoopCamera.Find(this)?.Shake(4f);
+                Players.CoopCamera.ShakeAll(this, 4f);
                 WindUp = -1f;
                 _stomping = false;
                 _stompWait = _angry ? 2.5f : 4.5f;

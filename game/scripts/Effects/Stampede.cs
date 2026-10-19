@@ -54,7 +54,7 @@ public partial class Stampede : Node2D
             _deer.Add(deer);
         }
 
-        CoopCamera.Find(this)?.Shake(3f);
+        CoopCamera.ShakeAll(this, 3f);
     }
 
     public override void _PhysicsProcess(double delta)

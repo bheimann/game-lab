@@ -6,7 +6,7 @@ namespace LizardWizard.Util;
 /// <summary>
 /// Dev helper: run the game with <c>-- --screenshot=out.png</c> to save the screen after a
 /// short delay and quit. Lets us check visuals from the command line.
-/// Add <c>--screenshot-world</c> to hide the HUD and menus (every CanvasLayer) so only the world shows,
+/// Add <c>--screenshot-world</c> to hide the HUD and menus (every CanvasLayer but the split-screen views) so only the world shows,
 /// or <c>--screenshot-picking</c> to have P1 and P2 picking a character and class.
 /// Add <c>--screenshot-zoom=0.4</c> to zoom out (e.g. a whole big area, with <c>--room=Canyon</c>).
 /// </summary>
@@ -50,7 +50,7 @@ public partial class Screenshot : Node
 
         if (OS.GetCmdlineUserArgs().Contains("--screenshot-world"))
         {
-            foreach (var layer in GetTree().Root.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
+            foreach (var layer in GetTree().Root.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>().Where(l => l is not Players.SplitScreen))
             {
                 layer.Visible = false;
             }

@@ -126,11 +126,7 @@ public partial class Dungeon : Node
     {
         SaveGame.Apply(this);
 
-        if (CoopCamera.Find(this) is { } camera)
-        {
-            camera.Room = CurrentRoom.Layout;
-            camera.Snap();
-        }
+        CoopCamera.ShowRoom(this, CurrentRoom.Layout);
 
         CurrentRoom.Visited = true;
         Hud.ShowBanner(CurrentRoom.Area != "" ? CurrentRoom.Area : CurrentRoom.Title, CurrentRoom.Area != "" ? CurrentRoom.Title : "", 3f);
@@ -182,11 +178,7 @@ public partial class Dungeon : Node
             heroes[i].ArriveAt(door.EntryPoint + across * spread, -door.Outward);
         }
 
-        if (CoopCamera.Find(this) is { } camera)
-        {
-            camera.Room = CurrentRoom.Layout;
-            camera.Snap();
-        }
+        CoopCamera.ShowRoom(this, CurrentRoom.Layout);
 
         SaveGame.Save(this);
 

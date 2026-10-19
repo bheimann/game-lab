@@ -28,8 +28,12 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
 
 ## Rules we've decided
 - **Local co-op only.** One computer, one screen, one controller (or the keyboard) per player. No online play.
-- **Shared camera.** It zooms out to keep every player in view, up to a limit. Players can't walk off-screen.
-  Big areas scroll.
+- **Split screen.** Every player gets their own part of the screen, even when standing together: 1 player the whole
+  screen, 2 left / right halves, 3 (P1 top left, P2 the right half, P3 bottom left), 4 a quarter each. The team's
+  keys and coins sit in the middle with 3 or 4 players. **Boss fights** are on one shared screen (it zooms out to
+  keep everyone in view and nobody can walk off it). Big areas scroll.
+  Coming next: heroes going their own ways (separate rooms), a room before each boss where everyone has to gather,
+  and dungeon foyers / teleport rooms with a marker for calling the others to you.
 - **Drop in / drop out.** Press a button to join: left / right picks the character, up / down its class.
 - **No friendly fire.** Players can't hurt each other.
 - **Menus don't pause.** The game keeps running for everyone. Only the player with the menu open
