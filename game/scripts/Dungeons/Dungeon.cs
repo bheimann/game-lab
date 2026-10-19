@@ -219,6 +219,15 @@ public partial class Dungeon : Node
         // An exit portal opens in the boss room (see ExitPortal); the heroes leave when they're ready.
     }
 
+    /// <summary>A teleport pad: take the whole team to <paramref name="arrival"/> (another village's teleport room).</summary>
+    public void Travel(Door arrival)
+    {
+        if (!_moving)
+        {
+            MoveTo(arrival);
+        }
+    }
+
     /// <summary>A hero stood on the exit portal: take the whole team back out to the overworld.</summary>
     public void LeaveThroughPortal()
     {

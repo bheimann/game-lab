@@ -15,11 +15,12 @@
 version and push the tag: `git tag v0.1.0` then `git push origin v0.1.0`. A few minutes later the repo's **Releases**
 page has `LizardWizard-windows.zip`: unzip it anywhere and run `LizardWizard.exe` (no Godot needed). To just try a
 build without publishing it, run "Release build" by hand on the repo's Actions tab and download the zip from the run.
-Builds always start like the normal game (the build sets `playtest.cfg`'s coins to 0), whatever you're playtesting with.
+Builds always play like the normal game (the build turns `playtest.cfg`'s settings off), whatever you're playtesting with.
 
 **Playtest settings:** `game/playtest.cfg` has values to change for testing, used when a new game starts (hold N on the
-start screen for a new game). For now: `coins`, the coins the team starts with (500, enough for every weapon upgrade
-and plenty of herbs). Heroes always start with no herbs: buy them in the village or find them. **Herbs are shared by the team** (like
+start screen for a new game). `coins` is the coins the team starts with (500, enough for every weapon upgrade and plenty
+of herbs); `unlock_all_teleports` (used every time the game starts) wakes every village's teleport, so you can jump
+around the villages straight away. Heroes always start with no herbs: buy them in the village or find them. **Herbs are shared by the team** (like
 coins): whoever picks one up, it goes in the team's supply, and any hero can eat one (B, or the Start menu).
 
 ### Controls
@@ -105,6 +106,15 @@ yellow: that's its kick coming. Works even with the ring menu open.
   Giant Beetle the **Beetle Charge** (a dash that rams everything in the way). Stealing another enemy's ability swaps it.
 - **Secret:** in Scalebrook Meadow's top-left corner there's a chest across the water that only a grapple can reach.
 
+**The villages:** every kingdom has one (Scalebrook for the lizards, Hoofhollow for the deer and moose, Foxden for
+the foxes, Peacock Palace for the birds, Hivehold for the bugs), each with an inn, a herb shop, a paint shop, the
+weapons & armor shop and a castle (a hall, a throne room with that kingdom's king and queen, and a **teleport room**).
+
+**Teleporting between villages:** each castle's teleport room has a **crystal** and a **pad for every village**. Touch a
+crystal to wake that village's teleport (the whole team gets it, and the save remembers); from then on its pad glows in
+every teleport room. Stand on a glowing pad for a second (like the boss portals) and the team appears in that village's
+teleport room. (In Scalebrook Castle, the teleport room is through the left door of the hall.)
+
 **Scalebrook Village:** walk up into a shop's door to go in. Each shop has a shopkeeper behind the counter who
 says hello; step up to the counter for a moment to buy (coins come out of the team's purse):
 - **Scalebrook Inn** (top left): a rest fills your hearts, 5 coins.
@@ -118,7 +128,7 @@ says hello; step up to the counter for a moment to buy (coins come out of the te
 The path north leads to **Scalebrook Castle**. Its **Castle Hall** has knights on guard (some stand, some walk
 about); the top door goes to the **Throne Room** (the king and queen, and four knights; the king, the queen or both
 welcome you), the right door to the **Castle Kitchen** (a cook, and a free herb on the table, once), and the left door
-to the **armory**, which stays locked for now (a quest will open it). Villagers wander around the village.
+to the **teleport room**. Villagers wander around the village.
 
 **Frostfang Fortress** (the second dungeon): the temple gate in Frosttail Tundra's bottom-right corner. Inside: the
 **Frozen Gate** (arctic foxes; the door opens once they're beaten), the **Ice Hall** (on ice you slide until you bump
@@ -158,14 +168,30 @@ also weapons), and always each of its **monster parts** (a deer: an antler and a
 the save); there's nothing to buy yet. The boss drops five things: a big **boss coin** (with a red star; the team's
 boss coins show next to the coins) and four ordinary drops. Loot disappears after 30 seconds.
 
-**The overworld:** the team starts in Scalebrook Village. Scalebrook Meadow is in the middle, with the stone temple gate into The Old Burrow at the top
-right (walk in through the arch), and paths out through gaps in the bushes (signs show the way):
-west to **Scalebrook Village** (shops and the castle, no enemies), east to **Antlerwood Forest** (thick trees, deer,
-chests in clearings), from there north to **Frosttail Tundra** (snow, snowmen, two frozen lakes) and east to
-**Red Rock Canyon** (a long chasm with one rock bridge, and a high ledge with a chest that only flying or a grapple
-reaches), and south to **Tailspin Swamp** (murky ponds, bare trees, a chest only a grapple can reach) and on south to
-**Glimmer Lake** (a sandy beach and a wide lake; a chest waits on the far shore: take the boat, fly, or grapple to a
-bush). The forest, tundra and swamp are big: the camera scrolls around them.
+**The overworld:** the team starts in Scalebrook Village, the lizards' village.
+
+```
+ Hoofhollow -- Frosttail Tundra            Foxden -- Foxglove Hills
+  (deer)             |                      (fox)          |
+             Scalebrook Meadow -- Antlerwood Forest -- Red Rock Canyon -- Plume Peaks -- Peacock Palace
+                     |                   |                  |                              (birds)
+ Scalebrook -- Tailspin Swamp ------ Glimmer Lake      Scarab Desert -- Hivehold
+ (lizards)                                                          (bugs)
+```
+
+- **Scalebrook Meadow** has the stone temple gate into The Old Burrow (top right).
+- **Tailspin Swamp**: murky ponds, bare trees, a chest only a grapple reaches. Scalebrook Village is off its west side
+  (near the top, a short walk up to the meadow).
+- **Antlerwood Forest**: thick trees, deer and boars, chests in clearings.
+- **Frosttail Tundra** (north of the forest): snow, frozen lakes, arctic fox packs, the gate to **Frostfang Fortress**
+  (bottom right), and **Hoofhollow**, the deer and moose village, to the west.
+- **Glimmer Lake** (east of the swamp, south of the forest): a beach and a wide lake; a chest waits on the far shore
+  (boat, fly, or grapple to a bush).
+- **Red Rock Canyon** (east of the forest): a long chasm with one rock bridge and a high ledge only flying or a grapple
+  reaches. North: **Foxglove Hills** (grassy hills; **Foxden**, the fox village, is west of them). East: **Plume Peaks**
+  (mountains; **Peacock Palace**, the bird village, is east of them). South: **Scarab Desert** (hot sand and an oasis;
+  **Hivehold**, the bug village, is east of it, entered near the bottom).
+- The big areas scroll; signs show the way.
 
 **Classes (getting painted):** the lizard can be a **Chameleon** (camouflage, colour change), **Tongue Master**
 (stronger, longer tongue), **Spitter** (special button spits poison; LB / RB pick poison, fire, ice, lightning

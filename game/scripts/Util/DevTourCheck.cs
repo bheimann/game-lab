@@ -36,7 +36,21 @@ public partial class DevTourCheck : Node
         ("Village", "CastleDoor", "CastleHall"),
         ("CastleHall", "DoorTop", "ThroneRoom"),
         ("ThroneRoom", "DoorBottom", "CastleHall"),
-        ("CastleHall", "DoorLeft", "CastleHall"),
+        ("CastleHall", "DoorLeft", "ScaleTeleport"),
+        ("ScaleTeleport", "Pad:Hoofhollow", "HoofTeleport"),
+        ("HoofTeleport", "Pad:Foxden", "FoxTeleport"),
+        ("FoxTeleport", "Pad:Peacock Palace", "BirdTeleport"),
+        ("BirdTeleport", "Pad:Hivehold", "BugTeleport"),
+        ("BugTeleport", "DoorRight", "BugCastleHall"),
+        ("BugCastleHall", "DoorTop", "BugThrone"),
+        ("BugThrone", "DoorBottom", "BugCastleHall"),
+        ("BugCastleHall", "DoorBottom", "Hivehold"),
+        ("Hivehold", "GearShopDoor", "BugGearShop"),
+        ("BugGearShop", "DoorBottom", "Hivehold"),
+        ("Hivehold", "CastleDoor", "BugCastleHall"),
+        ("BugCastleHall", "DoorLeft", "BugTeleport"),
+        ("BugTeleport", "Pad:Scalebrook", "ScaleTeleport"),
+        ("ScaleTeleport", "DoorRight", "CastleHall"),
         ("CastleHall", "DoorRight", "Kitchen"),
         ("Kitchen", "DoorLeft", "CastleHall"),
         ("CastleHall", "DoorBottom", "Village"),
@@ -46,13 +60,21 @@ public partial class DevTourCheck : Node
         ("Swamp", "NorthPath", "Overworld"),
         ("Overworld", "EastPath", "Forest"),
         ("Forest", "NorthPath", "Tundra"),
+        ("Tundra", "WestPath", "Hoofhollow"),
+        ("Hoofhollow", "EastPath", "Tundra"),
         ("Tundra", "SouthPath", "Forest"),
         ("Forest", "EastPath", "Canyon"),
         ("Canyon", "NorthPath", "Hills"),
+        ("Hills", "WestPath", "Foxden"),
+        ("Foxden", "EastPath", "Hills"),
         ("Hills", "SouthPath", "Canyon"),
         ("Canyon", "EastPath", "Peaks"),
+        ("Peaks", "EastPath", "PeacockPalace"),
+        ("PeacockPalace", "WestPath", "Peaks"),
         ("Peaks", "WestPath", "Canyon"),
         ("Canyon", "SouthPath", "Desert"),
+        ("Desert", "EastPath", "Hivehold"),
+        ("Hivehold", "WestPath", "Desert"),
         ("Desert", "NorthPath", "Canyon"),
         ("Canyon", "WestPath", "Forest"),
         ("Forest", "SouthPath", "Lake"),
@@ -110,6 +132,35 @@ public partial class DevTourCheck : Node
             if (doorName == "Counter")
             {
                 Shop(hero, room, since);
+                return;
+            }
+
+            if (doorName.StartsWith("Pad:"))
+            {
+                // Stand on the teleport pad for that village until it takes the team there.
+                if (room.Name == to)
+                {
+                    _passed++;
+                    Log($"{from} --teleport pad--> {room.Name} ({room.Title})");
+                    Shot(0.6, $"_{room.Name}");
+                    Next();
+                }
+                else if (room.Name == from)
+                {
+                    hero.Teleport(room.GetChildren().OfType<TeleportPad>().First(p => p.Village == doorName[4..]).GlobalPosition);
+                }
+
+                if (since > 5)
+                {
+                    Log($"{from} --{doorName}--> timed out, still in {room.Name}");
+                    Next();
+                }
+
+                foreach (var key in new[] { Key.W, Key.A, Key.S, Key.D, Key.J })
+                {
+                    SetKey(key, false); // nothing held while standing on the pad
+                }
+
                 return;
             }
 
@@ -261,7 +312,8 @@ public partial class DevTourCheck : Node
 
     private void SetKey(Key key, bool down)
     {
-        if (down == _held.Contains(key))
+        // A held key is pressed again every frame: Godot lets go of every key when the window loses focus for a moment.
+        if (down == _held.Contains(key) && !down)
         {
             return;
         }

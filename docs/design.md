@@ -58,33 +58,52 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
 | Kingdom | Places | King's home |
 |---|---|---|
 | 🦎 Lizard | Scalebrook, **Tailspin Swamp** | **Scalebrook Castle** |
-| 🦌 Deer | Antlerwood Forest, Hoofhollow | ? |
-| 🦊 Fox | Foxglove Hills, Frosttail Tundra (snow: arctic foxes and reindeer) | ? |
+| 🦌 Deer | Antlerwood Forest, Hoofhollow | **Hoofhollow Castle** |
+| 🦊 Fox | Foxglove Hills, Foxden, Frosttail Tundra (snow: arctic foxes and reindeer) | **Foxden Castle** |
 | 🦚 Bird | Plume Peaks, **Peacock Palace** | Peacock Palace |
-| 🪲 Bug | Scarab Desert | ? |
+| 🪲 Bug | Scarab Desert, Hivehold | **Hivehold Castle** |
 
 ### The overworld so far
 ```
-                 Frosttail Tundra
-                        |
-Village -- Meadow -- Antlerwood Forest -- Red Rock Canyon
-             |
-       Tailspin Swamp
-             |
-        Glimmer Lake
+ Hoofhollow -- Frosttail Tundra            Foxden -- Foxglove Hills
+  (deer)             |                      (fox)          |
+             Scalebrook Meadow -- Antlerwood Forest -- Red Rock Canyon -- Plume Peaks -- Peacock Palace
+                     |                   |                  |                              (birds)
+ Scalebrook -- Tailspin Swamp ------ Glimmer Lake      Scarab Desert -- Hivehold
+ (lizards)                                                          (bugs)
 ```
 
 | Area | What's there |
 |---|---|
-| **Scalebrook Village** (start) | Shops, villagers, **Scalebrook Castle** up north, a painter's mat (for playtesting). No enemies |
-| **Scalebrook Meadow** | The Old Burrow's temple gate (the first dungeon), a grapple-only chest, deer |
-| **Antlerwood Forest** (big) | Thick trees, lots of deer, chests in clearings |
-| **Frosttail Tundra** (big) | Snow, snowy pines, snowmen, two frozen lakes, arctic fox packs, chests, and the gate to **Frostfang Fortress** |
-| **Red Rock Canyon** | A long chasm with one rock bridge; a high ledge with a chest that only flying (glider, plane) or a grapple reaches |
-| **Tailspin Swamp** (big) | Murky ponds, bare trees, deer, chests, one only a grapple reaches |
-| **Glimmer Lake** | A sandy beach, and a wide lake; a chest on the far shore (boat, fly, or grapple to a bush) |
+| **Scalebrook Village** (start) | The lizards' village (below), west of the swamp |
+| **Scalebrook Meadow** | The Old Burrow's temple gate (the first dungeon), a grapple-only chest, deer, snakes |
+| **Tailspin Swamp** (big) | Murky ponds, bare trees, frogs and snakes, a grapple-only chest |
+| **Antlerwood Forest** (big) | Thick trees, deer and boars, chests in clearings |
+| **Glimmer Lake** | East of the swamp, south of the forest: a beach and a wide lake; a chest on the far shore |
+| **Frosttail Tundra** (big) | Snow, frozen lakes, arctic fox packs, chests, the gate to **Frostfang Fortress**; **Hoofhollow** to the west |
+| **Red Rock Canyon** | A long chasm with one rock bridge; a high ledge with a chest only flying or a grapple reaches |
+| **Foxglove Hills** | North of the canyon: grassy hills, autumn trees, a pond; **Foxden** to the west |
+| **Plume Peaks** | East of the canyon: mountains, pines, cliff cracks (cold); **Peacock Palace** to the east |
+| **Scarab Desert** | South of the canyon: hot sand, an oasis (hot); **Hivehold** to the east, entered near the bottom |
 
 (These are first versions made by Claude from the place names above. The designer decides what really goes in each.)
+
+### The villages
+Every kingdom has a village with an **inn** (rest, 5 coins), a **herb shop** (10 coins), a **paint shop**, the
+**weapons & armor shop** (weapon upgrades) and a **castle**: a hall with knights, a **throne room** with that kingdom's
+king and queen, and a **teleport room**.
+
+| Village | Kingdom | Where | King and queen |
+|---|---|---|---|
+| **Scalebrook** | Lizards | West of Tailspin Swamp | Lizard king, peahen queen |
+| **Hoofhollow** | Deer and moose | West of Frosttail Tundra | Moose king and queen |
+| **Foxden** | Foxes | West of Foxglove Hills | Red fox king, arctic fox queen |
+| **Peacock Palace** | Birds | East of Plume Peaks | Peacock king and queen |
+| **Hivehold** | Bugs | East of Scarab Desert | Beetle king and queen |
+
+**Teleporting:** each teleport room has the village's **crystal** and a **pad for every village**. Touching a crystal
+wakes that village's teleport for the whole team; its pad then glows in every teleport room, and standing on it for a
+second takes the team there. (Playtesting: `unlock_all_teleports` in `game/playtest.cfg` wakes them all.)
 
 ### Scalebrook Village and Castle
 Walk up into a shop's door to go in. Each shop has a **shopkeeper** behind the counter who greets you; they wander a
@@ -96,7 +115,7 @@ little, and step up to the counter (and stay) when a hero is there. Stand at the
 | **Herb Shop** | A healing herb, **10 coins** |
 | **Paint Shop** | A paint mat to change class (later: where you unlock your first class) |
 | **Weapons & Armor** | **Weapon upgrades** for the whole team (below) |
-| **Castle Hall** | Knights (some guard, some walk about). Doors: up to the throne room, right to the kitchen, left to the **armory** (locked until a quest opens it) |
+| **Castle Hall** | Knights (some guard, some walk about). Doors: up to the throne room, right to the kitchen, left to the **teleport room** |
 | **Throne Room** | The **king** (a lizard) and **queen** (a peahen), and four knights. The king, the queen or both welcome you. **Later:** quests |
 | **Castle Kitchen** | A cook, and a **free herb** (once) |
 
@@ -284,9 +303,10 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
 
 ## Questions for the designer
 - **Titles:** what are they called (e.g. Squire → Knight → Royal Knight → ...), and which boss gives which?
-- **The king's tutorial and quests:** what happens in the story at the start, and what quest opens the armory?
+- **The king's tutorial and quests:** what happens in the story at the start, and what quests do the kings give?
 - **Titles after Knight**, and what the next dungeon is (where, which boss, what it unlocks)?
 - **Boss drops:** which new bomb, weapon or gun does each boss drop?
-- **Where the other kingdoms go:** Foxglove Hills, Plume Peaks, Scarab Desert, and the deer, fox and bug kings' homes.
+- **The new villages:** what's special about each one (Hoofhollow, Foxden, Peacock Palace, Hivehold)? Right now they
+  all have the same shops.
 - **Combos:** which element orders make which combos (for the Element / Wand Master)?
 - **The first dungeon:** its name ("The Old Burrow" for now), the rooms, the puzzles and the boss are placeholders.

@@ -72,6 +72,9 @@ public sealed class SaveData
     /// <summary>Older saves: The Old Burrow was beaten (now in <see cref="CompletedDungeons"/>).</summary>
     public bool DungeonComplete { get; set; }
 
+    /// <summary>Villages whose teleports are awake.</summary>
+    public List<string> Teleports { get; set; } = new();
+
     /// <summary>The dungeons beaten so far (their area names).</summary>
     public List<string> CompletedDungeons { get; set; } = new();
 
@@ -143,6 +146,7 @@ public static class SaveGame
         if (data is null)
         {
             Playtest.ApplyNewGame(); // a new game: playtest settings (starting coins...)
+            Playtest.ApplyAlways(anyNode);
             return;
         }
 
@@ -164,6 +168,7 @@ public static class SaveGame
 
         Unlocks.Restore(data.BossesBeaten);
         Purse.Restore(data.Coins, data.BossCoins);
+        Items.Teleports.Restore(data.Teleports);
         Purse.RestoreHerbs(data.Herbs > 0 ? data.Herbs : data.Players.Values.Sum(p => p.Herbs)); // older saves: everyone's herbs pooled
         Items.WeaponTier.Restore(data.WeaponTier);
         MonsterParts.Restore(data.Parts);
@@ -178,6 +183,8 @@ public static class SaveGame
         {
             room.SyncCleared();
         }
+
+        Playtest.ApplyAlways(anyNode);
     }
 
     /// <summary>Save now (does nothing in dev runs).</summary>
@@ -195,6 +202,7 @@ public static class SaveGame
             Coins = Purse.Coins,
             BossCoins = Purse.BossCoins,
             Herbs = Purse.Herbs,
+            Teleports = Items.Teleports.Unlocked.ToList(),
             WeaponTier = Items.WeaponTier.Level,
             Parts = MonsterParts.Snapshot(),
             CraftedArmor = Armor.Crafted.ToList(),
@@ -258,6 +266,7 @@ public static class SaveGame
         Unlocks.Restore(Enumerable.Empty<string>());
         Purse.Restore(0, 0);
         Purse.RestoreHerbs(0);
+        Items.Teleports.Restore(Enumerable.Empty<string>());
         Items.WeaponTier.Restore(0);
         MonsterParts.Restore(null);
         Armor.RestoreCrafted(Enumerable.Empty<string>());

@@ -27,6 +27,8 @@
 [ext_resource type="Script" path="res://scripts/Rooms/DirtPath.cs" id="dirtpath"]
 [ext_resource type="Script" path="res://scripts/Dungeons/DungeonGate.cs" id="gate"]
 [ext_resource type="Script" path="res://scripts/Dungeons/ExitPortal.cs" id="portal"]
+[ext_resource type="Script" path="res://scripts/Dungeons/TeleportPad.cs" id="telepad"]
+[ext_resource type="Script" path="res://scripts/Dungeons/TeleportCrystal.cs" id="telecrystal"]
 [ext_resource type="Script" path="res://scripts/Dungeons/IceFloor.cs" id="ice"]
 [ext_resource type="Script" path="res://scripts/Actors/Npc.cs" id="npc"]
 [ext_resource type="Script" path="res://scripts/Dungeons/ShopCounter.cs" id="counter"]
@@ -1346,9 +1348,9 @@ LeadsTo = NodePath("../../Kitchen/DoorLeft")
 [node name="DoorLeft" type="Node2D" parent="World/CastleHall"]
 script = ExtResource("door")
 Side = 2
-State = 3
-BarredMessage = "The armory is locked.
-Maybe the king needs your help first..."
+State = 0
+BarredMessage = "It won't open"
+LeadsTo = NodePath("../../ScaleTeleport/DoorRight")
 
 [node name="Carpet" type="StaticBody2D" parent="World/CastleHall"]
 position = Vector2(172, 32)
@@ -3534,31 +3536,6 @@ position = Vector2(800, 239)
 script = ExtResource("prop")
 Kind = 9
 
-[node name="SnowPine61" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(39, 292)
-script = ExtResource("prop")
-Kind = 9
-
-[node name="SnowPine62" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(76, 283)
-script = ExtResource("prop")
-Kind = 9
-
-[node name="SnowPine63" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(143, 297)
-script = ExtResource("prop")
-Kind = 9
-
-[node name="SnowPine64" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(180, 278)
-script = ExtResource("prop")
-Kind = 9
-
-[node name="SnowPine65" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(253, 299)
-script = ExtResource("prop")
-Kind = 9
-
 [node name="SnowPine66" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(355, 285)
 script = ExtResource("prop")
@@ -3596,31 +3573,6 @@ Kind = 9
 
 [node name="SnowPine72" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(803, 300)
-script = ExtResource("prop")
-Kind = 9
-
-[node name="SnowPine73" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(46, 318)
-script = ExtResource("prop")
-Kind = 9
-
-[node name="SnowPine74" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(80, 320)
-script = ExtResource("prop")
-Kind = 9
-
-[node name="SnowPine75" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(135, 318)
-script = ExtResource("prop")
-Kind = 9
-
-[node name="SnowPine76" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(220, 321)
-script = ExtResource("prop")
-Kind = 9
-
-[node name="SnowPine77" type="StaticBody2D" parent="World/Tundra"]
-position = Vector2(272, 319)
 script = ExtResource("prop")
 Kind = 9
 
@@ -19195,3 +19147,4042 @@ position = Vector2(1393, 402)
 
 [node name="Boar2" parent="World/Hills" instance=ExtResource("boar")]
 position = Vector2(863, 329)
+
+[node name="ScaleTeleport" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(14400, -1600)
+script = ExtResource("room")
+Title = "Scalebrook Teleport Room"
+
+[node name="Layout" type="Node2D" parent="World/ScaleTeleport"]
+z_index = -1
+script = ExtResource("layout")
+Color = 3
+InteriorWidth = 32
+InteriorHeight = 16
+
+[node name="Floor" type="TileMapLayer" parent="World/ScaleTeleport/Layout"]
+modulate = Color(0.8, 0.85, 1, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/ScaleTeleport/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorRight" type="Node2D" parent="World/ScaleTeleport"]
+script = ExtResource("door")
+Side = 3
+LeadsTo = NodePath("../../CastleHall/DoorLeft")
+
+[node name="Crystal" type="Node2D" parent="World/ScaleTeleport"]
+position = Vector2(136, 70)
+script = ExtResource("telecrystal")
+Village = "Scalebrook"
+
+[node name="Arrival" type="Node2D" parent="World/ScaleTeleport"]
+position = Vector2(136, 96)
+script = ExtResource("door")
+Doorway = true
+
+[node name="Pad1" type="Node2D" parent="World/ScaleTeleport"]
+position = Vector2(40, 136)
+script = ExtResource("telepad")
+Village = "Scalebrook"
+Here = true
+
+[node name="Pad2" type="Node2D" parent="World/ScaleTeleport"]
+position = Vector2(88, 136)
+script = ExtResource("telepad")
+Village = "Hoofhollow"
+Destination = NodePath("../../HoofTeleport/Arrival")
+
+[node name="Pad3" type="Node2D" parent="World/ScaleTeleport"]
+position = Vector2(136, 136)
+script = ExtResource("telepad")
+Village = "Foxden"
+Destination = NodePath("../../FoxTeleport/Arrival")
+
+[node name="Pad4" type="Node2D" parent="World/ScaleTeleport"]
+position = Vector2(184, 136)
+script = ExtResource("telepad")
+Village = "Peacock Palace"
+Destination = NodePath("../../BirdTeleport/Arrival")
+
+[node name="Pad5" type="Node2D" parent="World/ScaleTeleport"]
+position = Vector2(232, 136)
+script = ExtResource("telepad")
+Village = "Hivehold"
+Destination = NodePath("../../BugTeleport/Arrival")
+
+[node name="Sign" type="StaticBody2D" parent="World/ScaleTeleport"]
+position = Vector2(240, 70)
+script = ExtResource("prop")
+Kind = 3
+Text = "Touch the crystal to wake this village's teleport.\nStand on a glowing pad to travel."
+
+[node name="Banner1" type="StaticBody2D" parent="World/ScaleTeleport"]
+position = Vector2(72, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/ScaleTeleport"]
+position = Vector2(200, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Hoofhollow" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(-4000, 2400)
+script = ExtResource("room")
+Title = "Hoofhollow"
+
+[node name="Layout" type="Node2D" parent="World/Hoofhollow"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 72
+InteriorHeight = 42
+Ground = 3
+PathPoints = PackedVector2Array(608, 200, 0, 200)
+
+[node name="EastPath" type="Node2D" parent="World/Hoofhollow"]
+position = Vector2(608, 200)
+script = ExtResource("door")
+Side = 3
+Path = true
+LeadsTo = NodePath("../../Tundra/WestPath")
+
+[node name="House1" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(120, 150)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="InnDoor" type="Node2D" parent="World/Hoofhollow"]
+position = Vector2(128, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../HoofInn/DoorBottom")
+
+[node name="InnSign" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(106, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Hoofhollow Inn\nRest your hearts: 5 coins"
+
+[node name="House2" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(236, 150)
+script = ExtResource("prop")
+Kind = 15
+
+[node name="HerbShopDoor" type="Node2D" parent="World/Hoofhollow"]
+position = Vector2(244, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../HoofHerbShop/DoorBottom")
+
+[node name="HerbShopSign" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(222, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Herb Shop\nHealing herbs: 10 coins"
+
+[node name="House3" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(430, 150)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="PaintShopDoor" type="Node2D" parent="World/Hoofhollow"]
+position = Vector2(438, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../HoofPaintShop/DoorBottom")
+
+[node name="PaintShopSign" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(416, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Paint Shop\nTry a new class"
+
+[node name="House4" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(150, 310)
+script = ExtResource("prop")
+Kind = 15
+
+[node name="GearShopDoor" type="Node2D" parent="World/Hoofhollow"]
+position = Vector2(158, 316)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../HoofGearShop/DoorBottom")
+
+[node name="GearShopSign" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(136, 326)
+script = ExtResource("prop")
+Kind = 3
+Text = "Weapons & Armor\nUpgrade the team's weapons"
+
+[node name="House5" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(450, 310)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="Path1" type="Node2D" parent="World/Hoofhollow"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(128, 200, 128, 154)
+
+[node name="Path2" type="Node2D" parent="World/Hoofhollow"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(244, 200, 244, 154)
+
+[node name="Path3" type="Node2D" parent="World/Hoofhollow"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(438, 200, 438, 154)
+
+[node name="Path4" type="Node2D" parent="World/Hoofhollow"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(300, 200, 300, 345, 158, 345, 158, 314)
+
+[node name="Path5" type="Node2D" parent="World/Hoofhollow"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(300, 200, 300, 345, 458, 345, 458, 314)
+
+[node name="CastlePath" type="Node2D" parent="World/Hoofhollow"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(304, 200, 304, 66)
+
+[node name="CastleGate" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(304, 64)
+script = ExtResource("gate")
+
+[node name="CastleDoor" type="Node2D" parent="World/Hoofhollow"]
+position = Vector2(304, 56)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../HoofCastleHall/DoorBottom")
+
+[node name="CastleSign" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(366, 100)
+script = ExtResource("prop")
+Kind = 3
+Text = "Hoofhollow Castle\nThe king and queen live here"
+
+[node name="VillageSign" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(564, 176)
+script = ExtResource("prop")
+Kind = 3
+Text = "Hoofhollow"
+
+[node name="Prop1" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(69, 322)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop2" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(475, 65)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop3" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(390, 143)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop4" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(76, 43)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop5" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(244, 316)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop6" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(557, 146)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop7" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(162, 123)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="Prop8" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(557, 247)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="Prop9" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(202, 38)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop10" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(41, 52)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="Prop11" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(233, 66)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop12" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(67, 129)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop13" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(577, 44)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop14" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(542, 106)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop15" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(540, 49)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop16" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(153, 45)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop17" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(339, 147)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop18" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(520, 341)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop19" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(196, 268)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop20" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(351, 292)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop21" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(61, 245)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop22" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(430, 234)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop23" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(508, 278)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop24" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(194, 148)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop25" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(272, 290)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop26" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(449, 35)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop27" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(472, 106)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop28" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(255, 242)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop29" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(504, 160)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="Prop30" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(166, 230)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop31" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(376, 246)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop32" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(420, 58)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop33" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(193, 84)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop34" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(495, 239)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop35" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(124, 81)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop36" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(104, 271)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop37" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(31, 157)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop38" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(127, 235)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop39" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(29, 294)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop40" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(554, 329)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop41" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(83, 85)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop42" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(207, 232)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop43" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(352, 89)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop44" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(381, 41)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop45" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(510, 86)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop46" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(327, 240)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop47" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(547, 283)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop48" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(233, 275)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop49" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(115, 42)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop50" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(392, 318)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop51" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(581, 83)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="Prop52" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(397, 278)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop53" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(27, 335)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop54" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(26, 86)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop55" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(113, 342)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop56" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(69, 166)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop57" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(209, 304)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop58" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(277, 87)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop59" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(395, 89)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop60" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(581, 296)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop61" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(66, 283)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop62" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(277, 146)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="Prop63" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(501, 39)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop64" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(27, 229)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop65" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(161, 172)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop66" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(492, 314)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop67" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(472, 144)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop68" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(504, 123)
+script = ExtResource("prop")
+Kind = 12
+
+[node name="Prop69" type="StaticBody2D" parent="World/Hoofhollow"]
+position = Vector2(368, 174)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Villager1" type="CharacterBody2D" parent="World/Hoofhollow"]
+position = Vector2(200, 206)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_deer"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager2" type="CharacterBody2D" parent="World/Hoofhollow"]
+position = Vector2(410, 206)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_moose"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager3" type="CharacterBody2D" parent="World/Hoofhollow"]
+position = Vector2(290, 300)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_deer"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager4" type="CharacterBody2D" parent="World/Hoofhollow"]
+position = Vector2(520, 236)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_fox"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="HoofInn" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(10000, -4000)
+script = ExtResource("room")
+Title = "Hoofhollow Inn"
+
+[node name="Layout" type="Node2D" parent="World/HoofInn"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/HoofInn/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/HoofInn/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/HoofInn"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Hoofhollow/InnDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/HoofInn"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 1
+Price = 5
+SignText = "Step up to rest: 5 coins"
+
+[node name="Keeper" type="CharacterBody2D" parent="World/HoofInn"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/innkeeper"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome to the Hoofhollow Inn! A good rest is 5 coins."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/HoofInn"]
+position = Vector2(28, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture2" type="StaticBody2D" parent="World/HoofInn"]
+position = Vector2(52, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture3" type="StaticBody2D" parent="World/HoofInn"]
+position = Vector2(176, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture4" type="StaticBody2D" parent="World/HoofInn"]
+position = Vector2(40, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="HoofHerbShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(10000, -4400)
+script = ExtResource("room")
+Title = "Herb Shop"
+
+[node name="Layout" type="Node2D" parent="World/HoofHerbShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/HoofHerbShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/HoofHerbShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/HoofHerbShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Hoofhollow/HerbShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/HoofHerbShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 2
+Price = 10
+SignText = "Step up to buy a herb: 10 coins"
+
+[node name="Keeper" type="CharacterBody2D" parent="World/HoofHerbShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/herbalist"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Fresh healing herbs, 10 coins each!"
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/HoofHerbShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="Furniture2" type="StaticBody2D" parent="World/HoofHerbShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="Furniture3" type="StaticBody2D" parent="World/HoofHerbShop"]
+position = Vector2(30, 120)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="HoofPaintShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(10000, -4800)
+script = ExtResource("room")
+Title = "Paint Shop"
+
+[node name="Layout" type="Node2D" parent="World/HoofPaintShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/HoofPaintShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/HoofPaintShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/HoofPaintShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Hoofhollow/PaintShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/HoofPaintShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 0
+Price = 0
+SignText = "Stand on the mat to change class"
+SignY = 26.0
+
+[node name="Keeper" type="CharacterBody2D" parent="World/HoofPaintShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/paint_seller"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome! Step on the mat to try a new class."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/HoofPaintShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 6
+
+[node name="Furniture2" type="StaticBody2D" parent="World/HoofPaintShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 6
+
+[node name="Painter" type="Node2D" parent="World/HoofPaintShop"]
+position = Vector2(104, 88)
+script = ExtResource("painter")
+ShowLabel = false
+
+[node name="HoofGearShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(10000, -5200)
+script = ExtResource("room")
+Title = "Weapons & Armor"
+
+[node name="Layout" type="Node2D" parent="World/HoofGearShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/HoofGearShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/HoofGearShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/HoofGearShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Hoofhollow/GearShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/HoofGearShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 4
+Price = 0
+SignText = ""
+
+[node name="Keeper" type="CharacterBody2D" parent="World/HoofGearShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/smith"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome! I can make the whole team's weapons stronger."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/HoofGearShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="Furniture2" type="StaticBody2D" parent="World/HoofGearShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="Furniture3" type="StaticBody2D" parent="World/HoofGearShop"]
+position = Vector2(30, 120)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="HoofCastleHall" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(10000, -5700)
+script = ExtResource("room")
+Title = "Hoofhollow Castle"
+
+[node name="Layout" type="Node2D" parent="World/HoofCastleHall"]
+z_index = -1
+script = ExtResource("layout")
+Color = 3
+InteriorWidth = 36
+InteriorHeight = 18
+
+[node name="Floor" type="TileMapLayer" parent="World/HoofCastleHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/HoofCastleHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/HoofCastleHall"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Hoofhollow/CastleDoor")
+
+[node name="DoorTop" type="Node2D" parent="World/HoofCastleHall"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../HoofThrone/DoorBottom")
+
+[node name="DoorLeft" type="Node2D" parent="World/HoofCastleHall"]
+script = ExtResource("door")
+Side = 2
+LeadsTo = NodePath("../../HoofTeleport/DoorRight")
+
+[node name="Carpet" type="StaticBody2D" parent="World/HoofCastleHall"]
+position = Vector2(140, 32)
+script = ExtResource("decor")
+Kind = 1
+Size = Vector2(24, 144)
+
+[node name="Banner1" type="StaticBody2D" parent="World/HoofCastleHall"]
+position = Vector2(80, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/HoofCastleHall"]
+position = Vector2(112, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner3" type="StaticBody2D" parent="World/HoofCastleHall"]
+position = Vector2(200, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner4" type="StaticBody2D" parent="World/HoofCastleHall"]
+position = Vector2(232, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Knight1" type="CharacterBody2D" parent="World/HoofCastleHall"]
+position = Vector2(130, 58)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+FacingDirection = Vector2(0, 1)
+
+[node name="Knight2" type="CharacterBody2D" parent="World/HoofCastleHall"]
+position = Vector2(174, 58)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+FacingDirection = Vector2(0, 1)
+
+[node name="Knight3" type="CharacterBody2D" parent="World/HoofCastleHall"]
+position = Vector2(230, 130)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="TeleportSign" type="StaticBody2D" parent="World/HoofCastleHall"]
+position = Vector2(40, 70)
+script = ExtResource("prop")
+Kind = 3
+Text = "Left: the teleport room"
+
+[node name="HoofThrone" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(10000, -6100)
+script = ExtResource("room")
+Title = "Throne Room"
+
+[node name="Layout" type="Node2D" parent="World/HoofThrone"]
+z_index = -1
+script = ExtResource("layout")
+Color = 4
+InteriorWidth = 28
+InteriorHeight = 14
+
+[node name="Floor" type="TileMapLayer" parent="World/HoofThrone/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/HoofThrone/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/HoofThrone"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../HoofCastleHall/DoorTop")
+
+[node name="Carpet" type="StaticBody2D" parent="World/HoofThrone"]
+position = Vector2(108, 72)
+script = ExtResource("decor")
+Kind = 1
+Size = Vector2(24, 72)
+
+[node name="KingThrone" type="StaticBody2D" parent="World/HoofThrone"]
+position = Vector2(104, 64)
+script = ExtResource("decor")
+Kind = 0
+
+[node name="QueenThrone" type="StaticBody2D" parent="World/HoofThrone"]
+position = Vector2(136, 64)
+script = ExtResource("decor")
+Kind = 0
+
+[node name="Banner1" type="StaticBody2D" parent="World/HoofThrone"]
+position = Vector2(48, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/HoofThrone"]
+position = Vector2(176, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="King" type="CharacterBody2D" parent="World/HoofThrone"]
+position = Vector2(104, 76)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/moose_king"
+Greeting = "Welcome to Hoofhollow, little heroes! The deer and moose are glad you came."
+GreetsWith = NodePath("../Queen")
+
+[node name="Queen" type="CharacterBody2D" parent="World/HoofThrone"]
+position = Vector2(136, 76)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/moose_queen"
+Greeting = "Stay warm, heroes! The tundra is cold out there."
+GreetsOnEnter = false
+
+[node name="Knight1" type="CharacterBody2D" parent="World/HoofThrone"]
+position = Vector2(40, 100)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+FacingDirection = Vector2(1, 0)
+
+[node name="Knight2" type="CharacterBody2D" parent="World/HoofThrone"]
+position = Vector2(200, 100)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+FacingDirection = Vector2(-1, 0)
+
+[node name="HoofTeleport" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(10000, -6500)
+script = ExtResource("room")
+Title = "Hoofhollow Teleport Room"
+
+[node name="Layout" type="Node2D" parent="World/HoofTeleport"]
+z_index = -1
+script = ExtResource("layout")
+Color = 3
+InteriorWidth = 32
+InteriorHeight = 16
+
+[node name="Floor" type="TileMapLayer" parent="World/HoofTeleport/Layout"]
+modulate = Color(0.8, 0.85, 1, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/HoofTeleport/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorRight" type="Node2D" parent="World/HoofTeleport"]
+script = ExtResource("door")
+Side = 3
+LeadsTo = NodePath("../../HoofCastleHall/DoorLeft")
+
+[node name="Crystal" type="Node2D" parent="World/HoofTeleport"]
+position = Vector2(136, 70)
+script = ExtResource("telecrystal")
+Village = "Hoofhollow"
+
+[node name="Arrival" type="Node2D" parent="World/HoofTeleport"]
+position = Vector2(136, 96)
+script = ExtResource("door")
+Doorway = true
+
+[node name="Pad1" type="Node2D" parent="World/HoofTeleport"]
+position = Vector2(40, 136)
+script = ExtResource("telepad")
+Village = "Scalebrook"
+Destination = NodePath("../../ScaleTeleport/Arrival")
+
+[node name="Pad2" type="Node2D" parent="World/HoofTeleport"]
+position = Vector2(88, 136)
+script = ExtResource("telepad")
+Village = "Hoofhollow"
+Here = true
+
+[node name="Pad3" type="Node2D" parent="World/HoofTeleport"]
+position = Vector2(136, 136)
+script = ExtResource("telepad")
+Village = "Foxden"
+Destination = NodePath("../../FoxTeleport/Arrival")
+
+[node name="Pad4" type="Node2D" parent="World/HoofTeleport"]
+position = Vector2(184, 136)
+script = ExtResource("telepad")
+Village = "Peacock Palace"
+Destination = NodePath("../../BirdTeleport/Arrival")
+
+[node name="Pad5" type="Node2D" parent="World/HoofTeleport"]
+position = Vector2(232, 136)
+script = ExtResource("telepad")
+Village = "Hivehold"
+Destination = NodePath("../../BugTeleport/Arrival")
+
+[node name="Sign" type="StaticBody2D" parent="World/HoofTeleport"]
+position = Vector2(240, 70)
+script = ExtResource("prop")
+Kind = 3
+Text = "Touch the crystal to wake this village's teleport.\nStand on a glowing pad to travel."
+
+[node name="Banner1" type="StaticBody2D" parent="World/HoofTeleport"]
+position = Vector2(72, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/HoofTeleport"]
+position = Vector2(200, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Foxden" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(8000, -600)
+script = ExtResource("room")
+Title = "Foxden"
+
+[node name="Layout" type="Node2D" parent="World/Foxden"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 72
+InteriorHeight = 42
+Ground = 1
+PathPoints = PackedVector2Array(608, 200, 0, 200)
+
+[node name="EastPath" type="Node2D" parent="World/Foxden"]
+position = Vector2(608, 200)
+script = ExtResource("door")
+Side = 3
+Path = true
+LeadsTo = NodePath("../../Hills/WestPath")
+
+[node name="House1" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(120, 150)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="InnDoor" type="Node2D" parent="World/Foxden"]
+position = Vector2(128, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../FoxInn/DoorBottom")
+
+[node name="InnSign" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(106, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Foxden Inn\nRest your hearts: 5 coins"
+
+[node name="House2" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(236, 150)
+script = ExtResource("prop")
+Kind = 15
+
+[node name="HerbShopDoor" type="Node2D" parent="World/Foxden"]
+position = Vector2(244, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../FoxHerbShop/DoorBottom")
+
+[node name="HerbShopSign" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(222, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Herb Shop\nHealing herbs: 10 coins"
+
+[node name="House3" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(430, 150)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="PaintShopDoor" type="Node2D" parent="World/Foxden"]
+position = Vector2(438, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../FoxPaintShop/DoorBottom")
+
+[node name="PaintShopSign" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(416, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Paint Shop\nTry a new class"
+
+[node name="House4" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(150, 310)
+script = ExtResource("prop")
+Kind = 15
+
+[node name="GearShopDoor" type="Node2D" parent="World/Foxden"]
+position = Vector2(158, 316)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../FoxGearShop/DoorBottom")
+
+[node name="GearShopSign" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(136, 326)
+script = ExtResource("prop")
+Kind = 3
+Text = "Weapons & Armor\nUpgrade the team's weapons"
+
+[node name="House5" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(450, 310)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="Path1" type="Node2D" parent="World/Foxden"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(128, 200, 128, 154)
+
+[node name="Path2" type="Node2D" parent="World/Foxden"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(244, 200, 244, 154)
+
+[node name="Path3" type="Node2D" parent="World/Foxden"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(438, 200, 438, 154)
+
+[node name="Path4" type="Node2D" parent="World/Foxden"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(300, 200, 300, 345, 158, 345, 158, 314)
+
+[node name="Path5" type="Node2D" parent="World/Foxden"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(300, 200, 300, 345, 458, 345, 458, 314)
+
+[node name="CastlePath" type="Node2D" parent="World/Foxden"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(304, 200, 304, 66)
+
+[node name="CastleGate" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(304, 64)
+script = ExtResource("gate")
+
+[node name="CastleDoor" type="Node2D" parent="World/Foxden"]
+position = Vector2(304, 56)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../FoxCastleHall/DoorBottom")
+
+[node name="CastleSign" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(366, 100)
+script = ExtResource("prop")
+Kind = 3
+Text = "Foxden Castle\nThe king and queen live here"
+
+[node name="VillageSign" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(564, 176)
+script = ExtResource("prop")
+Kind = 3
+Text = "Foxden"
+
+[node name="Prop1" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(528, 112)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop2" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(28, 232)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop3" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(470, 118)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop4" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(418, 230)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop5" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(109, 82)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop6" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(523, 159)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop7" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(351, 273)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop8" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(386, 161)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop9" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(340, 157)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop10" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(361, 111)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop11" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(382, 235)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop12" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(218, 307)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop13" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(523, 257)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop14" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(228, 67)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop15" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(63, 256)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop16" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(44, 59)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop17" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(580, 268)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop18" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(408, 59)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop19" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(133, 47)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop20" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(485, 59)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop21" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(169, 60)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop22" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(61, 319)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop23" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(66, 152)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop24" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(513, 295)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop25" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(29, 114)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop26" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(576, 304)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop27" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(238, 276)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop28" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(264, 316)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop29" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(166, 236)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop30" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(355, 318)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop31" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(263, 82)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop32" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(121, 239)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop33" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(565, 105)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop34" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(481, 246)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop35" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(167, 160)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop36" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(233, 236)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop37" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(100, 344)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop38" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(26, 276)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop39" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(109, 277)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop40" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(174, 98)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop41" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(552, 332)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop42" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(492, 334)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop43" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(94, 39)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop44" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(200, 36)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop45" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(453, 42)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop46" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(394, 287)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop47" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(196, 264)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop48" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(558, 235)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop49" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(569, 65)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop50" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(341, 232)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop51" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(526, 58)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop52" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(486, 158)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop53" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(32, 172)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop54" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(273, 240)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop55" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(568, 147)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop56" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(65, 89)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop57" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(371, 76)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop58" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(28, 339)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop59" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(332, 88)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop60" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(371, 38)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop61" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(276, 152)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop62" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(435, 89)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop63" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(193, 129)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop64" type="StaticBody2D" parent="World/Foxden"]
+position = Vector2(86, 226)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Villager1" type="CharacterBody2D" parent="World/Foxden"]
+position = Vector2(200, 206)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_redfox"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager2" type="CharacterBody2D" parent="World/Foxden"]
+position = Vector2(410, 206)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_fox"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager3" type="CharacterBody2D" parent="World/Foxden"]
+position = Vector2(290, 300)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_redfox"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager4" type="CharacterBody2D" parent="World/Foxden"]
+position = Vector2(520, 236)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_fox"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="FoxInn" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(11600, -4000)
+script = ExtResource("room")
+Title = "Foxden Inn"
+
+[node name="Layout" type="Node2D" parent="World/FoxInn"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/FoxInn/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FoxInn/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/FoxInn"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Foxden/InnDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/FoxInn"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 1
+Price = 5
+SignText = "Step up to rest: 5 coins"
+
+[node name="Keeper" type="CharacterBody2D" parent="World/FoxInn"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/innkeeper"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome to the Foxden Inn! A good rest is 5 coins."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/FoxInn"]
+position = Vector2(28, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture2" type="StaticBody2D" parent="World/FoxInn"]
+position = Vector2(52, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture3" type="StaticBody2D" parent="World/FoxInn"]
+position = Vector2(176, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture4" type="StaticBody2D" parent="World/FoxInn"]
+position = Vector2(40, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="FoxHerbShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(11600, -4400)
+script = ExtResource("room")
+Title = "Herb Shop"
+
+[node name="Layout" type="Node2D" parent="World/FoxHerbShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/FoxHerbShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FoxHerbShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/FoxHerbShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Foxden/HerbShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/FoxHerbShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 2
+Price = 10
+SignText = "Step up to buy a herb: 10 coins"
+
+[node name="Keeper" type="CharacterBody2D" parent="World/FoxHerbShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/herbalist"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Fresh healing herbs, 10 coins each!"
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/FoxHerbShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="Furniture2" type="StaticBody2D" parent="World/FoxHerbShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="Furniture3" type="StaticBody2D" parent="World/FoxHerbShop"]
+position = Vector2(30, 120)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="FoxPaintShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(11600, -4800)
+script = ExtResource("room")
+Title = "Paint Shop"
+
+[node name="Layout" type="Node2D" parent="World/FoxPaintShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/FoxPaintShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FoxPaintShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/FoxPaintShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Foxden/PaintShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/FoxPaintShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 0
+Price = 0
+SignText = "Stand on the mat to change class"
+SignY = 26.0
+
+[node name="Keeper" type="CharacterBody2D" parent="World/FoxPaintShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/paint_seller"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome! Step on the mat to try a new class."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/FoxPaintShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 6
+
+[node name="Furniture2" type="StaticBody2D" parent="World/FoxPaintShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 6
+
+[node name="Painter" type="Node2D" parent="World/FoxPaintShop"]
+position = Vector2(104, 88)
+script = ExtResource("painter")
+ShowLabel = false
+
+[node name="FoxGearShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(11600, -5200)
+script = ExtResource("room")
+Title = "Weapons & Armor"
+
+[node name="Layout" type="Node2D" parent="World/FoxGearShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/FoxGearShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FoxGearShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/FoxGearShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Foxden/GearShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/FoxGearShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 4
+Price = 0
+SignText = ""
+
+[node name="Keeper" type="CharacterBody2D" parent="World/FoxGearShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/smith"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome! I can make the whole team's weapons stronger."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/FoxGearShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="Furniture2" type="StaticBody2D" parent="World/FoxGearShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="Furniture3" type="StaticBody2D" parent="World/FoxGearShop"]
+position = Vector2(30, 120)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="FoxCastleHall" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(11600, -5700)
+script = ExtResource("room")
+Title = "Foxden Castle"
+
+[node name="Layout" type="Node2D" parent="World/FoxCastleHall"]
+z_index = -1
+script = ExtResource("layout")
+Color = 3
+InteriorWidth = 36
+InteriorHeight = 18
+
+[node name="Floor" type="TileMapLayer" parent="World/FoxCastleHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FoxCastleHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/FoxCastleHall"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Foxden/CastleDoor")
+
+[node name="DoorTop" type="Node2D" parent="World/FoxCastleHall"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../FoxThrone/DoorBottom")
+
+[node name="DoorLeft" type="Node2D" parent="World/FoxCastleHall"]
+script = ExtResource("door")
+Side = 2
+LeadsTo = NodePath("../../FoxTeleport/DoorRight")
+
+[node name="Carpet" type="StaticBody2D" parent="World/FoxCastleHall"]
+position = Vector2(140, 32)
+script = ExtResource("decor")
+Kind = 1
+Size = Vector2(24, 144)
+
+[node name="Banner1" type="StaticBody2D" parent="World/FoxCastleHall"]
+position = Vector2(80, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/FoxCastleHall"]
+position = Vector2(112, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner3" type="StaticBody2D" parent="World/FoxCastleHall"]
+position = Vector2(200, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner4" type="StaticBody2D" parent="World/FoxCastleHall"]
+position = Vector2(232, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Knight1" type="CharacterBody2D" parent="World/FoxCastleHall"]
+position = Vector2(130, 58)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+FacingDirection = Vector2(0, 1)
+
+[node name="Knight2" type="CharacterBody2D" parent="World/FoxCastleHall"]
+position = Vector2(174, 58)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+FacingDirection = Vector2(0, 1)
+
+[node name="Knight3" type="CharacterBody2D" parent="World/FoxCastleHall"]
+position = Vector2(230, 130)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="TeleportSign" type="StaticBody2D" parent="World/FoxCastleHall"]
+position = Vector2(40, 70)
+script = ExtResource("prop")
+Kind = 3
+Text = "Left: the teleport room"
+
+[node name="FoxThrone" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(11600, -6100)
+script = ExtResource("room")
+Title = "Throne Room"
+
+[node name="Layout" type="Node2D" parent="World/FoxThrone"]
+z_index = -1
+script = ExtResource("layout")
+Color = 4
+InteriorWidth = 28
+InteriorHeight = 14
+
+[node name="Floor" type="TileMapLayer" parent="World/FoxThrone/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FoxThrone/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/FoxThrone"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../FoxCastleHall/DoorTop")
+
+[node name="Carpet" type="StaticBody2D" parent="World/FoxThrone"]
+position = Vector2(108, 72)
+script = ExtResource("decor")
+Kind = 1
+Size = Vector2(24, 72)
+
+[node name="KingThrone" type="StaticBody2D" parent="World/FoxThrone"]
+position = Vector2(104, 64)
+script = ExtResource("decor")
+Kind = 0
+
+[node name="QueenThrone" type="StaticBody2D" parent="World/FoxThrone"]
+position = Vector2(136, 64)
+script = ExtResource("decor")
+Kind = 0
+
+[node name="Banner1" type="StaticBody2D" parent="World/FoxThrone"]
+position = Vector2(48, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/FoxThrone"]
+position = Vector2(176, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="King" type="CharacterBody2D" parent="World/FoxThrone"]
+position = Vector2(104, 76)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/fox_king"
+Greeting = "Welcome to Foxden, clever heroes!"
+GreetsWith = NodePath("../Queen")
+
+[node name="Queen" type="CharacterBody2D" parent="World/FoxThrone"]
+position = Vector2(136, 76)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/fox_queen"
+Greeting = "Our foxes are quick and sly. Make yourselves at home!"
+GreetsOnEnter = false
+
+[node name="Knight1" type="CharacterBody2D" parent="World/FoxThrone"]
+position = Vector2(40, 100)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+FacingDirection = Vector2(1, 0)
+
+[node name="Knight2" type="CharacterBody2D" parent="World/FoxThrone"]
+position = Vector2(200, 100)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+FacingDirection = Vector2(-1, 0)
+
+[node name="FoxTeleport" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(11600, -6500)
+script = ExtResource("room")
+Title = "Foxden Teleport Room"
+
+[node name="Layout" type="Node2D" parent="World/FoxTeleport"]
+z_index = -1
+script = ExtResource("layout")
+Color = 3
+InteriorWidth = 32
+InteriorHeight = 16
+
+[node name="Floor" type="TileMapLayer" parent="World/FoxTeleport/Layout"]
+modulate = Color(0.8, 0.85, 1, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FoxTeleport/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorRight" type="Node2D" parent="World/FoxTeleport"]
+script = ExtResource("door")
+Side = 3
+LeadsTo = NodePath("../../FoxCastleHall/DoorLeft")
+
+[node name="Crystal" type="Node2D" parent="World/FoxTeleport"]
+position = Vector2(136, 70)
+script = ExtResource("telecrystal")
+Village = "Foxden"
+
+[node name="Arrival" type="Node2D" parent="World/FoxTeleport"]
+position = Vector2(136, 96)
+script = ExtResource("door")
+Doorway = true
+
+[node name="Pad1" type="Node2D" parent="World/FoxTeleport"]
+position = Vector2(40, 136)
+script = ExtResource("telepad")
+Village = "Scalebrook"
+Destination = NodePath("../../ScaleTeleport/Arrival")
+
+[node name="Pad2" type="Node2D" parent="World/FoxTeleport"]
+position = Vector2(88, 136)
+script = ExtResource("telepad")
+Village = "Hoofhollow"
+Destination = NodePath("../../HoofTeleport/Arrival")
+
+[node name="Pad3" type="Node2D" parent="World/FoxTeleport"]
+position = Vector2(136, 136)
+script = ExtResource("telepad")
+Village = "Foxden"
+Here = true
+
+[node name="Pad4" type="Node2D" parent="World/FoxTeleport"]
+position = Vector2(184, 136)
+script = ExtResource("telepad")
+Village = "Peacock Palace"
+Destination = NodePath("../../BirdTeleport/Arrival")
+
+[node name="Pad5" type="Node2D" parent="World/FoxTeleport"]
+position = Vector2(232, 136)
+script = ExtResource("telepad")
+Village = "Hivehold"
+Destination = NodePath("../../BugTeleport/Arrival")
+
+[node name="Sign" type="StaticBody2D" parent="World/FoxTeleport"]
+position = Vector2(240, 70)
+script = ExtResource("prop")
+Kind = 3
+Text = "Touch the crystal to wake this village's teleport.\nStand on a glowing pad to travel."
+
+[node name="Banner1" type="StaticBody2D" parent="World/FoxTeleport"]
+position = Vector2(72, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/FoxTeleport"]
+position = Vector2(200, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="PeacockPalace" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(6800, 1000)
+script = ExtResource("room")
+Title = "Peacock Palace"
+
+[node name="Layout" type="Node2D" parent="World/PeacockPalace"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 72
+InteriorHeight = 42
+Ground = 6
+PathPoints = PackedVector2Array(0, 200, 608, 200)
+
+[node name="WestPath" type="Node2D" parent="World/PeacockPalace"]
+position = Vector2(0, 200)
+script = ExtResource("door")
+Side = 2
+Path = true
+LeadsTo = NodePath("../../Peaks/EastPath")
+
+[node name="House1" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(120, 150)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="InnDoor" type="Node2D" parent="World/PeacockPalace"]
+position = Vector2(128, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../BirdInn/DoorBottom")
+
+[node name="InnSign" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(106, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Peacock Palace Inn\nRest your hearts: 5 coins"
+
+[node name="House2" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(236, 150)
+script = ExtResource("prop")
+Kind = 15
+
+[node name="HerbShopDoor" type="Node2D" parent="World/PeacockPalace"]
+position = Vector2(244, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../BirdHerbShop/DoorBottom")
+
+[node name="HerbShopSign" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(222, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Herb Shop\nHealing herbs: 10 coins"
+
+[node name="House3" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(430, 150)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="PaintShopDoor" type="Node2D" parent="World/PeacockPalace"]
+position = Vector2(438, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../BirdPaintShop/DoorBottom")
+
+[node name="PaintShopSign" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(416, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Paint Shop\nTry a new class"
+
+[node name="House4" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(150, 310)
+script = ExtResource("prop")
+Kind = 15
+
+[node name="GearShopDoor" type="Node2D" parent="World/PeacockPalace"]
+position = Vector2(158, 316)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../BirdGearShop/DoorBottom")
+
+[node name="GearShopSign" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(136, 326)
+script = ExtResource("prop")
+Kind = 3
+Text = "Weapons & Armor\nUpgrade the team's weapons"
+
+[node name="House5" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(450, 310)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="Path1" type="Node2D" parent="World/PeacockPalace"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(128, 200, 128, 154)
+
+[node name="Path2" type="Node2D" parent="World/PeacockPalace"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(244, 200, 244, 154)
+
+[node name="Path3" type="Node2D" parent="World/PeacockPalace"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(438, 200, 438, 154)
+
+[node name="Path4" type="Node2D" parent="World/PeacockPalace"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(300, 200, 300, 345, 158, 345, 158, 314)
+
+[node name="Path5" type="Node2D" parent="World/PeacockPalace"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(300, 200, 300, 345, 458, 345, 458, 314)
+
+[node name="CastlePath" type="Node2D" parent="World/PeacockPalace"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(304, 200, 304, 66)
+
+[node name="CastleGate" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(304, 64)
+script = ExtResource("gate")
+
+[node name="CastleDoor" type="Node2D" parent="World/PeacockPalace"]
+position = Vector2(304, 56)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../BirdCastleHall/DoorBottom")
+
+[node name="CastleSign" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(366, 100)
+script = ExtResource("prop")
+Kind = 3
+Text = "Peacock Palace Castle\nThe king and queen live here"
+
+[node name="VillageSign" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(44, 176)
+script = ExtResource("prop")
+Kind = 3
+Text = "Peacock Palace"
+
+[node name="Prop1" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(362, 164)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop2" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(245, 244)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop3" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(446, 44)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop4" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(270, 288)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop5" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(107, 279)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop6" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(327, 302)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop7" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(582, 257)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop8" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(483, 133)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop9" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(354, 112)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop10" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(187, 64)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop11" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(487, 342)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop12" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(65, 104)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop13" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(495, 77)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop14" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(386, 88)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop15" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(564, 329)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop16" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(189, 247)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop17" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(53, 237)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop18" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(260, 85)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop19" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(225, 66)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop20" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(367, 306)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop21" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(561, 291)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop22" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(543, 93)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop23" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(58, 64)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop24" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(186, 136)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop25" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(126, 238)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop26" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(65, 141)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop27" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(577, 78)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop28" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(137, 87)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop29" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(416, 228)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop30" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(74, 309)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop31" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(277, 145)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop32" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(371, 36)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop33" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(426, 80)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop34" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(36, 287)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop35" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(129, 338)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop36" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(533, 154)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop37" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(510, 276)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop38" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(507, 234)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop39" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(228, 293)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop40" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(520, 322)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop41" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(562, 44)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop42" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(459, 236)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop43" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(372, 235)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop44" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(117, 56)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop45" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(498, 170)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop46" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(382, 270)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop47" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(409, 293)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop48" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(162, 168)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop49" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(580, 127)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop50" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(57, 342)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop51" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(544, 242)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop52" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(488, 36)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop53" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(333, 243)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop54" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(165, 34)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop55" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(581, 173)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop56" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(182, 100)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop57" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(30, 94)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop58" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(524, 50)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop59" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(32, 38)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop60" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(201, 318)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop61" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(331, 83)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop62" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(407, 47)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop63" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(69, 270)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop64" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(386, 132)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop65" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(90, 226)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop66" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(85, 35)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop67" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(28, 139)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop68" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(99, 89)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop69" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(193, 283)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop70" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(517, 120)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop71" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(330, 145)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop72" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(80, 174)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop73" type="StaticBody2D" parent="World/PeacockPalace"]
+position = Vector2(207, 34)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Villager1" type="CharacterBody2D" parent="World/PeacockPalace"]
+position = Vector2(200, 206)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_peacock"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager2" type="CharacterBody2D" parent="World/PeacockPalace"]
+position = Vector2(410, 206)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_peacock"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager3" type="CharacterBody2D" parent="World/PeacockPalace"]
+position = Vector2(290, 300)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_lizard"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager4" type="CharacterBody2D" parent="World/PeacockPalace"]
+position = Vector2(520, 236)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_peacock"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="BirdInn" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(13200, -4000)
+script = ExtResource("room")
+Title = "Peacock Palace Inn"
+
+[node name="Layout" type="Node2D" parent="World/BirdInn"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/BirdInn/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BirdInn/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BirdInn"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../PeacockPalace/InnDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/BirdInn"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 1
+Price = 5
+SignText = "Step up to rest: 5 coins"
+
+[node name="Keeper" type="CharacterBody2D" parent="World/BirdInn"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/innkeeper"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome to the Peacock Palace Inn! A good rest is 5 coins."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/BirdInn"]
+position = Vector2(28, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture2" type="StaticBody2D" parent="World/BirdInn"]
+position = Vector2(52, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture3" type="StaticBody2D" parent="World/BirdInn"]
+position = Vector2(176, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture4" type="StaticBody2D" parent="World/BirdInn"]
+position = Vector2(40, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="BirdHerbShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(13200, -4400)
+script = ExtResource("room")
+Title = "Herb Shop"
+
+[node name="Layout" type="Node2D" parent="World/BirdHerbShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/BirdHerbShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BirdHerbShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BirdHerbShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../PeacockPalace/HerbShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/BirdHerbShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 2
+Price = 10
+SignText = "Step up to buy a herb: 10 coins"
+
+[node name="Keeper" type="CharacterBody2D" parent="World/BirdHerbShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/herbalist"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Fresh healing herbs, 10 coins each!"
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/BirdHerbShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="Furniture2" type="StaticBody2D" parent="World/BirdHerbShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="Furniture3" type="StaticBody2D" parent="World/BirdHerbShop"]
+position = Vector2(30, 120)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="BirdPaintShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(13200, -4800)
+script = ExtResource("room")
+Title = "Paint Shop"
+
+[node name="Layout" type="Node2D" parent="World/BirdPaintShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/BirdPaintShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BirdPaintShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BirdPaintShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../PeacockPalace/PaintShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/BirdPaintShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 0
+Price = 0
+SignText = "Stand on the mat to change class"
+SignY = 26.0
+
+[node name="Keeper" type="CharacterBody2D" parent="World/BirdPaintShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/paint_seller"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome! Step on the mat to try a new class."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/BirdPaintShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 6
+
+[node name="Furniture2" type="StaticBody2D" parent="World/BirdPaintShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 6
+
+[node name="Painter" type="Node2D" parent="World/BirdPaintShop"]
+position = Vector2(104, 88)
+script = ExtResource("painter")
+ShowLabel = false
+
+[node name="BirdGearShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(13200, -5200)
+script = ExtResource("room")
+Title = "Weapons & Armor"
+
+[node name="Layout" type="Node2D" parent="World/BirdGearShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/BirdGearShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BirdGearShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BirdGearShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../PeacockPalace/GearShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/BirdGearShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 4
+Price = 0
+SignText = ""
+
+[node name="Keeper" type="CharacterBody2D" parent="World/BirdGearShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/smith"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome! I can make the whole team's weapons stronger."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/BirdGearShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="Furniture2" type="StaticBody2D" parent="World/BirdGearShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="Furniture3" type="StaticBody2D" parent="World/BirdGearShop"]
+position = Vector2(30, 120)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="BirdCastleHall" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(13200, -5700)
+script = ExtResource("room")
+Title = "Peacock Palace Castle"
+
+[node name="Layout" type="Node2D" parent="World/BirdCastleHall"]
+z_index = -1
+script = ExtResource("layout")
+Color = 3
+InteriorWidth = 36
+InteriorHeight = 18
+
+[node name="Floor" type="TileMapLayer" parent="World/BirdCastleHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BirdCastleHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BirdCastleHall"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../PeacockPalace/CastleDoor")
+
+[node name="DoorTop" type="Node2D" parent="World/BirdCastleHall"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../BirdThrone/DoorBottom")
+
+[node name="DoorLeft" type="Node2D" parent="World/BirdCastleHall"]
+script = ExtResource("door")
+Side = 2
+LeadsTo = NodePath("../../BirdTeleport/DoorRight")
+
+[node name="Carpet" type="StaticBody2D" parent="World/BirdCastleHall"]
+position = Vector2(140, 32)
+script = ExtResource("decor")
+Kind = 1
+Size = Vector2(24, 144)
+
+[node name="Banner1" type="StaticBody2D" parent="World/BirdCastleHall"]
+position = Vector2(80, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/BirdCastleHall"]
+position = Vector2(112, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner3" type="StaticBody2D" parent="World/BirdCastleHall"]
+position = Vector2(200, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner4" type="StaticBody2D" parent="World/BirdCastleHall"]
+position = Vector2(232, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Knight1" type="CharacterBody2D" parent="World/BirdCastleHall"]
+position = Vector2(130, 58)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+FacingDirection = Vector2(0, 1)
+
+[node name="Knight2" type="CharacterBody2D" parent="World/BirdCastleHall"]
+position = Vector2(174, 58)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+FacingDirection = Vector2(0, 1)
+
+[node name="Knight3" type="CharacterBody2D" parent="World/BirdCastleHall"]
+position = Vector2(230, 130)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="TeleportSign" type="StaticBody2D" parent="World/BirdCastleHall"]
+position = Vector2(40, 70)
+script = ExtResource("prop")
+Kind = 3
+Text = "Left: the teleport room"
+
+[node name="BirdThrone" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(13200, -6100)
+script = ExtResource("room")
+Title = "Throne Room"
+
+[node name="Layout" type="Node2D" parent="World/BirdThrone"]
+z_index = -1
+script = ExtResource("layout")
+Color = 4
+InteriorWidth = 28
+InteriorHeight = 14
+
+[node name="Floor" type="TileMapLayer" parent="World/BirdThrone/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BirdThrone/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BirdThrone"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../BirdCastleHall/DoorTop")
+
+[node name="Carpet" type="StaticBody2D" parent="World/BirdThrone"]
+position = Vector2(108, 72)
+script = ExtResource("decor")
+Kind = 1
+Size = Vector2(24, 72)
+
+[node name="KingThrone" type="StaticBody2D" parent="World/BirdThrone"]
+position = Vector2(104, 64)
+script = ExtResource("decor")
+Kind = 0
+
+[node name="QueenThrone" type="StaticBody2D" parent="World/BirdThrone"]
+position = Vector2(136, 64)
+script = ExtResource("decor")
+Kind = 0
+
+[node name="Banner1" type="StaticBody2D" parent="World/BirdThrone"]
+position = Vector2(48, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/BirdThrone"]
+position = Vector2(176, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="King" type="CharacterBody2D" parent="World/BirdThrone"]
+position = Vector2(104, 76)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/peacock_king"
+Greeting = "Welcome to Peacock Palace, high above the clouds!"
+GreetsWith = NodePath("../Queen")
+
+[node name="Queen" type="CharacterBody2D" parent="World/BirdThrone"]
+position = Vector2(136, 76)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/queen"
+Greeting = "Aren't our feathers lovely? Welcome, heroes!"
+GreetsOnEnter = false
+
+[node name="Knight1" type="CharacterBody2D" parent="World/BirdThrone"]
+position = Vector2(40, 100)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+FacingDirection = Vector2(1, 0)
+
+[node name="Knight2" type="CharacterBody2D" parent="World/BirdThrone"]
+position = Vector2(200, 100)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+FacingDirection = Vector2(-1, 0)
+
+[node name="BirdTeleport" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(13200, -6500)
+script = ExtResource("room")
+Title = "Peacock Palace Teleport Room"
+
+[node name="Layout" type="Node2D" parent="World/BirdTeleport"]
+z_index = -1
+script = ExtResource("layout")
+Color = 3
+InteriorWidth = 32
+InteriorHeight = 16
+
+[node name="Floor" type="TileMapLayer" parent="World/BirdTeleport/Layout"]
+modulate = Color(0.8, 0.85, 1, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BirdTeleport/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorRight" type="Node2D" parent="World/BirdTeleport"]
+script = ExtResource("door")
+Side = 3
+LeadsTo = NodePath("../../BirdCastleHall/DoorLeft")
+
+[node name="Crystal" type="Node2D" parent="World/BirdTeleport"]
+position = Vector2(136, 70)
+script = ExtResource("telecrystal")
+Village = "Peacock Palace"
+
+[node name="Arrival" type="Node2D" parent="World/BirdTeleport"]
+position = Vector2(136, 96)
+script = ExtResource("door")
+Doorway = true
+
+[node name="Pad1" type="Node2D" parent="World/BirdTeleport"]
+position = Vector2(40, 136)
+script = ExtResource("telepad")
+Village = "Scalebrook"
+Destination = NodePath("../../ScaleTeleport/Arrival")
+
+[node name="Pad2" type="Node2D" parent="World/BirdTeleport"]
+position = Vector2(88, 136)
+script = ExtResource("telepad")
+Village = "Hoofhollow"
+Destination = NodePath("../../HoofTeleport/Arrival")
+
+[node name="Pad3" type="Node2D" parent="World/BirdTeleport"]
+position = Vector2(136, 136)
+script = ExtResource("telepad")
+Village = "Foxden"
+Destination = NodePath("../../FoxTeleport/Arrival")
+
+[node name="Pad4" type="Node2D" parent="World/BirdTeleport"]
+position = Vector2(184, 136)
+script = ExtResource("telepad")
+Village = "Peacock Palace"
+Here = true
+
+[node name="Pad5" type="Node2D" parent="World/BirdTeleport"]
+position = Vector2(232, 136)
+script = ExtResource("telepad")
+Village = "Hivehold"
+Destination = NodePath("../../BugTeleport/Arrival")
+
+[node name="Sign" type="StaticBody2D" parent="World/BirdTeleport"]
+position = Vector2(240, 70)
+script = ExtResource("prop")
+Kind = 3
+Text = "Touch the crystal to wake this village's teleport.\nStand on a glowing pad to travel."
+
+[node name="Banner1" type="StaticBody2D" parent="World/BirdTeleport"]
+position = Vector2(72, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/BirdTeleport"]
+position = Vector2(200, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Hivehold" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(4400, 2400)
+script = ExtResource("room")
+Title = "Hivehold"
+
+[node name="Layout" type="Node2D" parent="World/Hivehold"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 72
+InteriorHeight = 42
+Ground = 7
+PathPoints = PackedVector2Array(0, 300, 60, 300, 90, 200, 608, 200)
+
+[node name="WestPath" type="Node2D" parent="World/Hivehold"]
+position = Vector2(0, 300)
+script = ExtResource("door")
+Side = 2
+Path = true
+LeadsTo = NodePath("../../Desert/EastPath")
+
+[node name="House1" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(120, 150)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="InnDoor" type="Node2D" parent="World/Hivehold"]
+position = Vector2(128, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../BugInn/DoorBottom")
+
+[node name="InnSign" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(106, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Hivehold Inn\nRest your hearts: 5 coins"
+
+[node name="House2" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(236, 150)
+script = ExtResource("prop")
+Kind = 15
+
+[node name="HerbShopDoor" type="Node2D" parent="World/Hivehold"]
+position = Vector2(244, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../BugHerbShop/DoorBottom")
+
+[node name="HerbShopSign" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(222, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Herb Shop\nHealing herbs: 10 coins"
+
+[node name="House3" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(430, 150)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="PaintShopDoor" type="Node2D" parent="World/Hivehold"]
+position = Vector2(438, 156)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../BugPaintShop/DoorBottom")
+
+[node name="PaintShopSign" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(416, 166)
+script = ExtResource("prop")
+Kind = 3
+Text = "Paint Shop\nTry a new class"
+
+[node name="House4" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(150, 310)
+script = ExtResource("prop")
+Kind = 15
+
+[node name="GearShopDoor" type="Node2D" parent="World/Hivehold"]
+position = Vector2(158, 316)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../BugGearShop/DoorBottom")
+
+[node name="GearShopSign" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(136, 326)
+script = ExtResource("prop")
+Kind = 3
+Text = "Weapons & Armor\nUpgrade the team's weapons"
+
+[node name="House5" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(450, 310)
+script = ExtResource("prop")
+Kind = 14
+
+[node name="Path1" type="Node2D" parent="World/Hivehold"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(128, 200, 128, 154)
+
+[node name="Path2" type="Node2D" parent="World/Hivehold"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(244, 200, 244, 154)
+
+[node name="Path3" type="Node2D" parent="World/Hivehold"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(438, 200, 438, 154)
+
+[node name="Path4" type="Node2D" parent="World/Hivehold"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(300, 200, 300, 345, 158, 345, 158, 314)
+
+[node name="Path5" type="Node2D" parent="World/Hivehold"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(300, 200, 300, 345, 458, 345, 458, 314)
+
+[node name="CastlePath" type="Node2D" parent="World/Hivehold"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(304, 200, 304, 66)
+
+[node name="CastleGate" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(304, 64)
+script = ExtResource("gate")
+
+[node name="CastleDoor" type="Node2D" parent="World/Hivehold"]
+position = Vector2(304, 56)
+script = ExtResource("door")
+Doorway = true
+LeadsTo = NodePath("../../BugCastleHall/DoorBottom")
+
+[node name="CastleSign" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(366, 100)
+script = ExtResource("prop")
+Kind = 3
+Text = "Hivehold Castle\nThe king and queen live here"
+
+[node name="VillageSign" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(44, 276)
+script = ExtResource("prop")
+Kind = 3
+Text = "Hivehold"
+
+[node name="Prop1" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(378, 150)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop2" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(69, 172)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop3" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(351, 243)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop4" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(515, 270)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop5" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(526, 318)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop6" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(389, 239)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop7" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(227, 40)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop8" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(39, 79)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop9" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(571, 124)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop10" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(331, 104)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop11" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(388, 295)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop12" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(207, 303)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop13" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(541, 102)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop14" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(27, 163)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop15" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(140, 37)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop16" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(553, 286)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop17" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(82, 58)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop18" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(546, 43)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop19" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(38, 118)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop20" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(159, 84)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop21" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(269, 298)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop22" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(200, 235)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop23" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(528, 167)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop24" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(178, 116)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop25" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(339, 286)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop26" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(255, 227)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop27" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(473, 113)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop28" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(82, 345)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop29" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(54, 208)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop30" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(398, 88)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop31" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(480, 50)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop32" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(471, 167)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop33" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(219, 86)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop34" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(265, 90)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop35" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(492, 234)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop36" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(546, 232)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop37" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(44, 342)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop38" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(568, 168)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop39" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(492, 298)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop40" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(504, 81)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop41" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(189, 153)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop42" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(431, 56)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop43" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(374, 36)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop44" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(125, 235)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop45" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(574, 324)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop46" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(448, 232)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop47" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(340, 152)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop48" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(176, 50)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop49" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(278, 145)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop50" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(92, 302)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop51" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(246, 265)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop52" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(116, 87)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop53" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(161, 246)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop54" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(571, 73)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop55" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(579, 246)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop56" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(37, 41)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop57" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(45, 246)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop58" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(359, 81)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop59" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(497, 141)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop60" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(79, 124)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop61" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(121, 341)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop62" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(493, 336)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop63" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(107, 268)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop64" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(356, 319)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop65" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(458, 80)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop66" type="StaticBody2D" parent="World/Hivehold"]
+position = Vector2(191, 270)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Villager1" type="CharacterBody2D" parent="World/Hivehold"]
+position = Vector2(200, 206)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_beetle"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager2" type="CharacterBody2D" parent="World/Hivehold"]
+position = Vector2(410, 206)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_beetle"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager3" type="CharacterBody2D" parent="World/Hivehold"]
+position = Vector2(290, 300)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_beetle"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="Villager4" type="CharacterBody2D" parent="World/Hivehold"]
+position = Vector2(520, 236)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/villager_moose"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="BugInn" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(14800, -4000)
+script = ExtResource("room")
+Title = "Hivehold Inn"
+
+[node name="Layout" type="Node2D" parent="World/BugInn"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/BugInn/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BugInn/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BugInn"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Hivehold/InnDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/BugInn"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 1
+Price = 5
+SignText = "Step up to rest: 5 coins"
+
+[node name="Keeper" type="CharacterBody2D" parent="World/BugInn"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/innkeeper"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome to the Hivehold Inn! A good rest is 5 coins."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/BugInn"]
+position = Vector2(28, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture2" type="StaticBody2D" parent="World/BugInn"]
+position = Vector2(52, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture3" type="StaticBody2D" parent="World/BugInn"]
+position = Vector2(176, 120)
+script = ExtResource("decor")
+Kind = 3
+
+[node name="Furniture4" type="StaticBody2D" parent="World/BugInn"]
+position = Vector2(40, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="BugHerbShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(14800, -4400)
+script = ExtResource("room")
+Title = "Herb Shop"
+
+[node name="Layout" type="Node2D" parent="World/BugHerbShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/BugHerbShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BugHerbShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BugHerbShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Hivehold/HerbShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/BugHerbShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 2
+Price = 10
+SignText = "Step up to buy a herb: 10 coins"
+
+[node name="Keeper" type="CharacterBody2D" parent="World/BugHerbShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/herbalist"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Fresh healing herbs, 10 coins each!"
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/BugHerbShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="Furniture2" type="StaticBody2D" parent="World/BugHerbShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="Furniture3" type="StaticBody2D" parent="World/BugHerbShop"]
+position = Vector2(30, 120)
+script = ExtResource("decor")
+Kind = 7
+
+[node name="BugPaintShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(14800, -4800)
+script = ExtResource("room")
+Title = "Paint Shop"
+
+[node name="Layout" type="Node2D" parent="World/BugPaintShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/BugPaintShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BugPaintShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BugPaintShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Hivehold/PaintShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/BugPaintShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 0
+Price = 0
+SignText = "Stand on the mat to change class"
+SignY = 26.0
+
+[node name="Keeper" type="CharacterBody2D" parent="World/BugPaintShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/paint_seller"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome! Step on the mat to try a new class."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/BugPaintShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 6
+
+[node name="Furniture2" type="StaticBody2D" parent="World/BugPaintShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 6
+
+[node name="Painter" type="Node2D" parent="World/BugPaintShop"]
+position = Vector2(104, 88)
+script = ExtResource("painter")
+ShowLabel = false
+
+[node name="BugGearShop" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(14800, -5200)
+script = ExtResource("room")
+Title = "Weapons & Armor"
+
+[node name="Layout" type="Node2D" parent="World/BugGearShop"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 24
+InteriorHeight = 12
+
+[node name="Floor" type="TileMapLayer" parent="World/BugGearShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BugGearShop/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BugGearShop"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Hivehold/GearShopDoor")
+
+[node name="Counter" type="StaticBody2D" parent="World/BugGearShop"]
+position = Vector2(104, 76)
+script = ExtResource("counter")
+Width = 72.0
+Offer = 4
+Price = 0
+SignText = ""
+
+[node name="Keeper" type="CharacterBody2D" parent="World/BugGearShop"]
+position = Vector2(104, 62)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/smith"
+Behaviour = 2
+RoamDistance = 30.0
+Greeting = "Welcome! I can make the whole team's weapons stronger."
+Counter = NodePath("../Counter")
+
+[node name="Furniture1" type="StaticBody2D" parent="World/BugGearShop"]
+position = Vector2(36, 46)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="Furniture2" type="StaticBody2D" parent="World/BugGearShop"]
+position = Vector2(172, 46)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="Furniture3" type="StaticBody2D" parent="World/BugGearShop"]
+position = Vector2(30, 120)
+script = ExtResource("decor")
+Kind = 5
+
+[node name="BugCastleHall" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(14800, -5700)
+script = ExtResource("room")
+Title = "Hivehold Castle"
+
+[node name="Layout" type="Node2D" parent="World/BugCastleHall"]
+z_index = -1
+script = ExtResource("layout")
+Color = 3
+InteriorWidth = 36
+InteriorHeight = 18
+
+[node name="Floor" type="TileMapLayer" parent="World/BugCastleHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BugCastleHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BugCastleHall"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Hivehold/CastleDoor")
+
+[node name="DoorTop" type="Node2D" parent="World/BugCastleHall"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../BugThrone/DoorBottom")
+
+[node name="DoorLeft" type="Node2D" parent="World/BugCastleHall"]
+script = ExtResource("door")
+Side = 2
+LeadsTo = NodePath("../../BugTeleport/DoorRight")
+
+[node name="Carpet" type="StaticBody2D" parent="World/BugCastleHall"]
+position = Vector2(140, 32)
+script = ExtResource("decor")
+Kind = 1
+Size = Vector2(24, 144)
+
+[node name="Banner1" type="StaticBody2D" parent="World/BugCastleHall"]
+position = Vector2(80, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/BugCastleHall"]
+position = Vector2(112, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner3" type="StaticBody2D" parent="World/BugCastleHall"]
+position = Vector2(200, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner4" type="StaticBody2D" parent="World/BugCastleHall"]
+position = Vector2(232, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Knight1" type="CharacterBody2D" parent="World/BugCastleHall"]
+position = Vector2(130, 58)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+FacingDirection = Vector2(0, 1)
+
+[node name="Knight2" type="CharacterBody2D" parent="World/BugCastleHall"]
+position = Vector2(174, 58)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+FacingDirection = Vector2(0, 1)
+
+[node name="Knight3" type="CharacterBody2D" parent="World/BugCastleHall"]
+position = Vector2(230, 130)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+Behaviour = 1
+RoamDistance = 40.0
+
+[node name="TeleportSign" type="StaticBody2D" parent="World/BugCastleHall"]
+position = Vector2(40, 70)
+script = ExtResource("prop")
+Kind = 3
+Text = "Left: the teleport room"
+
+[node name="BugThrone" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(14800, -6100)
+script = ExtResource("room")
+Title = "Throne Room"
+
+[node name="Layout" type="Node2D" parent="World/BugThrone"]
+z_index = -1
+script = ExtResource("layout")
+Color = 4
+InteriorWidth = 28
+InteriorHeight = 14
+
+[node name="Floor" type="TileMapLayer" parent="World/BugThrone/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BugThrone/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorBottom" type="Node2D" parent="World/BugThrone"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../BugCastleHall/DoorTop")
+
+[node name="Carpet" type="StaticBody2D" parent="World/BugThrone"]
+position = Vector2(108, 72)
+script = ExtResource("decor")
+Kind = 1
+Size = Vector2(24, 72)
+
+[node name="KingThrone" type="StaticBody2D" parent="World/BugThrone"]
+position = Vector2(104, 64)
+script = ExtResource("decor")
+Kind = 0
+
+[node name="QueenThrone" type="StaticBody2D" parent="World/BugThrone"]
+position = Vector2(136, 64)
+script = ExtResource("decor")
+Kind = 0
+
+[node name="Banner1" type="StaticBody2D" parent="World/BugThrone"]
+position = Vector2(48, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/BugThrone"]
+position = Vector2(176, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="King" type="CharacterBody2D" parent="World/BugThrone"]
+position = Vector2(104, 76)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/beetle_king"
+Greeting = "Bzzz! Welcome to Hivehold, heroes of the sand!"
+GreetsWith = NodePath("../Queen")
+
+[node name="Queen" type="CharacterBody2D" parent="World/BugThrone"]
+position = Vector2(136, 76)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/beetle_queen"
+Greeting = "The desert is hard, but our shells are harder. Welcome!"
+GreetsOnEnter = false
+
+[node name="Knight1" type="CharacterBody2D" parent="World/BugThrone"]
+position = Vector2(40, 100)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_fox"
+FacingDirection = Vector2(1, 0)
+
+[node name="Knight2" type="CharacterBody2D" parent="World/BugThrone"]
+position = Vector2(200, 100)
+script = ExtResource("npc")
+SpritePrefix = "res://assets/sprites/npcs/knight_beetle"
+FacingDirection = Vector2(-1, 0)
+
+[node name="BugTeleport" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(14800, -6500)
+script = ExtResource("room")
+Title = "Hivehold Teleport Room"
+
+[node name="Layout" type="Node2D" parent="World/BugTeleport"]
+z_index = -1
+script = ExtResource("layout")
+Color = 3
+InteriorWidth = 32
+InteriorHeight = 16
+
+[node name="Floor" type="TileMapLayer" parent="World/BugTeleport/Layout"]
+modulate = Color(0.8, 0.85, 1, 1)
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BugTeleport/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorRight" type="Node2D" parent="World/BugTeleport"]
+script = ExtResource("door")
+Side = 3
+LeadsTo = NodePath("../../BugCastleHall/DoorLeft")
+
+[node name="Crystal" type="Node2D" parent="World/BugTeleport"]
+position = Vector2(136, 70)
+script = ExtResource("telecrystal")
+Village = "Hivehold"
+
+[node name="Arrival" type="Node2D" parent="World/BugTeleport"]
+position = Vector2(136, 96)
+script = ExtResource("door")
+Doorway = true
+
+[node name="Pad1" type="Node2D" parent="World/BugTeleport"]
+position = Vector2(40, 136)
+script = ExtResource("telepad")
+Village = "Scalebrook"
+Destination = NodePath("../../ScaleTeleport/Arrival")
+
+[node name="Pad2" type="Node2D" parent="World/BugTeleport"]
+position = Vector2(88, 136)
+script = ExtResource("telepad")
+Village = "Hoofhollow"
+Destination = NodePath("../../HoofTeleport/Arrival")
+
+[node name="Pad3" type="Node2D" parent="World/BugTeleport"]
+position = Vector2(136, 136)
+script = ExtResource("telepad")
+Village = "Foxden"
+Destination = NodePath("../../FoxTeleport/Arrival")
+
+[node name="Pad4" type="Node2D" parent="World/BugTeleport"]
+position = Vector2(184, 136)
+script = ExtResource("telepad")
+Village = "Peacock Palace"
+Destination = NodePath("../../BirdTeleport/Arrival")
+
+[node name="Pad5" type="Node2D" parent="World/BugTeleport"]
+position = Vector2(232, 136)
+script = ExtResource("telepad")
+Village = "Hivehold"
+Here = true
+
+[node name="Sign" type="StaticBody2D" parent="World/BugTeleport"]
+position = Vector2(240, 70)
+script = ExtResource("prop")
+Kind = 3
+Text = "Touch the crystal to wake this village's teleport.\nStand on a glowing pad to travel."
+
+[node name="Banner1" type="StaticBody2D" parent="World/BugTeleport"]
+position = Vector2(72, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="Banner2" type="StaticBody2D" parent="World/BugTeleport"]
+position = Vector2(200, 30)
+script = ExtResource("decor")
+Kind = 4
+
+[node name="WestPath" type="Node2D" parent="World/Tundra"]
+position = Vector2(0, 300)
+script = ExtResource("door")
+Side = 2
+Path = true
+LeadsTo = NodePath("../../Hoofhollow/EastPath")
+
+[node name="PathWest" type="Node2D" parent="World/Tundra"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(0, 300, 300, 300)
+
+[node name="HoofSign" type="StaticBody2D" parent="World/Tundra"]
+position = Vector2(50, 270)
+script = ExtResource("prop")
+Kind = 3
+Text = "West: Hoofhollow (the deer and moose village)"
+
+[node name="WestPath" type="Node2D" parent="World/Hills"]
+position = Vector2(0, 380)
+script = ExtResource("door")
+Side = 2
+Path = true
+LeadsTo = NodePath("../../Foxden/EastPath")
+
+[node name="EastPath" type="Node2D" parent="World/Peaks"]
+position = Vector2(1632, 380)
+script = ExtResource("door")
+Side = 3
+Path = true
+LeadsTo = NodePath("../../PeacockPalace/WestPath")
+
+[node name="EastPath" type="Node2D" parent="World/Desert"]
+position = Vector2(1632, 700)
+script = ExtResource("door")
+Side = 3
+Path = true
+LeadsTo = NodePath("../../Hivehold/WestPath")

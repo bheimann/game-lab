@@ -263,6 +263,7 @@ HEADS = {
     "peacock": {"down": (8, 3), "up": (8, 3), "side": (11, 3)},
     "arctic_fox": {"down": (8, 4), "up": (8, 4), "side": (8, 4)},
     "beetle": {"down": (8, 5), "up": (8, 5), "side": (12, 6)},
+    "moose": {"down": (8, 5), "up": (8, 5), "side": (9, 6)},
 }
 
 # Spitter: a teal lizard (poison spit).
@@ -298,6 +299,17 @@ NPCS = [
     ("villager_moose", "moose", None, {"H": "g", "h": "b"}),
     ("villager_lizard", "chameleon", None, {"L": "q", "B": "U", "M": "u", "D": "v"}),
     ("villager_peacock", "peacock", None, {"U": "B", "u": "M", "C": "Y", "c": "f"}),
+    # The other kingdoms' royals and villagers.
+    ("moose_king", "moose", "crown", {"H": "h", "h": "n"}),
+    ("moose_queen", "moose", "tiara", {"H": "E", "h": "e"}),
+    ("fox_king", "red_fox", "crown", {}),
+    ("fox_queen", "arctic_fox", "tiara", {}),
+    ("peacock_king", "peacock", "crown", {}),
+    ("beetle_king", "beetle", "crown", {}),
+    ("beetle_queen", "beetle", "tiara", {"V": "Y", "v": "f", "A": "W"}),
+    ("villager_redfox", "red_fox", None, {"F": "E", "f": "e"}),
+    ("villager_beetle", "beetle", None, {"V": "C", "v": "c", "A": "q"}),
+    ("villager_deer", "moose", None, {"H": "E", "h": "e", "T": "e", "t": "n"}),
 ]
 
 

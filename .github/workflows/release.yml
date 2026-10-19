@@ -36,7 +36,9 @@ jobs:
           echo "GODOT=$(find "$PWD/godot" -type f -name 'Godot_v*_mono_linux.x86_64' | head -n 1)" >> "$GITHUB_ENV"
 
       - name: Normal start for players (the playtest settings are only for us)
-        run: sed -i 's/^coins=.*/coins=0/' game/playtest.cfg
+        run: |
+          sed -i 's/^coins=.*/coins=0/' game/playtest.cfg
+          sed -i 's/^unlock_all_teleports=.*/unlock_all_teleports=false/' game/playtest.cfg
 
       - name: Export for Windows
         run: |
