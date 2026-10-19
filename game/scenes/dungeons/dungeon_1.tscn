@@ -3769,7 +3769,7 @@ Kind = 3
 Text = "Tailspin Swamp"
 
 [node name="Pond1" type="Node2D" parent="World/Swamp"]
-position = Vector2(40, 70)
+position = Vector2(40, 140)
 script = ExtResource("pit")
 Size = Vector2(120, 64)
 Water = true
@@ -3984,16 +3984,6 @@ position = Vector2(886, 101)
 script = ExtResource("prop")
 Kind = 10
 
-[node name="DeadTree15" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(65, 164)
-script = ExtResource("prop")
-Kind = 10
-
-[node name="Rock23" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(146, 147)
-script = ExtResource("prop")
-Kind = 2
-
 [node name="Bush4" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(185, 160)
 script = ExtResource("prop")
@@ -4048,21 +4038,6 @@ Kind = 2
 position = Vector2(864, 163)
 script = ExtResource("prop")
 Kind = 10
-
-[node name="DeadTree20" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(54, 203)
-script = ExtResource("prop")
-Kind = 10
-
-[node name="Mushroom4" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(107, 180)
-script = ExtResource("prop")
-Kind = 11
-
-[node name="Bush6" type="StaticBody2D" parent="World/Swamp"]
-position = Vector2(139, 203)
-script = ExtResource("prop")
-Kind = 0
 
 [node name="DeadTree21" type="StaticBody2D" parent="World/Swamp"]
 position = Vector2(193, 191)
