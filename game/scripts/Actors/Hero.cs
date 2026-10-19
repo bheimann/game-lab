@@ -144,6 +144,10 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     public bool IsDown => _down;
 
+    /// <summary>Held in the boss doorway, waiting for the rest of the team (see <see cref="Dungeon"/>): can't move or
+    /// act, and is drawn faded. The dungeon reads <see cref="Controls"/> to let them step back out.</summary>
+    public bool IsHeld { get; set; }
+
     /// <summary>Counts attacks and hits taken; camouflage watches it to know when to break.</summary>
     public int ActionCount { get; private set; }
 
@@ -282,6 +286,14 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             _knockback = _knockback.MoveToward(Vector2.Zero, 600f * dt);
             MoveAndSlide();
             QueueRedraw();
+            return;
+        }
+
+        if (IsHeld)
+        {
+            _menu?.Close();
+            Velocity = Vector2.Zero;
+            UpdateLook(false);
             return;
         }
 
@@ -946,17 +958,23 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     private void GetBackUp()
     {
-        // Get back up next to a teammate in this room who's still standing, or where this hero came into the room.
-        var dungeon = Dungeon.Find(this);
-        var buddy = GetTree().GetNodesInGroup(Group).OfType<Hero>()
-            .FirstOrDefault(h => h != this && h.IsInGame && !h.IsDown && (dungeon is null || dungeon.RoomOf(h) == dungeon.RoomOf(this)));
-        GlobalPosition = buddy?.GlobalPosition ?? dungeon?.RespawnPointFor(this) ?? _spawnPoint;
         Health.Refill();
         _down = false;
         _knockback = Vector2.Zero;
         Sprite.RotationDegrees = 0;
         Sprite.Modulate = Colors.White;
         _invulnerable = 1.5f;
+
+        // In the world: back to the dungeon's foyer, the last village, or the boss hall (see Dungeon.Revive).
+        if (Dungeon.Find(this) is { } dungeon)
+        {
+            dungeon.Revive(this);
+            return;
+        }
+
+        // A test room: next to a teammate who's still standing, or where this hero started.
+        var buddy = GetTree().GetNodesInGroup(Group).OfType<Hero>().FirstOrDefault(h => h != this && h.IsInGame && !h.IsDown);
+        GlobalPosition = buddy?.GlobalPosition ?? _spawnPoint;
     }
 
     private void StayOnScreen()
@@ -981,7 +999,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
         // Flicker (faint / solid) while invulnerable, but never disappear completely; abilities can fade the hero too.
         var faint = _invulnerable > 0 && (int)(_invulnerable * 15) % 2 == 1;
-        var alpha = (faint ? 0.35f : 1f) * _abilities.Aggregate(1f, (a, ability) => a * ability.SpriteAlpha);
+        var alpha = (faint ? 0.35f : IsHeld ? 0.55f : 1f) * _abilities.Aggregate(1f, (a, ability) => a * ability.SpriteAlpha);
         Sprite.Modulate = (IsChilled ? new Color(0.7f, 0.85f, 1f) : Colors.White) with { A = alpha };
         QueueRedraw();
     }

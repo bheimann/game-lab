@@ -653,6 +653,7 @@ y_sort_enabled = true
 position = Vector2(-2400, 0)
 script = ExtResource("room")
 Title = "Scalebrook Village"
+IsVillage = true
 
 [node name="Layout" type="Node2D" parent="World/Village"]
 z_index = -1
@@ -19126,6 +19127,7 @@ y_sort_enabled = true
 position = Vector2(-4000, 2400)
 script = ExtResource("room")
 Title = "Hoofhollow"
+IsVillage = true
 
 [node name="Layout" type="Node2D" parent="World/Hoofhollow"]
 z_index = -1
@@ -20111,6 +20113,7 @@ y_sort_enabled = true
 position = Vector2(8000, -600)
 script = ExtResource("room")
 Title = "Foxden"
+IsVillage = true
 
 [node name="Layout" type="Node2D" parent="World/Foxden"]
 z_index = -1
@@ -21071,6 +21074,7 @@ y_sort_enabled = true
 position = Vector2(6800, 1000)
 script = ExtResource("room")
 Title = "Peacock Palace"
+IsVillage = true
 
 [node name="Layout" type="Node2D" parent="World/PeacockPalace"]
 z_index = -1
@@ -22076,6 +22080,7 @@ y_sort_enabled = true
 position = Vector2(4400, 2400)
 script = ExtResource("room")
 Title = "Hivehold"
+IsVillage = true
 
 [node name="Layout" type="Node2D" parent="World/Hivehold"]
 z_index = -1

@@ -42,7 +42,8 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
 - ✅ 🛠 Shared camera: zooms from 2× (together) out to 1× (spread out), never shows past the room's edges,
   and stops players walking off-screen once it's fully zoomed out. (Now only for boss fights: see split screen below.)
 - ✅ 🛠 Player colours (P1 blue, P2 red, P3 yellow, P4 pink): a ring at the feet, an arrow over the head, and a HUD corner each.
-- ✅ 🛠 A knocked-out lizard gets back up next to a teammate who's still standing.
+- ✅ 🛠 A knocked-out lizard gets back up next to a teammate who's still standing. (Now: in the dungeon's foyer, the
+  last village, or the boss hall; see split screen.)
 - ✅ 🦎 Decide whether players can hurt each other: **no**.
 
 **Done when:** father and son can play in the same room at the same time.
@@ -165,8 +166,12 @@ more dungeons, hand-drawn art.
 - ✅ 🛠 Heroes can be in different rooms: doors and teleports take just the hero who used them; a room runs while anyone's
   in it; a dungeon's beaten enemies stay beaten while anyone is inside (back as soon as the last hero leaves). Room
   names, boss bars, damage numbers and door fades show in the view of the hero they're about.
-- ✅ 🛠 A small boss hall before each boss (no enemies, puzzles or traps): the boss door waits until every hero is in
-  it (says who it's waiting for), then the way back shuts behind them; both open once the boss is beaten.
+- ✅ 🛠 A small boss hall before each boss (no enemies, puzzles or traps): heroes in the boss doorway wait there (push
+  back to step out) until the whole team is in it, then all go in together; the way back shuts only while the fight
+  is on; both open once the boss is beaten.
+- ✅ 🛠 Knocked out: back up in the dungeon's foyer, or (overworld) the last village visited. In a boss fight: sent to
+  the boss hall to wait it out; everyone knocked out starts the boss over. New players start in Scalebrook Village
+  (in the boss hall during a boss fight).
 - ✅ 🛠 A foyer (no enemies) at the start of each dungeon. A ring of stones in each foyer and teleport room: a hero
   waiting on it can be joined from the others' menus ("Join P1"). Loading a save puts the team together at the
   last foyer / teleport room anyone reached.

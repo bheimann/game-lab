@@ -31,6 +31,7 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, IS
     private Vector2 _facing = Vector2.Down;
     private bool _pinchHit;
     private float _zzz;
+    private Vector2 _home;
 
     private enum State
     {
@@ -89,6 +90,7 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, IS
         AddToGroup(Enemies.Group);
         _rng.Seed = (ulong)GetInstanceId() ^ Time.GetTicksUsec();
         Health = new Health(BaseHealth);
+        _home = Position;
         MotionMode = MotionModeEnum.Floating;
         CollisionLayer = 4;
         CollisionMask = 1 | Pit.PitLayer;
@@ -194,8 +196,22 @@ public partial class GiantBeetle : CharacterBody2D, IHittable, IEnemy, IBoss, IS
     public bool TrySteal(StealKind kind) => _pockets.TryTake(kind);
 
     /// <summary>Bosses stay beaten.</summary>
+    /// <summary>Stays beaten; if it isn't beaten yet it starts over (back where it was, waiting for the heroes).</summary>
     public void Respawn()
     {
+        if (!IsHostile)
+        {
+            return;
+        }
+
+        Position = _home;
+        Health = new Health(BaseHealth);
+        _effects.Clear();
+        _pockets.Refill();
+        _target = null;
+        Velocity = Vector2.Zero;
+        Enter(State.Waiting);
+        ResetPhysicsInterpolation();
     }
 
     public string? SaveState() => _state is State.Asleep or State.Thankful ? "Beaten" : null;

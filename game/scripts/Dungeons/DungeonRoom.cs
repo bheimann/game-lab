@@ -22,6 +22,10 @@ public partial class DungeonRoom : Node2D
     /// Walking into a different area shows its name.</summary>
     [Export] public string Area { get; set; } = "";
 
+    /// <summary>A village (outdoors, with shops and a castle): a hero knocked out in the overworld gets back up in the
+    /// last village they visited.</summary>
+    [Export] public bool IsVillage { get; set; }
+
     /// <summary>Beating this room's enemies completes the dungeon.</summary>
     [Export] public bool IsBossRoom { get; set; }
 

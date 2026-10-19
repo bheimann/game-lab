@@ -64,9 +64,16 @@ public partial class FrostMoose : Beast, IBoss, Saving.ISaveable
 
     public override int StealableCoins => 10;
 
-    /// <summary>Bosses stay beaten.</summary>
+    /// <summary>Bosses stay beaten; one that isn't beaten yet starts over (full health, calm again).</summary>
     public override void Respawn()
     {
+        if (IsHostile)
+        {
+            base.Respawn();
+            _angry = false;
+            _stompWait = 2.5f;
+            _stomping = false;
+        }
     }
 
     public string? SaveState() => IsHostile ? null : "Beaten";

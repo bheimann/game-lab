@@ -27,7 +27,8 @@ coins): whoever picks one up, it goes in the team's supply, and any hero can eat
 ### Controls
 Up to 4 players. Each controller is a player, and the keyboard can be two players (left and right halves).
 Press a button to join, pick a character with left / right and its class with up / down, and confirm with the
-primary button. The team starts in **Scalebrook Village**.
+primary button. The team starts in **Scalebrook Village**. Someone who joins later starts in Scalebrook Village too
+(not next to the others; the stones below bring them over), or, during a boss fight, waiting in that boss hall.
 Hold the leave button for a second to drop out.
 **Split screen:** each hero gets their own part of the screen (2 players: left / right; 3: P1 top left, P2 right,
 P3 bottom left; 4: quarters), with their hearts in their own corner. Heroes can go their own ways: a door, teleport
@@ -38,9 +39,15 @@ the fight is on one shared screen; when the boss is beaten, the screen splits ag
 has one too: a **ring of stones** on the floor. Wait on the stones for a second and the others are told; their
 ring menu (Start) then opens on a **Join** ring with you in it, and picking you brings them to you.
 
-**Before each boss** there's a small, empty **boss hall**. Its door to the boss stays shut until every hero is in the
-hall (walking up to it says who you're waiting for); then the door behind you slams shut and the way to the boss
-opens, so everyone goes in together. Once the boss is beaten, both doors stay open.
+**Before each boss** there's a small, empty **boss hall**. Everyone goes in to the boss together: walk into the boss
+door and you wait in the doorway (it says who you're waiting for; push back the way you came to step out again).
+Once the whole team is in the doorway, you all go in. The door back out stays open (not ready? go and heal up) until
+someone's in with the boss; then it's shut until the fight's over. Once the boss is beaten, both doors stay open.
+
+**Knocked out:** you get back up in the dungeon's foyer (in a dungeon), or in the last village you visited (out in
+the overworld; Scalebrook if you haven't been to another). Knocked out fighting a boss, you're sent back to the boss
+hall and wait there until the others beat it; if everyone's knocked out, the boss starts over, the door back out
+opens, and the team can try again (or go and get ready first).
 
 | | Keyboard (left) | Keyboard (right) | Controller | Lizard | Fox |
 |---|---|---|---|---|---|
@@ -254,8 +261,7 @@ herbs back. On the start screen, **hold N** for a new game. (The save is in
 
 **Enemies come back:** in a dungeon, beaten enemies stay beaten while any hero is inside; once the last hero leaves,
 they're all back. Out in the overworld, an area's animals are back when someone walks into it while nobody's there.
-Bosses stay beaten, and doors and chests stay open. A knocked-out hero gets up next to a teammate in the same room,
-or (alone) where they came in.
+Bosses stay beaten (one that isn't beaten yet starts over), and doors and chests stay open.
 
 **Ring menu:** opens around your hero and **doesn't pause the game**. You can still walk (at half speed if an
 enemy is after you) but can't attack. Previous / next turn the ring, special switches rings
@@ -321,10 +327,13 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   (Forest), `lake` (Lake), `canyon` (Canyon), `snowplane` (Tundra), `boss` (BossRoom).
 - `Godot_console.exe --path game -- --room=Entrance --autoplay-split=<folder>` checks heroes going their own ways:
   P1 goes on to the next room alone (two views, both rooms awake), beats its enemies, gets knocked out there and gets up
-  where it came in, comes back (the enemies stay beaten), then both leave the dungeon (the enemies are back).
+  in the foyer, comes back (the enemies stay beaten), then both leave the dungeon (the enemies are back); knocked out in
+  the overworld, P1 gets up in Scalebrook Village, and a new P3 joins there.
   With `--room=BossRoom` (or `FrostBoss`, `MossBoss`) it checks the boss fight is one shared view, split again once beaten;
   with `--room=PuzzleRoom` (or `FrozenRiver`, `MossHall`, the rooms before the boss halls) the boss hall: the boss door
-  waits for everyone, the way back shuts behind them, and both open once the boss is beaten; with `--room=BurrowFoyer`
+  holds P1 in its doorway (pushing back steps out) until P2 steps in too and they go in together, the way back shuts
+  while the fight is on, a P3 joining mid-fight and a knocked-out P1 wait in the hall, everyone knocked out starts the
+  boss over (and opens the way back), and both doors open once it's beaten; with `--room=BurrowFoyer`
   (or `FrostFoyer`, `MossFoyer`) joining P1 from the menu while P1 waits on the stones.
 - `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
   there and back, and checks each one leads to the right area (and that the village painter paints you, and that

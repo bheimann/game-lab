@@ -37,10 +37,17 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
 - **Getting back together.** Each dungeon starts with a small, empty **foyer**; it and every castle's teleport room
   have a **ring of stones**. A hero who waits on the stones can be joined by the others from their ring menu ("Join
   P1"), wherever they are. A loaded game starts everyone together at the last foyer or teleport room anyone reached.
-- **The boss hall.** Before each boss, a small room with no enemies, puzzles or traps. Its boss door stays shut until
-  every hero is in it; then the way back shuts behind them and the boss door opens, so the team goes in together.
+- **The boss hall.** Before each boss, a small room with no enemies, puzzles or traps. The team goes in to the boss
+  together: a hero who walks into the boss door is held in the doorway (pushing back the way they came steps out)
+  until everyone's there, then they all go in. The way back stays open until someone's in with the boss, then stays
+  shut until the fight's over (boss beaten, or everyone knocked out), so a team that can't win isn't stuck.
   Once the boss is beaten, both doors stay open.
-- **Drop in / drop out.** Press a button to join: left / right picks the character, up / down its class.
+- **Knocked out.** A hero gets back up in the dungeon's foyer, or (overworld) in the last village they visited.
+  Knocked out fighting a boss, they wait in the boss hall until the fight's over; if everyone's knocked out, the boss
+  starts over (full health), the boss hall's way back opens, and the team can try again together or go and get ready.
+- **Drop in / drop out.** Press a button to join: left / right picks the character, up / down its class. A hero who
+  joins starts in Scalebrook Village (with the team if nobody's left the room the game started in), or during a boss
+  fight waiting in the boss hall.
 - **No friendly fire.** Players can't hurt each other.
 - **Menus don't pause.** The game keeps running for everyone. Only the player with the menu open
   is affected: **if they're in a fight, their character slows down**; otherwise it moves at normal speed.

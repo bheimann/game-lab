@@ -262,16 +262,17 @@ public partial class PlayerManager : Node
 
     private Vector2 SpawnPoint(int index)
     {
-        // Join next to a teammate who's already playing, otherwise at this slot's start point.
+        // In the world: Scalebrook Village, or with the team (see Dungeon.JoinPoint).
+        if (Dungeon.Find(this) is { } dungeon)
+        {
+            return dungeon.JoinPoint() + new Vector2(index * 12 - 18, 0);
+        }
+
+        // A test room: next to a teammate who's already playing, otherwise at this slot's start point.
         var buddy = _slots.Select(s => s.Hero).FirstOrDefault(h => h is not null && !h.IsDown);
         if (buddy is not null)
         {
             return buddy.GlobalPosition;
-        }
-
-        if (Dungeon.Find(this) is { } dungeon)
-        {
-            return dungeon.RespawnPoint + new Vector2(index * 12 - 18, 0);
         }
 
         var spawns = GetNodeOrNull("Spawns")?.GetChildren().OfType<Node2D>().ToArray() ?? Array.Empty<Node2D>();
