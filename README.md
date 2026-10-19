@@ -15,7 +15,7 @@
 version and push the tag: `git tag v0.1.0` then `git push origin v0.1.0`. A few minutes later the repo's **Releases**
 page has `LizardWizard-windows.zip`: unzip it anywhere and run `LizardWizard.exe` (no Godot needed). To just try a
 build without publishing it, run "Release build" by hand on the repo's Actions tab and download the zip from the run.
-The build includes `playtest.cfg` as it is at the time (check the starting coins before tagging).
+Builds always start like the normal game (the build sets `playtest.cfg`'s coins to 0), whatever you're playtesting with.
 
 **Playtest settings:** `game/playtest.cfg` has values to change for testing, used when a new game starts (hold N on the
 start screen for a new game). For now: `coins`, the coins the team starts with (500, enough for every weapon upgrade
