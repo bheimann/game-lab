@@ -15,8 +15,10 @@ namespace LizardWizard.Util;
 /// views, both rooms awake), beats its enemies, gets knocked out there (gets up where it came in, not next to P2),
 /// and comes back (the beaten enemies stay beaten while anyone's in the dungeon); then both leave the dungeon
 /// (its enemies are back). Started in a boss room (<c>--room=BossRoom</c>) it checks the boss fight instead: one shared
-/// view while the boss fights, split again once it's beaten. Started in the room before a boss (<c>--room=PuzzleRoom</c>,
-/// <c>FrozenRiver</c>, <c>MossHall</c>) it checks the boss door waits until everyone's there.
+/// view while the boss fights, split again once it's beaten. Started in the room leading to a boss hall
+/// (<c>--room=PuzzleRoom</c>, <c>FrozenRiver</c>, <c>MossHall</c>) it checks the boss hall: its boss door waits for
+/// everyone, then the way back shuts behind them, and both open once the boss is beaten. Started in a foyer
+/// (<c>--room=BurrowFoyer</c>) it checks joining a teammate who waits on the gathering marker, from the menu.
 /// Logs PASS / FAIL for each check and saves a screenshot at each step.
 /// </summary>
 public partial class DevSplitCheck : Node
@@ -56,16 +58,24 @@ public partial class DevSplitCheck : Node
             return;
         }
 
-        if (start.Doors.FirstOrDefault(d => d.LeadsToBoss) is { } bossDoor)
+        if (start.Doors.FirstOrDefault(d => d.Partner?.Room.Doors.Any(x => x.LeadsToBoss) == true) is { } toHall)
         {
-            await BossGate(start, bossDoor, p1, p2, split);
+            await BossHall(start, toHall, p1, p2, split);
             return;
         }
 
-        var inward = start.Doors.First(d => d.Partner is { } p && p.Room.Area == start.Area && p.Room != start);
-        var outward = start.Doors.First(d => d.Partner is { } p && p.Room.Area != start.Area);
+        if (start.GetChildren().OfType<GatherMarker>().FirstOrDefault() is { } marker)
+        {
+            await JoinAtMarker(start, marker, p1, p2);
+            return;
+        }
+
+        // Further in: a dungeon room that isn't the foyer. Out: towards the foyer (or straight outside).
+        static bool IsFoyer(DungeonRoom room) => room.GetChildren().OfType<GatherMarker>().Any();
+        var inward = start.Doors.First(d => d.Partner is { } p && p.Room.Area == start.Area && p.Room != start && !IsFoyer(p.Room));
+        var outward = start.Doors.First(d => d.Partner is { } p && (p.Room.Area != start.Area || IsFoyer(p.Room)));
         var next = inward.Partner!.Room;
-        Log($"start in {start.Name} ({start.Area}); further in: {next.Name}; out: {outward.Partner!.Room.Name}");
+        Log($"start in {start.Name} ({start.Area}); further in: {next.Name}; out through: {outward.Partner!.Room.Name}");
         Check("two heroes, two views", split.ViewCount == 2 && !split.Shared);
 
         // The doors only open once the room's enemies are beaten.
@@ -102,9 +112,17 @@ public partial class DevSplitCheck : Node
         Check("its enemies stay beaten (someone's still in the dungeon)", enemies.All(e => !e.IsHostile));
         await Shot("together");
 
-        // 5. Both leave the dungeon: everything in it is back.
+        // 5. Both leave the dungeon (through the foyer): everything in it is back.
         await Walk((p1, _bots[0], outward), (p2, _bots[1], outward));
         var outside = outward.Partner!.Room;
+        if (outside.Area == start.Area && outside.Doors.FirstOrDefault(d => d.Partner?.Room.Area != start.Area) is { } exit)
+        {
+            Check("both came into the foyer", dungeon.RoomOf(p1) == outside && dungeon.RoomOf(p2) == outside);
+            Check("the dungeon's enemies stay beaten while we're in the foyer", enemies.All(e => !e.IsHostile));
+            await Walk((p1, _bots[0], exit), (p2, _bots[1], exit));
+            outside = exit.Partner!.Room;
+        }
+
         Check("both left the dungeon", dungeon.RoomOf(p1) == outside && dungeon.RoomOf(p2) == outside);
         Check("the dungeon is asleep", !start.IsActive && !next.IsActive);
         Check("its enemies are back (nobody's in the dungeon)", enemies.All(e => e.IsHostile));
@@ -114,46 +132,105 @@ public partial class DevSplitCheck : Node
         GetTree().Quit();
     }
 
-    private async Task BossGate(DungeonRoom room, Door bossDoor, Hero p1, Hero p2, SplitScreen split)
+    private async Task BossHall(DungeonRoom room, Door toHall, Hero p1, Hero p2, SplitScreen split)
     {
         var dungeon = Dungeon.Find(this)!;
+        var hall = toHall.Partner!.Room;
+        var bossDoor = hall.Doors.First(d => d.LeadsToBoss);
+        var backDoor = toHall.Partner!;
         var boss = bossDoor.Partner!.Room;
-        Log($"start in {room.Name}, before the boss room {boss.Name}");
+        Log($"start in {room.Name}; the boss hall {hall.Name} leads to {boss.Name}");
+        Check("the boss hall has no enemies", !hall.Enemies.Any());
 
-        // Skip the rooms' own puzzles: beat their enemies and open their shut and locked doors.
-        var away = room.Doors.First(d => d != bossDoor && d.Partner is not null);
-        foreach (var r in new[] { room, away.Partner!.Room })
+        // Skip this room's own puzzle: beat its enemies and open its shut and locked doors.
+        Beat(room);
+        foreach (var door in room.Doors.Where(d => d.State is DoorState.Shut or DoorState.Locked))
         {
-            Beat(r);
-            foreach (var door in r.Doors.Where(d => d.State is DoorState.Shut or DoorState.Locked))
-            {
-                door.Open();
-            }
+            door.Open();
         }
 
         await Seconds(1.0);
-        Check("everyone's here: the boss door is open", bossDoor.IsOpen);
 
-        await Walk((p2, _bots[1], away));
-        Check("P2 stepped out", dungeon.RoomOf(p2) == away.Partner!.Room);
-        Check("the boss door waits for P2", !bossDoor.IsOpen && bossDoor.IsWaitingForTeam);
+        // 1. P1 goes into the boss hall alone: the boss door waits for P2.
+        await Walk((p1, _bots[0], toHall));
+        Check("P1 is in the boss hall", dungeon.RoomOf(p1) == hall);
+        Check("the boss door waits for P2", !bossDoor.IsOpen && bossDoor.IsHeldShut);
+        Check("the way back is still open", backDoor.IsOpen);
         await Walk((p1, _bots[0], bossDoor));
-        Check("P1 can't go in alone", dungeon.RoomOf(p1) == room);
+        Check("P1 can't go on alone", dungeon.RoomOf(p1) == hall);
         await Shot("waiting");
 
-        await Walk((p2, _bots[1], away.Partner!));
-        Check("P2 is back: the boss door opens", dungeon.RoomOf(p2) == room && bossDoor.IsOpen);
+        // 2. P2 comes in too: the way back shuts behind them and the boss door opens.
+        await Walk((p2, _bots[1], toHall));
+        Check("everyone's in the boss hall", dungeon.RoomOf(p2) == hall);
+        Check("the way back shut behind them", !backDoor.IsOpen && backDoor.IsHeldShut);
+        Check("the boss door opened", bossDoor.IsOpen);
+        await Walk((p2, _bots[1], backDoor));
+        Check("P2 can't go back", dungeon.RoomOf(p2) == hall);
+        await Shot("gathered");
 
+        // 3. In to the boss, one after the other.
         await Walk((p1, _bots[0], bossDoor));
-        Check("P1 goes in first", dungeon.RoomOf(p1) == boss && dungeon.RoomOf(p2) == room);
-        Check("the door stays open for P2 (P1 is in the boss room)", bossDoor.IsOpen);
-        Check("not everyone's in there yet: still split", !split.Shared);
+        Check("P1 went in first: still split", dungeon.RoomOf(p1) == boss && dungeon.RoomOf(p2) == hall && !split.Shared);
         await Walk((p2, _bots[1], bossDoor));
         Check("everyone's in the boss room: one shared view", dungeon.RoomOf(p2) == boss && split.Shared && split.ViewCount == 1);
-        await Shot("boss");
+
+        // 4. Beat the boss: both of the boss hall's doors open again.
+        await BeatBoss(boss);
+        Check("the boss is beaten", boss.IsCleared);
+        await Walk((p1, _bots[0], boss.Doors.First(d => d.Partner?.Room == hall)));
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        Check("after the boss, both boss hall doors are open", dungeon.RoomOf(p1) == hall && bossDoor.IsOpen && backDoor.IsOpen);
+        await Walk((p1, _bots[0], backDoor));
+        Check("and P1 can go back", dungeon.RoomOf(p1) == room);
 
         GD.Print($"[split] done: {_passed} passed, {_failed} failed");
         GetTree().Quit();
+    }
+
+    private async Task JoinAtMarker(DungeonRoom room, GatherMarker marker, Hero p1, Hero p2)
+    {
+        var dungeon = Dungeon.Find(this)!;
+        Log($"start in {room.Name} ({marker.PlaceName})");
+        // P2 steps out of the dungeon (the rooms further in have enemies that could knock P2 back through the door).
+        var away = room.Doors.FirstOrDefault(d => d.Partner?.Room.Area != room.Area) ?? room.Doors.First(d => d.Partner is not null);
+        await Walk((p2, _bots[1], away));
+        Check("P2 went out", dungeon.RoomOf(p2) == away.Partner!.Room);
+
+        // P1 waits on the stones: P2's menu gets a "Join" ring first; picking it brings P2 here.
+        p1.Teleport(marker.GlobalPosition);
+        await Seconds(1.4);
+        Check("P1 is waiting on the marker", marker.Waiting.Contains(p1));
+        await Shot("waiting");
+        await Tap(_bots[1].Menu);
+        await Seconds(0.4);
+        Check("P2's menu is open", p2.IsMenuOpen);
+        await Shot("menu");
+        await Tap(_bots[1].Primary);
+        await Seconds(1.0);
+        Log($"P2 in {dungeon.RoomOf(p2).Name} at {p2.GlobalPosition} (join point {marker.JoinPoint}), down={p2.IsDown}, menu open={p2.IsMenuOpen}, hp={p2.Health.Current}");
+        Check("P2 joined P1", dungeon.RoomOf(p2) == room && p2.GlobalPosition.DistanceTo(marker.JoinPoint) < 16);
+        Check("the foyer is remembered as where to start", dungeon.LastGatherPoint == marker);
+
+        p1.Teleport(marker.GlobalPosition + new Vector2(40, 0));
+        await Seconds(0.2);
+        Check("P1 stepped off: nobody's waiting", !marker.Waiting.Any());
+
+        GD.Print($"[split] done: {_passed} passed, {_failed} failed");
+        GetTree().Quit();
+    }
+
+    /// <summary>Press and let go of a key (a few frames, so the game sees it).</summary>
+    private async Task Tap(Key key)
+    {
+        SetKeys(new HashSet<Key> { key });
+        for (var i = 0; i < 3; i++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        }
+
+        SetKeys(new HashSet<Key>());
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
     }
 
     private async Task BossFight(DungeonRoom room, SplitScreen split)
@@ -162,7 +239,17 @@ public partial class DevSplitCheck : Node
         Check("everyone in the boss room shares one view", split.Shared && split.ViewCount == 1);
         await Shot("boss");
 
-        // Walk up to the boss so it wakes, then keep hitting it (a shell might only let 1 damage through).
+        await BeatBoss(room);
+        Check("the boss is beaten", room.IsCleared);
+        Check("the screen splits again", !split.Shared && split.ViewCount == 2);
+        await Shot("beaten");
+        GD.Print($"[split] done: {_passed} passed, {_failed} failed");
+        GetTree().Quit();
+    }
+
+    /// <summary>Walk up to the boss so it wakes, then keep hitting it (a shell might only let 1 damage through).</summary>
+    private async Task BeatBoss(DungeonRoom room)
+    {
         var boss = room.Enemies.OfType<Node2D>().First();
         var heroes = PlayerManager.Find(this)!.Players.OfType<Hero>().ToList();
         for (var i = 0; i < heroes.Count; i++)
@@ -177,11 +264,6 @@ public partial class DevSplitCheck : Node
         }
 
         await Seconds(0.3);
-        Check("the boss is beaten", room.IsCleared);
-        Check("the screen splits again", !split.Shared && split.ViewCount == 2);
-        await Shot("beaten");
-        GD.Print($"[split] done: {_passed} passed, {_failed} failed");
-        GetTree().Quit();
     }
 
     private static void Beat(DungeonRoom room)

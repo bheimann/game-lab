@@ -75,6 +75,10 @@ public sealed class SaveData
     /// <summary>Villages whose teleports are awake.</summary>
     public List<string> Teleports { get; set; } = new();
 
+    /// <summary>The last gathering marker anyone reached (a dungeon foyer or a teleport room): where the team starts.
+    /// Empty: the village.</summary>
+    public string GatherPoint { get; set; } = "";
+
     /// <summary>The dungeons beaten so far (their area names).</summary>
     public List<string> CompletedDungeons { get; set; } = new();
 
@@ -222,6 +226,7 @@ public static class SaveGame
         {
             data.Keys = dungeon.Keys;
             data.CompletedDungeons = dungeon.CompletedDungeons.ToList();
+            data.GatherPoint = dungeon.LastGatherPoint is { } marker ? scene.GetPathTo(marker) : "";
         }
 
         if (PlayerManager.Find(anyNode) is { } manager)

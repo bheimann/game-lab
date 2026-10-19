@@ -15,7 +15,9 @@ namespace LizardWizard.Dungeons;
 /// and moving heroes through doors. Heroes go their own ways: a door, teleport pad or exit portal takes just the heroes
 /// who used it, and every room with a hero in it runs (the others wait). A dungeon's beaten enemies stay beaten while
 /// any hero is inside it, and are all back as soon as the last hero leaves; an overworld area's animals are back
-/// whenever someone walks into it while it's empty.
+/// whenever someone walks into it while it's empty. A hero waiting on a <see cref="GatherMarker"/> (dungeon foyers,
+/// teleport rooms) can be joined by the others from their menus; the last marker anyone reached is where the team
+/// starts after loading a save.
 /// When the boss room is cleared the dungeon is complete, the team earns a title, and an <see cref="ExitPortal"/> opens
 /// in the boss room that takes them back out to the dungeon's entrance.
 /// There can be several dungeons: each one's rooms share an <see cref="DungeonRoom.Area"/> name, and its boss room says
@@ -36,6 +38,13 @@ public partial class Dungeon : Node
     private List<DungeonRoom> _rooms = new();
     private DungeonRoom _idleRoom = null!;
 
+    /// <summary>Where heroes come into a room: the spot, which way they face, and which way to line up side by side.</summary>
+    private readonly record struct Arrival(DungeonRoom Room, Vector2 Point, Vector2 Facing, Vector2 Across)
+    {
+        public static Arrival Through(Door door) =>
+            new(door.Room, door.EntryPoint, -door.Outward, new Vector2(-door.Outward.Y, door.Outward.X));
+    }
+
     /// <summary>Shown when the dungeon starts.</summary>
     [Export] public string DungeonName { get; set; } = "Dungeon";
 
@@ -49,6 +58,9 @@ public partial class Dungeon : Node
 
     /// <summary>Where the exit portal takes the team after beating the boss (the dungeon's entrance in the overworld).</summary>
     [Export] public Door? ReturnDoor { get; set; }
+
+    /// <summary>The last gathering marker anyone reached (a dungeon foyer or a teleport room): where a loaded game starts.</summary>
+    public GatherMarker? LastGatherPoint { get; private set; }
 
     /// <summary>Keys the team is carrying. Any player can use them.</summary>
     public int Keys { get; set; }
@@ -118,7 +130,10 @@ public partial class Dungeon : Node
         layer.AddChild(_fade);
 
         _rooms = GetTree().CurrentScene.FindChildren("*", "", true, false).OfType<DungeonRoom>().ToList();
-        _idleRoom = DevStartRoom(_rooms) ?? StartRoom ?? _rooms.First();
+        // A loaded game starts at the last gathering marker anyone reached (a foyer or a teleport room).
+        LastGatherPoint = SaveGame.Loaded?.GatherPoint is { Length: > 0 } path ? GetTree().CurrentScene.GetNodeOrNull<GatherMarker>(path) : null;
+        var savedRoom = LastGatherPoint is not null ? DungeonRoom.Of(LastGatherPoint) : null;
+        _idleRoom = DevStartRoom(_rooms) ?? savedRoom ?? StartRoom ?? _rooms.First();
         _occupied = new HashSet<DungeonRoom> { _idleRoom };
         foreach (var room in _rooms)
         {
@@ -129,8 +144,8 @@ public partial class Dungeon : Node
             }
         }
 
-        RespawnPoint = StartPoint is not null && DungeonRoom.Of(StartPoint) == _idleRoom
-            ? StartPoint.GlobalPosition
+        RespawnPoint = savedRoom == _idleRoom && LastGatherPoint is not null ? LastGatherPoint.JoinPoint
+            : StartPoint is not null && DungeonRoom.Of(StartPoint) == _idleRoom ? StartPoint.GlobalPosition
             : _idleRoom.FloorRect.GetCenter();
         CallDeferred(MethodName.Begin);
     }
@@ -156,7 +171,7 @@ public partial class Dungeon : Node
             if (RoomOf(hero).Doors.FirstOrDefault(d => d.Partner is not null && d.IsLeaving(hero)) is { } door)
             {
                 HeroLeftRoom?.Invoke(hero, door);
-                MoveTo(new[] { hero }, door.Partner!);
+                MoveTo(new[] { hero }, Arrival.Through(door.Partner!));
             }
         }
 
@@ -172,8 +187,8 @@ public partial class Dungeon : Node
         Hud.ShowBanner(_idleRoom.Area != "" ? _idleRoom.Area : _idleRoom.Title, _idleRoom.Area != "" ? _idleRoom.Title : "", 3f);
     }
 
-    /// <summary>Fade the heroes' views out, bring them in through <paramref name="target"/>, fade back in.</summary>
-    private void MoveTo(Hero[] heroes, Door target)
+    /// <summary>Fade the heroes' views out, bring them in at <paramref name="target"/>, fade back in.</summary>
+    private void MoveTo(Hero[] heroes, Arrival target)
     {
         heroes = heroes.Where(h => !_moving.Contains(h)).ToArray();
         if (heroes.Length == 0)
@@ -205,25 +220,29 @@ public partial class Dungeon : Node
         }
     }
 
-    private void Arrive(Hero[] heroes, Door door)
+    private void Arrive(Hero[] heroes, Arrival arrival)
     {
         heroes = heroes.Where(h => IsInstanceValid(h) && h.IsInGame).ToArray();
         var previousAreas = heroes.ToDictionary(h => h, h => RoomOf(h).Area);
 
-        // Line the heroes up just inside the door, side by side.
-        var across = new Vector2(-door.Outward.Y, door.Outward.X);
+        // Line the heroes up just inside the door (or by the marker), side by side.
         for (var i = 0; i < heroes.Length; i++)
         {
             var spread = (i - (heroes.Length - 1) / 2f) * 14f;
-            heroes[i].ArriveAt(door.EntryPoint + across * spread, -door.Outward);
-            _heroRooms[heroes[i]] = door.Room;
-            _respawnPoints[heroes[i]] = door.EntryPoint;
+            heroes[i].ArriveAt(arrival.Point + arrival.Across * spread, arrival.Facing);
+            _heroRooms[heroes[i]] = arrival.Room;
+            _respawnPoints[heroes[i]] = arrival.Point;
         }
 
-        RespawnPoint = door.EntryPoint;
+        var room = arrival.Room;
+        RespawnPoint = arrival.Point;
+        if (room.GetChildren().OfType<GatherMarker>().FirstOrDefault() is { } marker)
+        {
+            LastGatherPoint = marker;
+        }
+
         UpdateRooms(); // the new room wakes up (and an empty overworld area gets its animals back)
 
-        var room = door.Room;
         foreach (var hero in heroes)
         {
             CoopCamera.SnapFor(hero);
@@ -337,14 +356,26 @@ public partial class Dungeon : Node
     }
 
     /// <summary>A teleport pad: take the heroes standing on it to <paramref name="arrival"/> (another village's teleport room).</summary>
-    public void Travel(Door arrival, IEnumerable<Hero> heroes) => MoveTo(heroes.ToArray(), arrival);
+    public void Travel(Door arrival, IEnumerable<Hero> heroes) => MoveTo(heroes.ToArray(), Arrival.Through(arrival));
+
+    /// <summary>
+    /// <paramref name="hero"/> picked "Join" in their menu: bring them to <paramref name="marker"/>, where a teammate is
+    /// waiting. Only while someone's still waiting there.
+    /// </summary>
+    public void JoinAt(Hero hero, GatherMarker marker)
+    {
+        if (DungeonRoom.Of(marker) is { } room && marker.Waiting.Any(h => h != hero))
+        {
+            MoveTo(new[] { hero }, new Arrival(room, marker.JoinPoint, Vector2.Up, Vector2.Right));
+        }
+    }
 
     /// <summary>Heroes stood on the exit portal in <paramref name="room"/>: take them back out to the overworld.</summary>
     public void LeaveThroughPortal(DungeonRoom room, IEnumerable<Hero> heroes)
     {
         if ((room.ReturnDoor ?? ReturnDoor) is { } back)
         {
-            MoveTo(heroes.ToArray(), back);
+            MoveTo(heroes.ToArray(), Arrival.Through(back));
         }
     }
 

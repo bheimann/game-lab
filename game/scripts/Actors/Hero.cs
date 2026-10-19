@@ -834,6 +834,21 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             Enabled = Herbs > 0,
         };
         rings.Add(new MenuRing("Items", new[] { herb }, 0, _ => UseHerb()));
+
+        // A teammate waiting on a gathering marker in another room: join them (this ring comes first).
+        if (Dungeon.Find(this) is { } dungeon)
+        {
+            var waiting = GatherMarker.All(GetTree())
+                .SelectMany(m => m.Waiting.Where(h => h != this && dungeon.RoomOf(h) != dungeon.RoomOf(this)).Select(h => (Host: h, Marker: m)))
+                .OrderBy(w => w.Host.PlayerIndex)
+                .ToList();
+            if (waiting.Count > 0)
+            {
+                var options = waiting.Select(w => new MenuOption($"Join {w.Host.Name}", $"Go to {w.Marker.PlaceName}", null, w.Host.PlayerColour)).ToArray();
+                rings.Insert(0, new MenuRing("Join", options, 0, i => dungeon.JoinAt(this, waiting[i].Marker)));
+            }
+        }
+
         return rings;
     }
 

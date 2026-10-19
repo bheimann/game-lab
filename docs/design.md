@@ -34,9 +34,12 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
 - **Heroes go their own ways.** Doors, teleport pads and exit portals take just the heroes who use them; every room
   with a hero in it runs. **Boss fights** are on one shared screen once everyone's in the boss room (it zooms out to
   keep everyone in view and nobody can walk off it); the screen splits again when the boss is beaten.
-  **The boss door waits for everyone:** it stays shut until every hero is in the room before the boss (or already in
-  the boss room). Once the boss is beaten it's an ordinary door.
-  Coming next: dungeon foyers / teleport rooms with a marker for calling the others to you.
+- **Getting back together.** Each dungeon starts with a small, empty **foyer**; it and every castle's teleport room
+  have a **ring of stones**. A hero who waits on the stones can be joined by the others from their ring menu ("Join
+  P1"), wherever they are. A loaded game starts everyone together at the last foyer or teleport room anyone reached.
+- **The boss hall.** Before each boss, a small room with no enemies, puzzles or traps. Its boss door stays shut until
+  every hero is in it; then the way back shuts behind them and the boss door opens, so the team goes in together.
+  Once the boss is beaten, both doors stay open.
 - **Drop in / drop out.** Press a button to join: left / right picks the character, up / down its class.
 - **No friendly fire.** Players can't hurt each other.
 - **Menus don't pause.** The game keeps running for everyone. Only the player with the menu open
