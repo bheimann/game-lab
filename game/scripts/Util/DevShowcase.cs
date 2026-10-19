@@ -92,7 +92,7 @@ public partial class DevShowcase : Node
         }
 
         // No area-name banner over the picture.
-        Dungeon.Find(this)!.Hud.ShowBanner("", "", 0);
+        Dungeon.Find(this)!.Hud.ShowBanner("", "", 0); // (clears every banner)
 
         void FaceAll(Vector2 direction)
         {

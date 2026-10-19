@@ -9,7 +9,8 @@ namespace LizardWizard.Players;
 /// <summary>
 /// Split screen: every hero gets their own part of the window, even when they're standing together.
 /// 1 hero: the whole screen. 2: left / right halves. 3: P1 top left, P2 the right half, P3 bottom left.
-/// 4: a quarter each. In a boss room everyone shares one full-screen view (see <see cref="Shared"/>).
+/// 4: a quarter each. While everyone's in the same boss room fighting the boss they share one full-screen view (see
+/// <see cref="Shared"/>); once it's beaten, the screen splits again.
 /// Each view is a <see cref="SubViewport"/> looking at the same world through its own <see cref="CoopCamera"/>;
 /// the main window only draws the views and the HUD on top. The views are numbered in player order, so a hero's
 /// hearts (in the screen corners, see <see cref="UI.HeartBar"/>) always sit in their own view.
@@ -25,6 +26,7 @@ public partial class SplitScreen : CanvasLayer
 
     private readonly List<View> _views = new();
     private readonly List<ColorRect> _dividers = new();
+    private readonly Dictionary<Hero, float> _fades = new();
     private string _layout = "";
     private float _sharedMinZoom;
     private float _sharedMaxZoom;
@@ -36,6 +38,9 @@ public partial class SplitScreen : CanvasLayer
         public required SubViewport Port { get; init; }
         public required CoopCamera Camera { get; init; }
 
+        /// <summary>Darkens the view while its hero goes through a door.</summary>
+        public required ColorRect Fade { get; init; }
+
         public Rect2 ScreenRect => new(Box.Position, Box.Size);
 
         public bool IsShown => Box.Visible;
@@ -43,8 +48,11 @@ public partial class SplitScreen : CanvasLayer
         /// <summary>Where <paramref name="world"/> appears on the screen (the main window's coordinates).</summary>
         public Vector2 ToScreen(Vector2 world) => Box.Position + Port.GetCanvasTransform() * world;
 
-        /// <summary>Is this point of the world inside this view (with a little leeway past the edges)?</summary>
-        public bool Shows(Vector2 world, float leeway = 8f) => IsShown && ScreenRect.Grow(leeway).HasPoint(ToScreen(world));
+        /// <summary>Is this point of the world inside this view (with a little leeway past the edges), in the room it's
+        /// looking at? (A small room leaves space round it, where another room may be.)</summary>
+        public bool Shows(Vector2 world, float leeway = 8f) =>
+            IsShown && ScreenRect.Grow(leeway).HasPoint(ToScreen(world))
+            && (Camera.Room is not { } room || new Rect2(room.GlobalPosition, room.SizeInPixels).Grow(leeway).HasPoint(world));
     }
 
     /// <summary>Everyone shares one full-screen view (one hero, or the boss fight).</summary>
@@ -114,7 +122,14 @@ public partial class SplitScreen : CanvasLayer
                 port.AddChild(camera);
             }
 
-            _views.Add(new View { Box = box, Port = port, Camera = camera });
+            var fade = new ColorRect { Color = new Color(0, 0, 0, 0), MouseFilter = Control.MouseFilterEnum.Ignore };
+            _views.Add(new View { Box = box, Port = port, Camera = camera, Fade = fade });
+        }
+
+        // The fades go over the views and the lines between them.
+        foreach (var view in _views)
+        {
+            AddChild(view.Fade);
         }
 
         // The main window draws the world through the views only: point its own (camera-less) view far away.
@@ -125,11 +140,35 @@ public partial class SplitScreen : CanvasLayer
 
     public override void _PhysicsProcess(double delta) => Arrange();
 
+    /// <summary>Darken <paramref name="hero"/>'s view (0 = clear, 1 = black), e.g. going through a door.
+    /// The shared view darkens with whoever is fading most.</summary>
+    public void SetFade(Hero hero, float alpha)
+    {
+        _fades[hero] = alpha;
+        foreach (var gone in _fades.Keys.Where(h => !IsInstanceValid(h)).ToList())
+        {
+            _fades.Remove(gone);
+        }
+
+        UpdateFades();
+    }
+
+    private void UpdateFades()
+    {
+        foreach (var view in _views)
+        {
+            var alpha = !view.IsShown ? 0f
+                : view.Camera.Follow is { } hero ? _fades.GetValueOrDefault(hero)
+                : _fades.Values.DefaultIfEmpty(0f).Max();
+            view.Fade.Color = view.Fade.Color with { A = alpha };
+        }
+    }
+
     /// <summary>Work out who gets which part of the screen; only changes anything when that changes.</summary>
     private void Arrange()
     {
         var heroes = Heroes();
-        var shared = heroes.Count <= 1 || InBossRoom();
+        var shared = heroes.Count <= 1 || AllInBossRoom(heroes);
         var layout = shared ? "shared" : string.Join(",", heroes.Select(h => h.GetInstanceId()));
         if (layout == _layout)
         {
@@ -153,6 +192,7 @@ public partial class SplitScreen : CanvasLayer
             var view = _views[i];
             var shown = i < rects.Length;
             view.Box.Visible = shown;
+            view.Fade.Visible = shown;
             view.Port.RenderTargetUpdateMode = shown ? SubViewport.UpdateMode.Always : SubViewport.UpdateMode.Disabled;
             view.Camera.ProcessMode = shown ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
             if (!shown)
@@ -163,6 +203,8 @@ public partial class SplitScreen : CanvasLayer
             view.Port.Size = (Vector2I)rects[i].Size; // first: the box can't be smaller than its view
             view.Box.Position = rects[i].Position;
             view.Box.Size = rects[i].Size;
+            view.Fade.Position = rects[i].Position;
+            view.Fade.Size = rects[i].Size;
             view.Camera.Follow = shared ? null : heroes[i];
             if (shared)
             {
@@ -179,6 +221,7 @@ public partial class SplitScreen : CanvasLayer
         }
 
         PlaceDividers();
+        UpdateFades();
     }
 
     /// <summary>The heroes playing, in player order (P1 first).</summary>
@@ -192,8 +235,10 @@ public partial class SplitScreen : CanvasLayer
         return GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(h => h.IsInGame).OrderBy(h => h.PlayerIndex).ToList();
     }
 
-    /// <summary>Boss fights are on one shared screen.</summary>
-    private bool InBossRoom() => Dungeon.Find(this) is { CurrentRoom: { IsBossRoom: true } };
+    /// <summary>Boss fights are on one shared screen, once everyone's in there (until the boss is beaten).</summary>
+    private bool AllInBossRoom(List<Hero> heroes) =>
+        Dungeon.Find(this) is { } dungeon && dungeon.RoomOf(heroes[0]) is { IsBossRoom: true, IsCleared: false } room
+        && heroes.All(h => dungeon.RoomOf(h) == room);
 
     /// <summary>A thin dark line between the views (on the right and bottom edges that aren't the screen's).</summary>
     private void PlaceDividers()

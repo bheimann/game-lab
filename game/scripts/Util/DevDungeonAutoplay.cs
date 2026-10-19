@@ -13,6 +13,7 @@ namespace LizardWizard.Util;
 /// little plan (Frostfang Fortress and Mossmire Keep too, starting with --room=FrostEntrance or --room=MossEntrance): fight, open the chest, walk through the right door, solve the lever puzzle (the fox bombs the rocks
 /// and flips that lever, the lizard tongues the lever across the pit), beat the beetle, and take the exit portal out.
 /// Logs what happens and saves a screenshot every 2 seconds (and on every new room) into the folder.
+/// Heroes go through doors on their own, so when one bot is through a door first, it waits while the other follows it.
 /// </summary>
 public partial class DevDungeonAutoplay : Node
 {
@@ -31,6 +32,9 @@ public partial class DevDungeonAutoplay : Node
     private double _nextLog;
     private int _shotNumber;
     private DungeonRoom? _lastRoom;
+    private Hero? _lastMover;
+    private Door? _lastExit;
+    private bool _watchingDoors;
     private double _completeAt = -1;
 
     /// <summary>The dungeon being played (the area of the last dungeon room the team was in).</summary>
@@ -58,7 +62,17 @@ public partial class DevDungeonAutoplay : Node
         }
         else if (lizard is not null && fox is not null)
         {
-            Play(room, dungeon, lizard, fox, wanted);
+            if (!_watchingDoors)
+            {
+                _watchingDoors = true;
+                dungeon.HeroLeftRoom += (hero, door) => (_lastMover, _lastExit) = (hero, door);
+            }
+
+            if (!CatchUp(dungeon, lizard, fox, wanted))
+            {
+                Play(room, dungeon, lizard, fox, wanted);
+            }
+
             _bots[0].Unstick(lizard, wanted, delta);
             _bots[1].Unstick(fox, wanted, delta);
         }
@@ -78,7 +92,7 @@ public partial class DevDungeonAutoplay : Node
         if (_time >= _nextLog)
         {
             _nextLog += 1;
-            var heroes = string.Join(" ", manager.Players.Where(p => p is not null).Select(p => $"{p!.Name}:hp{p.Health.Current}{(p.IsDown ? "DOWN" : "")}@{p.GlobalPosition - room.GlobalPosition:0}"));
+            var heroes = string.Join(" ", manager.Players.Where(p => p is not null).Select(p => $"{p!.Name}:hp{p.Health.Current}{(p.IsDown ? "DOWN" : "")}@{p.GlobalPosition - room.GlobalPosition:0}{(dungeon.RoomOf(p) != room ? $" in {dungeon.RoomOf(p).Name}" : "")}"));
             var enemies = string.Join(" ", room.Enemies.OfType<Node2D>().Select(e => e is IBoss boss ? $"{e.Name}:hp{boss.Health.Current}" : $"{e.Name.ToString()[0]}{(((IEnemy)e).IsHostile ? "!" : "z")}"));
             GD.Print($"[dungeon {_time:0.0}s] {room.Name} | {heroes} | {enemies} | keys={dungeon.Keys}");
         }
@@ -397,32 +411,56 @@ public partial class DevDungeonAutoplay : Node
     }
 
     /// <summary>Both heroes walk to the door, line up with it, and walk through.</summary>
+    /// <summary>
+    /// The bots are in different rooms: the one left behind walks out through the door the other one took, and the
+    /// one ahead waits. Returns false when they're together.
+    /// </summary>
+    private bool CatchUp(Dungeon dungeon, Hero lizard, Hero fox, HashSet<Key> wanted)
+    {
+        if (dungeon.RoomOf(lizard) == dungeon.RoomOf(fox))
+        {
+            return false;
+        }
+
+        var (bot, behind) = _lastMover == fox ? (_bots[0], lizard) : (_bots[1], fox);
+        if (_lastExit is { } door && door.Room == dungeon.RoomOf(behind) && !behind.IsDown)
+        {
+            ExitOne(bot, behind, door, wanted);
+        }
+
+        return true;
+    }
+
     private void Exit(DungeonRoom room, string doorName, Hero lizard, Hero fox, HashSet<Key> wanted)
     {
         var door = room.GetNode<Door>(doorName);
         foreach (var (bot, hero) in new[] { (_bots[0], lizard), (_bots[1], fox) })
         {
-            if (hero.IsDown)
+            if (!hero.IsDown)
             {
-                continue;
+                ExitOne(bot, hero, door, wanted);
             }
+        }
+    }
 
-            var inside = door.EntryPoint;
-            var lined = door.Side is DoorSide.Top or DoorSide.Bottom
-                ? Mathf.Abs(hero.GlobalPosition.X - inside.X) <= 3
-                : Mathf.Abs(hero.GlobalPosition.Y - inside.Y) <= 3;
-            var close = hero.GlobalPosition.DistanceTo(inside) < 30;
-            if (lined && close)
-            {
-                bot.Push(door.Outward, wanted);
-                bot.Steer(hero, inside, wanted, slack: 2f, feet: true); // keep lined up
-                if (door.Side is DoorSide.Top or DoorSide.Bottom) { wanted.Remove(bot.Up); wanted.Remove(bot.Down); bot.Push(door.Outward, wanted); }
-                else { wanted.Remove(bot.Left); wanted.Remove(bot.Right); bot.Push(door.Outward, wanted); }
-            }
-            else
-            {
-                bot.Steer(hero, inside, wanted, slack: 2f, feet: true);
-            }
+    /// <summary>Walk <paramref name="hero"/> out through <paramref name="door"/>.</summary>
+    private static void ExitOne(AutoplayBot bot, Hero hero, Door door, HashSet<Key> wanted)
+    {
+        var inside = door.EntryPoint;
+        var lined = door.Side is DoorSide.Top or DoorSide.Bottom
+            ? Mathf.Abs(hero.GlobalPosition.X - inside.X) <= 3
+            : Mathf.Abs(hero.GlobalPosition.Y - inside.Y) <= 3;
+        var close = hero.GlobalPosition.DistanceTo(inside) < 30;
+        if (lined && close)
+        {
+            bot.Push(door.Outward, wanted);
+            bot.Steer(hero, inside, wanted, slack: 2f, feet: true); // keep lined up
+            if (door.Side is DoorSide.Top or DoorSide.Bottom) { wanted.Remove(bot.Up); wanted.Remove(bot.Down); bot.Push(door.Outward, wanted); }
+            else { wanted.Remove(bot.Left); wanted.Remove(bot.Right); bot.Push(door.Outward, wanted); }
+        }
+        else
+        {
+            bot.Steer(hero, inside, wanted, slack: 2f, feet: true);
         }
     }
 
@@ -436,7 +474,8 @@ public partial class DevDungeonAutoplay : Node
 
     private void SetKey(Key key, bool down)
     {
-        if (down == _held.Contains(key))
+        // (Godot lets go of every key when the window loses focus, so check it's really still held.)
+        if (down == _held.Contains(key) && down == Input.IsPhysicalKeyPressed(key))
         {
             return;
         }

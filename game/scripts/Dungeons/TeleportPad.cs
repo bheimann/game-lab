@@ -9,7 +9,7 @@ namespace LizardWizard.Dungeons;
 /// <summary>
 /// A portal pad in a castle's teleport room, one for each village. Once that village's teleport is awake (its crystal,
 /// see <see cref="TeleportCrystal"/>) the pad glows, and a hero standing on it for <see cref="StandSeconds"/> (like the
-/// boss portals) takes the whole team to that village's teleport room. The pad for the village you're in is just a
+/// boss portals) takes them (and anyone else on it) to that village's teleport room. The pad for the village you're in is just a
 /// "you are here" marker. The village's name is written under the pad.
 /// </summary>
 public partial class TeleportPad : Node2D
@@ -83,7 +83,8 @@ public partial class TeleportPad : Node2D
             && Dungeon.Find(this) is { } dungeon)
         {
             _used = true;
-            dungeon.Travel(arrival);
+            dungeon.Travel(arrival, GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>()
+                .Where(h => h.IsInGame && !h.IsDown && h.GlobalPosition.DistanceTo(GlobalPosition) <= Radius));
         }
 
         QueueRedraw();

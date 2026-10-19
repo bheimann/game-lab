@@ -30,7 +30,9 @@ Press a button to join, pick a character with left / right and its class with up
 primary button. The team starts in **Scalebrook Village**.
 Hold the leave button for a second to drop out.
 **Split screen:** each hero gets their own part of the screen (2 players: left / right; 3: P1 top left, P2 right,
-P3 bottom left; 4: quarters), with their hearts in their own corner. Boss fights go back to one shared screen.
+P3 bottom left; 4: quarters), with their hearts in their own corner. Heroes can go their own ways: a door, teleport
+pad or exit portal takes just the heroes who use it, and each view follows its hero. Once everyone's in the boss room,
+the fight is on one shared screen; when the boss is beaten, the screen splits again.
 
 | | Keyboard (left) | Keyboard (right) | Controller | Lizard | Fox |
 |---|---|---|---|---|---|
@@ -115,8 +117,8 @@ weapons & armor shop and a castle (a hall, a throne room with that kingdom's kin
 
 **Teleporting between villages:** each castle's teleport room has a **crystal** and a **pad for every village**. Touch a
 crystal to wake that village's teleport (the whole team gets it, and the save remembers); from then on its pad glows in
-every teleport room. Stand on a glowing pad for a second (like the boss portals) and the team appears in that village's
-teleport room. (In Scalebrook Castle, the teleport room is through the left door of the hall.)
+every teleport room. Stand on a glowing pad for a second (like the boss portals) and you (and anyone else on the pad)
+appear in that village's teleport room. (In Scalebrook Castle, the teleport room is through the left door of the hall.)
 
 **Scalebrook Village:** walk up into a shop's door to go in. Each shop has a shopkeeper behind the counter who
 says hello; step up to the counter for a moment to buy (coins come out of the team's purse):
@@ -152,7 +154,7 @@ angry: faster, more bolts, and a ring of bolts all round him. He's weak to light
 one more fuse slot of each kind, the title Hero of the Kingdoms, and a portal back out to the swamp.
 
 **Enemies:** animals tricked by Mossimus. Beat one and it falls asleep, then thanks you once the area is clear.
-They come in mixed groups, and come back when you leave an area and return. An animal that gets stuck behind a tree,
+They come in mixed groups, and come back when you return to an empty area (in a dungeon: once everyone's left it). An animal that gets stuck behind a tree,
 rock, fence or water for a moment (0.75 s, `StuckSeconds`) works out a way round.
 
 | Enemy | Where | How it fights |
@@ -235,14 +237,16 @@ Bosses can't be charmed and ignore decoys. A punches and X uses the tongue, as u
 **Elements:** poison and fire keep hurting for a few seconds, ice slows enemies to half speed, and lightning
 and arcane do double damage.
 
-**Saving:** the game saves by itself when the team goes through a door, beats a boss or a player leaves, and
+**Saving:** the game saves by itself when a hero goes through a door, beats a boss or a player leaves, and
 when you close the window. Next time you start in Scalebrook Meadow with everything you'd done (doors, levers,
 chests, broken rocks, bosses, keys). Pick the same character as last time to get your class, weapon, armor and
 herbs back. On the start screen, **hold N** for a new game. (The save is in
 `%APPDATA%\Godot\app_userdata\Lizard Wizard\save.json`.)
 
-**Enemies come back:** leave a room and come back in, and its enemies are there again. Bosses stay beaten,
-and doors and chests stay open.
+**Enemies come back:** in a dungeon, beaten enemies stay beaten while any hero is inside; once the last hero leaves,
+they're all back. Out in the overworld, an area's animals are back when someone walks into it while nobody's there.
+Bosses stay beaten, and doors and chests stay open. A knocked-out hero gets up next to a teammate in the same room,
+or (alone) where they came in.
 
 **Ring menu:** opens around your hero and **doesn't pause the game**. You can still walk (at half speed if an
 enemy is after you) but can't attack. Previous / next turn the ring, special switches rings
@@ -261,10 +265,10 @@ The game starts outside in **Scalebrook Meadow** (it's in `game/scenes/dungeons/
 "Overworld" area, next to the dungeon rooms). There are deer, a pond, signs, and a dirt path up to the grassy
 stairs of **The Old Burrow**. Walk onto the stairs to go down into the dungeon; the dungeon's first room has a
 door at the bottom that leads back out. After beating the boss, an **exit portal** opens in the boss room: stand on it for a second to go back out to the
-temple gate. It stays open, so you can look around the dungeon first (or come back to it later).
+temple gate (with anyone else standing on it). It stays open, so you can look around the dungeon first (or come back to it later).
 
 ### The first dungeon: The Old Burrow
-Walking through a door takes the whole team to the next room.
+Walking through a door takes you to the next room (your teammates go through on their own).
 1. **Entrance Hall:** beat the deer and the door opens.
 2. **Key Hall:** the north door is locked. There's a chest of herbs, and a door to the east.
 3. **Side Room:** beat the deer and a chest with the key appears.
@@ -304,6 +308,10 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
 - `Godot_console.exe --path game -- --room=Village --screenshot-showcase=village:<file.png>` takes a picture to
   share: four heroes in a scene (add `--showcase-heroes=2` for fewer, to see the split-screen layouts). Scenes (with their room): `village` (Village), `throne` (ThroneRoom), `battle`
   (Forest), `lake` (Lake), `canyon` (Canyon), `snowplane` (Tundra), `boss` (BossRoom).
+- `Godot_console.exe --path game -- --room=Entrance --autoplay-split=<folder>` checks heroes going their own ways:
+  P1 goes on to the next room alone (two views, both rooms awake), beats its enemies, gets knocked out there and gets up
+  where it came in, comes back (the enemies stay beaten), then both leave the dungeon (the enemies are back).
+  With `--room=BossRoom` (or `FrostBoss`, `MossBoss`) it checks the boss fight is one shared view, split again once beaten.
 - `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
   there and back, and checks each one leads to the right area (and that the village painter paints you, and that
   Mossmire Keep's stairs stay sealed: set `unlock_final_dungeon=false` in `playtest.cfg` to check that).

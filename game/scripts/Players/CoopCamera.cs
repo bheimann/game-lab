@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using LizardWizard.Actors;
+using LizardWizard.Dungeons;
 using LizardWizard.Rooms;
 
 namespace LizardWizard.Players;
@@ -10,7 +11,7 @@ namespace LizardWizard.Players;
 /// The camera for one part of the screen (see <see cref="SplitScreen"/>). With <see cref="Follow"/> set it follows
 /// that one hero (a split-screen view); without it, it's the shared view: it centres on all the players and zooms out
 /// as they spread apart, down to <see cref="MinZoom"/>. At that point <see cref="AllowedRect"/> stops players walking
-/// off-screen. The view never shows past the edges of the room.
+/// off-screen. The view never shows past the edges of the room (its hero's room; the lead hero's for the shared view).
 /// </summary>
 public partial class CoopCamera : Camera2D
 {
@@ -49,21 +50,36 @@ public partial class CoopCamera : Camera2D
     public static IEnumerable<CoopCamera> All(Node anyNode) =>
         anyNode.GetTree().GetNodesInGroup(Group).OfType<CoopCamera>();
 
-    /// <summary>Shake every view by up to <paramref name="pixels"/> (e.g. 3 for a bomb).</summary>
+    /// <summary>Shake every view looking at the room <paramref name="anyNode"/> is in by up to <paramref name="pixels"/>
+    /// (e.g. 3 for a bomb).</summary>
     public static void ShakeAll(Node anyNode, float pixels)
     {
         foreach (var camera in All(anyNode))
         {
+            if (anyNode is Node2D thing && camera.Room is { } room
+                && !new Rect2(room.GlobalPosition, room.SizeInPixels).HasPoint(thing.GlobalPosition))
+            {
+                continue;
+            }
+
             camera.Shake(pixels);
         }
     }
 
-    /// <summary>Every view now looks at <paramref name="room"/> (the team moved), straight away.</summary>
-    public static void ShowRoom(Node anyNode, RoomBuilder room)
+    /// <summary>Every view jumps straight to where it should be (the game just started).</summary>
+    public static void SnapAll(Node anyNode)
     {
         foreach (var camera in All(anyNode))
         {
-            camera.Room = room;
+            camera.Snap();
+        }
+    }
+
+    /// <summary><paramref name="hero"/> just came into a room: their view (or the shared one) jumps there.</summary>
+    public static void SnapFor(Hero hero)
+    {
+        foreach (var camera in All(hero).Where(c => c.Follow == hero || c.Follow is null))
+        {
             camera.Snap();
         }
     }
@@ -79,6 +95,7 @@ public partial class CoopCamera : Camera2D
 
     public override void _PhysicsProcess(double delta)
     {
+        UpdateRoom();
         var (center, zoom) = Target();
         var t = 1f - Mathf.Exp(-FollowSpeed * (float)delta);
         Zoom = Vector2.One * Mathf.Lerp(Zoom.X, zoom, t);
@@ -108,12 +125,29 @@ public partial class CoopCamera : Camera2D
     /// <summary>Jump straight to where the camera wants to be (after moving to another room).</summary>
     public void Snap()
     {
+        UpdateRoom();
         var (center, zoom) = Target();
         Zoom = Vector2.One * zoom;
         Position = center;
         _targetCenter = center;
         UpdateAllowedRect();
         ResetPhysicsInterpolation();
+    }
+
+    /// <summary>Look at the room this view's hero is in (in a dungeon scene; otherwise <see cref="Room"/> stays as set).</summary>
+    private void UpdateRoom()
+    {
+        if (Dungeon.Find(this) is not { } dungeon)
+        {
+            return;
+        }
+
+        if (Follow is not null && !IsInstanceValid(Follow))
+        {
+            Follow = null;
+        }
+
+        Room = (Follow is not null ? dungeon.RoomOf(Follow) : dungeon.CurrentRoom).Layout;
     }
 
     /// <summary>Shake this view by up to <paramref name="pixels"/>.</summary>
