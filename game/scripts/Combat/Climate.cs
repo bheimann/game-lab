@@ -39,8 +39,8 @@ public static class Climates
         _ => null,
     };
 
-    /// <summary>The climate of the area <paramref name="node"/> is in: the tundra and Frostfang Fortress are cold, the
-    /// canyon is hot, the swamp and the lake are wet.</summary>
+    /// <summary>The climate of the area <paramref name="node"/> is in: the tundra, the mountains and Frostfang Fortress are
+    /// cold, the canyon and the desert are hot, the swamp and the lake are wet.</summary>
     public static Climate Of(Node node)
     {
         if (DungeonRoom.Of(node) is not { } room)
@@ -55,8 +55,8 @@ public static class Climates
 
         return room.GetNodeOrNull<OutdoorBuilder>("Layout")?.Ground switch
         {
-            Ground.Snow => Climate.Cold,
-            Ground.Canyon => Climate.Hot,
+            Ground.Snow or Ground.Mountain => Climate.Cold,
+            Ground.Canyon or Ground.Desert => Climate.Hot,
             Ground.Swamp or Ground.Sand => Climate.Wet,
             _ => Climate.Normal,
         };
