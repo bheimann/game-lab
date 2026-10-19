@@ -29,6 +29,7 @@
 [ext_resource type="Script" path="res://scripts/Dungeons/DungeonGate.cs" id="gate"]
 [ext_resource type="Script" path="res://scripts/Dungeons/ExitPortal.cs" id="portal"]
 [ext_resource type="Script" path="res://scripts/Dungeons/TeleportPad.cs" id="telepad"]
+[ext_resource type="Script" path="res://scripts/Dungeons/GatherMarker.cs" id="gather"]
 [ext_resource type="Script" path="res://scripts/Dungeons/TeleportCrystal.cs" id="telecrystal"]
 [ext_resource type="Script" path="res://scripts/Dungeons/IceFloor.cs" id="ice"]
 [ext_resource type="Script" path="res://scripts/Actors/Npc.cs" id="npc"]
@@ -81,7 +82,7 @@ script = ExtResource("gate")
 position = Vector2(800, 64)
 script = ExtResource("door")
 Stairs = true
-LeadsTo = NodePath("../../Entrance/DoorBottom")
+LeadsTo = NodePath("../../BurrowFoyer/DoorBottom")
 
 [node name="GateRock1" type="StaticBody2D" parent="World/Overworld"]
 position = Vector2(742, 30)
@@ -326,7 +327,7 @@ OpensWhenCleared = true
 [node name="DoorBottom" type="Node2D" parent="World/Entrance"]
 script = ExtResource("door")
 Side = 1
-LeadsTo = NodePath("../../Overworld/BurrowStairs")
+LeadsTo = NodePath("../../BurrowFoyer/DoorTop")
 
 [node name="Deer1" parent="World/Entrance" instance=ExtResource("deer")]
 position = Vector2(70, 70)
@@ -450,7 +451,7 @@ LeadsTo = NodePath("../../KeyHall/DoorTop")
 script = ExtResource("door")
 Side = 0
 State = 0
-LeadsTo = NodePath("../../BossRoom/DoorBottom")
+LeadsTo = NodePath("../../BurrowBossHall/DoorBottom")
 
 [node name="PitLeft" type="Node2D" parent="World/PuzzleRoom"]
 position = Vector2(8, 96)
@@ -537,7 +538,7 @@ tile_set = ExtResource("tiles")
 script = ExtResource("door")
 Side = 1
 State = 2
-LeadsTo = NodePath("../../PuzzleRoom/DoorTop")
+LeadsTo = NodePath("../../BurrowBossHall/DoorTop")
 OpensWhenCleared = true
 
 [node name="ExitPortal" type="Node2D" parent="World/BossRoom"]
@@ -12194,7 +12195,7 @@ script = ExtResource("gate")
 position = Vector2(1200, 650)
 script = ExtResource("door")
 Stairs = true
-LeadsTo = NodePath("../../FrostEntrance/DoorBottom")
+LeadsTo = NodePath("../../FrostFoyer/DoorBottom")
 
 [node name="FrostfangSign" type="StaticBody2D" parent="World/Tundra"]
 position = Vector2(1134, 670)
@@ -12226,7 +12227,7 @@ tile_set = ExtResource("tiles")
 [node name="DoorBottom" type="Node2D" parent="World/FrostEntrance"]
 script = ExtResource("door")
 Side = 1
-LeadsTo = NodePath("../../Tundra/FrostfangStairs")
+LeadsTo = NodePath("../../FrostFoyer/DoorTop")
 
 [node name="DoorTop" type="Node2D" parent="World/FrostEntrance"]
 script = ExtResource("door")
@@ -12322,7 +12323,7 @@ LeadsTo = NodePath("../../IceHall/DoorTop")
 [node name="DoorTop" type="Node2D" parent="World/FrozenRiver"]
 script = ExtResource("door")
 Side = 0
-LeadsTo = NodePath("../../FrostBoss/DoorBottom")
+LeadsTo = NodePath("../../FrostBossHall/DoorBottom")
 
 [node name="RiverLeft" type="Node2D" parent="World/FrozenRiver"]
 position = Vector2(8, 96)
@@ -12402,7 +12403,7 @@ tile_set = ExtResource("tiles")
 script = ExtResource("door")
 Side = 1
 State = 2
-LeadsTo = NodePath("../../FrozenRiver/DoorTop")
+LeadsTo = NodePath("../../FrostBossHall/DoorTop")
 OpensWhenCleared = true
 
 [node name="ExitPortal" type="Node2D" parent="World/FrostBoss"]
@@ -23091,7 +23092,7 @@ script = ExtResource("gate")
 position = Vector2(1150, 700)
 script = ExtResource("door")
 Stairs = true
-LeadsTo = NodePath("../../MossEntrance/DoorBottom")
+LeadsTo = NodePath("../../MossFoyer/DoorBottom")
 SealedUntilOtherDungeons = true
 
 [node name="MossmireSign" type="StaticBody2D" parent="World/Swamp"]
@@ -23125,7 +23126,7 @@ tile_set = ExtResource("tiles")
 [node name="DoorBottom" type="Node2D" parent="World/MossEntrance"]
 script = ExtResource("door")
 Side = 1
-LeadsTo = NodePath("../../Swamp/MossmireStairs")
+LeadsTo = NodePath("../../MossFoyer/DoorTop")
 
 [node name="DoorTop" type="Node2D" parent="World/MossEntrance"]
 script = ExtResource("door")
@@ -23289,7 +23290,7 @@ LeadsTo = NodePath("../../MossBog/DoorTop")
 script = ExtResource("door")
 Side = 0
 State = 2
-LeadsTo = NodePath("../../MossBoss/DoorBottom")
+LeadsTo = NodePath("../../MossBossHall/DoorBottom")
 OpensWhenCleared = true
 
 [node name="HallSign" type="StaticBody2D" parent="World/MossHall"]
@@ -23365,7 +23366,7 @@ tile_set = ExtResource("tiles")
 script = ExtResource("door")
 Side = 1
 State = 2
-LeadsTo = NodePath("../../MossHall/DoorTop")
+LeadsTo = NodePath("../../MossBossHall/DoorTop")
 OpensWhenCleared = true
 
 [node name="ExitPortal" type="Node2D" parent="World/MossBoss"]
@@ -23394,3 +23395,257 @@ Kind = 11
 position = Vector2(338, 230)
 script = ExtResource("prop")
 Kind = 11
+
+[node name="BurrowFoyer" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(18000, 0)
+script = ExtResource("room")
+Title = "Foyer"
+Area = "The Old Burrow"
+
+[node name="Layout" type="Node2D" parent="World/BurrowFoyer"]
+z_index = -1
+script = ExtResource("layout")
+Color = 0
+InteriorWidth = 20
+InteriorHeight = 10
+
+[node name="Floor" type="TileMapLayer" parent="World/BurrowFoyer/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BurrowFoyer/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorTop" type="Node2D" parent="World/BurrowFoyer"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../Entrance/DoorBottom")
+
+[node name="DoorBottom" type="Node2D" parent="World/BurrowFoyer"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Overworld/BurrowStairs")
+
+[node name="Marker" type="Node2D" parent="World/BurrowFoyer"]
+position = Vector2(88, 72)
+script = ExtResource("gather")
+
+[node name="Sign" type="StaticBody2D" parent="World/BurrowFoyer"]
+position = Vector2(36, 52)
+script = ExtResource("prop")
+Kind = 3
+Text = "Wait on the stones and your friends
+can join you from their menu."
+
+[node name="BurrowBossHall" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(18000, 1600)
+script = ExtResource("room")
+Title = "Before the Lair"
+Area = "The Old Burrow"
+
+[node name="Layout" type="Node2D" parent="World/BurrowBossHall"]
+z_index = -1
+script = ExtResource("layout")
+Color = 0
+InteriorWidth = 20
+InteriorHeight = 10
+
+[node name="Floor" type="TileMapLayer" parent="World/BurrowBossHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BurrowBossHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorTop" type="Node2D" parent="World/BurrowBossHall"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../BossRoom/DoorBottom")
+
+[node name="DoorBottom" type="Node2D" parent="World/BurrowBossHall"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../PuzzleRoom/DoorTop")
+
+[node name="Sign" type="StaticBody2D" parent="World/BurrowBossHall"]
+position = Vector2(36, 52)
+script = ExtResource("prop")
+Kind = 3
+Text = "Beyond this door: the Giant Beetle.
+It opens once everyone is here."
+
+[node name="FrostFoyer" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(18000, 400)
+script = ExtResource("room")
+Title = "Foyer"
+Area = "Frostfang Fortress"
+
+[node name="Layout" type="Node2D" parent="World/FrostFoyer"]
+z_index = -1
+script = ExtResource("layout")
+Color = 1
+InteriorWidth = 20
+InteriorHeight = 10
+
+[node name="Floor" type="TileMapLayer" parent="World/FrostFoyer/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FrostFoyer/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorTop" type="Node2D" parent="World/FrostFoyer"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../FrostEntrance/DoorBottom")
+
+[node name="DoorBottom" type="Node2D" parent="World/FrostFoyer"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Tundra/FrostfangStairs")
+
+[node name="Marker" type="Node2D" parent="World/FrostFoyer"]
+position = Vector2(88, 72)
+script = ExtResource("gather")
+
+[node name="Sign" type="StaticBody2D" parent="World/FrostFoyer"]
+position = Vector2(36, 52)
+script = ExtResource("prop")
+Kind = 3
+Text = "Wait on the stones and your friends
+can join you from their menu."
+
+[node name="FrostBossHall" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(18000, 2000)
+script = ExtResource("room")
+Title = "Before the Den"
+Area = "Frostfang Fortress"
+
+[node name="Layout" type="Node2D" parent="World/FrostBossHall"]
+z_index = -1
+script = ExtResource("layout")
+Color = 1
+InteriorWidth = 20
+InteriorHeight = 10
+
+[node name="Floor" type="TileMapLayer" parent="World/FrostBossHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/FrostBossHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorTop" type="Node2D" parent="World/FrostBossHall"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../FrostBoss/DoorBottom")
+
+[node name="DoorBottom" type="Node2D" parent="World/FrostBossHall"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../FrozenRiver/DoorTop")
+
+[node name="Sign" type="StaticBody2D" parent="World/FrostBossHall"]
+position = Vector2(36, 52)
+script = ExtResource("prop")
+Kind = 3
+Text = "Beyond this door: Frostmane and Tusker.
+It opens once everyone is here."
+
+[node name="MossFoyer" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(18000, 800)
+script = ExtResource("room")
+Title = "Foyer"
+Area = "Mossmire Keep"
+
+[node name="Layout" type="Node2D" parent="World/MossFoyer"]
+z_index = -1
+script = ExtResource("layout")
+Color = 0
+InteriorWidth = 20
+InteriorHeight = 10
+
+[node name="Floor" type="TileMapLayer" parent="World/MossFoyer/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/MossFoyer/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorTop" type="Node2D" parent="World/MossFoyer"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../MossEntrance/DoorBottom")
+
+[node name="DoorBottom" type="Node2D" parent="World/MossFoyer"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../Swamp/MossmireStairs")
+
+[node name="Marker" type="Node2D" parent="World/MossFoyer"]
+position = Vector2(88, 72)
+script = ExtResource("gather")
+
+[node name="Sign" type="StaticBody2D" parent="World/MossFoyer"]
+position = Vector2(36, 52)
+script = ExtResource("prop")
+Kind = 3
+Text = "Wait on the stones and your friends
+can join you from their menu."
+
+[node name="MossBossHall" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(18000, 2400)
+script = ExtResource("room")
+Title = "Before the Throne"
+Area = "Mossmire Keep"
+
+[node name="Layout" type="Node2D" parent="World/MossBossHall"]
+z_index = -1
+script = ExtResource("layout")
+Color = 0
+InteriorWidth = 20
+InteriorHeight = 10
+
+[node name="Floor" type="TileMapLayer" parent="World/MossBossHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/MossBossHall/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorTop" type="Node2D" parent="World/MossBossHall"]
+script = ExtResource("door")
+Side = 0
+LeadsTo = NodePath("../../MossBoss/DoorBottom")
+
+[node name="DoorBottom" type="Node2D" parent="World/MossBossHall"]
+script = ExtResource("door")
+Side = 1
+LeadsTo = NodePath("../../MossHall/DoorTop")
+
+[node name="Sign" type="StaticBody2D" parent="World/MossBossHall"]
+position = Vector2(36, 52)
+script = ExtResource("prop")
+Kind = 3
+Text = "Beyond this door: Mossimus Maximus.
+It opens once everyone is here."
+
+[node name="Marker" type="Node2D" parent="World/ScaleTeleport"]
+position = Vector2(56, 92)
+script = ExtResource("gather")
+
+[node name="Marker" type="Node2D" parent="World/HoofTeleport"]
+position = Vector2(56, 92)
+script = ExtResource("gather")
+
+[node name="Marker" type="Node2D" parent="World/FoxTeleport"]
+position = Vector2(56, 92)
+script = ExtResource("gather")
+
+[node name="Marker" type="Node2D" parent="World/BirdTeleport"]
+position = Vector2(56, 92)
+script = ExtResource("gather")
+
+[node name="Marker" type="Node2D" parent="World/BugTeleport"]
+position = Vector2(56, 92)
+script = ExtResource("gather")

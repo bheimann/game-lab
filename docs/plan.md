@@ -165,10 +165,11 @@ more dungeons, hand-drawn art.
 - ✅ 🛠 Heroes can be in different rooms: doors and teleports take just the hero who used them; a room runs while anyone's
   in it; a dungeon's beaten enemies stay beaten while anyone is inside (back as soon as the last hero leaves). Room
   names, boss bars, damage numbers and door fades show in the view of the hero they're about.
-- ✅ 🛠 The boss door stays shut until every hero is in the room before it (says who it's waiting for).
-- 🛠 A foyer (no enemies) at the start of each dungeon. A marker on the floor of each foyer and teleport room: a hero
-  waiting on it can be joined from the others' menus ("Join P1"). Loading a save puts the team together in the
-  last foyer / village.
+- ✅ 🛠 A small boss hall before each boss (no enemies, puzzles or traps): the boss door waits until every hero is in
+  it (says who it's waiting for), then the way back shuts behind them; both open once the boss is beaten.
+- ✅ 🛠 A foyer (no enemies) at the start of each dungeon. A ring of stones in each foyer and teleport room: a hero
+  waiting on it can be joined from the others' menus ("Join P1"). Loading a save puts the team together at the
+  last foyer / teleport room anyone reached.
 
 ## How we work with Claude
 1. Pick one item from the current milestone.

@@ -86,7 +86,7 @@ public partial class DevTourCheck : Node
         ("Forest", "WestPath", "Overworld"),
         ("Overworld", "SouthPath", "Swamp"),
         ("Swamp", "NorthPath", "Overworld"),
-        ("Overworld", "BurrowStairs", "Entrance"),
+        ("Overworld", "BurrowStairs", "BurrowFoyer"),
     };
 
     private readonly HashSet<Key> _held = new();

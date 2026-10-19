@@ -31,9 +31,16 @@ primary button. The team starts in **Scalebrook Village**.
 Hold the leave button for a second to drop out.
 **Split screen:** each hero gets their own part of the screen (2 players: left / right; 3: P1 top left, P2 right,
 P3 bottom left; 4: quarters), with their hearts in their own corner. Heroes can go their own ways: a door, teleport
-pad or exit portal takes just the heroes who use it, and each view follows its hero. **The door into a boss room stays
-shut until every hero is in the room in front of it** (walking up to it says who you're waiting for). Once everyone's
-in the boss room, the fight is on one shared screen; when the boss is beaten, the screen splits again.
+pad or exit portal takes just the heroes who use it, and each view follows its hero. Once everyone's in the boss room,
+the fight is on one shared screen; when the boss is beaten, the screen splits again.
+
+**Getting back together:** every dungeon starts with a small **foyer** (no enemies), and every castle's teleport room
+has one too: a **ring of stones** on the floor. Wait on the stones for a second and the others are told; their
+ring menu (Start) then opens on a **Join** ring with you in it, and picking you brings them to you.
+
+**Before each boss** there's a small, empty **boss hall**. Its door to the boss stays shut until every hero is in the
+hall (walking up to it says who you're waiting for); then the door behind you slams shut and the way to the boss
+opens, so everyone goes in together. Once the boss is beaten, both doors stay open.
 
 | | Keyboard (left) | Keyboard (right) | Controller | Lizard | Fox |
 |---|---|---|---|---|---|
@@ -239,7 +246,8 @@ Bosses can't be charmed and ignore decoys. A punches and X uses the tongue, as u
 and arcane do double damage.
 
 **Saving:** the game saves by itself when a hero goes through a door, beats a boss or a player leaves, and
-when you close the window. Next time you start in Scalebrook Meadow with everything you'd done (doors, levers,
+when you close the window. Next time, the team starts together at the last foyer or teleport room anyone reached
+(Scalebrook Village if none yet), with everything you'd done (doors, levers,
 chests, broken rocks, bosses, keys). Pick the same character as last time to get your class, weapon, armor and
 herbs back. On the start screen, **hold N** for a new game. (The save is in
 `%APPDATA%\Godot\app_userdata\Lizard Wizard\save.json`.)
@@ -264,19 +272,21 @@ hidden), bomb vest (fox: one more bomb out at a time), sturdy vest (anyone: +2 h
 ### The overworld: Scalebrook Meadow
 The game starts outside in **Scalebrook Meadow** (it's in `game/scenes/dungeons/dungeon_1.tscn`, as the
 "Overworld" area, next to the dungeon rooms). There are deer, a pond, signs, and a dirt path up to the grassy
-stairs of **The Old Burrow**. Walk onto the stairs to go down into the dungeon; the dungeon's first room has a
-door at the bottom that leads back out. After beating the boss, an **exit portal** opens in the boss room: stand on it for a second to go back out to the
+stairs of **The Old Burrow**. Walk onto the stairs to go down into the dungeon's foyer; its bottom door leads back
+out. After beating the boss, an **exit portal** opens in the boss room: stand on it for a second to go back out to the
 temple gate (with anyone else standing on it). It stays open, so you can look around the dungeon first (or come back to it later).
 
 ### The first dungeon: The Old Burrow
 Walking through a door takes you to the next room (your teammates go through on their own).
+0. **Foyer:** no enemies; the stones to wait on for your friends.
 1. **Entrance Hall:** beat the deer and the door opens.
 2. **Key Hall:** the north door is locked. There's a chest of herbs, and a door to the east.
 3. **Side Room:** beat the deer and a chest with the key appears.
 4. **Pit of Two Levers:** a bridge comes out when both levers are on. One is across the pit, where only the
    lizard's tongue reaches. The other is behind cracked rocks that only the fox's bombs can break.
    (Playing alone? Hold the leave button and rejoin as the other character. Levers stay on.)
-5. **Beetle's Lair:** the Giant Beetle. Its shell shrugs off hits ("clank"). Dodge its charge so it runs into
+5. **Before the Lair:** the boss hall (see above): everyone gathers here.
+6. **Beetle's Lair:** the Giant Beetle. Its shell shrugs off hits ("clank"). Dodge its charge so it runs into
    a wall, then hit it while it's dizzy.
 
 The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in Godot and press F6 to play it).
@@ -313,7 +323,9 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   P1 goes on to the next room alone (two views, both rooms awake), beats its enemies, gets knocked out there and gets up
   where it came in, comes back (the enemies stay beaten), then both leave the dungeon (the enemies are back).
   With `--room=BossRoom` (or `FrostBoss`, `MossBoss`) it checks the boss fight is one shared view, split again once beaten;
-  with `--room=PuzzleRoom` (or `FrozenRiver`, `MossHall`, the rooms before the bosses) that the boss door waits for everyone.
+  with `--room=PuzzleRoom` (or `FrozenRiver`, `MossHall`, the rooms before the boss halls) the boss hall: the boss door
+  waits for everyone, the way back shuts behind them, and both open once the boss is beaten; with `--room=BurrowFoyer`
+  (or `FrostFoyer`, `MossFoyer`) joining P1 from the menu while P1 waits on the stones.
 - `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
   there and back, and checks each one leads to the right area (and that the village painter paints you, and that
   Mossmire Keep's stairs stay sealed: set `unlock_final_dungeon=false` in `playtest.cfg` to check that).

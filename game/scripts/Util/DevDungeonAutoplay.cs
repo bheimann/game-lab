@@ -247,6 +247,8 @@ public partial class DevDungeonAutoplay : Node
 
             case "MossEntrance":
             case "MossHall":
+            case "BurrowFoyer" or "FrostFoyer" or "MossFoyer":
+            case "BurrowBossHall" or "FrostBossHall" or "MossBossHall":
                 Exit(room, "DoorTop", lizard, fox, wanted);
                 break;
 
