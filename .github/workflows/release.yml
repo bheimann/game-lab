@@ -13,13 +13,13 @@ permissions:
 
 jobs:
   windows:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       GODOT_VERSION: "4.7.2"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
 
@@ -49,7 +49,7 @@ jobs:
         run: |
           cd build/windows && zip -qr ../LizardWizard-windows.zip .
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: LizardWizard-windows
           path: build/LizardWizard-windows.zip
