@@ -49,8 +49,14 @@ public partial class TuskerBoar : Boar, IBoss, Saving.ISaveable
 
     public override int StealableCoins => 10;
 
+    /// <summary>Bosses stay beaten; one that isn't beaten yet starts over (full health, calm again).</summary>
     public override void Respawn()
     {
+        if (IsHostile)
+        {
+            base.Respawn();
+            _angry = false;
+        }
     }
 
     public string? SaveState() => IsHostile ? null : "Beaten";

@@ -13,11 +13,15 @@ namespace LizardWizard.Util;
 /// little plan (Frostfang Fortress and Mossmire Keep too, starting with --room=FrostEntrance or --room=MossEntrance): fight, open the chest, walk through the right door, solve the lever puzzle (the fox bombs the rocks
 /// and flips that lever, the lizard tongues the lever across the pit), beat the beetle, and take the exit portal out.
 /// Logs what happens and saves a screenshot every 2 seconds (and on every new room) into the folder.
-/// Heroes go through doors on their own, so when one bot is through a door first, it waits while the other follows it.
+/// Heroes go through doors on their own, so when the bots end up in different rooms (one went through a door first, or
+/// was knocked out and got up in the foyer or a village), the one behind finds its way back while the other waits.
+/// Knocked out of a boss fight, a bot waits in the boss hall while the other fights on. (The bots aren't good enough to
+/// beat a boss alone, so in boss fights their health is topped up when it runs low: this checks the dungeon can be
+/// played through, not how hard the boss is.)
 /// </summary>
 public partial class DevDungeonAutoplay : Node
 {
-    private const double MaxSeconds = 360;
+    private const double MaxSeconds = 600; // a bot knocked out of a boss fight leaves the other to fight alone
 
     private readonly AutoplayBot[] _bots =
     {
@@ -32,8 +36,7 @@ public partial class DevDungeonAutoplay : Node
     private double _nextLog;
     private int _shotNumber;
     private DungeonRoom? _lastRoom;
-    private Hero? _lastMover;
-    private Door? _lastExit;
+    private Hero? _behind;
     private bool _watchingDoors;
     private double _completeAt = -1;
 
@@ -62,10 +65,21 @@ public partial class DevDungeonAutoplay : Node
         }
         else if (lizard is not null && fox is not null)
         {
+            foreach (var hero in new[] { lizard, fox }.Where(h => !h.IsDown && dungeon.RoomOf(h) is { IsBossRoom: true, IsCleared: false }))
+            {
+                if (hero.Health.Current <= hero.Health.Max / 4)
+                {
+                    hero.Health.Refill();
+                    GD.Print($"[dungeon {_time:0.0}s] (dev help: topped up {hero.Name}'s health in the boss fight)");
+                }
+            }
+
             if (!_watchingDoors)
             {
                 _watchingDoors = true;
-                dungeon.HeroLeftRoom += (hero, door) => (_lastMover, _lastExit) = (hero, door);
+                // Whoever went on through a door leaves the other behind; whoever got knocked out is behind.
+                dungeon.HeroLeftRoom += (hero, _) => _behind = hero == lizard ? fox : lizard;
+                dungeon.HeroRevived += hero => _behind = hero;
             }
 
             if (!CatchUp(dungeon, lizard, fox, wanted))
@@ -414,23 +428,63 @@ public partial class DevDungeonAutoplay : Node
 
     /// <summary>Both heroes walk to the door, line up with it, and walk through.</summary>
     /// <summary>
-    /// The bots are in different rooms: the one left behind walks out through the door the other one took, and the
-    /// one ahead waits. Returns false when they're together.
+    /// The bots are in different rooms. In a boss fight, whoever's in the boss room fights on (the other waits in the
+    /// boss hall); otherwise the one behind walks room by room to the other, who waits. Returns false when they're
+    /// together.
     /// </summary>
     private bool CatchUp(Dungeon dungeon, Hero lizard, Hero fox, HashSet<Key> wanted)
     {
-        if (dungeon.RoomOf(lizard) == dungeon.RoomOf(fox))
+        var lizardRoom = dungeon.RoomOf(lizard);
+        var foxRoom = dungeon.RoomOf(fox);
+        if (lizardRoom == foxRoom)
         {
             return false;
         }
 
-        var (bot, behind) = _lastMover == fox ? (_bots[0], lizard) : (_bots[1], fox);
-        if (_lastExit is { } door && door.Room == dungeon.RoomOf(behind) && !behind.IsDown)
+        foreach (var (bot, hero, room) in new[] { (_bots[0], lizard, lizardRoom), (_bots[1], fox, foxRoom) })
         {
-            ExitOne(bot, behind, door, wanted);
+            if (room is { IsBossRoom: true, IsCleared: false })
+            {
+                bot.Fight(hero, room.Enemies.OfType<Node2D>(), wanted);
+                return true;
+            }
+        }
+
+        var (behindBot, behind, ahead) = _behind == lizard ? (_bots[0], lizard, fox) : (_bots[1], fox, lizard);
+        if (!behind.IsDown && WayTowards(dungeon.RoomOf(behind), dungeon.RoomOf(ahead)) is { } door)
+        {
+            ExitOne(behindBot, behind, door, wanted);
         }
 
         return true;
+    }
+
+    /// <summary>The first door on the way from one room to another (through open doors), if there's a way.</summary>
+    private static Door? WayTowards(DungeonRoom from, DungeonRoom to)
+    {
+        var firstDoor = new Dictionary<DungeonRoom, Door?> { [from] = null };
+        var queue = new Queue<DungeonRoom>();
+        queue.Enqueue(from);
+        while (queue.Count > 0)
+        {
+            var room = queue.Dequeue();
+            if (room == to)
+            {
+                return firstDoor[room];
+            }
+
+            foreach (var door in room.Doors.Where(d => d.IsOpen && d.Partner is not null && !d.SealedUntilOtherDungeons))
+            {
+                var next = door.Partner!.Room;
+                if (!firstDoor.ContainsKey(next))
+                {
+                    firstDoor[next] = firstDoor[room] ?? door;
+                    queue.Enqueue(next);
+                }
+            }
+        }
+
+        return null;
     }
 
     private void Exit(DungeonRoom room, string doorName, Hero lizard, Hero fox, HashSet<Key> wanted)

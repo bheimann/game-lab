@@ -37,8 +37,8 @@ public interface ISwitch
 /// <summary>
 /// A doorway in one of the room's walls, leading to a door in another room. Cuts a gap in the wall
 /// tiles, draws the door frame from the room's tileset, and blocks the way while it's locked or shut.
-/// Walking through an open door takes you to the next room. In the room before a boss, the doors also wait for the
-/// whole team (see <see cref="LeadsToBoss"/>).
+/// Walking through an open door takes you to the next room. The boss hall's doors are special (see
+/// <see cref="LeadsToBoss"/>).
 /// </summary>
 public partial class Door : Node2D, Saving.ISaveable
 {
@@ -117,14 +117,15 @@ public partial class Door : Node2D, Saving.ISaveable
     public bool IsOpen => State == DoorState.Open && !_heldShut;
 
     /// <summary>
-    /// The way into a boss room that's still to be beaten, from the small room before it. That room's doors wait for
-    /// the whole team: the boss door stays shut until every hero is in the room (or already in the boss room); then
-    /// the way back shuts behind them and the boss door opens, so everyone goes in together. Once the boss is beaten
-    /// they're ordinary doors again.
+    /// The way into a boss room that's still to be beaten, from the small room before it (the boss hall). Walking into
+    /// it holds you in the doorway until the whole team is there, then everyone goes in together (see
+    /// <see cref="Dungeon"/>). The hall's way back stays open (a team that can't win can go and get ready) until
+    /// someone's in the boss room; then it's shut until the fight's over: the boss is beaten, or everyone's knocked
+    /// out. Once the boss is beaten they're ordinary doors again.
     /// </summary>
     public bool LeadsToBoss => _room is { IsBossRoom: false } && Partner?.Room is { IsBossRoom: true, IsCleared: false };
 
-    /// <summary>Open, but held shut by the room before a boss (see <see cref="LeadsToBoss"/>).</summary>
+    /// <summary>Open, but held shut while the boss fight is on (the boss hall's way back, see <see cref="LeadsToBoss"/>).</summary>
     public bool IsHeldShut => _heldShut;
 
     /// <summary>Sealed stairs (see <see cref="SealedUntilOtherDungeons"/>): how many other dungeons still need beating.</summary>
@@ -279,9 +280,9 @@ public partial class Door : Node2D, Saving.ISaveable
             TryUnlock();
         }
 
-        if (State == DoorState.Open && !Stairs && !Path && !Doorway && _room.Doors.FirstOrDefault(d => d.LeadsToBoss) is { } bossDoor)
+        if (State == DoorState.Open && !Stairs && !Path && !Doorway && !LeadsToBoss && _room.Doors.FirstOrDefault(d => d.LeadsToBoss) is { } bossDoor)
         {
-            WaitForTeam(bossDoor);
+            ShutDuringFight(bossDoor);
         }
         else if (_heldShut)
         {
@@ -420,38 +421,19 @@ public partial class Door : Node2D, Saving.ISaveable
         return switchesOn && cleared;
     }
 
-    /// <summary>
-    /// In the room before a boss: the boss door is shut while someone's missing (walking up to it says who); once
-    /// everyone's here, the way back shuts behind them and the boss door opens.
-    /// </summary>
-    private void WaitForTeam(Door bossDoor)
+    /// <summary>The boss hall's way back: shut while someone's in the boss room (the fight is on).</summary>
+    private void ShutDuringFight(Door bossDoor)
     {
         if (Dungeon.Find(this) is not { } dungeon)
         {
             return;
         }
 
-        var heroes = GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(h => h.IsInGame).ToList();
-        var missing = heroes.Where(h => dungeon.RoomOf(h) != _room && dungeon.RoomOf(h) != bossDoor.Partner!.Room).ToList();
-        var gathered = heroes.Count > 0 && missing.Count == 0;
-        var shut = this == bossDoor ? !gathered : gathered;
-        if (shut != _heldShut)
+        var fighting = GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Any(h => h.IsInGame && dungeon.RoomOf(h) == bossDoor.Partner!.Room);
+        if (fighting != _heldShut)
         {
-            _heldShut = shut;
+            _heldShut = fighting;
             Refresh();
-            if (_room.IsActive && heroes.Count > 0)
-            {
-                FloatingText.Spawn(this, GlobalPosition + EntryOffset(10), this == bossDoor ? "The way to the boss opens!" : "The door slams shut behind you!",
-                    new Color(1f, 0.9f, 0.5f), 1.8f, 8f);
-            }
-        }
-
-        if (this == bossDoor && !gathered && _messageCooldown <= 0
-            && heroes.FirstOrDefault(h => !h.IsDown && dungeon.RoomOf(h) == _room && h.GlobalPosition.DistanceTo(_blocker.GlobalPosition) < 24) is { } hero)
-        {
-            _messageCooldown = 3f;
-            FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), $"The boss is through here.\nWait for {string.Join(" and ", missing.Select(h => h.Name))}!",
-                new Color(1f, 0.85f, 0.4f), 2.2f, 7f);
         }
     }
 

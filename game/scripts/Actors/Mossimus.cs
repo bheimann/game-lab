@@ -80,9 +80,19 @@ public partial class Mossimus : Beast, IBoss, Saving.ISaveable
 
     public override int StealableCoins => 15;
 
-    /// <summary>Bosses stay beaten.</summary>
+    /// <summary>Bosses stay beaten; one that isn't beaten yet starts over (full health, calm again).</summary>
     public override void Respawn()
     {
+        if (IsHostile)
+        {
+            base.Respawn();
+            _angry = false;
+            _volleyWait = 2f;
+            _blinkWait = 6f;
+            _blink = -1f;
+            _volley = false;
+            _volleys = 0;
+        }
     }
 
     public string? SaveState() => IsHostile ? null : "Beaten";
