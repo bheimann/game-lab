@@ -25,6 +25,12 @@ public enum Ground
 
     /// <summary>Red rock, dusty paths and a ring of boulders.</summary>
     Canyon,
+
+    /// <summary>Grey-green mountain grass, stony paths and a ring of grey rocks.</summary>
+    Mountain,
+
+    /// <summary>Hot orange sand, pale paths and a ring of sandy rocks.</summary>
+    Desert,
 }
 
 /// <summary>
@@ -59,6 +65,8 @@ public partial class OutdoorBuilder : RoomBuilder
         Ground.Snow => (Godot.Color.Color8(236, 243, 250), Godot.Color.Color8(196, 214, 236)),
         Ground.Sand => (Godot.Color.Color8(240, 218, 160), Godot.Color.Color8(222, 192, 132)),
         Ground.Canyon => (Godot.Color.Color8(200, 128, 92), Godot.Color.Color8(170, 102, 76)),
+        Ground.Mountain => (Godot.Color.Color8(146, 160, 140), Godot.Color.Color8(120, 134, 118)),
+        Ground.Desert => (Godot.Color.Color8(236, 196, 120), Godot.Color.Color8(216, 172, 98)),
         _ => (Godot.Color.Color8(132, 198, 105), Godot.Color.Color8(101, 165, 86)),
     };
 
@@ -69,6 +77,8 @@ public partial class OutdoorBuilder : RoomBuilder
         Ground.Snow => (Godot.Color.Color8(212, 224, 240), Godot.Color.Color8(180, 196, 222)),
         Ground.Sand => (Godot.Color.Color8(250, 236, 196), Godot.Color.Color8(230, 210, 162)),
         Ground.Canyon => (Godot.Color.Color8(226, 170, 122), Godot.Color.Color8(204, 146, 104)),
+        Ground.Mountain => (Godot.Color.Color8(186, 182, 170), Godot.Color.Color8(160, 156, 146)),
+        Ground.Desert => (Godot.Color.Color8(248, 224, 168), Godot.Color.Color8(232, 204, 140)),
         _ => (Godot.Color.Color8(234, 165, 108), Godot.Color.Color8(207, 130, 84)),
     };
 
@@ -76,7 +86,7 @@ public partial class OutdoorBuilder : RoomBuilder
     {
         Ground.Forest => "res://assets/kenney/tree.png",
         Ground.Snow => "res://assets/kenney/snowpine.png",
-        Ground.Canyon => "res://assets/kenney/rock.png",
+        Ground.Canyon or Ground.Mountain or Ground.Desert => "res://assets/kenney/rock.png",
         _ => "res://assets/kenney/bush.png",
     };
 
@@ -85,6 +95,7 @@ public partial class OutdoorBuilder : RoomBuilder
         Ground.Swamp => new Color(0.65f, 0.72f, 0.5f),
         Ground.Sand => new Color(0.9f, 1f, 0.75f),
         Ground.Canyon => new Color(1f, 0.75f, 0.65f),
+        Ground.Desert => new Color(1f, 0.88f, 0.65f),
         _ => Colors.White,
     };
 

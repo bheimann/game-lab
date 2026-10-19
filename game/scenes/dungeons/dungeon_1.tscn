@@ -10172,11 +10172,6 @@ position = Vector2(417, 729)
 script = ExtResource("prop")
 Kind = 2
 
-[node name="Grown37" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(767, 287)
-script = ExtResource("prop")
-Kind = 1
-
 [node name="Grown38" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(441, 111)
 script = ExtResource("prop")
@@ -10184,11 +10179,6 @@ Kind = 2
 
 [node name="Grown39" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(733, 439)
-script = ExtResource("prop")
-Kind = 2
-
-[node name="Grown40" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(698, 130)
 script = ExtResource("prop")
 Kind = 2
 
@@ -10306,11 +10296,6 @@ Kind = 1
 position = Vector2(1052, 610)
 script = ExtResource("prop")
 Kind = 1
-
-[node name="Grown64" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(696, 201)
-script = ExtResource("prop")
-Kind = 2
 
 [node name="Grown65" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(1138, 171)
@@ -10762,11 +10747,6 @@ position = Vector2(829, 62)
 script = ExtResource("prop")
 Kind = 2
 
-[node name="Grown155" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(1490, 408)
-script = ExtResource("prop")
-Kind = 2
-
 [node name="Grown156" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(1183, 69)
 script = ExtResource("prop")
@@ -10877,11 +10857,6 @@ position = Vector2(131, 254)
 script = ExtResource("prop")
 Kind = 1
 
-[node name="Grown178" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(626, 60)
-script = ExtResource("prop")
-Kind = 10
-
 [node name="Grown179" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(1348, 713)
 script = ExtResource("prop")
@@ -10967,11 +10942,6 @@ position = Vector2(100, 195)
 script = ExtResource("prop")
 Kind = 10
 
-[node name="Grown196" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(655, 740)
-script = ExtResource("prop")
-Kind = 10
-
 [node name="Grown197" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(670, 41)
 script = ExtResource("prop")
@@ -10986,11 +10956,6 @@ Kind = 2
 position = Vector2(197, 609)
 script = ExtResource("prop")
 Kind = 10
-
-[node name="Grown200" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(1604, 367)
-script = ExtResource("prop")
-Kind = 2
 
 [node name="Grown201" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(1493, 473)
@@ -11132,16 +11097,6 @@ position = Vector2(215, 564)
 script = ExtResource("prop")
 Kind = 2
 
-[node name="Grown229" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(1101, 421)
-script = ExtResource("prop")
-Kind = 10
-
-[node name="Grown230" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(1299, 384)
-script = ExtResource("prop")
-Kind = 2
-
 [node name="Grown231" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(1157, 302)
 script = ExtResource("prop")
@@ -11151,11 +11106,6 @@ Kind = 2
 position = Vector2(1364, 447)
 script = ExtResource("prop")
 Kind = 1
-
-[node name="Grown233" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(999, 443)
-script = ExtResource("prop")
-Kind = 10
 
 [node name="Grown234" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(527, 405)
@@ -11342,11 +11292,6 @@ position = Vector2(29, 149)
 script = ExtResource("prop")
 Kind = 1
 
-[node name="Grown271" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(1215, 391)
-script = ExtResource("prop")
-Kind = 10
-
 [node name="Grown272" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(1331, 481)
 script = ExtResource("prop")
@@ -11366,11 +11311,6 @@ Kind = 2
 position = Vector2(285, 684)
 script = ExtResource("prop")
 Kind = 1
-
-[node name="Grown276" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(1366, 395)
-script = ExtResource("prop")
-Kind = 10
 
 [node name="Grown277" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(1348, 560)
@@ -11409,11 +11349,6 @@ Kind = 2
 
 [node name="Grown284" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(927, 221)
-script = ExtResource("prop")
-Kind = 10
-
-[node name="Grown285" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(954, 429)
 script = ExtResource("prop")
 Kind = 10
 
@@ -11502,11 +11437,6 @@ position = Vector2(503, 778)
 script = ExtResource("prop")
 Kind = 2
 
-[node name="Grown303" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(1547, 386)
-script = ExtResource("prop")
-Kind = 2
-
 [node name="Grown304" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(986, 225)
 script = ExtResource("prop")
@@ -11521,11 +11451,6 @@ Kind = 10
 position = Vector2(1271, 774)
 script = ExtResource("prop")
 Kind = 2
-
-[node name="Grown307" type="StaticBody2D" parent="World/Canyon"]
-position = Vector2(746, 245)
-script = ExtResource("prop")
-Kind = 10
 
 [node name="Grown308" type="StaticBody2D" parent="World/Canyon"]
 position = Vector2(132, 371)
@@ -12706,3 +12631,6567 @@ position = Vector2(840, 800)
 script = ExtResource("prop")
 Kind = 3
 Text = "South: Glimmer Lake"
+
+[node name="NorthPath" type="Node2D" parent="World/Canyon"]
+position = Vector2(600, 0)
+script = ExtResource("door")
+Side = 0
+Path = true
+LeadsTo = NodePath("../../Hills/SouthPath")
+
+[node name="EastPath" type="Node2D" parent="World/Canyon"]
+position = Vector2(1632, 380)
+script = ExtResource("door")
+Side = 3
+Path = true
+LeadsTo = NodePath("../../Peaks/WestPath")
+
+[node name="SouthPath" type="Node2D" parent="World/Canyon"]
+position = Vector2(600, 800)
+script = ExtResource("door")
+Side = 1
+Path = true
+LeadsTo = NodePath("../../Desert/NorthPath")
+
+[node name="PathNorth" type="Node2D" parent="World/Canyon"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(760, 330, 700, 160, 600, 0)
+
+[node name="PathEast" type="Node2D" parent="World/Canyon"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(930, 430, 1200, 400, 1632, 380)
+
+[node name="PathSouth" type="Node2D" parent="World/Canyon"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(700, 700, 600, 800)
+
+[node name="HillsSign" type="StaticBody2D" parent="World/Canyon"]
+position = Vector2(650, 40)
+script = ExtResource("prop")
+Kind = 3
+Text = "North: Foxglove Hills"
+
+[node name="PeaksSign" type="StaticBody2D" parent="World/Canyon"]
+position = Vector2(1580, 350)
+script = ExtResource("prop")
+Kind = 3
+Text = "East: Plume Peaks"
+
+[node name="DesertSign" type="StaticBody2D" parent="World/Canyon"]
+position = Vector2(650, 760)
+script = ExtResource("prop")
+Kind = 3
+Text = "South: Scarab Desert"
+
+[node name="Peaks" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(4800, 1000)
+script = ExtResource("room")
+Title = "Plume Peaks"
+
+[node name="Layout" type="Node2D" parent="World/Peaks"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 200
+InteriorHeight = 96
+Ground = 6
+PathPoints = PackedVector2Array(0, 380, 380, 300, 800, 420, 1200, 340, 1632, 380)
+
+[node name="WestPath" type="Node2D" parent="World/Peaks"]
+position = Vector2(0, 380)
+script = ExtResource("door")
+Side = 2
+Path = true
+LeadsTo = NodePath("../../Canyon/EastPath")
+
+[node name="Path1" type="Node2D" parent="World/Peaks"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(800, 420, 900, 620, 1100, 700)
+
+[node name="Crack1" type="Node2D" parent="World/Peaks"]
+position = Vector2(300, 520)
+script = ExtResource("pit")
+Size = Vector2(360, 36)
+
+[node name="Crack2" type="Node2D" parent="World/Peaks"]
+position = Vector2(1150, 120)
+script = ExtResource("pit")
+Size = Vector2(280, 36)
+
+[node name="HerbChest1" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1120, 712)
+script = ExtResource("chest")
+Reward = 1
+
+[node name="PeaksSign" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(70, 350)
+script = ExtResource("prop")
+Kind = 3
+Text = "Plume Peaks\nThe birds live east of here"
+
+[node name="Prop1" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(45, 118)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop2" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(245, 118)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop3" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(392, 598)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop4" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(259, 585)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop5" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1072, 136)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop6" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(872, 367)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop7" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(678, 775)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop8" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(173, 49)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop9" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1511, 334)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop10" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(340, 280)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop11" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(603, 745)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop12" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(358, 195)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop13" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(950, 441)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop14" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1533, 658)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop15" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(588, 186)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop16" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1348, 770)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop17" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(74, 581)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop18" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1398, 518)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop19" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1179, 178)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop20" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1039, 197)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop21" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(91, 284)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop22" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1545, 760)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop23" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1596, 622)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop24" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(510, 165)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop25" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1012, 440)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop26" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(331, 719)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop27" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(976, 551)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop28" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1464, 517)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop29" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1593, 180)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop30" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(745, 630)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop31" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(913, 122)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop32" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(182, 765)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop33" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(215, 178)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop34" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1375, 388)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop35" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(813, 621)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop36" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(994, 507)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop37" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(86, 117)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop38" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1121, 758)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop39" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1239, 224)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop40" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1235, 767)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop41" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(577, 42)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop42" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(619, 244)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop43" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(304, 68)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop44" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(223, 678)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop45" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(105, 491)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop46" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1323, 256)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop47" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(316, 372)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop48" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1124, 424)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop49" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1384, 333)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop50" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(755, 567)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop51" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(764, 133)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop52" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(221, 617)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop53" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1203, 735)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop54" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1116, 465)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop55" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(289, 669)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop56" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1187, 649)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop57" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1441, 227)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop58" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(345, 640)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop59" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(601, 333)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop60" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1318, 320)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop61" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(608, 608)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop62" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(130, 219)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop63" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(816, 730)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop64" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(464, 169)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop65" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(79, 393)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop66" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(495, 386)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop67" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(35, 34)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop68" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(501, 713)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop69" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(941, 334)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop70" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(881, 272)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop71" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(178, 461)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop72" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(883, 734)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop73" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1382, 264)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop74" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(902, 199)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop75" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(675, 647)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop76" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(102, 744)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop77" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1107, 275)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop78" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(803, 777)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop79" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(248, 69)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop80" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(520, 67)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop81" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(672, 435)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop82" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(722, 139)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop83" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(63, 631)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop84" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1449, 649)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop85" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1175, 286)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop86" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1383, 76)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop87" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(925, 711)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop88" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1107, 658)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop89" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(739, 333)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop90" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1316, 581)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop91" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1465, 583)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop92" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(628, 204)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop93" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(691, 267)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop94" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(457, 362)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop95" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(437, 708)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop96" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(446, 614)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop97" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(709, 92)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop98" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(175, 629)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop99" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(788, 80)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop100" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(976, 267)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop101" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1364, 442)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop102" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1370, 692)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop103" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(897, 475)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop104" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(435, 90)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop105" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(995, 144)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop106" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(870, 642)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop107" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1412, 299)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop108" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(641, 702)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop109" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(816, 527)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop110" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(323, 135)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop111" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1144, 583)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop112" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1381, 619)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop113" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(138, 702)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop114" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1032, 249)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop115" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(292, 107)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop116" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1308, 665)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop117" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(496, 645)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop118" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(839, 154)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop119" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(253, 759)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop120" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1388, 559)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop121" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1447, 276)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop122" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(984, 721)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop123" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1160, 691)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop124" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(288, 230)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop125" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(48, 450)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop126" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1485, 456)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop127" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(801, 290)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop128" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1047, 526)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop129" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(922, 764)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop130" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(558, 633)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop131" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1253, 379)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop132" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(69, 213)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop133" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1516, 244)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop134" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1562, 242)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop135" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(228, 523)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop136" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(188, 704)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop137" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1097, 609)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop138" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1500, 161)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop139" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(563, 741)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop140" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(984, 311)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop141" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1085, 396)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop142" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1226, 318)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop143" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(163, 89)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop144" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(104, 157)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop145" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(879, 691)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop146" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(380, 384)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop147" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1111, 203)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop148" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(982, 219)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop149" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(377, 76)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop150" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1117, 326)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop151" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(951, 95)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop152" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1282, 526)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop153" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(420, 405)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop154" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(589, 470)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop155" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(56, 689)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop156" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1019, 349)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop157" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(428, 140)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop158" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1301, 450)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop159" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(714, 473)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop160" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(141, 651)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop161" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1134, 34)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop162" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1140, 386)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop163" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(794, 239)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop164" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(295, 758)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop165" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1582, 414)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop166" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(544, 576)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop167" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(833, 571)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop168" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1041, 304)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop169" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(59, 507)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop170" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1038, 610)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop171" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(896, 535)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop172" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1184, 408)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop173" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(192, 130)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop174" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1066, 51)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop175" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(774, 724)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop176" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1221, 522)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop177" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1438, 402)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop178" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(240, 430)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop179" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1225, 481)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop180" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1297, 69)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop181" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(439, 254)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop182" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(42, 751)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop183" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1030, 714)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop184" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(579, 414)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop185" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1444, 734)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop186" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(579, 674)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop187" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1598, 260)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop188" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1550, 704)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop189" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1560, 337)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop190" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1110, 558)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop191" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1548, 510)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop192" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(639, 88)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop193" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1181, 560)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop194" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(216, 363)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop195" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(669, 485)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop196" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1552, 50)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop197" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1262, 714)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop198" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(492, 776)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop199" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1590, 759)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop200" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(691, 313)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop201" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(545, 275)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop202" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(411, 641)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop203" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(541, 371)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop204" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(264, 187)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop205" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(469, 436)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop206" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1525, 411)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop207" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1216, 92)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop208" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(286, 405)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop209" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(676, 207)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop210" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(341, 413)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop211" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(147, 551)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop212" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(915, 596)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop213" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(717, 713)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop214" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(791, 174)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop215" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1323, 216)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop216" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(691, 602)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop217" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1315, 402)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop218" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(476, 587)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop219" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1527, 286)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop220" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(797, 41)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop221" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1529, 568)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop222" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(210, 86)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop223" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(145, 407)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop224" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1507, 606)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop225" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1181, 510)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop226" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(572, 107)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop227" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1604, 572)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop228" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(31, 185)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop229" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1564, 99)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop230" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(700, 174)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop231" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(315, 175)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop232" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(625, 499)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop233" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1407, 759)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop234" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(552, 319)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop235" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(751, 444)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop236" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(622, 648)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop237" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(949, 668)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop238" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(419, 470)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop239" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(907, 66)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop240" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1336, 630)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop241" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(620, 128)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop242" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(730, 222)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop243" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(168, 500)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop244" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1152, 228)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop245" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1098, 504)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop246" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(241, 271)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop247" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1341, 538)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop248" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1241, 623)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop249" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1398, 171)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop250" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(953, 138)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop251" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(409, 34)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop252" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1482, 42)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop253" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(200, 294)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop254" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(412, 223)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop255" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(506, 457)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop256" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(379, 429)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop257" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(937, 236)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop258" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1074, 447)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop259" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1467, 195)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop260" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1497, 102)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop261" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1483, 751)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop262" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1337, 59)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop263" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1128, 128)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop264" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1256, 672)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop265" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(307, 462)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop266" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(385, 273)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop267" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(188, 241)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop268" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1028, 107)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop269" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(415, 756)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop270" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1436, 487)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop271" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1448, 153)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop272" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1548, 448)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop273" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(275, 627)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop274" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(680, 732)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop275" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(968, 603)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop276" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(866, 121)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop277" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1428, 87)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop278" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1279, 241)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop279" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(136, 774)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop280" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1535, 131)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop281" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(512, 231)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop282" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(44, 283)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop283" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(996, 64)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop284" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(829, 660)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop285" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(149, 179)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop286" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1318, 496)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop287" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(764, 488)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop288" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(511, 117)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop289" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(753, 758)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop290" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1478, 707)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop291" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(502, 298)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop292" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(747, 675)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop293" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1596, 319)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop294" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1225, 575)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop295" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(360, 757)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop296" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1276, 481)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop297" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(81, 54)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop298" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(812, 341)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop299" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(455, 209)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop300" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(640, 301)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop301" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(675, 67)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop302" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1277, 606)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop303" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(744, 374)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop304" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1017, 754)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop305" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(870, 37)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop306" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(348, 460)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop307" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(729, 513)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop308" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(312, 502)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop309" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1358, 484)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop310" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1453, 324)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop311" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(102, 627)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop312" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(345, 594)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop313" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1108, 72)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop314" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1232, 426)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop315" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1140, 526)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop316" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(630, 407)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop317" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(33, 601)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop318" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(277, 707)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop319" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1184, 38)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop320" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1102, 163)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop321" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(143, 289)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop322" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1157, 449)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop323" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(848, 235)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop324" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1157, 776)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop325" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1537, 177)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop326" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(334, 229)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop327" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(534, 673)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop328" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(381, 697)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop329" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(895, 323)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop330" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(257, 368)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop331" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(754, 268)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop332" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1061, 776)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop333" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(848, 440)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop334" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(223, 729)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop335" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(823, 199)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop336" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1603, 62)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop337" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(524, 495)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop338" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1063, 565)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop339" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(650, 585)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop340" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1307, 755)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop341" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(942, 513)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop342" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(247, 225)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop343" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(533, 769)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop344" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(144, 138)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop345" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(426, 571)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop346" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(371, 336)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop347" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1064, 648)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop348" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1283, 290)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop349" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(521, 419)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop350" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(201, 581)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop351" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1222, 51)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop352" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(386, 120)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop353" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(689, 552)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop354" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1484, 401)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop355" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(966, 768)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop356" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1019, 564)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop357" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1225, 268)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop358" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1346, 173)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop359" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(830, 72)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop360" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1149, 629)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop361" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(132, 40)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop362" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(85, 329)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop363" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(103, 449)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop364" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1606, 511)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop365" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(99, 673)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop366" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(278, 525)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop367" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(652, 160)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop368" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(267, 484)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop369" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(810, 122)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop370" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(468, 502)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop371" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1210, 691)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop372" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1602, 450)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop373" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(716, 49)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop374" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1399, 469)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop375" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(133, 599)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop376" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(482, 42)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop377" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1342, 724)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop378" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1078, 722)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop379" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1604, 703)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop380" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(521, 610)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop381" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(837, 308)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop382" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(217, 41)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop383" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1204, 371)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop384" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1172, 101)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop385" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1413, 681)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop386" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1043, 474)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop387" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(76, 775)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop388" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1161, 735)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop389" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(201, 419)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop390" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(625, 448)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop391" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(675, 356)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop392" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(555, 220)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop393" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(589, 288)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop394" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(899, 426)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop395" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1390, 36)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop396" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1073, 235)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop397" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(405, 183)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop398" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(285, 279)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop399" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(383, 496)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop400" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1287, 196)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop401" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(957, 40)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop402" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1245, 184)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop403" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1380, 214)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop404" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1503, 533)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop405" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(466, 124)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop406" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(946, 197)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop407" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(928, 291)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop408" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1077, 322)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop409" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(352, 40)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop410" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(858, 776)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop411" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(36, 545)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop412" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(30, 654)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop413" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1594, 663)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop414" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(831, 384)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop415" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(998, 631)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop416" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1567, 589)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop417" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(217, 477)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop418" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(99, 540)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop419" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1355, 293)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop420" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(790, 678)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop421" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(372, 158)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop422" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(555, 152)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop423" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(415, 336)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop424" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(458, 746)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop425" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(783, 388)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop426" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1425, 597)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop427" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1200, 235)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop428" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1592, 138)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop429" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1431, 34)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop430" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(30, 80)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop431" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1332, 106)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop432" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1433, 442)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop433" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(329, 677)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop434" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1451, 776)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop435" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1495, 645)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop436" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1187, 607)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop437" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(459, 663)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop438" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(277, 36)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop439" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(187, 537)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop440" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(642, 40)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop441" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(750, 175)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop442" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(932, 559)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop443" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(755, 41)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop444" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(273, 147)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop445" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1039, 399)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop446" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(167, 374)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop447" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1275, 104)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop448" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(978, 359)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop449" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(30, 232)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop450" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(804, 483)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop451" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1523, 479)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop452" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(310, 572)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop453" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(907, 663)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop454" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(681, 124)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop455" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(456, 292)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop456" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(551, 447)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop457" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(894, 157)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop458" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1027, 37)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop459" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(337, 91)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop460" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1265, 43)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop461" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1276, 414)
+script = ExtResource("prop")
+Kind = 8
+
+[node name="Prop462" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1572, 548)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop463" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(122, 97)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop464" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(600, 76)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop465" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(777, 603)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop466" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(626, 777)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Prop467" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(482, 83)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop468" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(711, 423)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop469" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1575, 481)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop470" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(980, 409)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop471" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(479, 257)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop472" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1071, 91)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop473" type="StaticBody2D" parent="World/Peaks"]
+position = Vector2(1302, 706)
+script = ExtResource("prop")
+Kind = 9
+
+[node name="Boar1" parent="World/Peaks" instance=ExtResource("boar")]
+position = Vector2(357, 314)
+
+[node name="Deer1" parent="World/Peaks" instance=ExtResource("deer")]
+position = Vector2(323, 333)
+
+[node name="Deer2" parent="World/Peaks" instance=ExtResource("deer")]
+position = Vector2(1348, 597)
+
+[node name="Deer3" parent="World/Peaks" instance=ExtResource("deer")]
+position = Vector2(1370, 574)
+
+[node name="ArcticFox1" parent="World/Peaks" instance=ExtResource("arctic_fox")]
+position = Vector2(122, 254)
+
+[node name="ArcticFox2" parent="World/Peaks" instance=ExtResource("arctic_fox")]
+position = Vector2(151, 253)
+
+[node name="Boar2" parent="World/Peaks" instance=ExtResource("boar")]
+position = Vector2(639, 113)
+
+[node name="Desert" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(2400, 2400)
+script = ExtResource("room")
+Title = "Scarab Desert"
+
+[node name="Layout" type="Node2D" parent="World/Desert"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 200
+InteriorHeight = 96
+Ground = 7
+PathPoints = PackedVector2Array(600, 0, 700, 300, 1000, 500, 1300, 680, 1632, 700)
+
+[node name="NorthPath" type="Node2D" parent="World/Desert"]
+position = Vector2(600, 0)
+script = ExtResource("door")
+Side = 0
+Path = true
+LeadsTo = NodePath("../../Canyon/SouthPath")
+
+[node name="Path1" type="Node2D" parent="World/Desert"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(700, 300, 380, 420, 300, 560)
+
+[node name="Oasis" type="Node2D" parent="World/Desert"]
+position = Vector2(220, 600)
+script = ExtResource("pit")
+Size = Vector2(170, 90)
+Water = true
+
+[node name="HerbChest1" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(430, 650)
+script = ExtResource("chest")
+Reward = 1
+
+[node name="DesertSign" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(660, 40)
+script = ExtResource("prop")
+Kind = 3
+Text = "Scarab Desert\nThe bugs live east of here"
+
+[node name="Prop1" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(148, 193)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop2" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(505, 704)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop3" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(810, 570)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop4" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(184, 413)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop5" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1358, 423)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop6" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1219, 128)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop7" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(41, 578)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop8" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1358, 656)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop9" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1532, 184)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop10" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(155, 124)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop11" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1571, 117)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop12" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(278, 49)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop13" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(104, 62)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop14" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(584, 155)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop15" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1193, 457)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop16" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(936, 607)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop17" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(954, 205)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop18" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(547, 216)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop19" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(659, 769)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop20" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(700, 86)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop21" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(779, 639)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop22" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(730, 557)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop23" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1072, 70)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop24" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(503, 320)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop25" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(332, 61)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop26" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(37, 742)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop27" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1114, 742)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop28" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(803, 744)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop29" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1389, 494)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop30" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(382, 314)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop31" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1168, 179)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop32" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(981, 645)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop33" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1047, 136)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop34" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(417, 35)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop35" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(963, 755)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop36" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1259, 269)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop37" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1554, 720)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop38" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(604, 95)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop39" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(949, 393)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop40" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1460, 315)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop41" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1323, 60)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop42" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1166, 536)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop43" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(207, 271)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop44" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(738, 707)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop45" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(35, 651)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop46" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(426, 443)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop47" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(230, 97)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop48" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1421, 408)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop49" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(821, 83)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop50" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(318, 769)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop51" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(529, 566)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop52" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(828, 172)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop53" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1581, 496)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop54" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1170, 719)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop55" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(622, 386)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop56" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1032, 421)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop57" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(352, 181)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop58" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(165, 325)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop59" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(535, 751)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop60" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1307, 234)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop61" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(270, 460)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop62" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(775, 432)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop63" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1226, 365)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop64" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(429, 720)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop65" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(733, 145)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop66" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(161, 742)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop67" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1289, 486)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop68" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(923, 89)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop69" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1578, 258)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop70" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(772, 48)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop71" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(648, 674)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop72" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1385, 569)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop73" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(975, 530)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop74" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(890, 239)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop75" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(140, 490)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop76" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1085, 500)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop77" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1103, 683)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop78" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1125, 93)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop79" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1001, 293)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop80" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1508, 91)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop81" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(665, 604)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop82" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(291, 130)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop83" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1590, 172)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop84" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1030, 362)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop85" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(906, 735)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop86" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1182, 233)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop87" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1374, 291)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop88" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1086, 301)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop89" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(249, 199)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop90" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(339, 379)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop91" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(74, 239)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop92" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(700, 412)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop93" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1536, 557)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop94" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(451, 302)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop95" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(103, 290)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop96" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(342, 554)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop97" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(995, 65)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop98" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1267, 195)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop99" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1163, 42)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop100" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(39, 494)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop101" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(874, 348)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop102" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(693, 196)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop103" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1456, 584)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop104" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(458, 606)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop105" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1419, 713)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop106" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1121, 449)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop107" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(482, 415)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop108" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1450, 517)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop109" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1325, 353)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop110" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(540, 101)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop111" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(429, 511)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop112" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(591, 712)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop113" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1299, 420)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop114" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1537, 374)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop115" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1243, 710)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop116" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(593, 581)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop117" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1369, 114)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop118" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(84, 352)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop119" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(717, 493)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop120" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1497, 733)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop121" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(779, 243)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop122" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1226, 768)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop123" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1308, 604)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop124" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1598, 582)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop125" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1557, 430)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop126" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(644, 491)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop127" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(855, 642)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop128" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1520, 626)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop129" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(880, 479)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop130" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(160, 611)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop131" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1434, 263)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop132" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(282, 303)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop133" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1157, 303)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop134" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(401, 95)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop135" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1339, 725)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop136" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(475, 222)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop137" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1382, 47)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop138" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(405, 151)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop139" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(851, 708)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop140" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1050, 739)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop141" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1039, 226)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop142" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1110, 171)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop143" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(929, 283)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop144" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(625, 209)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop145" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(980, 129)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop146" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1382, 192)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop147" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(818, 297)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop148" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1475, 183)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop149" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1152, 360)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop150" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(383, 776)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop151" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1073, 604)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop152" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(33, 96)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop153" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(545, 476)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop154" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1300, 141)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop155" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(240, 770)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop156" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1232, 49)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop157" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1197, 657)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop158" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(218, 501)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop159" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1457, 645)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop160" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1396, 345)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop161" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(97, 436)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop162" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(867, 115)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop163" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1496, 253)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop164" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(135, 670)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop165" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(188, 50)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop166" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(260, 550)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop167" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(840, 524)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop168" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(462, 155)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop169" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(200, 657)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop170" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1039, 561)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop171" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(545, 281)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop172" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(103, 162)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop173" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1460, 117)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop174" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(701, 648)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop175" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(696, 346)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop176" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(720, 274)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop177" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(612, 305)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop178" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(32, 312)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop179" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1388, 774)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop180" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1577, 58)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop181" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1245, 584)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop182" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(342, 261)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop183" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(824, 464)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop184" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(362, 724)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop185" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(81, 532)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop186" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1587, 644)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop187" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1499, 439)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop188" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1111, 230)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop189" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(377, 475)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop190" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(751, 767)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop191" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(481, 98)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop192" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(259, 365)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop193" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(490, 524)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop194" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1606, 321)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop195" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(904, 536)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop196" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(34, 193)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop197" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(982, 446)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop198" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1451, 41)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop199" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(52, 42)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop200" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1090, 375)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop201" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(863, 770)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop202" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(462, 360)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop203" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1330, 533)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop204" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(588, 643)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop205" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(283, 711)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop206" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1133, 634)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop207" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1569, 777)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop208" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(106, 741)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop209" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(541, 44)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop210" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(868, 43)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop211" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(597, 443)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop212" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(40, 420)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop213" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1549, 314)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop214" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(955, 695)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop215" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(896, 180)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop216" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(499, 646)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop217" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(412, 256)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop218" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(413, 568)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop219" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(589, 769)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop220" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1169, 775)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop221" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(104, 619)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop222" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1233, 496)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop223" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(911, 659)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop224" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1296, 768)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop225" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(752, 375)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop226" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(170, 545)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop227" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1039, 652)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop228" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(578, 525)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop229" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(323, 437)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop230" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1453, 768)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop231" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(75, 689)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop232" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1515, 35)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop233" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(542, 396)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop234" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1270, 91)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop235" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(228, 714)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop236" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1520, 502)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop237" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(455, 774)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop238" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1436, 462)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop239" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(786, 511)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop240" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1032, 481)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop241" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1314, 292)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop242" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(153, 251)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop243" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(290, 239)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop244" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(936, 338)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop245" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(643, 552)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop246" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(485, 41)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop247" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(834, 236)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop248" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1478, 385)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop249" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(474, 470)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop250" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1603, 379)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop251" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(876, 591)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop252" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(406, 372)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop253" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(197, 160)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop254" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(350, 116)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop255" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(297, 509)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop256" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1244, 420)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop257" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1266, 326)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop258" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(671, 135)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop259" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(129, 387)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop260" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(772, 185)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop261" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(521, 157)
+script = ExtResource("prop")
+Kind = 2
+
+[node name="Prop262" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(664, 272)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop263" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1004, 180)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Prop264" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(211, 584)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop265" type="StaticBody2D" parent="World/Desert"]
+position = Vector2(1214, 301)
+script = ExtResource("prop")
+Kind = 10
+
+[node name="Snake1" parent="World/Desert" instance=ExtResource("snake")]
+position = Vector2(773, 666)
+
+[node name="Snake2" parent="World/Desert" instance=ExtResource("snake")]
+position = Vector2(733, 682)
+
+[node name="Boar1" parent="World/Desert" instance=ExtResource("boar")]
+position = Vector2(387, 544)
+
+[node name="Snake3" parent="World/Desert" instance=ExtResource("snake")]
+position = Vector2(375, 521)
+
+[node name="Snake4" parent="World/Desert" instance=ExtResource("snake")]
+position = Vector2(982, 258)
+
+[node name="Snake5" parent="World/Desert" instance=ExtResource("snake")]
+position = Vector2(992, 229)
+
+[node name="Boar2" parent="World/Desert" instance=ExtResource("boar")]
+position = Vector2(1008, 270)
+
+[node name="Snake6" parent="World/Desert" instance=ExtResource("snake")]
+position = Vector2(114, 335)
+
+[node name="Hills" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(6000, -600)
+script = ExtResource("room")
+Title = "Foxglove Hills"
+
+[node name="Layout" type="Node2D" parent="World/Hills"]
+z_index = -1
+script = ExtResource("outdoor")
+InteriorWidth = 200
+InteriorHeight = 96
+Ground = 0
+PathPoints = PackedVector2Array(600, 800, 560, 520, 300, 400, 0, 380)
+
+[node name="SouthPath" type="Node2D" parent="World/Hills"]
+position = Vector2(600, 800)
+script = ExtResource("door")
+Side = 1
+Path = true
+LeadsTo = NodePath("../../Canyon/NorthPath")
+
+[node name="Path1" type="Node2D" parent="World/Hills"]
+script = ExtResource("dirtpath")
+Points = PackedVector2Array(560, 520, 900, 400, 1200, 300)
+
+[node name="Pond1" type="Node2D" parent="World/Hills"]
+position = Vector2(1000, 520)
+script = ExtResource("pit")
+Size = Vector2(200, 90)
+Water = true
+
+[node name="HerbChest1" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1250, 290)
+script = ExtResource("chest")
+Reward = 1
+
+[node name="HillsSign" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(640, 760)
+script = ExtResource("prop")
+Kind = 3
+Text = "Foxglove Hills\nThe foxes live west of here"
+
+[node name="Prop1" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(927, 504)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop2" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1317, 240)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop3" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1056, 697)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop4" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1462, 173)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop5" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1056, 493)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop6" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(821, 753)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop7" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(861, 365)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop8" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1517, 507)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop9" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(502, 264)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop10" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(810, 73)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop11" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(986, 581)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop12" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(699, 664)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop13" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1492, 447)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop14" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1103, 121)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop15" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(115, 763)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop16" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(475, 193)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop17" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1443, 592)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop18" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(221, 273)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop19" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(409, 237)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop20" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(36, 424)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop21" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(507, 327)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop22" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(319, 116)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop23" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(78, 683)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop24" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1207, 450)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop25" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(222, 145)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop26" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(117, 239)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop27" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(347, 177)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop28" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1059, 375)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop29" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(774, 300)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop30" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(878, 618)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop31" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(513, 86)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop32" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1259, 117)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop33" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1405, 45)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop34" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(524, 695)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop35" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1135, 155)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop36" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(808, 490)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop37" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(79, 99)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop38" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(757, 348)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop39" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(827, 228)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop40" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1411, 750)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop41" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(653, 631)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop42" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(319, 563)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop43" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1009, 247)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop44" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1552, 652)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop45" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1488, 680)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop46" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(834, 667)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop47" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(386, 103)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop48" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(931, 182)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop49" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(324, 741)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop50" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(139, 723)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop51" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1246, 461)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop52" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1599, 540)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop53" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(37, 733)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop54" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(679, 716)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop55" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1312, 137)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop56" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(89, 49)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop57" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1259, 623)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop58" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(605, 629)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop59" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1196, 679)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop60" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1556, 595)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop61" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1346, 46)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop62" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(36, 676)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop63" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(562, 403)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop64" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(737, 184)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop65" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(156, 185)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop66" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(681, 131)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop67" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1290, 439)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop68" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(753, 510)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop69" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(397, 51)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop70" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(150, 285)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop71" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(597, 222)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop72" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(510, 654)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop73" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(631, 244)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop74" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1171, 201)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop75" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(93, 153)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop76" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1572, 291)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop77" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(211, 756)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop78" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1045, 746)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop79" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(550, 637)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop80" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(91, 211)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop81" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1411, 92)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop82" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1011, 174)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop83" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(341, 691)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop84" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(475, 577)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop85" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1460, 500)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop86" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(397, 531)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop87" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(182, 606)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop88" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(276, 197)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop89" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(632, 389)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop90" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(303, 350)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop91" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(240, 423)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop92" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1454, 717)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop93" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(925, 102)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop94" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1447, 429)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop95" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1275, 774)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop96" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(517, 436)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop97" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(885, 245)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop98" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(750, 715)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop99" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1297, 179)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop100" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(738, 646)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop101" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(414, 482)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop102" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(580, 123)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop103" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(75, 270)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop104" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1328, 518)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop105" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1007, 649)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop106" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1449, 57)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop107" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1158, 80)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop108" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(686, 270)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop109" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1452, 356)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop110" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(833, 299)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop111" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(895, 583)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop112" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1085, 227)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop113" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1588, 93)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop114" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(306, 637)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop115" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(956, 266)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop116" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(961, 81)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop117" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(872, 468)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop118" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(287, 430)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop119" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(342, 510)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop120" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1226, 43)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop121" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1512, 163)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop122" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(894, 332)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop123" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1204, 731)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop124" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1294, 306)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop125" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1335, 688)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop126" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1120, 405)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop127" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1436, 301)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop128" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(359, 597)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop129" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(898, 653)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop130" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(417, 623)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop131" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(806, 546)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop132" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(594, 315)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop133" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(849, 35)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop134" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(343, 295)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop135" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1063, 180)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop136" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(411, 771)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop137" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1263, 566)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop138" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(997, 106)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop139" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(703, 326)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop140" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(430, 305)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop141" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1426, 200)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop142" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(293, 51)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop143" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1519, 762)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop144" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1136, 643)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop145" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(612, 187)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop146" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(286, 511)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop147" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1408, 468)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop148" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(382, 155)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop149" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1379, 644)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop150" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(36, 39)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop151" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1249, 362)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop152" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(530, 749)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop153" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1420, 555)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop154" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(912, 762)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop155" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(235, 354)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop156" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1592, 153)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop157" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1590, 691)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop158" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1202, 93)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop159" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(784, 635)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop160" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1177, 163)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop161" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(752, 770)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop162" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1501, 35)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop163" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1392, 427)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop164" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(127, 609)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop165" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(810, 330)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop166" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1108, 705)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop167" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1057, 52)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop168" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1349, 314)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop169" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1474, 241)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop170" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(207, 85)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop171" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1124, 285)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop172" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1075, 770)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop173" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(965, 679)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop174" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(234, 584)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop175" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(76, 600)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop176" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1220, 581)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop177" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1267, 732)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop178" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(678, 554)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop179" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1534, 312)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop180" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(643, 342)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop181" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(947, 425)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop182" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(128, 36)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop183" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1362, 109)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop184" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1555, 247)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop185" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(164, 753)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop186" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(91, 537)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop187" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1328, 604)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop188" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1175, 485)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop189" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1586, 201)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop190" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1464, 634)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop191" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(329, 379)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop192" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1161, 727)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop193" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1543, 557)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop194" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1199, 259)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop195" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(263, 240)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop196" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(298, 705)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop197" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(116, 686)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop198" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(185, 649)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop199" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(197, 216)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop200" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1014, 302)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop201" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1304, 379)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop202" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(197, 513)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop203" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(431, 721)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop204" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1346, 159)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop205" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1143, 771)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop206" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(130, 334)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop207" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(872, 130)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop208" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1132, 224)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop209" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1085, 638)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop210" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(446, 678)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop211" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(329, 239)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop212" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(555, 260)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop213" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(843, 508)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop214" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(769, 78)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop215" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(992, 210)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop216" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(446, 148)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop217" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1211, 372)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop218" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1281, 265)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop219" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(383, 354)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop220" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(266, 763)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop221" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1509, 644)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop222" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(187, 362)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop223" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1406, 616)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop224" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(329, 471)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop225" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1129, 483)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop226" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(762, 577)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop227" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1096, 45)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop228" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(390, 721)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop229" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1368, 244)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop230" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1062, 125)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop231" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(982, 757)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop232" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1132, 358)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop233" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(167, 72)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop234" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1283, 497)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop235" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(232, 684)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop236" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(154, 486)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop237" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(487, 768)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop238" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(969, 346)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop239" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(457, 543)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop240" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1031, 404)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop241" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1237, 504)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop242" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(550, 45)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop243" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1017, 503)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop244" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1330, 558)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop245" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1404, 135)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop246" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1497, 587)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop247" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(421, 363)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop248" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(391, 399)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop249" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1260, 681)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop250" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(943, 726)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop251" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(653, 187)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop252" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(60, 316)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop253" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1005, 45)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop254" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1205, 136)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop255" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(249, 317)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop256" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1404, 350)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop257" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(979, 150)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop258" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(554, 317)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop259" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(624, 82)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop260" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(797, 155)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop261" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1336, 354)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop262" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(855, 732)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop263" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1009, 447)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop264" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1230, 235)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop265" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1570, 485)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop266" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(402, 277)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop267" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1370, 372)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop268" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(222, 543)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop269" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(287, 157)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop270" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1597, 381)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop271" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1230, 165)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop272" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1402, 699)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop273" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1470, 770)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop274" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(993, 709)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop275" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(778, 383)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop276" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1565, 736)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop277" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(411, 181)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop278" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(252, 460)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop279" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(37, 617)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop280" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1551, 78)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop281" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(136, 524)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop282" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(956, 306)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop283" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(603, 359)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop284" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(626, 453)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop285" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1061, 307)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop286" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(723, 136)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop287" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(937, 228)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop288" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(786, 234)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop289" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(138, 649)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop290" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(556, 459)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop291" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(152, 147)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop292" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(48, 520)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop293" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(730, 426)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop294" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(492, 122)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop295" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1165, 119)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop296" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(81, 642)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop297" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1384, 579)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop298" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(242, 638)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop299" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1332, 413)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop300" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(716, 529)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop301" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(621, 285)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop302" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(742, 272)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop303" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1522, 373)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop304" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(449, 268)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop305" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(279, 102)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop306" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(299, 283)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop307" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(620, 528)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop308" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1605, 427)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop309" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1043, 632)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop310" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(466, 407)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop311" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1196, 773)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop312" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1311, 720)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop313" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1389, 177)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop314" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(507, 532)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop315" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(559, 185)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop316" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1088, 466)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop317" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1449, 125)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop318" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(541, 117)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop319" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(844, 591)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop320" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1596, 639)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop321" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1510, 720)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop322" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(688, 420)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop323" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(680, 377)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop324" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1376, 529)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop325" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1356, 200)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop326" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(881, 195)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop327" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(618, 685)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop328" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1543, 201)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop329" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1176, 341)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop330" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1489, 321)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop331" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(446, 75)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop332" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(662, 80)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop333" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(385, 652)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop334" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(932, 55)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop335" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(461, 351)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop336" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(874, 285)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop337" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(919, 548)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop338" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(808, 712)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop339" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(619, 725)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop340" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(533, 590)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop341" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(917, 465)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop342" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(87, 359)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop343" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(89, 432)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop344" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(156, 233)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop345" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(956, 621)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop346" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1504, 270)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop347" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1298, 645)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop348" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(43, 198)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop349" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1243, 420)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop350" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(832, 178)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop351" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(399, 585)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop352" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(532, 369)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop353" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(726, 77)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop354" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1189, 630)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop355" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1516, 99)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop356" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1169, 388)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop357" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(40, 100)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop358" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1600, 56)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop359" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(979, 537)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop360" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(592, 433)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop361" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1543, 40)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop362" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(860, 774)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop363" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(847, 97)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop364" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(457, 445)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop365" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1605, 581)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop366" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(83, 484)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop367" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(717, 752)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop368" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(280, 555)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop369" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(714, 595)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop370" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(196, 37)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop371" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(916, 365)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop372" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1482, 388)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop373" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1336, 757)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop374" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(866, 546)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop375" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1526, 428)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop376" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(147, 418)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop377" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(212, 469)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop378" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(614, 577)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop379" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(44, 562)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop380" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1286, 77)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop381" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(513, 184)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop382" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(53, 144)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop383" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(688, 230)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop384" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1146, 40)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop385" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1149, 449)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop386" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1488, 133)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop387" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(633, 37)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop388" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(674, 512)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop389" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1064, 433)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop390" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(895, 36)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop391" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1087, 267)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop392" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1360, 469)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop393" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(45, 470)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop394" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(135, 570)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop395" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1498, 208)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop396" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(175, 553)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop397" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(441, 35)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop398" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(32, 260)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop399" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(702, 44)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop400" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(877, 699)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop401" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(790, 195)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop402" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(189, 422)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop403" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1224, 332)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop404" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1302, 39)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop405" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1372, 734)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop406" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1120, 75)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop407" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(169, 699)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop408" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(666, 309)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop409" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1574, 350)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop410" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(348, 634)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop411" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1105, 192)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop412" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(470, 313)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop413" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(97, 308)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop414" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1043, 89)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop415" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1388, 310)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop416" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(475, 705)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop417" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(119, 459)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop418" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(330, 71)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop419" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(351, 776)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop420" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1410, 238)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop421" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(669, 762)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop422" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(41, 776)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop423" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1554, 132)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop424" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1606, 312)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop425" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1543, 695)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop426" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(562, 707)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop427" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1185, 54)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop428" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(493, 611)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop429" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(946, 579)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop430" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(251, 54)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop431" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1051, 244)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop432" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(125, 115)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop433" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(244, 724)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop434" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(376, 217)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop435" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(571, 81)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop436" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(904, 427)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop437" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1318, 478)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop438" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(659, 673)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop439" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(743, 40)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop440" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(666, 454)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop441" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1106, 747)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop442" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(447, 501)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop443" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(887, 512)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop444" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(815, 371)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop445" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(959, 465)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop446" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1565, 409)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop447" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(906, 150)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop448" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1096, 503)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop449" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1371, 776)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop450" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1279, 219)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop451" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(993, 406)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop452" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1428, 654)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop453" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(924, 685)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop454" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(367, 258)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop455" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(30, 355)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop456" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(183, 322)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop457" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(812, 117)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop458" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(370, 481)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop459" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(693, 178)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop460" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1217, 543)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop461" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1462, 545)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop462" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1603, 244)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop463" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1267, 155)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop464" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(359, 556)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop465" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1601, 765)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop466" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(345, 36)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop467" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(833, 627)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop468" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(617, 147)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop469" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1324, 98)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop470" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(718, 371)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop471" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(652, 588)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop472" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(496, 46)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop473" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(446, 219)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop474" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(227, 191)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop475" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(534, 226)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop476" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1157, 685)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop477" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1157, 266)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop478" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(785, 682)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop479" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1339, 273)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop480" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1340, 644)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop481" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(887, 80)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop482" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1201, 409)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop483" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(838, 451)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop484" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(75, 738)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop485" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(914, 278)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop486" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(379, 316)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop487" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1227, 648)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop488" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1414, 506)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop489" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(597, 51)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop490" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(806, 587)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop491" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1413, 389)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop492" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(270, 676)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop493" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(189, 165)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop494" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(758, 121)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop495" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(189, 123)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop496" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1476, 87)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop497" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1020, 778)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop498" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(235, 504)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop499" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1239, 82)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop500" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(128, 75)
+script = ExtResource("prop")
+Kind = 11
+
+[node name="Prop501" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(790, 776)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop502" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(462, 641)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop503" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1031, 208)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop504" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(493, 373)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop505" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(306, 775)
+script = ExtResource("prop")
+Kind = 7
+
+[node name="Prop506" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(784, 40)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop507" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1525, 469)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop508" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(644, 118)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop509" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(259, 280)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop510" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(740, 225)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop511" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(965, 36)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop512" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1288, 536)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop513" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1236, 770)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop514" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(337, 333)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop515" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(811, 267)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop516" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(271, 596)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop517" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1502, 545)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop518" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1603, 465)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop519" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1083, 88)
+script = ExtResource("prop")
+Kind = 1
+
+[node name="Prop520" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1556, 773)
+script = ExtResource("prop")
+Kind = 0
+
+[node name="Prop521" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(1210, 200)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop522" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(448, 766)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop523" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(289, 471)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop524" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(272, 372)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Prop525" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(590, 479)
+script = ExtResource("prop")
+Kind = 6
+
+[node name="Prop526" type="StaticBody2D" parent="World/Hills"]
+position = Vector2(427, 113)
+script = ExtResource("prop")
+Kind = 5
+
+[node name="Deer1" parent="World/Hills" instance=ExtResource("deer")]
+position = Vector2(484, 518)
+
+[node name="Boar1" parent="World/Hills" instance=ExtResource("boar")]
+position = Vector2(507, 495)
+
+[node name="Deer2" parent="World/Hills" instance=ExtResource("deer")]
+position = Vector2(1424, 431)
+
+[node name="Deer3" parent="World/Hills" instance=ExtResource("deer")]
+position = Vector2(1438, 407)
+
+[node name="Snake1" parent="World/Hills" instance=ExtResource("snake")]
+position = Vector2(1393, 402)
+
+[node name="Boar2" parent="World/Hills" instance=ExtResource("boar")]
+position = Vector2(863, 329)
