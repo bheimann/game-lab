@@ -173,10 +173,17 @@ public partial class Bullet : Node2D
                 break;
 
             default:
-                // A bright pellet with a short streak behind it.
-                DrawLine(new Vector2(-Mathf.Min(6f, _travelled), 0), Vector2.Zero, _shot.Colour with { A = 0.5f }, 1.5f);
-                DrawCircle(Vector2.Zero, 1.5f, Colors.White);
+            {
+                // A bright pellet with a short streak behind it, outlined in dark so it shows up on any ground (snow too).
+                var outline = new Color(0.08f, 0.09f, 0.18f);
+                var tail = new Vector2(-Mathf.Min(7f, _travelled), 0);
+                DrawLine(tail, Vector2.Zero, outline, 3.5f);
+                DrawLine(tail, Vector2.Zero, _shot.Colour, 1.5f);
+                DrawCircle(Vector2.Zero, 2.6f, outline);
+                DrawCircle(Vector2.Zero, 1.8f, _shot.Colour);
+                DrawCircle(new Vector2(-0.4f, -0.4f), 0.9f, Colors.White);
                 break;
+            }
         }
 
         DrawSetTransform(Vector2.Zero, 0, Vector2.One);
