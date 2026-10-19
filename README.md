@@ -31,8 +31,9 @@ primary button. The team starts in **Scalebrook Village**.
 Hold the leave button for a second to drop out.
 **Split screen:** each hero gets their own part of the screen (2 players: left / right; 3: P1 top left, P2 right,
 P3 bottom left; 4: quarters), with their hearts in their own corner. Heroes can go their own ways: a door, teleport
-pad or exit portal takes just the heroes who use it, and each view follows its hero. Once everyone's in the boss room,
-the fight is on one shared screen; when the boss is beaten, the screen splits again.
+pad or exit portal takes just the heroes who use it, and each view follows its hero. **The door into a boss room stays
+shut until every hero is in the room in front of it** (walking up to it says who you're waiting for). Once everyone's
+in the boss room, the fight is on one shared screen; when the boss is beaten, the screen splits again.
 
 | | Keyboard (left) | Keyboard (right) | Controller | Lizard | Fox |
 |---|---|---|---|---|---|
@@ -311,7 +312,8 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
 - `Godot_console.exe --path game -- --room=Entrance --autoplay-split=<folder>` checks heroes going their own ways:
   P1 goes on to the next room alone (two views, both rooms awake), beats its enemies, gets knocked out there and gets up
   where it came in, comes back (the enemies stay beaten), then both leave the dungeon (the enemies are back).
-  With `--room=BossRoom` (or `FrostBoss`, `MossBoss`) it checks the boss fight is one shared view, split again once beaten.
+  With `--room=BossRoom` (or `FrostBoss`, `MossBoss`) it checks the boss fight is one shared view, split again once beaten;
+  with `--room=PuzzleRoom` (or `FrozenRiver`, `MossHall`, the rooms before the bosses) that the boss door waits for everyone.
 - `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
   there and back, and checks each one leads to the right area (and that the village painter paints you, and that
   Mossmire Keep's stairs stay sealed: set `unlock_final_dungeon=false` in `playtest.cfg` to check that).
