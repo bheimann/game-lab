@@ -11,7 +11,8 @@ namespace LizardWizard.Util;
 /// <summary>
 /// Dev helper for nice screenshots to share: <c>-- --room=Village --screenshot-showcase=village:path.png</c>. Four heroes
 /// join in the room (lizard, fox, moose and peacock or beetle), get set up for the scene, and a moment later the screen
-/// is saved and the game quits. Scenes: village, throne, battle, lake, canyon, boss (start in the matching room).
+/// is saved and the game quits. Scenes: village, throne, battle, lake, canyon, snowplane (Tundra), boss (start in the
+/// matching room).
 /// (Starts with --screenshot, so the real save is never touched.)
 /// </summary>
 public partial class DevShowcase : Node
@@ -22,6 +23,7 @@ public partial class DevShowcase : Node
     private string _path = "";
     private double _time;
     private int _stage;
+    private Vehicle? _firing;
 
     public static DevShowcase Create(string arg)
     {
@@ -39,7 +41,7 @@ public partial class DevShowcase : Node
         if (_stage == 0 && _time > 0.2)
         {
             _stage = 1;
-            var team = _scene is "lake" or "canyon"
+            var team = _scene is "lake" or "canyon" or "snowplane"
                 ? new[] { (4, "Vehicle Master"), (0, "Illusionist"), (1, "Gun Master"), (3, "Thief") }
                 : new[] { (0, "Illusionist"), (1, "Weapon Master"), (2, "Tinkerer"), (3, "Grappler") };
             for (var i = 0; i < team.Length; i++)
@@ -52,7 +54,12 @@ public partial class DevShowcase : Node
             _stage = 2;
             Setup(manager.Players.OfType<Hero>().ToArray(), At);
         }
-        else if (_stage == 2 && _time > ShotAt)
+        else if (_stage == 2 && _firing is not null && IsInstanceValid(_firing))
+        {
+            _firing.Trick(); // keep the guns going until the picture
+        }
+
+        if (_stage == 2 && _time > ShotAt)
         {
             _stage = 3;
             Shoot();
@@ -147,6 +154,19 @@ public partial class DevShowcase : Node
                     builder.Vehicle?.Board(hero);
                 }
 
+                break;
+            }
+
+            case "snowplane":
+            {
+                // The plane firing its machine gun over the tundra's snow.
+                heroes[0].Teleport(at(300, 420));
+                var builder = heroes[0].Abilities.OfType<VehicleAbility>().First();
+                builder.Choose(VehicleKind.Plane);
+                builder.TryUse();
+                _firing = builder.Vehicle;
+                heroes[1].Teleport(at(260, 470));
+                heroes[2].Teleport(at(340, 470));
                 break;
             }
 
