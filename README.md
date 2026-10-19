@@ -123,7 +123,8 @@ charges whoever is slowed. Beat one and the other gets angry. Beating both gives
 kind, the title Knight, the beetle's **Hoversled**, and a portal back out to the tundra.
 
 **Enemies:** animals tricked by Mossimus. Beat one and it falls asleep, then thanks you once the area is clear.
-They come in mixed groups, and come back when you leave an area and return.
+They come in mixed groups, and come back when you leave an area and return. An animal that gets stuck behind a tree,
+rock, fence or water for a moment (0.75 s, `StuckSeconds`) works out a way round.
 
 | Enemy | Where | How it fights |
 |---|---|---|
@@ -252,7 +253,8 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   bots are put on the ice key; they can't plan slides) and the boss fight, and goes out through the portal.
   `--room=IceHall --autoplay-ice=<folder>` solves the Ice Hall's slide puzzle with the real keys.
 - `Godot_console.exe --path game -- --room=Lake --autoplay-beasts=<folder>` puts each kind of enemy next to the fox in
-  turn and logs whether its attack landed and what it dropped.
+  turn and logs whether its attack landed, how it takes fire / ice / lightning, and what it dropped; last, a deer behind a
+  fence has to find its way round.
 - `Godot_console.exe --path game -- --room=Village --screenshot-showcase=village:<file.png>` takes a picture to
   share: four heroes in a scene. Scenes (with their room): `village` (Village), `throne` (ThroneRoom), `battle`
   (Forest), `lake` (Lake), `canyon` (Canyon), `boss` (BossRoom).
