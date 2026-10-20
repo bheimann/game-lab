@@ -357,3 +357,7 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
   all have the same shops.
 - **Combos:** which element orders make which combos (for the Element / Wand Master)?
 - **The first dungeon:** its name ("The Old Burrow" for now), the rooms, the puzzles and the boss are placeholders.
+- **Playing alone as the Gun Master, Warrior or Thief:** these three can't finish the Old Burrow alone (no explosion
+  for the cracked rocks or the cracked wall), so they have to switch class at a paint shop first. Is that OK, or should
+  they get their own way through? (Not more on the tunnel route, to keep it from getting crowded: maybe something else,
+  like a target to shoot.)
