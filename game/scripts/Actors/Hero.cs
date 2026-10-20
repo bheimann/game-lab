@@ -31,6 +31,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     private Ability[] _allAbilities = System.Array.Empty<Ability>();
     private Ability[] _abilities = System.Array.Empty<Ability>();
     private bool _down;
+    private float _downHint;
+    private bool _couldGoBack;
     private bool _left;
     private float _downTime;
     private float _invulnerable;
@@ -92,6 +94,15 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     /// <summary>How long a knocked-out hero waits before getting back up.</summary>
     [Export] public float RespawnSeconds { get; set; } = 2f;
+
+    /// <summary>Knocked out while a teammate could still come and help: how long before you can choose to go back.</summary>
+    [Export] public float GiveUpSeconds { get; set; } = 8f;
+
+    /// <summary>How long to hold the primary button to go back (so it isn't pressed by accident).</summary>
+    private const double GoBackHoldSeconds = 0.6;
+
+    /// <summary>How close you have to be to a knocked-out teammate to wake them with smelling salts.</summary>
+    private const float SaltsReach = 28f;
 
     /// <summary>Where attacks come from (mouth, paws) for each view, relative to the feet.</summary>
     [Export] public Vector2 AttackOriginDown { get; set; } = new(0, -17);
@@ -277,9 +288,10 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         {
             _menu?.Close();
             _downTime += dt;
-            if (_downTime >= RespawnSeconds)
+            UpdateDown(dt);
+            if (!_down)
             {
-                GetBackUp();
+                return;
             }
 
             Velocity = _knockback;
@@ -845,7 +857,17 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             Count = $"x{Herbs}",
             Enabled = Herbs > 0,
         };
-        rings.Add(new MenuRing("Items", new[] { herb }, 0, _ => UseHerb()));
+        var fallen = FallenTeammateNearby();
+        var salts = new MenuOption("Smelling Salts",
+            fallen is null ? "Stand next to a knocked-out teammate to wake them" : $"Wake {fallen.Name} up (half hearts)", null, new Color(0.95f, 0.95f, 0.8f))
+        {
+            Count = $"x{Purse.Salts}",
+            Enabled = Purse.Salts > 0 && fallen is not null,
+        };
+        rings.Add(new MenuRing("Items", new[] { herb, salts }, fallen is not null && Purse.Salts > 0 ? 1 : 0, i =>
+        {
+            if (i == 0) UseHerb(); else UseSalts();
+        }));
 
         // A teammate waiting on a gathering marker in another room: join them (this ring comes first).
         if (Dungeon.Find(this) is { } dungeon)
@@ -955,6 +977,132 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         Sprite.Modulate = new Color(0.6f, 0.6f, 0.6f, 0.8f);
         FloatingText.Spawn(this, HurtCenter + new Vector2(0, -12), "Ouch!", Colors.White, 1.2f);
     }
+
+    /// <summary>
+    /// Knocked out: stay down where you fell, as long as you like, in case a teammate comes with smelling salts. Let a
+    /// fairy out (item button) to get up right here, or hold the primary button to go back (to the foyer, the last
+    /// village, or the boss hall), after <see cref="GiveUpSeconds"/> while a teammate could still help. With nobody
+    /// to help and no fairy, you go back by yourself. Down in a boss room when the boss is beaten, you get up there.
+    /// </summary>
+    private void UpdateDown(float dt)
+    {
+        if (Dungeon.Find(this) is not { } dungeon)
+        {
+            if (_downTime >= RespawnSeconds)
+            {
+                GetBackUp(); // a test room: up again after a moment
+            }
+
+            return;
+        }
+
+        if (dungeon.RoomOf(this) is { IsBossRoom: true, IsCleared: true } && _downTime >= 1f)
+        {
+            ReviveHere(Health.Max, "The boss is beaten: back on your feet!");
+            return;
+        }
+
+        var help = dungeon.CanBeHelped(this);
+        var fairy = Purse.Fairies > 0;
+        if (!help && !fairy)
+        {
+            if (_downTime >= RespawnSeconds)
+            {
+                GetBackUp();
+            }
+
+            return;
+        }
+
+        if (fairy && Controls.ItemPressed && Purse.TakeFairy())
+        {
+            ReviveHere(HalfHearts, "A fairy! Back on your feet.");
+            return;
+        }
+
+        var canGoBack = !help || _downTime >= GiveUpSeconds;
+        if (canGoBack && Controls.PrimaryHeldSeconds >= GoBackHoldSeconds)
+        {
+            GetBackUp();
+            return;
+        }
+
+        // Say what you can do (when it changes, then every few seconds).
+        _downHint -= dt;
+        if (canGoBack != _couldGoBack || _downHint <= 0)
+        {
+            _couldGoBack = canGoBack;
+            _downHint = 4f;
+            var choices = new List<string>();
+            if (help && !canGoBack)
+            {
+                choices.Add("waiting for help...");
+            }
+
+            if (fairy)
+            {
+                choices.Add($"{ItemButton}: let a fairy out");
+            }
+
+            if (canGoBack)
+            {
+                choices.Add($"hold {PrimaryButton}: go back");
+            }
+
+            FloatingText.Spawn(this, HurtCenter + new Vector2(0, -14), "Knocked out!\n" + string.Join("   ", choices), PlayerColour.Lightened(0.5f), 3f, 6f);
+        }
+    }
+
+    /// <summary>Half the hearts (what smelling salts and fairies give you).</summary>
+    private int HalfHearts => Mathf.Max(2, Health.Max / 4 * 2);
+
+    /// <summary>Get up right where you are, with <paramref name="hp"/> health (smelling salts, a fairy, the boss beaten).</summary>
+    public void ReviveHere(int hp, string message)
+    {
+        if (!_down)
+        {
+            return;
+        }
+
+        _down = false;
+        Health.Refill();
+        Health.Damage(Health.Max - hp);
+        _knockback = Vector2.Zero;
+        Sprite.RotationDegrees = 0;
+        Sprite.Modulate = Colors.White;
+        _invulnerable = 1.5f;
+        FloatingText.Spawn(this, HurtCenter + new Vector2(0, -16), message, new Color(1f, 0.95f, 0.6f), 1.8f, 8f);
+    }
+
+    /// <summary>A knocked-out teammate close enough to wake with smelling salts.</summary>
+    private Hero? FallenTeammateNearby() =>
+        GetTree().GetNodesInGroup(Group).OfType<Hero>()
+            .Where(h => h != this && h.IsInGame && h.IsDown && h.GlobalPosition.DistanceTo(GlobalPosition) <= SaltsReach)
+            .OrderBy(h => h.GlobalPosition.DistanceTo(GlobalPosition))
+            .FirstOrDefault();
+
+    /// <summary>Wave smelling salts under the nose of the knocked-out teammate next to you: they get up with half hearts.</summary>
+    public void UseSalts()
+    {
+        if (FallenTeammateNearby() is { } fallen && Purse.TakeSalts())
+        {
+            fallen.ReviveHere(fallen.HalfHearts, $"{Name} woke {fallen.Name} with smelling salts!");
+        }
+    }
+
+    private string PrimaryButton => Controls.Device.Kind switch
+    {
+        InputDeviceKind.KeyboardLeft => "J",
+        InputDeviceKind.KeyboardRight => ".",
+        _ => "A",
+    };
+
+    private string ItemButton => Controls.Device.Kind switch
+    {
+        InputDeviceKind.KeyboardLeft => "I",
+        InputDeviceKind.KeyboardRight => "M",
+        _ => "B",
+    };
 
     private void GetBackUp()
     {

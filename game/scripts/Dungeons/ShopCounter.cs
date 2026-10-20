@@ -25,6 +25,13 @@ public enum ShopOffer
 
     /// <summary>The next weapon material for the whole team (see <see cref="WeaponTier"/>).</summary>
     WeaponUpgrade,
+
+    /// <summary>
+    /// The herb shop: three spots along the counter, healing herbs on the left (<see cref="ShopCounter.Price"/>),
+    /// smelling salts in the middle and fairies on the right (see <see cref="ShopCounter.SaltsPrice"/>,
+    /// <see cref="ShopCounter.FairyPrice"/>). Stand at the one you want.
+    /// </summary>
+    Remedies,
 }
 
 /// <summary>
@@ -41,6 +48,7 @@ public partial class ShopCounter : StaticBody2D
 
     private readonly Dictionary<int, float> _atCounterFor = new();
     private readonly HashSet<int> _served = new();
+    private readonly Dictionary<int, int> _spotFor = new();
 
     [Export] public float Width { get; set; } = 64f;
 
@@ -48,6 +56,12 @@ public partial class ShopCounter : StaticBody2D
 
     /// <summary>In coins.</summary>
     [Export] public int Price { get; set; }
+
+    /// <summary>Remedies counter: the price of smelling salts (the herb is <see cref="Price"/>).</summary>
+    [Export] public int SaltsPrice { get; set; } = 100;
+
+    /// <summary>Remedies counter: the price of a fairy.</summary>
+    [Export] public int FairyPrice { get; set; } = 150;
 
     /// <summary>The sign over the counter (empty: none).</summary>
     [Export] public string SignText { get; set; } = "";
@@ -82,6 +96,23 @@ public partial class ShopCounter : StaticBody2D
                 LabelSettings = new LabelSettings { FontSize = 8, FontColor = Gold, OutlineSize = 3, OutlineColor = Outline },
             });
         }
+
+        if (Offer == ShopOffer.Remedies)
+        {
+            // A price under each spot.
+            string[] names = { $"Herb\n{Price}", $"Salts\n{SaltsPrice}", $"Fairy\n{FairyPrice}" };
+            for (var i = 0; i < 3; i++)
+            {
+                AddChild(new Label
+                {
+                    Text = names[i],
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Position = new Vector2((i - 1) * Width / 3 - 18, SignY - 4),
+                    Size = new Vector2(36, 24),
+                    LabelSettings = new LabelSettings { FontSize = 8, FontColor = Gold, OutlineSize = 3, OutlineColor = Outline, LineSpacing = -2 },
+                });
+            }
+        }
     }
 
     /// <summary>What the sign says right now (the weapon upgrade's changes as you buy).</summary>
@@ -110,18 +141,46 @@ public partial class ShopCounter : StaticBody2D
             }
 
             HasCustomer = true;
+
+            // Moving along to another spot (remedies counter) is a new purchase.
+            var spot = offset.X < -Width / 6 ? 0 : offset.X > Width / 6 ? 2 : 1;
+            if (_spotFor.GetValueOrDefault(hero.PlayerIndex, spot) != spot)
+            {
+                _atCounterFor.Remove(hero.PlayerIndex);
+                _served.Remove(hero.PlayerIndex);
+            }
+
+            _spotFor[hero.PlayerIndex] = spot;
             _atCounterFor[hero.PlayerIndex] = _atCounterFor.GetValueOrDefault(hero.PlayerIndex) + (float)delta;
             if (_atCounterFor[hero.PlayerIndex] >= StandSeconds && _served.Add(hero.PlayerIndex))
             {
-                Serve(hero);
+                Serve(hero, spot);
             }
         }
     }
 
-    private void Serve(Hero hero)
+    private void Serve(Hero hero, int spot)
     {
         switch (Offer)
         {
+            case ShopOffer.Remedies when spot == 0 && Pay(hero, Price):
+                hero.AddHerbs(1);
+                Speak(hero, "One fresh herb! Thank you!");
+                FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), $"+1 herb  -{Price} coins", new Color(0.5f, 1f, 0.5f), 1.5f, 8f);
+                break;
+
+            case ShopOffer.Remedies when spot == 1 && Pay(hero, SaltsPrice):
+                Purse.AddSalts(1);
+                Speak(hero, "Smelling salts! Wave them under a knocked-out friend's nose.");
+                FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), $"+1 smelling salts  -{SaltsPrice} coins", new Color(1f, 0.95f, 0.6f), 1.5f, 8f);
+                break;
+
+            case ShopOffer.Remedies when spot == 2 && Pay(hero, FairyPrice):
+                Purse.AddFairies(1);
+                Speak(hero, "A fairy in a jar! Let it out when you're knocked out.");
+                FloatingText.Spawn(this, hero.HurtCenter + new Vector2(0, -14), $"+1 fairy  -{FairyPrice} coins", new Color(1f, 0.6f, 0.85f), 1.5f, 8f);
+                break;
+
             case ShopOffer.Rest when hero.Health.Current >= hero.Health.Max:
                 Speak(hero, "You look well rested already!");
                 break;
@@ -159,14 +218,16 @@ public partial class ShopCounter : StaticBody2D
     }
 
     /// <summary>Take the price from the team's purse, or say they can't afford it.</summary>
-    private bool Pay(Hero hero)
+    private bool Pay(Hero hero) => Pay(hero, Price);
+
+    private bool Pay(Hero hero, int price)
     {
-        if (Purse.Spend(Price))
+        if (Purse.Spend(price))
         {
             return true;
         }
 
-        Speak(hero, $"That's {Price} coins. You have {Purse.Coins}.");
+        Speak(hero, $"That's {price} coins. You have {Purse.Coins}.");
         return false;
     }
 
@@ -192,6 +253,19 @@ public partial class ShopCounter : StaticBody2D
         for (var x = -half + 8; x < half - 4; x += 12)
         {
             DrawLine(new Vector2(x, -9), new Vector2(x, -2), Front.Darkened(0.25f), 1f);
+        }
+
+        if (Offer == ShopOffer.Remedies)
+        {
+            // What's for sale on top of the counter: a herb, a bottle of salts, a fairy in a jar.
+            var third = Width / 3;
+            DrawCircle(new Vector2(-third, -14), 3f, new Color(0.35f, 0.75f, 0.35f));
+            DrawRect(new Rect2(-3, -19, 6, 7), new Color(0.95f, 0.95f, 0.85f));
+            DrawRect(new Rect2(-2, -21, 4, 2), new Color(0.55f, 0.35f, 0.25f));
+            DrawRect(new Rect2(third - 3, -20, 6, 8), new Color(0.75f, 0.85f, 1f, 0.6f));
+            DrawCircle(new Vector2(third, -16), 1.8f, new Color(1f, 0.6f, 0.85f));
+            DrawLine(new Vector2(-third / 2, -15), new Vector2(-third / 2, -2), Outline, 1f);
+            DrawLine(new Vector2(third / 2, -15), new Vector2(third / 2, -2), Outline, 1f);
         }
     }
 }

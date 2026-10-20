@@ -20,8 +20,9 @@ namespace LizardWizard.Dungeons;
 /// starts after loading a save.
 /// Everyone goes in to a boss together: walking into the boss door holds you in the doorway (pushing back steps out
 /// again) until the whole team is there.
-/// A knocked-out hero gets back up in the dungeon's foyer, or (in the overworld) in the last village they visited.
-/// Knocked out fighting a boss, they wait in the boss hall until the fight's over; if everyone's knocked out, the
+/// A knocked-out hero who goes back (see <see cref="Hero"/>: they can wait for a teammate's smelling salts, or let a
+/// fairy out) gets back up in the dungeon's foyer, or (in the overworld) in the last village they visited; from a boss
+/// fight, they wait in the boss hall until it's over. If everyone in the boss room is knocked out and goes back, the
 /// boss starts over and the team can try again. Heroes who join the game start in Scalebrook Village (or, during a
 /// boss fight, waiting in that boss hall).
 /// When the boss room is cleared the dungeon is complete, the team earns a title, and an <see cref="ExitPortal"/> opens
@@ -90,6 +91,19 @@ public partial class Dungeon : Node
 
     /// <summary>Knocked out fighting a boss: waiting in the boss hall until the fight's over.</summary>
     public bool IsBenched(Hero hero) => _benched.ContainsKey(hero);
+
+    /// <summary>
+    /// Could a teammate still come and wake knocked-out <paramref name="hero"/> with smelling salts? In a boss fight,
+    /// only someone standing in the boss room; anywhere else, anyone standing who isn't shut in a boss fight or
+    /// waiting in a boss hall.
+    /// </summary>
+    public bool CanBeHelped(Hero hero)
+    {
+        var room = RoomOf(hero);
+        var fight = room is { IsBossRoom: true, IsCleared: false };
+        return Heroes().Any(h => h != hero && !h.IsDown
+            && (fight ? RoomOf(h) == room : !IsBenched(h) && RoomOf(h) is not { IsBossRoom: true, IsCleared: false }));
+    }
 
     /// <summary>Held in the boss doorway, waiting for the rest of the team to go in together.</summary>
     public bool IsAtBossDoor(Hero hero) => _atBossDoor.ContainsKey(hero);
