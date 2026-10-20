@@ -148,16 +148,26 @@ public partial class DevDungeonAutoplay : Node
 
     private void Play(DungeonRoom room, Dungeon dungeon, Hero lizard, Hero fox, HashSet<Key> wanted)
     {
-        var enemies = room.Enemies.OfType<Node2D>().ToList();
+        var all = room.Enemies.OfType<Node2D>().ToList();
+        var lizardCanReach = Reachable(room, all, lizard).ToList();
+        var foxCanReach = Reachable(room, all, fox).ToList();
+        var enemies = lizardCanReach.Union(foxCanReach).ToList();
 
         // Outdoors, only fight what's close (or attacking); otherwise walk on through.
         var heroes = new[] { lizard, fox };
         var fight = room.Area != "" || enemies.OfType<IEnemy>().Any(e => e.IsHostile && heroes.Any(h => e.IsTargeting(h)))
             || enemies.Any(e => e is IEnemy { IsHostile: true } && heroes.Any(h => h.GlobalPosition.DistanceTo(e.GlobalPosition) < 60));
-        if (!room.IsCleared && fight)
+        if (enemies.OfType<IEnemy>().Any(e => e.IsHostile) && fight)
         {
-            _bots[0].Fight(lizard, enemies, wanted);
-            _bots[1].Fight(fox, enemies, wanted);
+            // (A bot with nothing to fight on its side of the Frozen River waits for the other.)
+            foreach (var (bot, hero, canReach) in new[] { (_bots[0], lizard, lizardCanReach), (_bots[1], fox, foxCanReach) })
+            {
+                if (canReach.OfType<IEnemy>().Any(e => e.IsHostile))
+                {
+                    bot.Fight(hero, canReach, wanted);
+                }
+            }
+
             return;
         }
 
@@ -250,16 +260,7 @@ public partial class DevDungeonAutoplay : Node
                     // Over the bridge (in the middle) and out the top.
                     foreach (var (bot, hero) in new[] { (_bots[0], lizard), (_bots[1], fox) })
                     {
-                        var x = room.GlobalPosition.X + 152;
-                        if (Mathf.Abs(hero.GlobalPosition.X - x) > 3 && hero.GlobalPosition.Y > room.GlobalPosition.Y + 90)
-                        {
-                            bot.Steer(hero, new Vector2(x, room.GlobalPosition.Y + 150), wanted, slack: 2f, feet: true);
-                        }
-                        else
-                        {
-                            bot.Steer(hero, new Vector2(x, hero.GlobalPosition.Y), wanted, slack: 2f, feet: true);
-                            wanted.Add(bot.Up);
-                        }
+                        CrossRiver(bot, hero, room, wanted);
                     }
                 }
 
@@ -434,6 +435,23 @@ public partial class DevDungeonAutoplay : Node
 
     /// <summary>Both heroes walk to the door, line up with it, and walk through.</summary>
     /// <summary>
+    /// The enemies <paramref name="hero"/> can get at: in the Frozen River, only the ones on the same side of the river
+    /// (the bots don't find their way over the bridge in a fight; the room's plan takes them over, and then they fight
+    /// whatever's on that side).
+    /// </summary>
+    private static IEnumerable<Node2D> Reachable(DungeonRoom room, IEnumerable<Node2D> enemies, Hero hero)
+    {
+        if (room.Name != "FrozenRiver")
+        {
+            return enemies;
+        }
+
+        var middle = room.GlobalPosition.Y + 116; // the river runs across the middle
+        var heroSouth = hero.GlobalPosition.Y > middle;
+        return enemies.Where(e => e.GlobalPosition.Y > middle == heroSouth);
+    }
+
+    /// <summary>
     /// The bots are in different rooms. In a boss fight, whoever's in the boss room fights on (the other waits in the
     /// boss hall); otherwise the one behind walks room by room to the other, who waits. Returns false when they're
     /// together.
@@ -457,12 +475,54 @@ public partial class DevDungeonAutoplay : Node
         }
 
         var (behindBot, behind, ahead) = _behind == lizard ? (_bots[0], lizard, fox) : (_bots[1], fox, lizard);
-        if (!behind.IsDown && WayTowards(dungeon.RoomOf(behind), dungeon.RoomOf(ahead)) is { } door)
+        var behindRoom = dungeon.RoomOf(behind);
+        if (!behind.IsDown && WayTowards(behindRoom, dungeon.RoomOf(ahead)) is { } door)
         {
-            ExitOne(behindBot, behind, door, wanted);
+            // (The Frozen River's top door is over the bridge, not straight across the water.)
+            if (behindRoom.Name == "FrozenRiver" && door.Side == DoorSide.Top && behind.GlobalPosition.Y > behindRoom.GlobalPosition.Y + 90)
+            {
+                CrossRiver(behindBot, behind, behindRoom, wanted);
+            }
+            else
+            {
+                ExitOne(behindBot, behind, door, wanted);
+            }
         }
 
         return true;
+    }
+
+    /// <summary>
+    /// The Frozen River: get in line with the bridge in the middle, then go straight up over it to the top door. On
+    /// this side there's a strip of ice below the bridge (y 152 to 184) that slides you along, so line up on the floor
+    /// below it first, then slide straight up the ice onto the bridge.
+    /// </summary>
+    private static void CrossRiver(AutoplayBot bot, Hero hero, DungeonRoom room, HashSet<Key> wanted)
+    {
+        var at = hero.GlobalPosition - room.GlobalPosition;
+        const float bridgeX = 152; // the bridge is 32 wide (136 to 168)
+        var south = at.Y > 140;
+        if (south && Mathf.Abs(at.X - bridgeX) > 10)
+        {
+            if (at.Y < 188)
+            {
+                wanted.Add(bot.Down); // off the ice first
+            }
+            else
+            {
+                bot.Steer(hero, room.GlobalPosition + new Vector2(bridgeX, 196), wanted, slack: 2f, feet: true);
+            }
+
+            return;
+        }
+
+        // In line with the bridge: straight up (sliding up the ice is fine). Past the river, line up with the top door.
+        if (!south)
+        {
+            bot.Steer(hero, new Vector2(room.GlobalPosition.X + bridgeX, hero.GlobalPosition.Y), wanted, slack: 2f, feet: true);
+        }
+
+        wanted.Add(bot.Up);
     }
 
     /// <summary>The first door on the way from one room to another (through open doors), if there's a way.</summary>
