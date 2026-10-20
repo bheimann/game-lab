@@ -99,6 +99,9 @@ public sealed class PlayerInput
     /// <summary>How long the leave button (Back / Backspace / Delete) has been held, in seconds.</summary>
     public double LeaveHeldSeconds { get; private set; }
 
+    /// <summary>How long the primary button has been held down (0 when it's up).</summary>
+    public double PrimaryHeldSeconds { get; private set; }
+
     public void Update(double delta)
     {
         bool primary, secondary, special, dodge, start, leave, item, previous, next;
@@ -158,6 +161,7 @@ public sealed class PlayerInput
         MenuPressed = start && !_startWasHeld;
         JoinPressed = PrimaryPressed || SecondaryPressed || MenuPressed;
         LeaveHeldSeconds = leave ? LeaveHeldSeconds + delta : 0;
+        PrimaryHeldSeconds = primary ? PrimaryHeldSeconds + delta : 0;
 
         var navigate = Move.X > 0.5f ? 1 : Move.X < -0.5f ? -1 : 0;
         NavigateX = navigate != _navigateWas ? navigate : 0;

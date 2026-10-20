@@ -89,11 +89,28 @@ public partial class DungeonHud : Control
             Text(label, at + new Vector2(16, 12), Colors.White, 10, left: true);
         }
 
+        // The team's smelling salts and fairies, under the coins (when there are any).
+        var below = top + 28;
+        if (Items.Purse.Salts > 0 || Items.Purse.Fairies > 0)
+        {
+            var row = new Vector2(width / 2 - 34, top + 20);
+            DrawRect(new Rect2(row - new Vector2(4, 2), new Vector2(76, 16)), Outline with { A = 0.7f });
+            DrawRect(new Rect2(row + new Vector2(2, 3), new Vector2(6, 8)), new Color(0.95f, 0.95f, 0.85f)); // a bottle of salts
+            DrawRect(new Rect2(row + new Vector2(3, 1), new Vector2(4, 2)), new Color(0.55f, 0.35f, 0.25f));
+            Text($"x{Items.Purse.Salts}", row + new Vector2(11, 11), Colors.White, 8, left: true);
+            var fairy = row + new Vector2(44, 7); // a fairy: a pink glow with little wings
+            DrawCircle(fairy + new Vector2(-3, -1), 2.5f, new Color(0.85f, 0.9f, 1f, 0.8f));
+            DrawCircle(fairy + new Vector2(3, -1), 2.5f, new Color(0.85f, 0.9f, 1f, 0.8f));
+            DrawCircle(fairy, 2.5f, new Color(1f, 0.6f, 0.85f));
+            Text($"x{Items.Purse.Fairies}", row + new Vector2(50, 11), Colors.White, 8, left: true);
+            below = top + 46;
+        }
+
         // The team's weapon material, under the coins.
         if (Items.WeaponTier.Level > 0)
         {
             var tier = Items.WeaponTier.Current;
-            Text($"{tier.Name} weapons", new Vector2(width / 2, top + 28), tier.Colour, 8);
+            Text($"{tier.Name} weapons", new Vector2(width / 2, below), tier.Colour, 8);
         }
 
         // Boss coins (to the left of the keys).

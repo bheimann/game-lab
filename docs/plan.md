@@ -169,9 +169,10 @@ more dungeons, hand-drawn art.
 - ✅ 🛠 A small boss hall before each boss (no enemies, puzzles or traps): heroes in the boss doorway wait there (push
   back to step out) until the whole team is in it, then all go in together; the way back shuts only while the fight
   is on; both open once the boss is beaten.
-- ✅ 🛠 Knocked out: back up in the dungeon's foyer, or (overworld) the last village visited. In a boss fight: sent to
-  the boss hall to wait it out; everyone knocked out starts the boss over. New players start in Scalebrook Village
-  (in the boss hall during a boss fight).
+- ✅ 🛠 Knocked out: stay down for a teammate's smelling salts, let a fairy out, or go back (after 8 s while someone
+  could help): to the dungeon's foyer, the last village visited, or from a boss fight the boss hall. Everyone in the
+  boss room knocked out starts the boss over; beating it gets everyone still down back up. Salts (100) and fairies
+  (150) at the herb shop. New players start in Scalebrook Village (in the boss hall during a boss fight).
 - ✅ 🛠 A foyer (no enemies) at the start of each dungeon. A ring of stones in each foyer and teleport room: a hero
   waiting on it can be joined from the others' menus ("Join P1"). Loading a save puts the team together at the
   last foyer / teleport room anyone reached.

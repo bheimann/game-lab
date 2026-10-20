@@ -99,8 +99,22 @@ public partial class DevSplitCheck : Node
         Log($"{next.Name} has {enemies.Count} enemies");
         Check("P1 beat them", enemies.Count > 0 && enemies.All(e => !e.IsHostile));
 
-        // 3. P1 is knocked out in the dungeon: up again in the dungeon's foyer.
-        await KnockOut(p1);
+        // 3. P1 is knocked out in the dungeon with P2 still standing: P1 stays down (P2 could come and help), can't go
+        //    back before the wait, and can let a fairy out to get up right there.
+        Items.Purse.AddFairies(1);
+        p1.TakeHit(999, p1.GlobalPosition + new Vector2(10, 0));
+        await Seconds(p1.RespawnSeconds + 1);
+        Check("P1 stays down: P2 could still come and help", p1.IsDown && dungeon.RoomOf(p1) == next && dungeon.CanBeHelped(p1));
+        await HoldKey(_bots[0].Primary, 0.8);
+        Check("P1 can't go back yet (waiting for help comes first)", p1.IsDown && dungeon.RoomOf(p1) == next);
+        await Shot("down");
+        await Tap(_bots[0].Item);
+        Check("P1 let a fairy out: up again right there, with half hearts",
+            !p1.IsDown && dungeon.RoomOf(p1) == next && p1.Health.Current == p1.Health.Max / 2 && Items.Purse.Fairies == 0);
+
+        // ... and knocked out again: this time P1 goes back (after the wait), up again in the dungeon's foyer.
+        await Seconds(1.6); // (the flicker after getting up)
+        await KnockOutAndGoBack(p1, _bots[0]);
         var foyer = dungeon.RoomOf(p1);
         Check("P1 got back up in the dungeon's foyer", !p1.IsDown && IsFoyer(foyer) && foyer.Area == start.Area);
 
@@ -127,8 +141,8 @@ public partial class DevSplitCheck : Node
         Check("its enemies are back (nobody's in the dungeon)", enemies.All(e => e.IsHostile));
         await Shot("outside");
 
-        // 6. Knocked out in the overworld: up again in the last village (Scalebrook: P1 hasn't been to one yet).
-        await KnockOut(p1);
+        // 6. Knocked out in the overworld, going back: up again in the last village (Scalebrook: P1 hasn't been to one).
+        await KnockOutAndGoBack(p1, _bots[0]);
         Check("P1 got back up in Scalebrook Village", dungeon.RoomOf(p1) is { IsVillage: true } village && village.Name == "Village");
 
         // 7. P3 joins: in Scalebrook Village, not next to the others.
@@ -141,11 +155,28 @@ public partial class DevSplitCheck : Node
         GetTree().Quit();
     }
 
-    /// <summary>Knock a hero out and wait until they're back up (and moved, after the fade).</summary>
+    /// <summary>Knock a hero out with nobody to help them, and wait until they've gone back by themselves.</summary>
     private async Task KnockOut(Hero hero)
     {
         hero.TakeHit(999, hero.GlobalPosition + new Vector2(10, 0));
         await Seconds(hero.RespawnSeconds + 0.8);
+    }
+
+    /// <summary>Knock a hero out while a teammate could help: wait out the wait, then hold the button to go back.</summary>
+    private async Task KnockOutAndGoBack(Hero hero, AutoplayBot bot)
+    {
+        hero.TakeHit(999, hero.GlobalPosition + new Vector2(10, 0));
+        await Seconds(hero.GiveUpSeconds + 0.3);
+        await HoldKey(bot.Primary, 0.9);
+        await Seconds(0.8); // the fade
+    }
+
+    private async Task HoldKey(Key key, double seconds)
+    {
+        SetKeys(new HashSet<Key> { key });
+        await Seconds(seconds);
+        SetKeys(new HashSet<Key>());
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
     }
 
     private static bool IsFoyer(DungeonRoom room) => room.GetChildren().OfType<GatherMarker>().Any();
@@ -201,14 +232,26 @@ public partial class DevSplitCheck : Node
         PlayerManager.Find(this)!.Leave(2); // (P3 has no keys to play with)
         await Seconds(0.2);
 
-        // 3c. P1 is knocked out: sent back to the boss hall, and can't go back in.
-        await KnockOut(p1);
-        Check("P1 was sent back to the boss hall", dungeon.RoomOf(p1) == hall && dungeon.IsBenched(p1));
+        // 3c. P1 is knocked out: stays down in the boss room, and P2 wakes P1 with smelling salts (half hearts).
+        p1.TakeHit(999, p1.GlobalPosition + new Vector2(10, 0));
+        await Seconds(p1.RespawnSeconds + 1);
+        Check("P1 stays down in the boss room (P2 is still fighting)", p1.IsDown && dungeon.RoomOf(p1) == boss);
+        Items.Purse.AddSalts(1);
+        p2.Teleport(p1.GlobalPosition + new Vector2(14, 0));
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        p2.UseSalts();
+        Check("P2 woke P1 with smelling salts: half hearts", !p1.IsDown && p1.Health.Current == p1.Health.Max / 2 && Items.Purse.Salts == 0);
+
+        // 3d. P1 is knocked out again and goes back: to the boss hall, and can't go back in.
+        await Seconds(1.6); // (the flicker after getting up)
+        await KnockOutAndGoBack(p1, _bots[0]);
+        Check("P1 went back to the boss hall", dungeon.RoomOf(p1) == hall && dungeon.IsBenched(p1));
         await Walk((p1, _bots[0], bossDoor));
         Check("P1 can't go back in while the fight goes on", dungeon.RoomOf(p1) == hall);
         await Shot("benched");
 
-        // 3d. P2 is knocked out too: nobody's left in there, so the boss starts over and everyone can try again.
+        // 3e. P2 is knocked out too: nobody can help (no fairies), so P2 goes back by itself, nobody's left in there,
+        //     and the boss starts over: everyone can try again.
         await KnockOut(p2);
         var bosses = boss.Enemies.OfType<IBoss>().ToList();
         Check("P2 was sent back too", dungeon.RoomOf(p2) == hall);
@@ -218,9 +261,13 @@ public partial class DevSplitCheck : Node
         await Walk((p1, _bots[0], bossDoor), (p2, _bots[1], bossDoor));
         Check("back in for another try", dungeon.RoomOf(p1) == boss && dungeon.RoomOf(p2) == boss);
 
-        // 4. Beat the boss: both of the boss hall's doors open again.
+        // 4. Beat the boss (with P1 knocked out in there): P1 gets back up, and both of the boss hall's doors open again.
+        await Seconds(1.6); // (the flicker after getting in)
+        p1.TakeHit(999, p1.GlobalPosition + new Vector2(10, 0));
         await BeatBoss(boss);
         Check("the boss is beaten", boss.IsCleared);
+        await Seconds(1.5);
+        Check("P1 got back up in the boss room, full hearts", !p1.IsDown && dungeon.RoomOf(p1) == boss && p1.Health.Current == p1.Health.Max);
         await Walk((p1, _bots[0], boss.Doors.First(d => d.Partner?.Room == hall)));
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         Check("after the boss, both boss hall doors are open", dungeon.RoomOf(p1) == hall && bossDoor.IsOpen && backDoor.IsOpen);

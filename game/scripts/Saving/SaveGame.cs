@@ -60,6 +60,11 @@ public sealed class SaveData
     /// <summary>The team's healing herbs.</summary>
     public int Herbs { get; set; }
 
+    /// <summary>The team's smelling salts and fairies (they revive knocked-out heroes).</summary>
+    public int Salts { get; set; }
+
+    public int Fairies { get; set; }
+
     /// <summary>The team's weapon material (0 = wood, see <see cref="WeaponTier"/>).</summary>
     public int WeaponTier { get; set; }
 
@@ -174,6 +179,7 @@ public static class SaveGame
         Purse.Restore(data.Coins, data.BossCoins);
         Items.Teleports.Restore(data.Teleports);
         Purse.RestoreHerbs(data.Herbs > 0 ? data.Herbs : data.Players.Values.Sum(p => p.Herbs)); // older saves: everyone's herbs pooled
+        Purse.RestoreRevivers(data.Salts, data.Fairies);
         Items.WeaponTier.Restore(data.WeaponTier);
         MonsterParts.Restore(data.Parts);
         Armor.RestoreCrafted(data.CraftedArmor);
@@ -206,6 +212,8 @@ public static class SaveGame
             Coins = Purse.Coins,
             BossCoins = Purse.BossCoins,
             Herbs = Purse.Herbs,
+            Salts = Purse.Salts,
+            Fairies = Purse.Fairies,
             Teleports = Items.Teleports.Unlocked.ToList(),
             WeaponTier = Items.WeaponTier.Level,
             Parts = MonsterParts.Snapshot(),

@@ -42,9 +42,13 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
   until everyone's there, then they all go in. The way back stays open until someone's in with the boss, then stays
   shut until the fight's over (boss beaten, or everyone knocked out), so a team that can't win isn't stuck.
   Once the boss is beaten, both doors stay open.
-- **Knocked out.** A hero gets back up in the dungeon's foyer, or (overworld) in the last village they visited.
-  Knocked out fighting a boss, they wait in the boss hall until the fight's over; if everyone's knocked out, the boss
-  starts over (full health), the boss hall's way back opens, and the team can try again together or go and get ready.
+- **Knocked out.** A hero stays down where they fell, as long as they like, so a teammate can come and wake them with
+  **smelling salts** (half hearts). While down they can let a **fairy** out (item button: up again right there, half
+  hearts) or hold A to **go back**: to the dungeon's foyer, the last village they visited (overworld), or from a boss
+  fight to the boss hall (waiting there until it's over). While a teammate could still reach them, going back is only
+  allowed after 8 seconds; with nobody who could help and no fairy, they go back by themselves. Down in the boss room
+  when the boss is beaten: up again there, full hearts. If everyone in the boss room is knocked out and goes back, the
+  boss starts over (full health), the boss hall's way back opens, and the team can try again or go and get ready.
 - **Drop in / drop out.** Press a button to join: left / right picks the character, up / down its class. A hero who
   joins starts in Scalebrook Village (with the team if nobody's left the room the game started in), or during a boss
   fight waiting in the boss hall.
@@ -129,7 +133,7 @@ little, and step up to the counter (and stay) when a hero is there. Stand at the
 | Place | What it does |
 |---|---|
 | **Scalebrook Inn** | Rest: full hearts, **5 coins** |
-| **Herb Shop** | A healing herb, **10 coins** |
+| **Herb Shop** | A healing herb, **10 coins**; smelling salts, **100**; a fairy, **150** |
 | **Paint Shop** | A paint mat to change class (later: where you unlock your first class) |
 | **Weapons & Armor** | **Weapon upgrades** for the whole team (below) |
 | **Castle Hall** | Knights (some guard, some walk about). Doors: up to the throne room, right to the kitchen, left to the **teleport room** |
@@ -286,6 +290,9 @@ own), Tears of the Kingdom style; LB / RB pick the part and weapon / armor. **Y 
 
 ## Items and gear
 - **Healing herbs** (B, or the Start menu): found in chests, dropped as loot, sold in the herb shop.
+- **Smelling salts** (100 coins) and **fairies** (150 coins), from the herb shop, shared by the team: salts wake a
+  knocked-out teammate you're standing next to (ring menu, Items); a knocked-out hero lets a fairy out with the item
+  button. Both give back half the hearts.
 - **Armor** (one slot): shadow cloak, ember scales, bomb vest, sturdy vest, and the Tinkerer's crafted armor.
 - **Weapon upgrades** at the Weapons & Armor shop, for coins, and one upgrade covers the **whole team's** main attacks:
 

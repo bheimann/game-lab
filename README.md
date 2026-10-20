@@ -44,10 +44,18 @@ door and you wait in the doorway (it says who you're waiting for; push back the 
 Once the whole team is in the doorway, you all go in. The door back out stays open (not ready? go and heal up) until
 someone's in with the boss; then it's shut until the fight's over. Once the boss is beaten, both doors stay open.
 
-**Knocked out:** you get back up in the dungeon's foyer (in a dungeon), or in the last village you visited (out in
-the overworld; Scalebrook if you haven't been to another). Knocked out fighting a boss, you're sent back to the boss
-hall and wait there until the others beat it; if everyone's knocked out, the boss starts over, the door back out
-opens, and the team can try again (or go and get ready first).
+**Knocked out:** you stay down where you fell, for as long as you like: a teammate who reaches you can wake you with
+**smelling salts** (their ring menu, Items; you get up with half your hearts). Your choices while you're down:
+- **Let a fairy out** (item button: B / I / M), if the team has one: up again right there, with half your hearts.
+- **Go back** (hold A / J / .): up again in the dungeon's foyer, or out in the overworld in the last village you
+  visited (Scalebrook if you haven't been to another); from a boss fight, to the boss hall, to wait until it's over.
+  While a teammate could still reach you, you can only go back after 8 seconds of waiting.
+- With nobody left who could help and no fairy, you go back by yourself.
+
+Down in the boss room when the boss is beaten, you get up right there with full hearts. If everyone in the boss room is
+knocked out and goes back, the boss starts over, the door back out opens, and the team can try again (or go and get
+ready first). **Smelling salts** (100 coins) and **fairies** (150 coins) are sold at the herb shop; like herbs, they
+belong to the whole team (shown under the coins).
 
 | | Keyboard (left) | Keyboard (right) | Controller | Lizard | Fox |
 |---|---|---|---|---|---|
@@ -138,7 +146,8 @@ appear in that village's teleport room. (In Scalebrook Castle, the teleport room
 **Scalebrook Village:** walk up into a shop's door to go in. Each shop has a shopkeeper behind the counter who
 says hello; step up to the counter for a moment to buy (coins come out of the team's purse):
 - **Scalebrook Inn** (top left): a rest fills your hearts, 5 coins.
-- **Herb Shop** (top middle): a healing herb, 10 coins.
+- **Herb Shop** (top middle): stand at the part of the counter with what you want: a healing herb (10 coins), smelling
+  salts (100) or a fairy (150).
 - **Paint Shop** (top right): stand on the paint mat to change class (the painter's mat outside still works too, for
   playtesting).
 - **Weapons & Armor** (bottom left): **weapon upgrades for the whole team**: every hero's main attack (A) hits

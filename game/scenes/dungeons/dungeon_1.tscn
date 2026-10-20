@@ -1172,10 +1172,9 @@ LeadsTo = NodePath("../../Village/HerbShopDoor")
 [node name="Counter" type="StaticBody2D" parent="World/HerbShop"]
 position = Vector2(104, 76)
 script = ExtResource("counter")
-Width = 72.0
-Offer = 2
+Width = 108.0
+Offer = 5
 Price = 10
-SignText = "Step up to buy a herb: 10 coins"
 
 [node name="Keeper" type="CharacterBody2D" parent="World/HerbShop"]
 position = Vector2(104, 62)
@@ -1183,7 +1182,7 @@ script = ExtResource("npc")
 SpritePrefix = "res://assets/sprites/npcs/herbalist"
 Behaviour = 2
 RoamDistance = 30.0
-Greeting = "Fresh healing herbs, 10 coins each!"
+Greeting = "Herbs, smelling salts and fairies: stand where you see what you want!"
 Counter = NodePath("../Counter")
 
 [node name="Furniture1" type="StaticBody2D" parent="World/HerbShop"]
@@ -19724,10 +19723,9 @@ LeadsTo = NodePath("../../Hoofhollow/HerbShopDoor")
 [node name="Counter" type="StaticBody2D" parent="World/HoofHerbShop"]
 position = Vector2(104, 76)
 script = ExtResource("counter")
-Width = 72.0
-Offer = 2
+Width = 108.0
+Offer = 5
 Price = 10
-SignText = "Step up to buy a herb: 10 coins"
 
 [node name="Keeper" type="CharacterBody2D" parent="World/HoofHerbShop"]
 position = Vector2(104, 62)
@@ -19735,7 +19733,7 @@ script = ExtResource("npc")
 SpritePrefix = "res://assets/sprites/npcs/herbalist"
 Behaviour = 2
 RoamDistance = 30.0
-Greeting = "Fresh healing herbs, 10 coins each!"
+Greeting = "Herbs, smelling salts and fairies: stand where you see what you want!"
 Counter = NodePath("../Counter")
 
 [node name="Furniture1" type="StaticBody2D" parent="World/HoofHerbShop"]
@@ -20685,10 +20683,9 @@ LeadsTo = NodePath("../../Foxden/HerbShopDoor")
 [node name="Counter" type="StaticBody2D" parent="World/FoxHerbShop"]
 position = Vector2(104, 76)
 script = ExtResource("counter")
-Width = 72.0
-Offer = 2
+Width = 108.0
+Offer = 5
 Price = 10
-SignText = "Step up to buy a herb: 10 coins"
 
 [node name="Keeper" type="CharacterBody2D" parent="World/FoxHerbShop"]
 position = Vector2(104, 62)
@@ -20696,7 +20693,7 @@ script = ExtResource("npc")
 SpritePrefix = "res://assets/sprites/npcs/herbalist"
 Behaviour = 2
 RoamDistance = 30.0
-Greeting = "Fresh healing herbs, 10 coins each!"
+Greeting = "Herbs, smelling salts and fairies: stand where you see what you want!"
 Counter = NodePath("../Counter")
 
 [node name="Furniture1" type="StaticBody2D" parent="World/FoxHerbShop"]
@@ -21691,10 +21688,9 @@ LeadsTo = NodePath("../../PeacockPalace/HerbShopDoor")
 [node name="Counter" type="StaticBody2D" parent="World/BirdHerbShop"]
 position = Vector2(104, 76)
 script = ExtResource("counter")
-Width = 72.0
-Offer = 2
+Width = 108.0
+Offer = 5
 Price = 10
-SignText = "Step up to buy a herb: 10 coins"
 
 [node name="Keeper" type="CharacterBody2D" parent="World/BirdHerbShop"]
 position = Vector2(104, 62)
@@ -21702,7 +21698,7 @@ script = ExtResource("npc")
 SpritePrefix = "res://assets/sprites/npcs/herbalist"
 Behaviour = 2
 RoamDistance = 30.0
-Greeting = "Fresh healing herbs, 10 coins each!"
+Greeting = "Herbs, smelling salts and fairies: stand where you see what you want!"
 Counter = NodePath("../Counter")
 
 [node name="Furniture1" type="StaticBody2D" parent="World/BirdHerbShop"]
@@ -22662,10 +22658,9 @@ LeadsTo = NodePath("../../Hivehold/HerbShopDoor")
 [node name="Counter" type="StaticBody2D" parent="World/BugHerbShop"]
 position = Vector2(104, 76)
 script = ExtResource("counter")
-Width = 72.0
-Offer = 2
+Width = 108.0
+Offer = 5
 Price = 10
-SignText = "Step up to buy a herb: 10 coins"
 
 [node name="Keeper" type="CharacterBody2D" parent="World/BugHerbShop"]
 position = Vector2(104, 62)
@@ -22673,7 +22668,7 @@ script = ExtResource("npc")
 SpritePrefix = "res://assets/sprites/npcs/herbalist"
 Behaviour = 2
 RoamDistance = 30.0
-Greeting = "Fresh healing herbs, 10 coins each!"
+Greeting = "Herbs, smelling salts and fairies: stand where you see what you want!"
 Counter = NodePath("../Counter")
 
 [node name="Furniture1" type="StaticBody2D" parent="World/BugHerbShop"]

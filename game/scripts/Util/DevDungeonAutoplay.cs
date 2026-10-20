@@ -87,6 +87,12 @@ public partial class DevDungeonAutoplay : Node
                 Play(room, dungeon, lizard, fox, wanted);
             }
 
+            // Knocked out: hold the button to go back as soon as that's allowed (the bots don't wait for help).
+            foreach (var (bot, hero) in new[] { (_bots[0], lizard), (_bots[1], fox) }.Where(b => b.Item2.IsDown))
+            {
+                wanted.Add(bot.Primary);
+            }
+
             _bots[0].Unstick(lizard, wanted, delta);
             _bots[1].Unstick(fox, wanted, delta);
         }
