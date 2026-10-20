@@ -89,6 +89,11 @@ public partial class DevAutoplay : Node
                 parent.AddChild(DevGrappleCheck.Create(arg[DevGrappleCheck.Flag.Length..]));
             }
 
+            if (arg.StartsWith(DevBombRouteCheck.Flag))
+            {
+                parent.AddChild(DevBombRouteCheck.Create(arg[DevBombRouteCheck.Flag.Length..]));
+            }
+
             if (arg.StartsWith(DevRouteCheck.Flag))
             {
                 parent.AddChild(DevRouteCheck.Create(arg[DevRouteCheck.Flag.Length..]));

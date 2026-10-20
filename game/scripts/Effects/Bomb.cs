@@ -294,6 +294,12 @@ public partial class Bomb : Node2D
             boulder.Break();
         }
 
+        // So do cracked walls.
+        foreach (var door in GetTree().GetNodesInGroup(Dungeons.Door.CrackedGroup).OfType<Dungeons.Door>())
+        {
+            door.Blast(GlobalPosition, Radius);
+        }
+
         CoopCamera.ShakeAll(this, Kind == BombKind.Time ? 5f : 3f);
     }
 }

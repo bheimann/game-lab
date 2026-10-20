@@ -1,4 +1,6 @@
+using System.Linq;
 using Godot;
+using LizardWizard.Abilities;
 using LizardWizard.Actors;
 using LizardWizard.Combat;
 using LizardWizard.Effects;
@@ -8,8 +10,8 @@ namespace LizardWizard.Dungeons;
 
 /// <summary>
 /// A dead tree leaning over the edge of a pit or a bog. Only a <see cref="Hero.Strong"/> hero (the moose, whatever its
-/// class) can knock it over: it falls across, and a <see cref="Pit"/> with <see cref="Pit.Log"/> set and this tree in
-/// its <see cref="Pit.Switches"/> becomes a log to walk over. Other heroes' attacks don't touch it. Stays down.
+/// class) or a rolling beetle (the Roller) can knock it over: it falls across, and a <see cref="Pit"/> with
+/// <see cref="Pit.Log"/> set and this tree in its <see cref="Pit.Switches"/> becomes a log to walk over. Other heroes' attacks don't touch it. Stays down.
 /// Place it at the foot of the log's column, on the near side; the node's position is where it touches the ground.
 /// </summary>
 public partial class FallingTree : StaticBody2D, IHittable, IPickyTarget, ISwitch, Saving.ISaveable
@@ -40,7 +42,7 @@ public partial class FallingTree : StaticBody2D, IHittable, IPickyTarget, ISwitc
         AddChild(_solid);
     }
 
-    public bool CanBeHitBy(Hero hero) => hero.Strong;
+    public bool CanBeHitBy(Hero hero) => hero.Strong || hero.Abilities.Any(a => a is RollAbility { IsActive: true });
 
     public string? SaveState() => IsOn ? "Fallen" : null;
 

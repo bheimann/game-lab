@@ -155,15 +155,19 @@ such puzzle there's also another way through that a character's own power opens,
 
 | Puzzle | The usual way | Other ways |
 |---|---|---|
-| **Pit of Two Levers** (Old Burrow): lever across the pit | Tongue, gun, bow, javelin, feathers, tank (or fly over: grapple, glider, plane) | 🫎 Moose: knock the **dead tree** over into a log across the pit |
-| **Pit of Two Levers**: lever behind cracked rocks | An explosion: bombs, explosive arrows, the peacock's rocket, the tank | 🦎 Lizard: drag the **ring stone** out of the rocks with the tongue; 🫎 moose: cross on the log |
-| **Bog Hall** (Mossmire Keep): lever across the bog | Tongue, gun, bow, javelin, feathers, tank, boat | 🫎 Moose: knock the **dead tree** over into a log across the bog |
+| **Pit of Two Levers** (Old Burrow): lever across the pit | Tongue, gun, bow, javelin, feathers, tank (or fly over: grapple, glider, plane) | 🫎 Moose / 🪲 Roller: knock the **dead tree** over into a log across the pit; 💣 an explosion: the **cracked wall** into the Rubble Tunnel, which comes out past the pit |
+| **Pit of Two Levers**: lever behind cracked rocks | An explosion: bombs, explosive arrows, the peacock's rocket, the tank | 🦎 Lizard: drag the **ring stone** out of the rocks with the tongue; 🫎 moose / 🪲 Roller: cross on the log |
+| **Bog Hall** (Mossmire Keep): lever across the bog | Tongue, gun, bow, javelin, feathers, tank, boat | 🫎 Moose / 🪲 Roller: the **dead tree**; 💣 an explosion: the **cracked wall** into the tunnel Under the Bog, which comes out on the far bank |
 
-- **Dead trees** only fall to a **strong** hero (the moose's antler bash); everyone else's attacks don't touch them.
+- **Dead trees** only fall to a **strong** hero (the moose's antler bash) or a **rolling** beetle (the Roller);
+  everyone else's attacks don't touch them.
+- **Cracked walls** look like the cracked rocks, set in a room's wall; any explosion opens them for good, on both
+  sides. The tunnels behind them have rubble to bomb through (and a few guards).
 - **Ring stones** only move for a tongue (or a grapple); bombs don't break them, punches just clunk.
 - Frostfang Fortress needs no special power (the Ice Hall is sliding, the Frozen River's lever is on the near bank).
-- Some **classes** can't do everything alone (e.g. the Bomb Master can't reach a lever across a pit, the Roller has
-  no ranged attack): they switch class at a paint shop. Every animal has a class that can.
+- Every class can now play every dungeon alone except the fox's **Gun Master** and the peacock's **Warrior** and
+  **Thief** (no explosion for the Old Burrow's cracked rocks, and they can't use the other routes); they switch class at
+  a paint shop. Every animal has a class that can.
 
 ## Loot and money
 - A beaten enemy drops **coins** (8 times out of 10) or a **healing herb**, plus **each of its monster parts**

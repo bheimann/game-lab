@@ -26,6 +26,10 @@ public enum DoorState
 
     /// <summary>Stays shut until something in the story opens it (a quest); walking up shows <see cref="Door.BarredMessage"/>.</summary>
     Barred,
+
+    /// <summary>A cracked wall (side doors): an explosion (a bomb, an explosive arrow, a rocket, a tank shell) blows it open
+    /// for good, on both sides.</summary>
+    Cracked,
 }
 
 /// <summary>Something that can open a door: a lever, a pressure plate...</summary>
@@ -42,6 +46,9 @@ public interface ISwitch
 /// </summary>
 public partial class Door : Node2D, Saving.ISaveable
 {
+    /// <summary>Doors that start as cracked walls (bombs look for them).</summary>
+    public const string CrackedGroup = "cracked_walls";
+
     // Pieces of the room sheet, in pixels (see DOOR_PIECES in tools/kenney_art.py).
     // The top door shows a strip of wall above the door; the bottom door is just the door.
     private static readonly Rect2 ClosedFrame = new(96, 16, 32, 24);
@@ -71,6 +78,9 @@ public partial class Door : Node2D, Saving.ISaveable
     [Export] public DoorSide Side { get; set; } = DoorSide.Top;
 
     [Export] public DoorState State { get; set; } = DoorState.Open;
+
+    /// <summary>How many tiles from the middle of its wall the door sits (right / down is positive), so a wall can have two.</summary>
+    [Export] public int Along { get; set; }
 
     /// <summary>A shut door opens once every enemy in the room is beaten.</summary>
     [Export] public bool OpensWhenCleared { get; set; }
@@ -172,6 +182,11 @@ public partial class Door : Node2D, Saving.ISaveable
     {
         _room = room;
         _startState = State;
+        if (State == DoorState.Cracked)
+        {
+            AddToGroup(CrackedGroup);
+        }
+
         var layout = room.Layout;
         ZIndex = -1; // part of the wall (or the ground): behind everyone
 
@@ -210,8 +225,8 @@ public partial class Door : Node2D, Saving.ISaveable
         _sheet = layout.Sheet;
 
         var size = RoomBuilder.TileSize;
-        var midColumn = layout.Columns / 2;
-        var midRow = RoomBuilder.TopWallTiles + layout.InteriorHeight / 2;
+        var midColumn = layout.Columns / 2 + Along;
+        var midRow = RoomBuilder.TopWallTiles + layout.InteriorHeight / 2 + Along;
         var bottomWall = RoomBuilder.TopWallTiles + layout.InteriorHeight;
 
         switch (Side)
@@ -306,6 +321,24 @@ public partial class Door : Node2D, Saving.ISaveable
         Refresh();
     }
 
+    /// <summary>A bomb went off <paramref name="radius"/> from <paramref name="at"/>: a cracked wall in reach crumbles (both sides).</summary>
+    public void Blast(Vector2 at, float radius)
+    {
+        if (State != DoorState.Cracked || _blocker.GlobalPosition.DistanceTo(at) > radius + 12f)
+        {
+            return;
+        }
+
+        State = DoorState.Open;
+        Refresh();
+        FloatingText.Spawn(this, GlobalPosition + EntryOffset(10), "The wall crumbles!", new Color(1f, 0.9f, 0.5f), 1.5f, 8f);
+        if (Partner is { State: DoorState.Cracked } partner)
+        {
+            partner.State = DoorState.Open;
+            partner.Refresh();
+        }
+    }
+
     public void Open()
     {
         if (State == DoorState.Open)
@@ -364,10 +397,30 @@ public partial class Door : Node2D, Saving.ISaveable
         }
 
         var rect = new Rect2(Side == DoorSide.Left ? 0 : -8, -8, 8, 16);
+        if (State == DoorState.Cracked)
+        {
+            DrawCrackedWall(rect);
+            return;
+        }
+
         DrawRect(rect, new Color(0.55f, 0.3f, 0.28f));
         DrawRect(rect, new Color(0.08f, 0.09f, 0.18f), false, 1f);
         DrawLine(rect.Position + new Vector2(0, 5), rect.Position + new Vector2(8, 5), new Color(0.35f, 0.18f, 0.2f));
         DrawLine(rect.Position + new Vector2(0, 11), rect.Position + new Vector2(8, 11), new Color(0.35f, 0.18f, 0.2f));
+    }
+
+    /// <summary>Stones filling the doorway, with cracks across them (like the cracked rocks), so players can tell to bomb it.</summary>
+    private void DrawCrackedWall(Rect2 rect)
+    {
+        var outline = new Color(0.08f, 0.09f, 0.18f);
+        var stone = new Color(0.6f, 0.62f, 0.75f);
+        var shade = new Color(0.45f, 0.47f, 0.6f);
+        DrawRect(rect, stone);
+        DrawRect(new Rect2(rect.Position + new Vector2(0, 7), new Vector2(8, 2)), shade);
+        DrawRect(rect, outline, false, 1f);
+        var x = rect.Position.X;
+        DrawPolyline(new[] { new Vector2(x + 2, -8), new Vector2(x + 4, -4), new Vector2(x + 2, 0), new Vector2(x + 5, 4), new Vector2(x + 3, 8) }, outline, 1f);
+        DrawLine(new Vector2(x + 4, -4), new Vector2(x + 7, -2), outline, 1f);
     }
 
     /// <summary>Sealed stairs: block the way and tell heroes who walk up how many dungeons are left; open once they're all beaten.</summary>
