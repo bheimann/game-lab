@@ -85,6 +85,8 @@ Each step has a 🦎 **Designer** job for the 6th grader and a 🛠 **Code** job
   room is cleared or when levers are on), keys (shared by the team), levers, chests, pits and a bridge.
 - ✅ 🛠 A puzzle that needs both characters' powers: the lizard's tongue reaches a lever across a pit, and the
   fox's bombs break the rocks in front of the other lever.
+- ✅ 🛠 Every animal can play every dungeon alone: a ring stone the lizard's tongue drags out of the rocks, and dead
+  trees only the moose knocks over into a log (Old Burrow, Mossmire Keep).
 - ✅ 🛠 A small boss: the **Giant Beetle**. It charges, gets dizzy when it hits a wall, and has a shell that only
   dizzy hits get through. It has more health with more players.
 - ✅ 🛠 The first dungeon, "The Old Burrow": 5 rooms, from the entrance to the boss.

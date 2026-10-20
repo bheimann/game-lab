@@ -44,6 +44,9 @@ public partial class Pit : Node2D
     /// <summary>When all of these are on, a bridge appears across this pit.</summary>
     [Export] public Godot.Collections.Array<NodePath> Switches { get; set; } = new();
 
+    /// <summary>The bridge is a fallen tree (see <see cref="FallingTree"/>) instead of planks.</summary>
+    [Export] public bool Log { get; set; }
+
     public bool HasBridge => _bridge >= 0;
 
     public override void _Ready()
@@ -101,7 +104,10 @@ public partial class Pit : Node2D
         {
             _bridge = 0;
             _body.GetChild<CollisionShape2D>(0).SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
-            FloatingText.Spawn(this, GlobalPosition + new Vector2(Size.X / 2, -6), "A bridge!", new Color(1f, 0.9f, 0.5f), 1.6f, 8f);
+            if (!Log)
+            {
+                FloatingText.Spawn(this, GlobalPosition + new Vector2(Size.X / 2, -6), "A bridge!", new Color(1f, 0.9f, 0.5f), 1.6f, 8f);
+            }
         }
 
         if (_bridge is >= 0 and < 1)
@@ -131,6 +137,29 @@ public partial class Pit : Node2D
         canvas.DrawLine(new Vector2(8, 11), new Vector2(Size.X * 0.18f, 11), new Color(1f, 1f, 1f, 0.6f), 1f);
     }
 
+    /// <summary>A grey, barky trunk lying across, falling over from the near side; its broken top on the far side.</summary>
+    private void DrawLog(float top, float length)
+    {
+        var bark = new Color(0.45f, 0.4f, 0.38f);
+        var dark = new Color(0.08f, 0.09f, 0.18f);
+        var light = new Color(0.62f, 0.57f, 0.52f);
+        var width = Mathf.Min(16f, Size.X - 4);
+        var left = (Size.X - width) / 2;
+        _planks.DrawRect(new Rect2(left - 1, top - 1, width + 2, length + 2), dark);
+        _planks.DrawRect(new Rect2(left, top, width, length), bark);
+        _planks.DrawRect(new Rect2(left + 2, top, 2, length), light);
+        for (var y = Size.Y - 7; y > top + 2; y -= 9)
+        {
+            _planks.DrawLine(new Vector2(left + 5, y), new Vector2(left + width - 3, y - 2), dark);
+        }
+
+        if (_bridge >= 1)
+        {
+            // The snapped-off top, with a bare branch.
+            _planks.DrawLine(new Vector2(left + width - 2, 5), new Vector2(left + width + 3, 1), bark, 2f);
+        }
+    }
+
     private void DrawBridge()
     {
         if (_bridge < 0)
@@ -141,6 +170,12 @@ public partial class Pit : Node2D
         // Wooden planks sliding across from the near (bottom) side.
         var length = Size.Y * _bridge;
         var top = Size.Y - length;
+        if (Log)
+        {
+            DrawLog(top, length);
+            return;
+        }
+
         var wood = new Color(0.62f, 0.4f, 0.27f);
         var dark = new Color(0.36f, 0.2f, 0.17f);
         _planks.DrawRect(new Rect2(2, top, Size.X - 4, length), wood);

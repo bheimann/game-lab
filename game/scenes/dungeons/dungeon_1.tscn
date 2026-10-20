@@ -36,6 +36,8 @@
 [ext_resource type="Script" path="res://scripts/Dungeons/ShopCounter.cs" id="counter"]
 [ext_resource type="Script" path="res://scripts/Dungeons/Decor.cs" id="decor"]
 [ext_resource type="Script" path="res://scripts/Dungeons/HerbPickup.cs" id="herbpickup"]
+[ext_resource type="Script" path="res://scripts/Dungeons/FallingTree.cs" id="fallingtree"]
+[ext_resource type="Script" path="res://scripts/Dungeons/RingStone.cs" id="ringstone"]
 
 [node name="Dungeon1" type="Node2D"]
 script = ExtResource("game")
@@ -470,8 +472,36 @@ Switches = Array[NodePath]([NodePath("../LeverAcrossPit"), NodePath("../LeverBeh
 [node name="PitRight" type="Node2D" parent="World/PuzzleRoom"]
 position = Vector2(184, 96)
 script = ExtResource("pit")
-Size = Vector2(144, 32)
+Size = Vector2(96, 32)
 EdgeLeft = false
+EdgeRight = false
+
+[node name="LogPit" type="Node2D" parent="World/PuzzleRoom"]
+position = Vector2(280, 96)
+script = ExtResource("pit")
+Size = Vector2(24, 32)
+EdgeLeft = false
+EdgeRight = false
+Switches = Array[NodePath]([NodePath("../DeadTree")])
+Log = true
+
+[node name="PitFarRight" type="Node2D" parent="World/PuzzleRoom"]
+position = Vector2(304, 96)
+script = ExtResource("pit")
+Size = Vector2(24, 32)
+EdgeLeft = false
+
+[node name="DeadTree" type="StaticBody2D" parent="World/PuzzleRoom"]
+position = Vector2(292, 134)
+script = ExtResource("fallingtree")
+
+[node name="TreeSign" type="StaticBody2D" parent="World/PuzzleRoom"]
+position = Vector2(312, 168)
+script = ExtResource("prop")
+Kind = 3
+Text = "A dead tree leans over the pit.
+Someone big and strong
+could knock it down!"
 
 [node name="LeverAcrossPit" type="Node2D" parent="World/PuzzleRoom"]
 position = Vector2(240, 90)
@@ -509,9 +539,9 @@ script = ExtResource("boulder")
 position = Vector2(57, 202)
 script = ExtResource("boulder")
 
-[node name="Rock8" type="StaticBody2D" parent="World/PuzzleRoom"]
+[node name="RingStone" type="CharacterBody2D" parent="World/PuzzleRoom"]
 position = Vector2(57, 216)
-script = ExtResource("boulder")
+script = ExtResource("ringstone")
 
 [node name="BossRoom" type="Node2D" parent="World"]
 y_sort_enabled = true
@@ -23199,10 +23229,34 @@ LeadsTo = NodePath("../../MossHall/DoorBottom")
 [node name="BogLeft" type="Node2D" parent="World/MossBog"]
 position = Vector2(8, 100)
 script = ExtResource("pit")
-Size = Vector2(128, 32)
+Size = Vector2(48, 32)
 Water = true
 EdgeRight = false
 Tint = Color(0.6, 0.8, 0.5, 1)
+
+[node name="BogLog" type="Node2D" parent="World/MossBog"]
+position = Vector2(56, 100)
+script = ExtResource("pit")
+Size = Vector2(24, 32)
+Water = true
+EdgeLeft = false
+EdgeRight = false
+Tint = Color(0.6, 0.8, 0.5, 1)
+Switches = Array[NodePath]([NodePath("../BogTree")])
+Log = true
+
+[node name="BogMiddle" type="Node2D" parent="World/MossBog"]
+position = Vector2(80, 100)
+script = ExtResource("pit")
+Size = Vector2(56, 32)
+Water = true
+EdgeLeft = false
+EdgeRight = false
+Tint = Color(0.6, 0.8, 0.5, 1)
+
+[node name="BogTree" type="StaticBody2D" parent="World/MossBog"]
+position = Vector2(68, 138)
+script = ExtResource("fallingtree")
 
 [node name="BogBridge" type="Node2D" parent="World/MossBog"]
 position = Vector2(136, 100)
