@@ -455,6 +455,19 @@ Side = 0
 State = 0
 LeadsTo = NodePath("../../BurrowBossHall/DoorBottom")
 
+[node name="DoorRightLow" type="Node2D" parent="World/PuzzleRoom"]
+script = ExtResource("door")
+Side = 3
+State = 4
+Along = 7
+LeadsTo = NodePath("../../BurrowTunnel/DoorLow")
+
+[node name="DoorRightHigh" type="Node2D" parent="World/PuzzleRoom"]
+script = ExtResource("door")
+Side = 3
+Along = -7
+LeadsTo = NodePath("../../BurrowTunnel/DoorHigh")
+
 [node name="PitLeft" type="Node2D" parent="World/PuzzleRoom"]
 position = Vector2(8, 96)
 script = ExtResource("pit")
@@ -578,6 +591,148 @@ script = ExtResource("portal")
 [node name="GiantBeetle" type="CharacterBody2D" parent="World/BossRoom"]
 position = Vector2(184, 110)
 script = ExtResource("beetle")
+
+[node name="BurrowTunnel" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(19000, 0)
+script = ExtResource("room")
+Title = "Rubble Tunnel"
+Area = "The Old Burrow"
+
+[node name="Layout" type="Node2D" parent="World/BurrowTunnel"]
+z_index = -1
+script = ExtResource("layout")
+Color = 2
+InteriorWidth = 14
+InteriorHeight = 24
+
+[node name="Floor" type="TileMapLayer" parent="World/BurrowTunnel/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/BurrowTunnel/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorLow" type="Node2D" parent="World/BurrowTunnel"]
+script = ExtResource("door")
+Side = 2
+State = 4
+Along = 7
+LeadsTo = NodePath("../../PuzzleRoom/DoorRightLow")
+
+[node name="DoorHigh" type="Node2D" parent="World/BurrowTunnel"]
+script = ExtResource("door")
+Side = 2
+Along = -7
+LeadsTo = NodePath("../../PuzzleRoom/DoorRightHigh")
+
+[node name="Rubble1" type="StaticBody2D" parent="World/BurrowTunnel"]
+position = Vector2(15, 144)
+script = ExtResource("boulder")
+
+[node name="Rubble2" type="StaticBody2D" parent="World/BurrowTunnel"]
+position = Vector2(29, 144)
+script = ExtResource("boulder")
+
+[node name="Rubble3" type="StaticBody2D" parent="World/BurrowTunnel"]
+position = Vector2(43, 144)
+script = ExtResource("boulder")
+
+[node name="Rubble4" type="StaticBody2D" parent="World/BurrowTunnel"]
+position = Vector2(57, 144)
+script = ExtResource("boulder")
+
+[node name="Rubble5" type="StaticBody2D" parent="World/BurrowTunnel"]
+position = Vector2(71, 144)
+script = ExtResource("boulder")
+
+[node name="Rubble6" type="StaticBody2D" parent="World/BurrowTunnel"]
+position = Vector2(85, 144)
+script = ExtResource("boulder")
+
+[node name="Rubble7" type="StaticBody2D" parent="World/BurrowTunnel"]
+position = Vector2(99, 144)
+script = ExtResource("boulder")
+
+[node name="Rubble8" type="StaticBody2D" parent="World/BurrowTunnel"]
+position = Vector2(113, 144)
+script = ExtResource("boulder")
+
+[node name="Deer1" parent="World/BurrowTunnel" instance=ExtResource("deer")]
+position = Vector2(64, 190)
+
+[node name="Deer2" parent="World/BurrowTunnel" instance=ExtResource("deer")]
+position = Vector2(70, 70)
+
+[node name="MossTunnel" type="Node2D" parent="World"]
+y_sort_enabled = true
+position = Vector2(19000, 600)
+script = ExtResource("room")
+Title = "Under the Bog"
+Area = "Mossmire Keep"
+
+[node name="Layout" type="Node2D" parent="World/MossTunnel"]
+z_index = -1
+script = ExtResource("layout")
+Color = 0
+InteriorWidth = 14
+InteriorHeight = 22
+
+[node name="Floor" type="TileMapLayer" parent="World/MossTunnel/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="Walls" type="TileMapLayer" parent="World/MossTunnel/Layout"]
+tile_set = ExtResource("tiles")
+
+[node name="DoorLow" type="Node2D" parent="World/MossTunnel"]
+script = ExtResource("door")
+Side = 2
+State = 4
+Along = 6
+LeadsTo = NodePath("../../MossBog/DoorRightLow")
+
+[node name="DoorHigh" type="Node2D" parent="World/MossTunnel"]
+script = ExtResource("door")
+Side = 2
+Along = -6
+LeadsTo = NodePath("../../MossBog/DoorRightHigh")
+
+[node name="Rubble1" type="StaticBody2D" parent="World/MossTunnel"]
+position = Vector2(15, 136)
+script = ExtResource("boulder")
+
+[node name="Rubble2" type="StaticBody2D" parent="World/MossTunnel"]
+position = Vector2(29, 136)
+script = ExtResource("boulder")
+
+[node name="Rubble3" type="StaticBody2D" parent="World/MossTunnel"]
+position = Vector2(43, 136)
+script = ExtResource("boulder")
+
+[node name="Rubble4" type="StaticBody2D" parent="World/MossTunnel"]
+position = Vector2(57, 136)
+script = ExtResource("boulder")
+
+[node name="Rubble5" type="StaticBody2D" parent="World/MossTunnel"]
+position = Vector2(71, 136)
+script = ExtResource("boulder")
+
+[node name="Rubble6" type="StaticBody2D" parent="World/MossTunnel"]
+position = Vector2(85, 136)
+script = ExtResource("boulder")
+
+[node name="Rubble7" type="StaticBody2D" parent="World/MossTunnel"]
+position = Vector2(99, 136)
+script = ExtResource("boulder")
+
+[node name="Rubble8" type="StaticBody2D" parent="World/MossTunnel"]
+position = Vector2(113, 136)
+script = ExtResource("boulder")
+
+[node name="Snake1" parent="World/MossTunnel" instance=ExtResource("snake")]
+position = Vector2(80, 180)
+
+[node name="Frog1" parent="World/MossTunnel" instance=ExtResource("frog")]
+position = Vector2(60, 60)
 
 [node name="Heroes" type="Node2D" parent="World"]
 y_sort_enabled = true
@@ -23225,6 +23380,19 @@ script = ExtResource("door")
 Side = 0
 State = 1
 LeadsTo = NodePath("../../MossHall/DoorBottom")
+
+[node name="DoorRightLow" type="Node2D" parent="World/MossBog"]
+script = ExtResource("door")
+Side = 3
+State = 4
+Along = 6
+LeadsTo = NodePath("../../MossTunnel/DoorLow")
+
+[node name="DoorRightHigh" type="Node2D" parent="World/MossBog"]
+script = ExtResource("door")
+Side = 3
+Along = -6
+LeadsTo = NodePath("../../MossTunnel/DoorHigh")
 
 [node name="BogLeft" type="Node2D" parent="World/MossBog"]
 position = Vector2(8, 100)

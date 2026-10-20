@@ -171,8 +171,9 @@ kind, the title Knight, the beetle's **Hoversled**, and a portal back out to the
 from the one to Glimmer Lake). Its stairs are **sealed with Mossimus's moss until every other dungeon is beaten**;
 walking up to them says how many are left. Inside: the **Sunken Gate** (frogs and snakes; the door opens once they're
 beaten), the **Bog Hall** (beat the guards and a key chest appears; the lever is across the bog, so reach it from the
-near bank, with the tongue or a gun, to make a bridge; a moose can knock the dead tree on the near bank over into a
-log instead; the top door is locked), the **Hall of Tricks** (animals from
+near bank, with the tongue or a gun, to make a bridge; a moose or a rolling Roller can knock the dead tree on the near
+bank over into a log instead, and an explosion opens the cracked wall on the right, into a tunnel **Under the Bog** that
+comes out on the far bank; the top door is locked), the **Hall of Tricks** (animals from
 every kingdom) and **Mossimus's Throne**, where **Mossimus Maximus** himself waits: he keeps his distance and throws a
 fan of moss bolts, vanishes in a puff of smoke and pops up somewhere else, and kicks up close. At half health he gets
 angry: faster, more bolts, and a ring of bolts all round him. He's weak to lightning. Beating him gives a boss coin,
@@ -301,8 +302,9 @@ Walking through a door takes you to the next room (your teammates go through on 
 4. **Pit of Two Levers:** a bridge comes out when both levers are on. One is across the pit: a tongue, a gun or a
    bow reaches it. The other is behind cracked rocks that only an explosion breaks (bombs, explosive arrows, the
    peacock's rocket, the tank). Playing alone? A **lizard** (any class) can drag the **ring stone** out of the rock
-   wall with its tongue and walk in to the lever; a **moose** (any class) can knock the **dead tree** at the pit's
-   edge over with its antlers and walk across the log.
+   wall with its tongue and walk in to the lever; a **moose** (any class) or a rolling **Roller** beetle can knock the
+   **dead tree** at the pit's edge over and walk across the log; and an explosion opens the **cracked wall** on the
+   right, into the **Rubble Tunnel**: bomb through the rubble and come out on the far side of the pit.
 5. **Before the Lair:** the boss hall (see above): everyone gathers here.
 6. **Beetle's Lair:** the Giant Beetle. Its shell shrugs off hits ("clank"). Dodge its charge so it runs into
    a wall, then hit it while it's dizzy.
@@ -335,6 +337,9 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   playing alone (a lizard and a Tinkerer moose): only the moose knocks the dead tree over, and walks across the log; the
   lizard's tongue drags the ring stone out, it walks in to the lever behind the rocks, and the bridge comes out with no
   bombs. `--room=MossBog` checks the Bog Hall's dead tree.
+  `--autoplay-bomb-route=<folder>` (same rooms) checks the fox (Bomb Master) and the beetle (Roller) alone: the roll
+  knocks the tree over; the cracked wall stops the fox until a bomb blows it open (both sides); it bombs a way through
+  the tunnel's rubble and comes out on the far side.
 - `Godot_console.exe --path game -- --room=Lake --autoplay-beasts=<folder>` puts each kind of enemy next to the fox in
   turn and logs whether its attack landed, how it takes fire / ice / lightning, and what it dropped; last, a deer behind a
   fence has to find its way round.
