@@ -136,6 +136,7 @@ public partial class Dungeon : Node
         // Just joined: wherever they appeared.
         room = RoomAt(hero.GlobalPosition) ?? _idleRoom;
         _heroRooms[hero] = room;
+        room.Visited = true;
         if (room.IsVillage)
         {
             _lastVillage[hero] = room;
@@ -490,14 +491,17 @@ public partial class Dungeon : Node
     /// <summary>A boss room with someone in it, still to be beaten.</summary>
     private DungeonRoom? FightingBossRoom() => Heroes().Select(RoomOf).FirstOrDefault(r => r is { IsBossRoom: true, IsCleared: false });
 
+    /// <summary>Every room and area in the world.</summary>
+    public IReadOnlyList<DungeonRoom> Rooms => _rooms;
+
     /// <summary>The small room in front of a boss room.</summary>
     private DungeonRoom? BossHallOf(DungeonRoom boss) => _rooms.FirstOrDefault(r => !r.IsBossRoom && r.Doors.Any(d => d.Partner?.Room == boss));
 
     /// <summary>A dungeon's foyer: its room with a gathering marker.</summary>
-    private DungeonRoom? FoyerOf(string area) => _rooms.FirstOrDefault(r => r.Area == area && r.GetChildren().OfType<GatherMarker>().Any());
+    public DungeonRoom? FoyerOf(string area) => _rooms.FirstOrDefault(r => r.Area == area && r.GetChildren().OfType<GatherMarker>().Any());
 
     /// <summary>Scalebrook Village, where the game starts.</summary>
-    private DungeonRoom HomeVillage => (StartPoint is not null ? DungeonRoom.Of(StartPoint) : null) ?? _rooms.FirstOrDefault(r => r.IsVillage) ?? _startRoom;
+    public DungeonRoom HomeVillage => (StartPoint is not null ? DungeonRoom.Of(StartPoint) : null) ?? _rooms.FirstOrDefault(r => r.IsVillage) ?? _startRoom;
 
     /// <summary>Where to put someone in a village: its start spot, or where its path in from the overworld arrives.</summary>
     private Vector2 VillageSpot(DungeonRoom village) =>

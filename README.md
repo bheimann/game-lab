@@ -35,6 +35,15 @@ P3 bottom left; 4: quarters), with their hearts in their own corner. Heroes can 
 pad or exit portal takes just the heroes who use it, and each view follows its hero. Once everyone's in the boss room,
 the fight is on one shared screen; when the boss is beaten, the screen splits again.
 
+**Map:** open your ring menu (Start) and pick **Map** (the first ring). It covers just your part of the screen and
+the game keeps going (your hero stands still while you look; any button closes it). In the overworld it shows every
+area, greyed out until someone on the team has been there, with the villages' names, the dungeons' stairs (ticked
+once beaten) and a dot in each hero's colour: outdoors where they are, in a building at its door, in a dungeon at its
+stairs (with a little arrow down). In a dungeon it opens on that dungeon: the rooms someone's been in, every door out of
+them (a key on locked ones) so you can see where you haven't been, and the boss room; heroes elsewhere are listed
+underneath. Left / right flip between the overworld and the dungeons you've been in. The save remembers where you've
+been.
+
 **Getting back together:** every dungeon starts with a small **foyer** (no enemies), and every castle's teleport room
 has one too: a **ring of stones** on the floor. Wait on the stones for a second and the others are told; their
 ring menu (Start) then opens on a **Join** ring with you in it, and picking you brings them to you.
@@ -356,6 +365,9 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   while the fight is on, a P3 joining mid-fight and a knocked-out P1 wait in the hall, everyone knocked out starts the
   boss over (and opens the way back), and both doors open once it's beaten; with `--room=BurrowFoyer`
   (or `FrostFoyer`, `MossFoyer`) joining P1 from the menu while P1 waits on the stones.
+- `Godot_console.exe --path game -- --autoplay-map=<folder>` checks the maps: logs where each overworld area goes on
+  the map (and that none overlap), then P1 opens the overworld map from the menu (P2 is in The Old Burrow), P2 opens the
+  dungeon's map and flips to the overworld; saves a screenshot of each.
 - `Godot_console.exe --path game -- --autoplay-tour=<folder>` walks through every path between the overworld areas,
   there and back, and checks each one leads to the right area (and that the village painter paints you, and that
   Mossmire Keep's stairs stay sealed: set `unlock_final_dungeon=false` in `playtest.cfg` to check that).

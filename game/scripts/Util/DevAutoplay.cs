@@ -114,6 +114,11 @@ public partial class DevAutoplay : Node
                 parent.AddChild(DevShowcase.Create(arg[DevShowcase.Flag.Length..]));
             }
 
+            if (arg.StartsWith(DevMapCheck.Flag))
+            {
+                parent.AddChild(DevMapCheck.Create(arg[DevMapCheck.Flag.Length..]));
+            }
+
             if (arg.StartsWith(DevSplitCheck.Flag))
             {
                 parent.AddChild(DevSplitCheck.Create(arg[DevSplitCheck.Flag.Length..]));

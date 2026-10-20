@@ -34,6 +34,10 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
 - **Heroes go their own ways.** Doors, teleport pads and exit portals take just the heroes who use them; every room
   with a hero in it runs. **Boss fights** are on one shared screen once everyone's in the boss room (it zooms out to
   keep everyone in view and nobody can walk off it); the screen splits again when the boss is beaten.
+- **Maps.** From the ring menu; covers only your part of the screen and doesn't pause. Overworld: every area (grey
+  until visited), villages, dungeon stairs, and each hero as a dot in their colour (in a building: at its door; in a
+  dungeon: at its stairs). A dungeon: the rooms visited and every door out of them, the boss room; heroes elsewhere
+  listed. Laid out by how areas and rooms connect, not by where they sit in the world. Visited places are saved.
 - **Getting back together.** Each dungeon starts with a small, empty **foyer**; it and every castle's teleport room
   have a **ring of stones**. A hero who waits on the stones can be joined by the others from their ring menu ("Join
   P1"), wherever they are. A loaded game starts everyone together at the last foyer or teleport room anyone reached.
