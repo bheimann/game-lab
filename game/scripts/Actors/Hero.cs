@@ -63,6 +63,9 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     /// <summary>The class the hero starts as (see <see cref="Ability.Classes"/>).</summary>
     [Export] public string StartingClass { get; set; } = "";
 
+    /// <summary>Big and strong enough to knock over dead trees (see <see cref="FallingTree"/>): the moose, whatever its class.</summary>
+    [Export] public bool Strong { get; set; }
+
     /// <summary>Sprite strips are "&lt;prefix&gt;_down.png", "_up.png" and "_side.png" (side faces right).
     /// Each strip is: idle, step A, step B. A class can have its own look: "&lt;prefix&gt;_&lt;class&gt;_down.png" and so on
     /// (e.g. chameleon_illusionist_down.png); classes without one use the plain strips.</summary>
@@ -966,7 +969,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     /// <summary>Things this hero's attacks can hit right now: enemies, plus levers and the like.</summary>
     public IHittable[] EnemyTargets() =>
         GetTree().GetNodesInGroup(Enemies.Group).Concat(GetTree().GetNodesInGroup(LeverSwitch.Group))
-            .OfType<IHittable>().Where(t => t.CanBeHit).ToArray();
+            .OfType<IHittable>().Where(t => t.CanBeHit && (t is not IPickyTarget picky || picky.CanBeHitBy(this))).ToArray();
 
     private void GoDown()
     {

@@ -150,6 +150,21 @@ little, and step up to the counter (and stay) when a hero is there. Stand at the
 Every boss also gives a **boss coin** and **one more fuse slot** of each kind; a portal appears in the boss room to go
 back out.
 
+**Any animal can play every dungeon alone.** With a team, a puzzle can need one hero's power and another's. For every
+such puzzle there's also another way through that a character's own power opens, whatever its class:
+
+| Puzzle | The usual way | Other ways |
+|---|---|---|
+| **Pit of Two Levers** (Old Burrow): lever across the pit | Tongue, gun, bow, javelin, feathers, tank (or fly over: grapple, glider, plane) | 🫎 Moose: knock the **dead tree** over into a log across the pit |
+| **Pit of Two Levers**: lever behind cracked rocks | An explosion: bombs, explosive arrows, the peacock's rocket, the tank | 🦎 Lizard: drag the **ring stone** out of the rocks with the tongue; 🫎 moose: cross on the log |
+| **Bog Hall** (Mossmire Keep): lever across the bog | Tongue, gun, bow, javelin, feathers, tank, boat | 🫎 Moose: knock the **dead tree** over into a log across the bog |
+
+- **Dead trees** only fall to a **strong** hero (the moose's antler bash); everyone else's attacks don't touch them.
+- **Ring stones** only move for a tongue (or a grapple); bombs don't break them, punches just clunk.
+- Frostfang Fortress needs no special power (the Ice Hall is sliding, the Frozen River's lever is on the near bank).
+- Some **classes** can't do everything alone (e.g. the Bomb Master can't reach a lever across a pit, the Roller has
+  no ranged attack): they switch class at a paint shop. Every animal has a class that can.
+
 ## Loot and money
 - A beaten enemy drops **coins** (8 times out of 10) or a **healing herb**, plus **each of its monster parts**
   (a deer: an antler and a hide). Walk over loot to pick it up; it disappears after 30 seconds.

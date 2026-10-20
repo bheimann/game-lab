@@ -44,6 +44,12 @@ public interface IPullable
     void Pull(Vector2 velocity);
 }
 
+/// <summary>Something only some heroes' attacks reach (a dead tree only the moose is strong enough to knock over).</summary>
+public interface IPickyTarget
+{
+    bool CanBeHitBy(Actors.Hero hero);
+}
+
 public static class Hits
 {
     /// <summary>Does a circle at <paramref name="point"/> with <paramref name="radius"/> touch the target?</summary>

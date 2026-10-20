@@ -14,6 +14,7 @@ motion_mode = 1
 script = ExtResource("1_hero")
 DisplayName = "Moose"
 StartingClass = "Summoner"
+Strong = true
 SpritePrefix = "res://assets/sprites/moose/moose"
 SideFrameWidth = 20
 Speed = 62.0
