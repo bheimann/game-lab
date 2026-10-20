@@ -180,6 +180,8 @@ more dungeons, hand-drawn art.
 - ✅ 🛠 A foyer (no enemies) at the start of each dungeon. A ring of stones in each foyer and teleport room: a hero
   waiting on it can be joined from the others' menus ("Join P1"). Loading a save puts the team together at the
   last foyer / teleport room anyone reached.
+- ✅ 🛠 Maps (ring menu): the overworld (grey until visited, villages, dungeon stairs, everyone's dots) and each
+  dungeon visited (its rooms visited, doors out of them, the boss room); only covers your part of the screen.
 
 ## How we work with Claude
 1. Pick one item from the current milestone.

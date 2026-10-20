@@ -80,6 +80,9 @@ public sealed class SaveData
     /// <summary>Villages whose teleports are awake.</summary>
     public List<string> Teleports { get; set; } = new();
 
+    /// <summary>The rooms and areas someone's been in (the maps show them).</summary>
+    public List<string> Visited { get; set; } = new();
+
     /// <summary>The last gathering marker anyone reached (a dungeon foyer or a teleport room): where the team starts.
     /// Empty: the village.</summary>
     public string GatherPoint { get; set; } = "";
@@ -194,6 +197,14 @@ public static class SaveGame
             room.SyncCleared();
         }
 
+        foreach (var path in data.Visited)
+        {
+            if (scene.GetNodeOrNull<DungeonRoom>(path) is { } room)
+            {
+                room.Visited = true;
+            }
+        }
+
         Playtest.ApplyAlways(anyNode);
     }
 
@@ -235,6 +246,7 @@ public static class SaveGame
             data.Keys = dungeon.Keys;
             data.CompletedDungeons = dungeon.CompletedDungeons.ToList();
             data.GatherPoint = dungeon.LastGatherPoint is { } marker ? scene.GetPathTo(marker) : "";
+            data.Visited = dungeon.Rooms.Where(r => r.Visited).Select(r => scene.GetPathTo(r).ToString()).ToList();
         }
 
         if (PlayerManager.Find(anyNode) is { } manager)

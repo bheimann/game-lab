@@ -50,6 +50,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     private string _lookClass = "";
     private Vector2 _spriteOffset;
     private RingMenu? _menu;
+    private MapView? _map;
     private readonly Dictionary<FuseKind, List<Fusion>> _fusions = new()
     {
         [FuseKind.Weapon] = new(), [FuseKind.Gun] = new(), [FuseKind.Armor] = new(),
@@ -192,7 +193,10 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     /// <summary>The team's healing herbs (shared: see <see cref="Purse.Herbs"/>). B / I / M eats one.</summary>
     public int Herbs => Purse.Herbs;
 
-    public bool IsMenuOpen => _menu?.IsOpen == true;
+    public bool IsMenuOpen => _menu?.IsOpen == true || _map?.IsOpen == true;
+
+    /// <summary>Looking at the map (see <see cref="MapView"/>).</summary>
+    public bool IsMapOpen => _map?.IsOpen == true;
 
     /// <summary>The vehicle this hero is riding (see <see cref="Vehicle"/>), or null.</summary>
     public Vehicle? Riding { get; private set; }
@@ -261,6 +265,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         CollisionMask |= Pit.PitLayer; // can't walk over pits
         _allAbilities = GetChildren().OfType<Ability>().ToArray();
         _menu = RingMenu.Create(this, BuildMenu);
+        _map = MapView.Create(this);
 
         Sprite = new AnimatedSprite2D();
         AddChild(Sprite);
@@ -276,6 +281,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
     {
         _menu?.QueueFree();
         _menu = null;
+        _map?.QueueFree();
+        _map = null;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -290,6 +297,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         if (_down)
         {
             _menu?.Close();
+            _map?.Close();
             _downTime += dt;
             UpdateDown(dt);
             if (!_down)
@@ -307,6 +315,15 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
         if (IsHeld)
         {
             _menu?.Close();
+            Velocity = Vector2.Zero;
+            UpdateLook(false);
+            return;
+        }
+
+        // Looking at the map: stand still (any button closes it).
+        if (_map?.IsOpen == true)
+        {
+            _map.HandleInput(Controls);
             Velocity = Vector2.Zero;
             UpdateLook(false);
             return;
@@ -872,7 +889,14 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             if (i == 0) UseHerb(); else UseSalts();
         }));
 
-        // A teammate waiting on a gathering marker in another room: join them (this ring comes first).
+        // The map (where everyone is), first.
+        if (Dungeon.Find(this) is not null)
+        {
+            rings.Insert(0, new MenuRing("Map", new[] { new MenuOption("Map", "See the map and where everyone is", null, new Color(0.85f, 0.72f, 0.5f)) },
+                0, _ => _map?.Open()));
+        }
+
+        // A teammate waiting on a gathering marker in another room: join them (this ring comes before the map).
         if (Dungeon.Find(this) is { } dungeon)
         {
             var waiting = GatherMarker.All(GetTree())
@@ -905,6 +929,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     public void TakeHit(int damage, Vector2 from, DamageType type = DamageType.Physical)
     {
+        _map?.Close(); // looking up from the map when something hits you
         if (Riding is not null)
         {
             Riding.TakeHit(damage);
