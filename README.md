@@ -58,13 +58,14 @@ someone's in with the boss; then it's shut until the fight's over. Once the boss
 **smelling salts** (their ring menu, Items; you get up with half your hearts). Your choices while you're down:
 - **Let a fairy out** (item button: B / I / M), if the team has one: up again right there, with half your hearts.
 - **Go back** (hold A / J / .): up again in the dungeon's foyer, or out in the overworld in the last village you
-  visited (Scalebrook if you haven't been to another); from a boss fight, to the boss hall, to wait until it's over.
-  While a teammate could still reach you, you can only go back after 8 seconds of waiting.
+  visited (Scalebrook if you haven't been to another). While a teammate could still reach you, you can only go back
+  after 8 seconds of waiting.
 - With nobody left who could help and no fairy, you go back by yourself.
 
-Down in the boss room when the boss is beaten, you get up right there with full hearts. If everyone in the boss room is
-knocked out and goes back, the boss starts over, the door back out opens, and the team can try again (or go and get
-ready first). **Smelling salts** (100 coins) and **fairies** (150 coins) are sold at the herb shop; like herbs, they
+**In a boss fight there's no going back** (the fight stays on one shared screen): while a teammate is still fighting,
+wait for their smelling salts, let a fairy out, or wait for the boss to be beaten (then you get up right there with
+full hearts). If everyone in the boss room is knocked out, the team goes back to the boss hall together, the boss
+starts over, the door back out opens, and the team can try again (or go and get ready first). **Smelling salts** (100 coins) and **fairies** (150 coins) are sold at the herb shop; like herbs, they
 belong to the whole team (shown under the coins).
 
 | | Keyboard (left) | Keyboard (right) | Controller | Lizard | Fox |
@@ -364,7 +365,8 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   with `--room=PuzzleRoom` (or `FrozenRiver`, `MossHall`, the rooms before the boss halls) the boss hall: the boss door
   holds P1 in its doorway (pushing back steps out) until P2 steps in too and they go in together, the way back shuts
   while the fight is on, a P3 can't join mid-fight (it joins in Scalebrook once the fight's over), a knocked-out P1
-  waits in the hall, everyone knocked out starts the boss over (and opens the way back), and both doors open once
+  can't go back mid-fight (stays down in the boss room), everyone knocked out goes back to the hall and starts the boss
+  over (and opens the way back), and both doors open once
   it's beaten; with `--room=BurrowFoyer`
   (or `FrostFoyer`, `MossFoyer`) joining P1 from the menu while P1 waits on the stones.
 - `Godot_console.exe --path game -- --autoplay-map=<folder>` checks the maps: logs where each overworld area goes on

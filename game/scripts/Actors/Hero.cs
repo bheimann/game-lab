@@ -1008,9 +1008,11 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
 
     /// <summary>
     /// Knocked out: stay down where you fell, as long as you like, in case a teammate comes with smelling salts. Let a
-    /// fairy out (item button) to get up right here, or hold the primary button to go back (to the foyer, the last
-    /// village, or the boss hall), after <see cref="GiveUpSeconds"/> while a teammate could still help. With nobody
-    /// to help and no fairy, you go back by yourself. Down in a boss room when the boss is beaten, you get up there.
+    /// fairy out (item button) to get up right here, or hold the primary button to go back (to the foyer or the last
+    /// village), after <see cref="GiveUpSeconds"/> while a teammate could still help. In a boss fight there's no going
+    /// back while a teammate is still fighting (the fight stays on one shared screen): wait for salts or a fairy, or
+    /// for the boss to be beaten (you get up there). With nobody to help and no fairy, you go back by yourself (in a
+    /// boss fight, everyone down: the team goes back to the boss hall and the boss starts over).
     /// </summary>
     private void UpdateDown(float dt)
     {
@@ -1048,7 +1050,8 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             return;
         }
 
-        var canGoBack = !help || _downTime >= GiveUpSeconds;
+        var bossFight = dungeon.RoomOf(this) is { IsBossRoom: true, IsCleared: false };
+        var canGoBack = !help || (_downTime >= GiveUpSeconds && !bossFight);
         if (canGoBack && Controls.PrimaryHeldSeconds >= GoBackHoldSeconds)
         {
             GetBackUp();
@@ -1064,7 +1067,7 @@ public partial class Hero : CharacterBody2D, IHittable, IEnemyTarget
             var choices = new List<string>();
             if (help && !canGoBack)
             {
-                choices.Add("waiting for help...");
+                choices.Add(bossFight ? "waiting for help (no going back in a boss fight)" : "waiting for help...");
             }
 
             if (fairy)

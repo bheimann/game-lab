@@ -48,11 +48,12 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
   Once the boss is beaten, both doors stay open.
 - **Knocked out.** A hero stays down where they fell, as long as they like, so a teammate can come and wake them with
   **smelling salts** (half hearts). While down they can let a **fairy** out (item button: up again right there, half
-  hearts) or hold A to **go back**: to the dungeon's foyer, the last village they visited (overworld), or from a boss
-  fight to the boss hall (waiting there until it's over). While a teammate could still reach them, going back is only
-  allowed after 8 seconds; with nobody who could help and no fairy, they go back by themselves. Down in the boss room
-  when the boss is beaten: up again there, full hearts. If everyone in the boss room is knocked out and goes back, the
-  boss starts over (full health), the boss hall's way back opens, and the team can try again or go and get ready.
+  hearts) or hold A to **go back**: to the dungeon's foyer or the last village they visited (overworld). While a
+  teammate could still reach them, going back is only allowed after 8 seconds; with nobody who could help and no
+  fairy, they go back by themselves. **No going back in a boss fight** while a teammate is still fighting (it stays on
+  one shared screen): salts, a fairy, or the boss beaten (up again there, full hearts). If everyone in the boss room
+  is knocked out, the team goes back to the boss hall, the boss starts over (full health), the boss hall's way back
+  opens, and the team can try again or go and get ready.
 - **Drop in / drop out.** Press a button to join: left / right picks the character, up / down its class. A hero who
   joins starts in Scalebrook Village (with the team if nobody's left the room the game started in). Nobody joins
   during a boss fight (it's on one shared screen): you can pick your character, and you're in once it's over.
