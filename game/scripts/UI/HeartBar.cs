@@ -49,8 +49,10 @@ public partial class HeartBar : Control
         {
             // Picking: left / right for the character, up / down for its class.
             var choosing = slot is { IsChoosing: true };
-            var hint = choosing
-                ? $"{label}:  <  {slot!.Character.Name}  >   press A / J / . to start"
+            var bossFight = PlayerManager.Find(this)?.BossFightOn == true;
+            var hint = choosing && slot!.IsWaitingForBossFight ? $"{label}: {slot.Character.Name} joins when the boss fight is over"
+                : choosing && bossFight ? $"{label}:  <  {slot!.Character.Name}  >   boss fight on: you'll join after it"
+                : choosing ? $"{label}:  <  {slot!.Character.Name}  >   press A / J / . to start"
                 : $"{label}: press A, J or . to join";
             var classHint = !choosing ? "" : slot!.Character.Classes.Count > 1 ? $"up / down:  {slot.Class}" : slot.Class;
             var hintWidth = font.GetStringSize(hint, HorizontalAlignment.Left, -1, FontSize).X;

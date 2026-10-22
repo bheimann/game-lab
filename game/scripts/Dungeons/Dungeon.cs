@@ -23,8 +23,8 @@ namespace LizardWizard.Dungeons;
 /// A knocked-out hero who goes back (see <see cref="Hero"/>: they can wait for a teammate's smelling salts, or let a
 /// fairy out) gets back up in the dungeon's foyer, or (in the overworld) in the last village they visited; from a boss
 /// fight, they wait in the boss hall until it's over. If everyone in the boss room is knocked out and goes back, the
-/// boss starts over and the team can try again. Heroes who join the game start in Scalebrook Village (or, during a
-/// boss fight, waiting in that boss hall).
+/// boss starts over and the team can try again. Heroes who join the game start in Scalebrook Village; nobody joins
+/// during a boss fight (see <see cref="PlayerManager"/>).
 /// When the boss room is cleared the dungeon is complete, the team earns a title, and an <see cref="ExitPortal"/> opens
 /// in the boss room that takes them back out to the dungeon's entrance.
 /// There can be several dungeons: each one's rooms share an <see cref="DungeonRoom.Area"/> name, and its boss room says
@@ -140,12 +140,6 @@ public partial class Dungeon : Node
         if (room.IsVillage)
         {
             _lastVillage[hero] = room;
-        }
-
-        // Joined during a boss fight: waits in the boss hall until it's over.
-        if (FightingBossRoom() is { } boss && boss != room && BossHallOf(boss) == room)
-        {
-            _benched[hero] = boss;
         }
 
         return room;
@@ -377,7 +371,7 @@ public partial class Dungeon : Node
 
     /// <summary>
     /// Where a hero who joins the game appears: with the team if nobody's left the room where the game started (or
-    /// nobody's playing yet); during a boss fight, in that boss hall; otherwise in Scalebrook Village.
+    /// nobody's playing yet), otherwise in Scalebrook Village. (Nobody joins during a boss fight.)
     /// </summary>
     public Vector2 JoinPoint()
     {
@@ -390,11 +384,6 @@ public partial class Dungeon : Node
         if (heroes.All(h => RoomOf(h) == _startRoom))
         {
             return _startPoint;
-        }
-
-        if (FightingBossRoom() is { } boss && BossHallOf(boss) is { } hall)
-        {
-            return hall.FloorRect.GetCenter();
         }
 
         return VillageSpot(HomeVillage);
@@ -487,6 +476,9 @@ public partial class Dungeon : Node
             _benched.Remove(hero);
         }
     }
+
+    /// <summary>Someone's in a boss room fighting the boss (nobody joins the game until it's over).</summary>
+    public bool IsBossFightOn => FightingBossRoom() is not null;
 
     /// <summary>A boss room with someone in it, still to be beaten.</summary>
     private DungeonRoom? FightingBossRoom() => Heroes().Select(RoomOf).FirstOrDefault(r => r is { IsBossRoom: true, IsCleared: false });

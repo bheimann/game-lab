@@ -54,8 +54,8 @@ Zelda / Four Swords (dungeons, puzzles, co-op), Tears of the Kingdom (fusing).
   when the boss is beaten: up again there, full hearts. If everyone in the boss room is knocked out and goes back, the
   boss starts over (full health), the boss hall's way back opens, and the team can try again or go and get ready.
 - **Drop in / drop out.** Press a button to join: left / right picks the character, up / down its class. A hero who
-  joins starts in Scalebrook Village (with the team if nobody's left the room the game started in), or during a boss
-  fight waiting in the boss hall.
+  joins starts in Scalebrook Village (with the team if nobody's left the room the game started in). Nobody joins
+  during a boss fight (it's on one shared screen): you can pick your character, and you're in once it's over.
 - **No friendly fire.** Players can't hurt each other.
 - **Menus don't pause.** The game keeps running for everyone. Only the player with the menu open
   is affected: **if they're in a fight, their character slows down**; otherwise it moves at normal speed.

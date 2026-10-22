@@ -162,11 +162,20 @@ public partial class DevSplitCheck : Node
         await Seconds(hero.RespawnSeconds + 0.8);
     }
 
-    /// <summary>Knock a hero out while a teammate could help: wait out the wait, then hold the button to go back.</summary>
-    private async Task KnockOutAndGoBack(Hero hero, AutoplayBot bot)
+    /// <summary>
+    /// Knock a hero out while a teammate could help: wait out the wait, then hold the button to go back.
+    /// <paramref name="keepUp"/>: a teammate whose health is kept topped up meanwhile (so a boss doesn't knock them out
+    /// too while they stand idle: that would make it a wipe).
+    /// </summary>
+    private async Task KnockOutAndGoBack(Hero hero, AutoplayBot bot, Hero? keepUp = null)
     {
         hero.TakeHit(999, hero.GlobalPosition + new Vector2(10, 0));
-        await Seconds(hero.GiveUpSeconds + 0.3);
+        for (var time = 0.0; time < hero.GiveUpSeconds + 0.3; time += 0.1)
+        {
+            keepUp?.Health.Refill();
+            await Seconds(0.1);
+        }
+
         await HoldKey(bot.Primary, 0.9);
         await Seconds(0.8); // the fade
     }
@@ -224,13 +233,12 @@ public partial class DevSplitCheck : Node
         Check("everyone went in together: one shared view", dungeon.RoomOf(p1) == boss && dungeon.RoomOf(p2) == boss && split.Shared && split.ViewCount == 1);
         Check("nobody's held any more", !p1.IsHeld && !p2.IsHeld);
 
-        // 3b. P3 joins during the fight: waits in the boss hall.
-        var p3 = PlayerManager.Find(this)!.JoinForDev(InputDevice.Gamepad(92), 2, "")!;
+        // 3b. P3 tries to join during the fight: nobody joins until it's over (it's on one shared screen).
+        var manager = PlayerManager.Find(this)!;
+        var p3 = manager.JoinForDev(InputDevice.Gamepad(92), 2, "");
         await Seconds(0.3);
-        Check("P3 joined in the boss hall, waiting", dungeon.RoomOf(p3) == hall && dungeon.IsBenched(p3));
-        Check("the fight is on: the way back is shut", !backDoor.IsOpen && backDoor.IsHeldShut);
-        PlayerManager.Find(this)!.Leave(2); // (P3 has no keys to play with)
-        await Seconds(0.2);
+        Check("P3 can't join during the boss fight: waiting", p3 is null && manager.Players[2] is null && manager.Slots[2].IsWaitingForBossFight);
+        Check("still one shared view", split.Shared && split.ViewCount == 1);
 
         // 3c. P1 is knocked out: stays down in the boss room, and P2 wakes P1 with smelling salts (half hearts).
         p1.TakeHit(999, p1.GlobalPosition + new Vector2(10, 0));
@@ -244,8 +252,9 @@ public partial class DevSplitCheck : Node
 
         // 3d. P1 is knocked out again and goes back: to the boss hall, and can't go back in.
         await Seconds(1.6); // (the flicker after getting up)
-        await KnockOutAndGoBack(p1, _bots[0]);
+        await KnockOutAndGoBack(p1, _bots[0], keepUp: p2);
         Check("P1 went back to the boss hall", dungeon.RoomOf(p1) == hall && dungeon.IsBenched(p1));
+        Check("the fight is on: the way back is shut", !backDoor.IsOpen && backDoor.IsHeldShut);
         await Walk((p1, _bots[0], bossDoor));
         Check("P1 can't go back in while the fight goes on", dungeon.RoomOf(p1) == hall);
         await Shot("benched");
@@ -258,6 +267,10 @@ public partial class DevSplitCheck : Node
         Check("the boss started over (full health, not fighting)", bosses.Count > 0 && bosses.All(b => !b.IsFighting && b.Health.Current == b.Health.Max));
         Check("nobody's waiting any more", !dungeon.IsBenched(p1) && !dungeon.IsBenched(p2));
         Check("the fight's over: the way back is open again (the team can go and get ready)", backDoor.IsOpen);
+        await Seconds(0.3);
+        Check("the fight's over: P3 joined, in Scalebrook Village", manager.Players[2] is { } joined && dungeon.RoomOf(joined).Name == "Village");
+        manager.Leave(2); // (P3 has no keys to play with; the others go back in without waiting for it)
+        await Seconds(0.2);
         await Walk((p1, _bots[0], bossDoor), (p2, _bots[1], bossDoor));
         Check("back in for another try", dungeon.RoomOf(p1) == boss && dungeon.RoomOf(p2) == boss);
 
