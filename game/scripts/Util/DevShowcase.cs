@@ -12,7 +12,8 @@ namespace LizardWizard.Util;
 /// Dev helper for nice screenshots to share: <c>-- --room=Village --screenshot-showcase=village:path.png</c>. Four heroes
 /// join in the room (lizard, fox, moose and peacock or beetle), get set up for the scene, and a moment later the screen
 /// is saved and the game quits. Scenes: village, throne, battle, lake, canyon, snowplane (Tundra), boss (start in the
-/// matching room). Add <c>--showcase-heroes=2</c> for fewer heroes (to see the split-screen layouts).
+/// matching room). Add <c>--showcase-heroes=2</c> for fewer heroes (to see the split-screen layouts), or
+/// <c>--showcase-shared</c> for one shared view of everyone instead of split screen.
 /// (Starts with --screenshot, so the real save is never touched.)
 /// </summary>
 public partial class DevShowcase : Node

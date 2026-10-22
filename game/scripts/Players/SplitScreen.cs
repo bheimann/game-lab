@@ -168,7 +168,7 @@ public partial class SplitScreen : CanvasLayer
     private void Arrange()
     {
         var heroes = Heroes();
-        var shared = heroes.Count <= 1 || AllInBossRoom(heroes);
+        var shared = heroes.Count <= 1 || AllInBossRoom(heroes) || OneViewForPictures;
         var layout = shared ? "shared" : string.Join(",", heroes.Select(h => h.GetInstanceId()));
         if (layout == _layout)
         {
@@ -234,6 +234,9 @@ public partial class SplitScreen : CanvasLayer
 
         return GetTree().GetNodesInGroup(Hero.Group).OfType<Hero>().Where(h => h.IsInGame).OrderBy(h => h.PlayerIndex).ToList();
     }
+
+    /// <summary>Dev helper: <c>-- --showcase-shared</c> keeps one shared view however many heroes there are (for pictures).</summary>
+    private static readonly bool OneViewForPictures = OS.GetCmdlineUserArgs().Contains("--showcase-shared");
 
     /// <summary>Boss fights are on one shared screen, once everyone's in there (until the boss is beaten).</summary>
     private bool AllInBossRoom(List<Hero> heroes) =>
