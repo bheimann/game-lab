@@ -51,12 +51,17 @@ public sealed class PlayerSlot
     public bool IsFree => Input is null;
 
     public bool IsChoosing => Input is not null && Hero is null;
+
+    /// <summary>Picked a character during a boss fight: joins as soon as the fight's over.</summary>
+    public bool IsWaitingForBossFight { get; internal set; }
 }
 
 /// <summary>
 /// Drop-in / drop-out co-op for up to 4 players. Every device (each half of the keyboard and each
 /// controller) is watched. Pressing a button on a free device claims a slot; left / right picks a
 /// character, up / down picks its class and the primary button confirms. Holding the leave button for a second frees the slot.
+/// Nobody joins in the middle of a boss fight (it's on one shared screen): a player who confirms then waits, and joins
+/// as soon as the fight's over.
 /// </summary>
 /// <remarks>
 /// Needs a child node "Spawns" with up to 4 Marker2D children (P1..P4 start points).
@@ -153,10 +158,24 @@ public partial class PlayerManager : Node
                     slot.ClassChoice = (slot.ClassChoice + input.NavigateY + classes) % classes;
                     PlayersChanged?.Invoke();
                 }
+                else if (input.PrimaryPressed && BossFightOn)
+                {
+                    slot.IsWaitingForBossFight = true;
+                    PlayersChanged?.Invoke();
+                }
                 else if (input.PrimaryPressed)
                 {
                     Spawn(index);
                 }
+            }
+        }
+
+        // Picked a character during a boss fight: in as soon as it's over.
+        for (var i = 0; i < _slots.Length; i++)
+        {
+            if (_slots[i] is { IsChoosing: true, IsWaitingForBossFight: true } && !BossFightOn)
+            {
+                Spawn(i);
             }
         }
     }
@@ -184,6 +203,7 @@ public partial class PlayerManager : Node
         slot.Hero?.LeaveGame();
         slot.Hero = null;
         slot.Input = null;
+        slot.IsWaitingForBossFight = false;
         GD.Print($"P{index + 1} left");
         PlayersChanged?.Invoke();
     }
@@ -206,13 +226,23 @@ public partial class PlayerManager : Node
 
         slot.Choice = character;
         slot.ClassChoice = System.Math.Max(0, slot.Character.Classes.ToList().IndexOf(className));
+        if (BossFightOn)
+        {
+            slot.IsWaitingForBossFight = true; // (joins once the fight's over, like a real player)
+            return null;
+        }
+
         Spawn(System.Array.IndexOf(_slots, slot));
         return slot.Hero;
     }
 
+    /// <summary>Someone's fighting a boss right now (nobody joins until it's over).</summary>
+    public bool BossFightOn => Dungeon.Find(this) is { IsBossFightOn: true };
+
     private void Spawn(int index)
     {
         var slot = _slots[index];
+        slot.IsWaitingForBossFight = false;
         var character = slot.Character;
         var hero = GD.Load<PackedScene>(character.ScenePath).Instantiate<Hero>();
         hero.Name = $"P{index + 1}";

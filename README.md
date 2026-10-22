@@ -28,7 +28,8 @@ coins): whoever picks one up, it goes in the team's supply, and any hero can eat
 Up to 4 players. Each controller is a player, and the keyboard can be two players (left and right halves).
 Press a button to join, pick a character with left / right and its class with up / down, and confirm with the
 primary button. The team starts in **Scalebrook Village**. Someone who joins later starts in Scalebrook Village too
-(not next to the others; the stones below bring them over), or, during a boss fight, waiting in that boss hall.
+(not next to the others; the stones below bring them over). Nobody joins during a boss fight (it's on one shared
+screen): you can pick your character, and you join as soon as the fight's over.
 Hold the leave button for a second to drop out.
 **Split screen:** each hero gets their own part of the screen (2 players: left / right; 3: P1 top left, P2 right,
 P3 bottom left; 4: quarters), with their hearts in their own corner. Heroes can go their own ways: a door, teleport
@@ -362,8 +363,9 @@ The old test room is still at `game/scenes/rooms/test_room.tscn` (open it in God
   With `--room=BossRoom` (or `FrostBoss`, `MossBoss`) it checks the boss fight is one shared view, split again once beaten;
   with `--room=PuzzleRoom` (or `FrozenRiver`, `MossHall`, the rooms before the boss halls) the boss hall: the boss door
   holds P1 in its doorway (pushing back steps out) until P2 steps in too and they go in together, the way back shuts
-  while the fight is on, a P3 joining mid-fight and a knocked-out P1 wait in the hall, everyone knocked out starts the
-  boss over (and opens the way back), and both doors open once it's beaten; with `--room=BurrowFoyer`
+  while the fight is on, a P3 can't join mid-fight (it joins in Scalebrook once the fight's over), a knocked-out P1
+  waits in the hall, everyone knocked out starts the boss over (and opens the way back), and both doors open once
+  it's beaten; with `--room=BurrowFoyer`
   (or `FrostFoyer`, `MossFoyer`) joining P1 from the menu while P1 waits on the stones.
 - `Godot_console.exe --path game -- --autoplay-map=<folder>` checks the maps: logs where each overworld area goes on
   the map (and that none overlap), then P1 opens the overworld map from the menu (P2 is in The Old Burrow), P2 opens the
