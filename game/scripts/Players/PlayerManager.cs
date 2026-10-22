@@ -309,10 +309,22 @@ public partial class PlayerManager : Node
         return spawns.Length == 0 ? Vector2.Zero : spawns[index % spawns.Length].GlobalPosition;
     }
 
+    /// <summary>
+    /// Dev runs (autoplay bots, checks, screenshots) play with the keyboard and pretend controllers only: Godot reads
+    /// real controllers even when its window isn't focused, so someone holding one would join every dev run.
+    /// </summary>
+    private static readonly bool IgnoreRealControllers =
+        OS.GetCmdlineUserArgs().Any(a => a.StartsWith("--autoplay") || a.StartsWith("--screenshot"));
+
     private static IEnumerable<InputDevice> CurrentDevices()
     {
         yield return InputDevice.KeyboardLeft;
         yield return InputDevice.KeyboardRight;
+        if (IgnoreRealControllers)
+        {
+            yield break;
+        }
+
         foreach (var pad in Input.GetConnectedJoypads())
         {
             yield return InputDevice.Gamepad(pad);
